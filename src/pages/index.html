@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Auditik - Aparelhos Auditivos Philips HearLink</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="/src/js/tailwind-config.js"></script>
+<link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body class="font-sans text-gray-800 bg-white antialiased">
+<header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 py-4">
+<div class="container mx-auto px-6 flex justify-between items-center max-w-7xl">
+<div class="flex items-center gap-2 group cursor-pointer">
+<div class="text-auditik-blue flex items-center font-extrabold text-2xl tracking-tight">
+<span class="mr-2 transform group-hover:rotate-12 transition-transform duration-300">
+<svg class="w-9 h-9" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+<path d="M12 6c-3.31 0-6 2.69-6 6 0 1.66.67 3.16 1.76 4.24l1.42-1.42C8.44 14.11 8 13.11 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.11-.44 2.11-1.18 2.82l1.42 1.42C17.33 15.16 18 13.66 18 12c0-3.31-2.69-6-6-6z"></path>
+</svg>
+</span>
+                Auditik
+            </div>
+</div>
+<nav class="hidden lg:block">
+<ul class="flex gap-8 text-[11px] font-bold uppercase tracking-widest text-gray-500">
+<li><a class="text-auditik-blue border-b-2 border-auditik-blue pb-1" href="/src/pages/index.html">Página Inicial</a></li>
+<li><a class="hover:text-auditik-blue transition-all pb-1 border-b-2 border-transparent hover:border-auditik-blue/30" href="/src/pages/nossa-clinica.html">Nossa Clínica</a></li>
+<li><a class="hover:text-auditik-blue transition-all pb-1 border-b-2 border-transparent hover:border-auditik-blue/30" href="/src/pages/aparelhos.html">Aparelhos</a></li>
+<li><a class="hover:text-auditik-blue transition-all pb-1 border-b-2 border-transparent hover:border-auditik-blue/30" href="/src/pages/convenios.html">Convênios</a></li>
+<li><a class="hover:text-auditik-blue transition-all pb-1 border-b-2 border-transparent hover:border-auditik-blue/30" href="/src/pages/blog.html">Blog</a></li>
+<li><a class="hover:text-auditik-blue transition-all pb-1 border-b-2 border-transparent hover:border-auditik-blue/30" href="#">Contato</a></li>
+</ul>
+</nav>
+<button class="lg:hidden text-auditik-blue">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<section class="hero-gradient relative overflow-hidden">
+<div class="absolute top-[-10%] left-[-5%] w-64 h-64 bg-white/20 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[-5%] right-[5%] w-96 h-96 bg-auditik-yellow/10 rounded-full blur-3xl"></div>
+<div class="container mx-auto px-6 py-16 md:py-28 flex flex-col md:flex-row items-center max-w-7xl relative">
+<div class="w-full md:w-1/2 flex justify-center md:justify-start order-2 md:order-1">
+<div class="relative group">
+<div class="absolute inset-0 bg-white/40 rounded-full blur-2xl scale-110 group-hover:scale-125 transition-transform duration-700"></div>
+<div class="rounded-full overflow-hidden border-[12px] border-white/80 shadow-2xl w-72 h-72 md:w-[480px] md:h-[480px] relative z-10">
+<img alt="Smiling woman rediscovering sound" class="w-full h-full object-cover object-center scale-110 hover:scale-100 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida/ADBb0ujm3IiiC80F2IAjGlY7KOs-vQWTbFnboie5svMlvTl2zKxwJAun49hElACrkIhMTyg8RQqSckVJaw84J0_M8IcVszIdffURkZbfsIBnwUJdwVJ_G9SVe858Nmi4UnYTi-9yXgEKGumKkDYmoe8JTXJqhYO13QI8d_SqZMITkA6Bfymqq6vZVnKl1pH0KxAQYO1JjXJ8Uo6ISIm4NmhrKN8m36XuY3hLbB0HyhV8WAYG4SJ5v6s-6DpjSjg"/>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/2 mb-12 md:mb-0 md:pl-16 order-1 md:order-2">
+<span class="inline-block px-4 py-1.5 bg-auditik-blue/10 text-auditik-blue rounded-full text-xs font-bold uppercase tracking-widest mb-6">Inovação em Saúde Auditiva</span>
+<h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-8">
+                Philips HearLink: <span class="text-auditik-blue">Sinta cada detalhe</span> do som em até 21x.
+            </h1>
+<p class="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed">
+                Desenvolvemos uma experiência auditiva completa, unindo a inteligência artificial da Philips com o atendimento humanizado que você merece.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-5 px-10 rounded-full shadow-xl shadow-auditik-yellow/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-1">
+                    Agende sua Avaliação
+                    <span class="material-symbols-outlined text-red-500 fill-1">favorite</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-white relative">
+<div class="container mx-auto px-6 max-w-7xl relative">
+<div class="text-center max-w-3xl mx-auto mb-20">
+<h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">Excelência Philips na Auditik</h2>
+<p class="text-slate-500 text-lg leading-relaxed">Tecnologia que se adapta ao seu estilo de vida, proporcionando clareza e conforto em qualquer ambiente.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+<div class="w-20 h-20 mb-8 flex items-center justify-center bg-blue-50 rounded-3xl group-hover:bg-auditik-blue transition-colors duration-300">
+<span class="material-symbols-outlined text-auditik-blue text-4xl group-hover:text-white transition-colors">memory</span>
+</div>
+<h3 class="font-bold text-xl text-slate-800 mb-4">Tecnologia IA</h3>
+<p class="text-slate-500 leading-relaxed">Processamento de som inteligente que prioriza a fala humana em ambientes ruidosos.</p>
+</div>
+<div class="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+<div class="w-20 h-20 mb-8 flex items-center justify-center bg-yellow-50 rounded-3xl group-hover:bg-auditik-yellow transition-colors duration-300">
+<span class="material-symbols-outlined text-auditik-yellow text-4xl group-hover:text-slate-900 transition-colors">visibility_off</span>
+</div>
+<h3 class="font-bold text-xl text-slate-800 mb-4">Discrição Total</h3>
+<p class="text-slate-500 leading-relaxed">Designs anatômicos e ultrapequenos que desaparecem no ouvido com máximo conforto.</p>
+</div>
+<div class="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+<div class="w-20 h-20 mb-8 flex items-center justify-center bg-green-50 rounded-3xl group-hover:bg-green-500 transition-colors duration-300">
+<span class="material-symbols-outlined text-green-600 text-4xl group-hover:text-white transition-colors">settings_input_component</span>
+</div>
+<h3 class="font-bold text-xl text-slate-800 mb-4">Ajuste sob Medida</h3>
+<p class="text-slate-500 leading-relaxed">Calibração personalizada realizada por fonoaudiólogos experientes para sua necessidade única.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-bg-light-blue overflow-hidden">
+<div class="container mx-auto px-6 max-w-7xl relative">
+<div class="flex flex-col items-center mb-16">
+<h2 class="text-3xl md:text-4xl font-extrabold text-center text-slate-900 mb-4">Histórias que nos inspiram</h2>
+<div class="flex items-center gap-2 mb-4">
+<div class="flex text-auditik-yellow">
+<span class="material-symbols-outlined text-xl fill-1">star</span>
+<span class="material-symbols-outlined text-xl fill-1">star</span>
+<span class="material-symbols-outlined text-xl fill-1">star</span>
+<span class="material-symbols-outlined text-xl fill-1">star</span>
+<span class="material-symbols-outlined text-xl fill-1">star</span>
+</div>
+<span class="text-sm font-bold text-slate-400 ml-2">5.0 de 5 no Google</span>
+</div>
+</div>
+<div class="relative px-4">
+<button class="absolute left-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white w-14 h-14 rounded-full flex items-center justify-center text-auditik-blue shadow-lg hover:bg-auditik-blue hover:text-white transition-all hidden lg:flex">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button class="absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white w-14 h-14 rounded-full flex items-center justify-center text-auditik-blue shadow-lg hover:bg-auditik-blue hover:text-white transition-all hidden lg:flex">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
+<div class="bg-white rounded-4xl p-10 pt-16 shadow-xl relative transition-transform hover:scale-[1.02]">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2">
+<div class="p-1 bg-white rounded-full shadow-lg">
+<img alt="Dona Maria" class="w-24 h-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIzako-kaYanJ0VtrAlECvfDrS_s7y9u4D_XlMI_XqMOoubQ5w6NFk7zxReSAeDAqkzM1NxN_7OsVd1qI_iPYt2b0Ig9TqWzX_v7V234tx8Z9zUHtgQEkJhhCxvdaMZV0M4_AsuaxFdVT8dliBxtbmqvGZSZGuZcKLQGM6ooPqzuauOdFx1IpaYdwjuJZLUqryqrMW_L88ZvK1BaO5vCYrPe4Jll2umlaDPy-JvWSMiK1BBA2doukOwv0358fSMY2QwKn6ADslgj0"/>
+</div>
+</div>
+<div class="text-auditik-blue/10 text-7xl font-serif absolute top-8 left-8 leading-none select-none">“</div>
+<p class="text-slate-600 text-center mb-8 italic leading-relaxed relative z-10">
+                        "O atendimento da Auditik transformou minha vida. Voltei a ouvir o canto dos pássaros e a voz dos meus netos com uma nitidez que eu já tinha esquecido."
+                    </p>
+<div class="text-center border-t border-gray-100 pt-6">
+<p class="font-extrabold text-slate-800">Maria Helena P.</p>
+<p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Piracicaba, SP</p>
+</div>
+</div>
+<div class="bg-auditik-blue rounded-4xl p-10 pt-16 shadow-2xl shadow-auditik-blue/30 relative scale-105 z-20">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2">
+<div class="p-1 bg-white rounded-full shadow-lg">
+<img alt="Sr. Ricardo" class="w-24 h-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4n5t4mdHF9yYQcYZFsTtdv1j5UQfpgJ6sNAQCfQK8T8aMxTN0bdEdyXJRcC3OIbA0NmhPkE7-9QFs4004MYEEIusw1szankr3JAVeRLBSvO1CYI_taCs8MH7oriNheh7ZVgaYJXkeNbgYmHNr07ceO30Tuk81Uv_Oi0VT_E4nqUpVfHs5OUwclqCq-c2DiqmHtbxc8quHw0OlkeRpKzu24MWwQUSWszhLKTeC0CyIqovSJqiiSlPyvr6cwqFIYKQ8pm4JWgxeMog"/>
+</div>
+</div>
+<div class="text-white/10 text-7xl font-serif absolute top-8 left-8 leading-none select-none">“</div>
+<p class="text-white text-center mb-8 italic leading-relaxed relative z-10">
+                        "Estava inseguro sobre usar aparelhos, mas a tecnologia Philips é incrivelmente discreta. Hoje me sinto confiante novamente em reuniões de trabalho."
+                    </p>
+<div class="text-center border-t border-white/10 pt-6">
+<p class="font-extrabold text-white">Ricardo Sellura</p>
+<p class="text-xs text-white/60 uppercase tracking-widest mt-1">Empresário</p>
+</div>
+</div>
+<div class="bg-white rounded-4xl p-10 pt-16 shadow-xl relative transition-transform hover:scale-[1.02]">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2">
+<div class="p-1 bg-white rounded-full shadow-lg">
+<img alt="Sra. Soraia" class="w-24 h-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlIhPz2h3KV6bklwJBgIqNSUEgxwULOODFXblBRELa-PgiY0xK3N_ahjl5gcpMHCyuSxVcOaU2f-5ZS2XsF2PYfiBNFWl0_qkwn090Zf3SUoLJbI3O3H-_HozuFzQ6TmbNup91YhszgRG9QsSkrJkqE95eZQ-_peS3uaGgnZyHnAWOhFexRsv6ED9lZRF9g6dfd3bbOe99z0QA15ud_BPGQfRX5kpnivqnKWsbTRXDLd2dzQ8rNv8gMzochaPNd4-D6NSaO8fLB_E"/>
+</div>
+</div>
+<div class="text-auditik-blue/10 text-7xl font-serif absolute top-8 left-8 leading-none select-none">“</div>
+<p class="text-slate-600 text-center mb-8 italic leading-relaxed relative z-10">
+                        "O pós-venda deles é excelente. Me ajudaram em cada passo da adaptação. É nítido que eles se preocupam com o bem-estar do paciente."
+                    </p>
+<div class="text-center border-t border-gray-100 pt-6">
+<p class="font-extrabold text-slate-800">Soraia G.</p>
+<p class="text-xs text-slate-400 uppercase tracking-widest mt-1">Americana, SP</p>
+</div>
+</div>
+</div>
+<div class="flex justify-center gap-3 mt-16">
+<div class="w-2.5 h-2.5 rounded-full bg-gray-200 cursor-pointer hover:bg-auditik-blue transition-colors"></div>
+<div class="w-8 h-2.5 rounded-full bg-auditik-blue"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-gray-200 cursor-pointer hover:bg-auditik-blue transition-colors"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-white">
+<div class="container mx-auto px-6 max-w-7xl">
+<div class="flex flex-col lg:flex-row gap-16 items-stretch">
+<div class="flex-1">
+<h2 class="text-3xl font-extrabold text-slate-900 mb-4">Vamos conversar?</h2>
+<p class="text-slate-500 mb-10 text-lg">Deixe seus dados e nossa equipe entrará em contato para agendar uma conversa acolhedora.</p>
+<form class="space-y-6">
+<div class="group">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">Nome Completo</label>
+<input class="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none" placeholder="Como gostaria de ser chamado(a)?" required="" type="text"/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="group">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">Seu WhatsApp</label>
+<input class="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none" placeholder="(00) 00000-0000" required="" type="tel"/>
+</div>
+<div class="group">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">Sua Cidade</label>
+<input class="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none" placeholder="Ex: Americana" required="" type="text"/>
+</div>
+</div>
+<button class="w-full bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-extrabold py-6 rounded-3xl shadow-xl shadow-auditik-yellow/10 transition-all hover:scale-[1.01] active:scale-[0.99] uppercase tracking-widest" type="submit">
+                        Quero agendar minha avaliação
+                    </button>
+</form>
+</div>
+<div class="lg:w-[450px]">
+<div class="bg-auditik-blue rounded-[3rem] p-12 h-full flex flex-col items-center justify-center text-center text-white relative overflow-hidden group shadow-2xl shadow-auditik-blue/20">
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl group-hover:bg-white/10 transition-colors"></div>
+<div class="absolute -bottom-20 -left-20 w-64 h-64 bg-auditik-yellow/5 rounded-full blur-3xl"></div>
+<div class="mb-10 relative">
+<div class="w-28 h-28 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-md border border-white/20 animate-pulse">
+<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.415-8.414z"></path></svg>
+</div>
+</div>
+<h3 class="text-3xl font-extrabold mb-4">Dúvidas rápidas?</h3>
+<p class="text-blue-100 mb-10 px-6">Estamos online agora mesmo para te atender pelo WhatsApp.</p>
+<a class="bg-white text-auditik-blue font-bold py-5 px-10 rounded-3xl shadow-lg hover:bg-gray-50 transition-all flex items-center gap-2 group-hover:scale-105" href="#">
+                        Iniciar Conversa
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="pb-24 bg-white">
+<div class="container mx-auto px-6 max-w-7xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<div class="bg-bg-light-blue border border-blue-50 rounded-4xl p-10 flex items-start gap-8 transition-all hover:shadow-xl hover:shadow-blue-900/5 group">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-auditik-blue shadow-sm shrink-0">
+<span class="material-symbols-outlined text-3xl">location_on</span>
+</div>
+<div>
+<h3 class="text-xl font-extrabold text-slate-800 mb-3">Unidade Piracicaba</h3>
+<p class="text-slate-500 mb-6 leading-relaxed">Rua de Cavvarteira, 320<br/>Centro, Piracicaba - SP</p>
+<a class="text-auditik-blue font-bold flex items-center gap-2 group-hover:gap-4 transition-all" href="#">
+                        Ver no Google Maps
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<div class="bg-bg-light-blue border border-blue-50 rounded-4xl p-10 flex items-start gap-8 transition-all hover:shadow-xl hover:shadow-blue-900/5 group">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-auditik-blue shadow-sm shrink-0">
+<span class="material-symbols-outlined text-3xl">location_on</span>
+</div>
+<div>
+<h3 class="text-xl font-extrabold text-slate-800 mb-3">Unidade Americana</h3>
+<p class="text-slate-500 mb-6 leading-relaxed">Rua Praras de Carellho, 3338<br/>Vila Santa Catarina, Americana - SP</p>
+<a class="text-auditik-blue font-bold flex items-center gap-2 group-hover:gap-4 transition-all" href="#">
+                        Ver no Google Maps
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<footer class="bg-auditik-blue text-white pt-20 pb-10">
+<div class="container mx-auto px-6 max-w-7xl">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
+<div class="space-y-6">
+<div class="text-white flex items-center font-extrabold text-2xl tracking-tight">
+<span class="mr-2">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+<path d="M12 6c-3.31 0-6 2.69-6 6 0 1.66.67 3.16 1.76 4.24l1.42-1.42C8.44 14.11 8 13.11 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.11-.44 2.11-1.18 2.82l1.42 1.42C17.33 15.16 18 13.66 18 12c0-3.31-2.69-6-6-6z"></path>
+</svg>
+</span>
+                    Auditik
+                </div>
+<p class="text-blue-100/60 text-sm leading-relaxed max-w-xs">Especialistas em devolver a alegria de ouvir através de tecnologia de ponta e cuidado humanizado.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all" href="#"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3l-.5 3H13v6.8c4.56-.93 8-4.96 8-9.8z"></path></svg></a>
+<a class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all" href="#"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"></path></svg></a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Central de Atendimento</h4>
+<ul class="space-y-4">
+<li class="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl">call</span>
+<span class="text-sm font-medium">(91) 9977-4156</span>
+</li>
+<li class="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl">mail</span>
+<span class="text-sm font-medium">atendimento@auditik.com.br</span>
+</li>
+<li class="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-xl">schedule</span>
+<span class="text-sm font-medium">Seg - Sex: 08h às 18h</span>
+</li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Navegação</h4>
+<ul class="grid grid-cols-2 gap-4">
+<li><a class="text-sm text-blue-100/80 hover:text-white transition-colors" href="#">Nossa Clínica</a></li>
+<li><a class="text-sm text-blue-100/80 hover:text-white transition-colors" href="#">Aparelhos</a></li>
+<li><a class="text-sm text-blue-100/80 hover:text-white transition-colors" href="#">Convênios</a></li>
+<li><a class="text-sm text-blue-100/80 hover:text-white transition-colors" href="#">Blog</a></li>
+</ul>
+</div>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-center pt-10 gap-4">
+<p class="text-xs text-blue-200/40 uppercase tracking-widest font-bold">© Copyright Auditik 2024</p>
+<div class="flex gap-6">
+<span class="text-[10px] text-blue-200/30 font-bold uppercase tracking-widest">Sua saúde auditiva em boas mãos</span>
+</div>
+</div>
+</div>
+</footer>
+
+</body></html>

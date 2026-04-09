@@ -1,0 +1,21 @@
+# Allow all robots to crawl the site
+User-agent: *
+Allow: /
+
+# Specific rules for LLM crawlers
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+# Disallow sensitive paths (if any)
+Disallow: /admin
+Disallow: /.tina
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://auditik.com.br/sitemap.xml
