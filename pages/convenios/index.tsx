@@ -1,11 +1,12 @@
-import { NextSeo } from 'next-seo';
-import { getSEOMeta } from '@lib/seo';
-import Head from 'next/head';
-import { useState, useMemo } from 'react';
-import type { GetStaticProps } from 'next';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { NextSeo } from "next-seo";
+import { getSEOMeta } from "@lib/seo";
+import Head from "next/head";
+import { useState, useMemo } from "react";
+import type { GetStaticProps } from "next";
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import { Header } from "@components/Header";
 
 interface InsurancePartner {
   name: string;
@@ -20,7 +21,7 @@ interface ConveniosPageProps {
 }
 
 export default function ConveniosPage({ partners }: ConveniosPageProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCoverage, setSelectedCoverage] = useState<string | null>(null);
 
   // Extract unique coverage types
@@ -42,7 +43,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
       const matchesCoverage =
         !selectedCoverage ||
         partner.coverage.some((c) =>
-          c.toLowerCase().includes(selectedCoverage.toLowerCase())
+          c.toLowerCase().includes(selectedCoverage.toLowerCase()),
         );
 
       return matchesSearch && matchesCoverage;
@@ -50,8 +51,9 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
   }, [partners, searchTerm, selectedCoverage]);
 
   const seo = getSEOMeta({
-    title: 'Convênios - Auditik',
-    description: 'Conheça os convênios e seguradoras que aceitam nossos aparelhos auditivos Philips HearLink. Cobertura em todo Brasil.',
+    title: "Convênios - Auditik",
+    description:
+      "Conheça os convênios e seguradoras que aceitam nossos aparelhos auditivos Philips HearLink. Cobertura em todo Brasil.",
   });
 
   return (
@@ -62,15 +64,17 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
-              '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'Auditik - Convênios',
-              description: 'Seguradoras e convênios parceiros',
-              url: 'https://auditik.com.br/convenios',
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Auditik - Convênios",
+              description: "Seguradoras e convênios parceiros",
+              url: "https://auditik.com.br/convenios",
             }),
           }}
         />
       </Head>
+
+      <Header />
 
       <main>
         {/* Hero Section */}
@@ -103,8 +107,8 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                   onClick={() => setSelectedCoverage(null)}
                   className={`px-4 py-2 rounded-full text-sm font-bold transition ${
                     selectedCoverage === null
-                      ? 'bg-auditik-blue text-white'
-                      : 'bg-white border border-gray-300 hover:border-auditik-blue'
+                      ? "bg-auditik-blue text-white"
+                      : "bg-white border border-gray-300 hover:border-auditik-blue"
                   }`}
                 >
                   Todos
@@ -115,8 +119,8 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                     onClick={() => setSelectedCoverage(coverage)}
                     className={`px-4 py-2 rounded-full text-sm font-bold transition ${
                       selectedCoverage === coverage
-                        ? 'bg-auditik-blue text-white'
-                        : 'bg-white border border-gray-300 hover:border-auditik-blue'
+                        ? "bg-auditik-blue text-white"
+                        : "bg-white border border-gray-300 hover:border-auditik-blue"
                     }`}
                   >
                     {coverage}
@@ -147,13 +151,9 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                       </div>
                     )}
                     <h3 className="font-bold text-lg mb-2">{partner.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                      {partner.description}
-                    </p>
+                    <p className="text-gray-600 text-sm mb-4">{partner.description}</p>
                     <div className="mb-4">
-                      <p className="text-xs font-bold text-gray-700 mb-2">
-                        Cobertura:
-                      </p>
+                      <p className="text-xs font-bold text-gray-700 mb-2">Cobertura:</p>
                       <div className="flex flex-wrap gap-1">
                         {partner.coverage.map((coverage, cidx) => (
                           <span
@@ -183,7 +183,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                 </p>
                 <button
                   onClick={() => {
-                    setSearchTerm('');
+                    setSearchTerm("");
                     setSelectedCoverage(null);
                   }}
                   className="text-auditik-blue hover:text-auditik-dark-blue font-bold"
@@ -213,16 +213,13 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
 }
 
 export const getStaticProps: GetStaticProps<ConveniosPageProps> = async () => {
-  const conveniosPath = path.join(
-    process.cwd(),
-    'content/convenios/index.md'
-  );
+  const conveniosPath = path.join(process.cwd(), "content/convenios/index.md");
 
   let partners: InsurancePartner[] = [];
 
   // Try to read the convenios file
   if (fs.existsSync(conveniosPath)) {
-    const fileContents = fs.readFileSync(conveniosPath, 'utf8');
+    const fileContents = fs.readFileSync(conveniosPath, "utf8");
     const { data } = matter(fileContents);
 
     // Assuming the markdown file has a 'partners' or 'convenios' field with array of partners
@@ -233,22 +230,22 @@ export const getStaticProps: GetStaticProps<ConveniosPageProps> = async () => {
   if (partners.length === 0) {
     partners = [
       {
-        name: 'Unimed',
-        description: 'Cobertura completa para aparelhos auditivos',
-        coverage: ['Aparelhos Auditivos', 'Avaliação Audiológica', 'Manutenção'],
-        contact: 'Central: 4003-3188',
+        name: "Unimed",
+        description: "Cobertura completa para aparelhos auditivos",
+        coverage: ["Aparelhos Auditivos", "Avaliação Audiológica", "Manutenção"],
+        contact: "Central: 4003-3188",
       },
       {
-        name: 'Bradesco Saúde',
-        description: 'Planos com cobertura de audição',
-        coverage: ['Aparelhos Auditivos', 'Consulta Especializada'],
-        contact: 'Central: 0800 707 9000',
+        name: "Bradesco Saúde",
+        description: "Planos com cobertura de audição",
+        coverage: ["Aparelhos Auditivos", "Consulta Especializada"],
+        contact: "Central: 0800 707 9000",
       },
       {
-        name: 'Amil',
-        description: 'Diversos planos com cobertura de audição',
-        coverage: ['Aparelhos Auditivos', 'Avaliação', 'Prótese Auditiva'],
-        contact: 'Central: 0800 788 2945',
+        name: "Amil",
+        description: "Diversos planos com cobertura de audição",
+        coverage: ["Aparelhos Auditivos", "Avaliação", "Prótese Auditiva"],
+        contact: "Central: 0800 788 2945",
       },
     ];
   }

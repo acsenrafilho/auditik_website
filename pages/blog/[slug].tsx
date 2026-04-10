@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import type { GetStaticProps, GetStaticPaths } from "next";
 import { useState } from "react";
+import { Header } from "@components/Header";
 
 // Blog functions import - only used in getStaticProps/getStaticPaths (server-side)
 const getBlogPostBySlug = async (slug: string) => {
@@ -87,6 +88,7 @@ export default function BlogPostPage({ post, relatedPosts }: BlogPostPageProps) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
         />
       </Head>
+      <Header />
       <main>
         {/* Hero Section */}
         <section className="page-section hero-gradient">

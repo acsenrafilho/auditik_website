@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import Head from "next/head";
 import type { GetStaticProps } from "next";
+import { Header } from "@components/Header";
 
 // Blog functions import - only used in getStaticProps (server-side)
 // This prevents trying to bundle fs module on the client
@@ -73,6 +74,7 @@ export default function BlogIndexPage({ posts, categories }: BlogIndexProps) {
           }}
         />
       </Head>
+      <Header />
       <main>
         {/* Hero Section */}
         <section className="page-section hero-gradient">
