@@ -8,10 +8,36 @@ import Link from "next/link";
 import { trackButtonClick } from "@lib/analytics";
 
 export default function NossaClinicaPage() {
+  const locations = [
+    {
+      name: "Unidade Piracicaba",
+      address: "Rua Samuel Neves, 1800",
+      city: "Jardim Europa, Piracicaba - SP",
+      maps: "https://maps.app.goo.gl/c6EiqgiPaQg3HUrK8",
+    },
+    {
+      name: "Unidade Americana",
+      address: "Rua Luísa Meneghel Mancine, 72 - Sala 12",
+      city: "Jardim Paulista, Americana - SP",
+      maps: "https://maps.app.goo.gl/j4sTcPKXbBirS1JUA",
+    },
+    {
+      name: "Unidade São Pedro",
+      address: "Rua Malaquias Guerra, 290",
+      city: "Centro, São Pedro - SP",
+      maps: "https://maps.app.goo.gl/8p4JUU1WWaR4KMNaA",
+    },
+    {
+      name: "Unidade Charqueada",
+      address: "Avenida Brasil, 151",
+      city: "Centro, Charqueada - SP",
+      maps: "https://maps.app.goo.gl/LUpi8CYH7kw4BYom8",
+    },
+  ];
   const seo = getSEOMeta({
     title: "Nossa Clínica - Auditik | Aparelhos Auditivos Philips HearLink",
     description:
-      "Conheça a Auditik - especialistas em aparelhos auditivos Philips HearLink. 70 anos de experiência através da Group Demant. Atendimento humanizado em Piracicaba e Americana.",
+      "Conheça a Auditik - especialistas em aparelhos auditivos Philips HearLink com IA integrada. 70 anos de experiência através da Group Demant. Única clínica da região com selo DNA USP. Atendimento humanizado em Piracicaba, Americana, São Pedro e Charqueada. Acompanhamento vitalício gratuito e adaptação precisa.",
     ogImage: "https://auditik.com.br/images/nossa-clinica-og.jpg",
   });
 
@@ -43,6 +69,16 @@ export default function NossaClinicaPage() {
         "@type": "City",
         name: "Americana",
         "@id": "https://www.wikidata.org/wiki/Q485811",
+      },
+      {
+        "@type": "City",
+        name: "São Pedro",
+        "@id": "https://www.wikidata.org/wiki/Q2348896",
+      },
+      {
+        "@type": "City",
+        name: "Charqueada",
+        "@id": "https://www.wikidata.org/wiki/Q2322099",
       },
     ],
   };
@@ -105,23 +141,36 @@ export default function NossaClinicaPage() {
                     especializada em saúde auditiva, autorizada e licenciada pela{" "}
                     <strong>Group Demant Brasil</strong>, herança de{" "}
                     <strong>70 anos de experiência</strong> global em dispositivos
-                    auditivos.
+                    auditivos e soluções inovadoras para perda auditiva.
                   </p>
                   <p>
                     Somos parceiros oficiais da <strong>Philips HearLink</strong>, marca
                     de confiança reconhecida mundialmente pela qualidade, inovação e
-                    tecnologia de ponta em aparelhos auditivos.
+                    tecnologia de ponta em aparelhos auditivos. Com soluções que
+                    combinam inteligência artificial, conectividade Bluetooth e design
+                    ergonômico, oferecemos as melhores opções para cada tipo e grau de
+                    perda auditiva.
                   </p>
                   <p>
                     Fundada com o compromisso de transformar vidas através da audição, a
-                    Auditik atua em Piracicaba e Americana, regiões do interior de São
-                    Paulo, oferecendo soluções personalizadas e humanizadas para cada
-                    perfil de paciente.
+                    Auditik atua em Piracicaba, Americana, São Pedro e Charqueada,
+                    regiões do interior de São Paulo, oferecendo soluções personalizadas
+                    e humanizadas para cada perfil de paciente. Somos referência em
+                    tratamento auditivo e audiologia clínica, com especialistas formados
+                    nas melhores universidades do país.
                   </p>
                   <p>
                     Nossa equipe de profissionais qualificados trabalha com dedicação
                     para garantir que cada paciente recupere sua conexão com o mundo
                     sonoro e disfrute plenamente dos momentos importantes da vida.
+                    Oferecemos acompanhamento vitalício gratuito, adaptação precisa com
+                    testes auditivos avançados e suporte contínuo em todas as nossas
+                    unidades.
+                  </p>
+                  <p>
+                    Como única clínica da região com o selo DNA USP emitido pela
+                    Universidade de São Paulo, garantimos excelência em audiologia e
+                    saúde auditiva especializada.
                   </p>
                 </div>
               </div>
@@ -232,12 +281,12 @@ export default function NossaClinicaPage() {
                   },
                   {
                     title: "Tecnologia Philips HearLink",
-                    desc: "Aparelhos com IA integrada, conexão Bluetooth e som cristalino através de inovação Demant.",
+                    desc: "Aparelhos com IA integrada, Sound Map inteligente e aplicativos iOS e Android para total conectividade Bluetooth. Inovação tecnológica de ponta trazendo liberdade de conectar com o mundo.",
                     icon: "🚀",
                   },
                   {
                     title: "Atendimento Humanizado",
-                    desc: "Profissionais especializados que entendem suas necessidades e oferecem atendimento personalizado.",
+                    desc: "Especialistas formados nas melhores universidades do país com referência em tratamento auditivo e audiologia clínica. Profissionais dedicados que entendem suas necessidades e oferecem atendimento verdadeiramente personalizado.",
                     icon: "❤️",
                   },
                   {
@@ -252,7 +301,7 @@ export default function NossaClinicaPage() {
                   },
                   {
                     title: "Marcas de Confiança",
-                    desc: "Autorizado Philips HearLink e parceiro Group Demant com 70 anos de expertise.",
+                    desc: "Somos autorizado Philips HearLink e parceiro Group Demant com 70 anos de expertise global. Única clínica da região com o selo DNA USP emitido pela Universidade de São Paulo, certificando nossa excelência em audiologia.",
                     icon: "✅",
                   },
                 ].map((item, idx) => (
@@ -309,129 +358,56 @@ export default function NossaClinicaPage() {
         </section>
 
         {/* Nossas Unidades */}
-        <section className="py-20 bg-gradient-to-b from-white to-bg-cream">
+        <section className="py-20 bg-white">
           <div className="container-wide">
-            <h2 className="text-4xl font-bold text-gray-900 mb-16 text-center">
-              Nossas Unidades
-            </h2>
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              {/* Piracicaba */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="relative h-48 bg-gradient-to-br from-auditik-blue to-blue-600">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      className="w-24 h-24 text-white opacity-20"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+            <div className="mb-16">
+              <h2 className="text-4xl font-bold text-center text-slate-900 mb-4">
+                Nossas Unidades
+              </h2>
+              <p className="text-center text-slate-500 text-lg max-w-2xl mx-auto">
+                Visite-nos em uma de nossas unidades e conheça de perto nossa equipe de
+                especialistas.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              {locations.map((location, index) => (
+                <div
+                  key={index}
+                  className="bg-bg-light-blue border border-blue-50 rounded-4xl p-10 flex items-start gap-8 transition-all hover:shadow-xl hover:shadow-blue-900/5 group"
+                >
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-auditik-blue shadow-sm shrink-0">
+                    <span className="material-symbols-outlined text-3xl">
+                      location_on
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-extrabold text-slate-800 mb-3">
+                      {location.name}
+                    </h3>
+                    <p className="text-slate-500 mb-6 leading-relaxed">
+                      {location.address}
+                      <br />
+                      {location.city}
+                    </p>
+                    <a
+                      href={location.maps}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        trackButtonClick(`location_nossa_clinica_${index}`, {
+                          section: "locations",
+                        })
+                      }
+                      className="text-auditik-blue font-bold flex items-center gap-2 group-hover:gap-4 transition-all"
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
+                      Ver no Google Maps
+                      <span className="material-symbols-outlined text-sm">
+                        arrow_forward
+                      </span>
+                    </a>
                   </div>
                 </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Unidade Piracicaba
-                  </h3>
-                  <p className="text-gray-600 mb-6 font-semibold">
-                    Rua Samuel Neves, 1800
-                    <br />
-                    Jardim Europa, Piracicaba - SP
-                  </p>
-                  <div className="space-y-3 mb-6">
-                    <p className="flex items-center gap-2 text-gray-700">
-                      <span className="text-auditik-blue font-bold">📞</span>
-                      <a
-                        href="tel:+551933776941"
-                        className="hover:text-auditik-blue transition"
-                      >
-                        (19) 3377-6941
-                      </a>
-                    </p>
-                    <p className="flex items-center gap-2 text-gray-700">
-                      <span className="text-green-500 font-bold">💬</span>
-                      <a
-                        href="https://wa.me/551933776941"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-green-500 transition"
-                      >
-                        WhatsApp
-                      </a>
-                    </p>
-                  </div>
-                  <Link
-                    href="https://maps.google.com/?q=Rua+Samuel+Neves+1800+Piracicaba"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block w-full text-center bg-auditik-blue hover:bg-auditik-dark-blue text-white font-bold py-2 px-4 rounded-lg transition"
-                  >
-                    Ver no Mapa
-                  </Link>
-                </div>
-              </div>
-
-              {/* Americana */}
-              <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="relative h-48 bg-gradient-to-br from-auditik-yellow to-yellow-600">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      className="w-24 h-24 text-white opacity-20"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Unidade Americana
-                  </h3>
-                  <p className="text-gray-600 mb-6 font-semibold">
-                    Rua Luísa Meneghel Mancine, 72 - Sala 12
-                    <br />
-                    Jardim Paulista, Americana - SP
-                  </p>
-                  <div className="space-y-3 mb-6">
-                    <p className="flex items-center gap-2 text-gray-700">
-                      <span className="text-auditik-blue font-bold">📞</span>
-                      <a
-                        href="tel:+551933776941"
-                        className="hover:text-auditik-blue transition"
-                      >
-                        (19) 3377-6941
-                      </a>
-                    </p>
-                    <p className="flex items-center gap-2 text-gray-700">
-                      <span className="text-green-500 font-bold">💬</span>
-                      <a
-                        href="https://wa.me/551933776941"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-green-500 transition"
-                      >
-                        WhatsApp
-                      </a>
-                    </p>
-                  </div>
-                  <Link
-                    href="https://maps.google.com/?q=Rua+Luisa+Meneghel+Mancine+72+Americana"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block w-full text-center bg-auditik-yellow hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded-lg transition"
-                  >
-                    Ver no Mapa
-                  </Link>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -444,7 +420,11 @@ export default function NossaClinicaPage() {
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Agende uma avaliação auditiva gratuita e descubra como nossos aparelhos
-              Philips HearLink podem transformar sua audição e seu dia a dia.
+              Philips HearLink com inteligência artificial, Sound Map e conectividade
+              Bluetooth podem transformar sua audição e seu dia a dia. Contamos com
+              especialistas formados nas melhores universidades e oferecemos
+              acompanhamento vitalício em nossas unidades em Piracicaba, Americana, São
+              Pedro e Charqueada.
             </p>
             <Link
               href="/contato"

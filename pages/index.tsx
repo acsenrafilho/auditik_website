@@ -7,9 +7,31 @@ import { trackFormSubmit, trackButtonClick } from "@lib/analytics";
 import { Header } from "@components/Header";
 
 export default function Home() {
-  const [testimonialsIndex, setTestimonialsIndex] = useState(1);
+  const [testimonialsIndex, setTestimonialsIndex] = useState(0);
   const [formData, setFormData] = useState({ nome: "", whatsapp: "", cidade: "" });
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const testimonialsPerPage = 3;
+
+  // Máscara de telefone brasileiro
+  const formatPhoneNumber = (value: string): string => {
+    const phoneNumber = value.replace(/\D/g, "");
+
+    if (phoneNumber.length <= 2) {
+      return phoneNumber;
+    } else if (phoneNumber.length <= 6) {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
+    } else if (phoneNumber.length <= 10) {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
+        2,
+        6,
+      )}-${phoneNumber.slice(6)}`;
+    } else {
+      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
+        2,
+        7,
+      )}-${phoneNumber.slice(7, 11)}`;
+    }
+  };
 
   const seo = getSEOMeta({
     title: "Auditik - Aparelhos Auditivos Philips HearLink",
@@ -21,27 +43,99 @@ export default function Home() {
 
   const testimonials = [
     {
-      text: "O atendimento da Auditik transformou minha vida. Voltei a ouvir o canto dos pássaros e a voz dos meus netos com uma nitidez que eu já tinha esquecido.",
-      author: "Maria Helena P.",
-      location: "Piracicaba, SP",
+      text: "A minha experiência não poderia ter sido melhor. Excelente atendimento, equipe comprometida em ajudar, compreensão com as dificuldades. Muito satisfeito com a qualidade.",
+      author: "Solange Carribeiro",
+      location: "Google Review",
       image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuDIzako-kaYanJ0VtrAlECvfDrS_s7y9u4D_XlMI_XqMOoubQ5w6NFk7zxReSAeDAqkzM1NxN_7OsVd1qI_iPYt2b0Ig9TqWzX_v7V234tx8Z9zUHtgQEkJhhCxvdaMZV0M4_AsuaxFdVT8dliBxtbmqvGZSZGuZcKLQGM6ooPqzuauOdFx1IpaYdwjuJZLUqryqrMW_L88ZvK1BaO5vCYrPe4Jll2umlaDPy-JvWSMiK1BBA2doukOwv0358fSMY2QwKn6ADslgj0",
+        "https://ui-avatars.com/api/?name=Solange+Carribeiro&background=4F46E5&color=fff&bold=true&size=96",
       color: "white",
     },
     {
-      text: "Estava inseguro sobre usar aparelhos, mas a tecnologia Philips é incrivelmente discreta. Hoje me sinto confiante novamente em reuniões de trabalho.",
-      author: "Ricardo Sellura",
-      location: "Empresário",
+      text: "Excelente experiência com a fonoaudióloga Karoline na clínica. Eu e minha mãe fomos atendidas com extrema atenção, profissionalismo e cuidado. Muito recomendo!",
+      author: "Sandra Melo",
+      location: "Google Review",
       image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuC4n5t4mdHF9yYQcYZFsTtdv1j5UQfpgJ6sNAQCfQK8T8aMxTN0bdEdyXJRcC3OIbA0NmhPkE7-9QFs4004MYEEIusw1szankr3JAVeRLBSvO1CYI_taCs8MH7oriNheh7ZVgaYJXkeNbgYmHNr07ceO30Tuk81Uv_Oi0VT_E4nqUpVfHs5OUwclqCq-c2DiqmHtbxc8quHw0OlkeRpKzu24MWwQUSWszhLKTeC0CyIqovSJqiiSlPyvr6cwqFIYKQ8pm4JWgxeMog",
+        "https://ui-avatars.com/api/?name=Sandra+Melo&background=06B6D4&color=fff&bold=true&size=96",
       color: "blue",
     },
     {
-      text: "O pós-venda deles é excelente. Me ajudaram em cada passo da adaptação. É nítido que eles se preocupam com o bem-estar do paciente.",
-      author: "Soraia G.",
-      location: "Americana, SP",
+      text: "Fomos bem recepcionados, a dra. domina o assunto, atenciosa, com explicações simples e objetivas. Muito amável e delicada com idosos. Profissionalismo impecável!",
+      author: "Antonio Carlos",
+      location: "Google Review",
       image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuBlIhPz2h3KV6bklwJBgIqNSUEgxwULOODFXblBRELa-PgiY0xK3N_ahjl5gcpMHCyuSxVcOaU2f-5ZS2XsF2PYfiBNFWl0_qkwn090Zf3SUoLJbI3O3H-_HozuFzQ6TmbNup91YhszgRG9QsSkrJkqE95eZQ-_peS3uaGgnZyHnAWOhFexRsv6ED9lZRF9g6dfd3bbOe99z0QA15ud_BPGQfRX5kpnivqnKWsbTRXDLd2dzQ8rNv8gMzochaPNd4-D6NSaO8fLB_E",
+        "https://ui-avatars.com/api/?name=Antonio+Carlos&background=EC4899&color=fff&bold=true&size=96",
+      color: "white",
+    },
+    {
+      text: "Mais que recomendo! Não só pelo aparelho de excelente qualidade, mas pelo atendimento a minha mãe prestado sempre com muito esmero e atenção. Excelentes profissionais.",
+      author: "Edi Bispo",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Edi+Bispo&background=F59E0B&color=fff&bold=true&size=96",
+      color: "white",
+    },
+    {
+      text: "Atendimento maravilhoso, a Carol muito paciente, humana, transparente. Esclarece as dúvidas com muita atenção. Eles devolveram a autoestima da minha mãe. Recomendo!",
+      author: "Josiane Almeida",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Josiane+Almeida&background=8B5CF6&color=fff&bold=true&size=96",
+      color: "blue",
+    },
+    {
+      text: "Atendimento é com excelência, desde a venda e pós venda. Ambiente acolhedor. Tudo perfeito! Estou muito satisfeito com meu novo aparelho Philips.",
+      author: "Meire Ribeiro de Souza",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Meire+Ribeiro&background=06B6D4&color=fff&bold=true&size=96",
+      color: "white",
+    },
+    {
+      text: "Foi uma experiência inacreditável. A atenção que recebi e o esclarecimento sobre minha deficiência auditiva foi excepcional. Recomendo de coração!",
+      author: "Luiz Antonio Baldino",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Luiz+Antonio&background=EC4899&color=fff&bold=true&size=96",
+      color: "white",
+    },
+    {
+      text: "Excelentes profissionais, a Dra Carol foi extremamente cuidadosa e dedicada com minha tia idosa. Super recomendo os profissionais e os aparelhos!",
+      author: "Deborah Terra",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Deborah+Terra&background=10B981&color=fff&bold=true&size=96",
+      color: "blue",
+    },
+    {
+      text: "Muito Bom Atendimento, sempre com cortesia e no horário programado. Ressalto também as orientações recebidas, muito importantes para o funcionamento do aparelho.",
+      author: "Francisco A. Rodella",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Francisco+Rodella&background=F59E0B&color=fff&bold=true&size=96",
+      color: "white",
+    },
+    {
+      text: "Fui muito bem atendida na Philips Aparelhos Auditivos em Piracicaba. Desde o primeiro contato, a equipe foi extremamente atenciosa, paciente e profissional.",
+      author: "Amanda Soares",
+      location: "Google Review",
+      image:
+        "https://lh3.googleusercontent.com/a-/ALV-UjW2FtAubyO1Zhrrz7zMz24VGwyYMvM9HzosqbKjXvvXjl2YPLo=s128-c0x00000000-cc-rp-mo",
+      color: "blue",
+    },
+    {
+      text: "Atendimento desde a recepção até o final sem igual. Empresa que preza o respeito pelo indivíduo. Eu recomendo de olhos fechados.",
+      author: "William Evangelista",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=William+Evangelista&background=0EA5E9&color=fff&bold=true&size=96",
+      color: "white",
+    },
+    {
+      text: "Foram muito atenciosos, esclarecedores e sinceros em tudo. O equipamento é ótimo, e o atendimento ainda melhor. Recomendo!",
+      author: "Marcelo Gonçalves Rosa",
+      location: "Google Review",
+      image:
+        "https://ui-avatars.com/api/?name=Marcelo+Goncalves+Rosa&background=14B8A6&color=fff&bold=true&size=96",
       color: "white",
     },
   ];
@@ -49,21 +143,42 @@ export default function Home() {
   const locations = [
     {
       name: "Unidade Piracicaba",
-      address: "Rua de Cavvarteira, 320",
-      city: "Centro, Piracicaba - SP",
-      maps: "#",
+      address: "Rua Samuel Neves, 1800",
+      city: "Jardim Europa, Piracicaba - SP",
+      maps: "https://maps.app.goo.gl/c6EiqgiPaQg3HUrK8",
     },
     {
       name: "Unidade Americana",
-      address: "Rua Praras de Carellho, 3338",
-      city: "Vila Santa Catarina, Americana - SP",
-      maps: "#",
+      address: "Rua Luísa Meneghel Mancine, 72 - Sala 12",
+      city: "Jardim Paulista, Americana - SP",
+      maps: "https://maps.app.goo.gl/j4sTcPKXbBirS1JUA",
+    },
+    {
+      name: "Unidade São Pedro",
+      address: "Rua Malaquias Guerra, 290",
+      city: "Centro, São Pedro - SP",
+      maps: "https://maps.app.goo.gl/8p4JUU1WWaR4KMNaA",
+    },
+    {
+      name: "Unidade Charqueada",
+      address: "Avenida Brasil, 151",
+      city: "Centro, Charqueada - SP",
+      maps: "https://maps.app.goo.gl/LUpi8CYH7kw4BYom8",
     },
   ];
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    // Aplicar máscara de telefone se for o campo whatsapp
+    if (name === "whatsapp") {
+      const maskedPhone = formatPhoneNumber(value);
+      setFormData((prev) => ({ ...prev, [name]: maskedPhone }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -90,11 +205,15 @@ export default function Home() {
   };
 
   const handleTestimonialPrev = () => {
-    setTestimonialsIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+    setTestimonialsIndex((prev) =>
+      prev === 0 ? Math.ceil(testimonials.length / testimonialsPerPage) - 1 : prev - 1,
+    );
   };
 
   const handleTestimonialNext = () => {
-    setTestimonialsIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+    setTestimonialsIndex((prev) =>
+      prev === Math.ceil(testimonials.length / testimonialsPerPage) - 1 ? 0 : prev + 1,
+    );
   };
 
   const handleScheduleClick = () => {
@@ -102,6 +221,12 @@ export default function Home() {
     const contactForm = document.querySelector("#contact-form") as HTMLElement;
     window.scrollTo({ top: contactForm?.offsetTop || 0, behavior: "smooth" });
   };
+
+  const testimonialPageCount = Math.ceil(testimonials.length / testimonialsPerPage);
+  const visibleTestimonials = testimonials.slice(
+    testimonialsIndex * testimonialsPerPage,
+    testimonialsIndex * testimonialsPerPage + testimonialsPerPage,
+  );
 
   return (
     <>
@@ -115,15 +240,15 @@ export default function Home() {
 
           <div className="container-wide flex flex-col md:flex-row items-center relative">
             <div className="w-full md:w-1/2 flex justify-center md:justify-start order-2 md:order-1 mb-12 md:mb-0">
-              <div className="relative group">
-                <div className="absolute inset-0 bg-white/40 rounded-full blur-2xl scale-110 group-hover:scale-125 transition-transform duration-700"></div>
-                <div className="rounded-full overflow-hidden border-[12px] border-white/80 shadow-2xl w-72 h-72 md:w-96 md:h-96 relative z-10">
+              <div className="relative group w-full max-w-[520px]">
+                <div className="absolute inset-0 bg-white/40 rounded-[2rem] blur-2xl scale-110 group-hover:scale-115 transition-transform duration-700"></div>
+                <div className="relative z-10 overflow-hidden rounded-[2rem] border-8 border-white/80 shadow-2xl bg-white">
                   <Image
-                    alt="Woman discovering joy of hearing with Philips HearLink"
-                    src="https://lh3.googleusercontent.com/aida/ADBb0ujm3IiiC80F2IAjGlY7KOs-vQWTbFnboie5svMlvTl2zKxwJAun49hElACrkIhMTyg8RQqSckVJaw84J0_M8IcVszIdffURkZbfsIBnwUJdwVJ_G9SVe858Nmi4UnYTi-9yXgEKGumKkDYmoe8JTXJqhYO13QI8d_SqZMITkA6Bfymqq6vZVnKl1pH0KxAQYO1JjXJ8Uo6ISIm4NmhrKN8m36XuY3hLbB0HyhV8WAYG4SJ5v6s-6DpjSjg"
-                    width={400}
-                    height={400}
-                    className="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-1000"
+                    alt="Mulher usando aparelho auditivo Philips HearLink em um ambiente moderno"
+                    src="/images/philips/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.png"
+                    width={1200}
+                    height={800}
+                    className="w-full h-[320px] md:h-[420px] object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000"
                     priority
                   />
                 </div>
@@ -226,8 +351,8 @@ export default function Home() {
 
         {/* Testimonials Section */}
         <section className="py-24 bg-bg-light-blue overflow-hidden">
-          <div className="container-wide relative">
-            <div className="flex flex-col items-center mb-16">
+          <div className="container-wide">
+            <div className="flex flex-col items-center mb-20">
               <h2 className="text-3xl md:text-4xl font-extrabold text-center text-slate-900 mb-4">
                 Histórias que nos inspiram
               </h2>
@@ -244,7 +369,7 @@ export default function Home() {
                   ))}
                 </div>
                 <span className="text-sm font-bold text-slate-400 ml-2">
-                  5.0 de 5 no Google
+                  Nota máxima no Google
                 </span>
               </div>
             </div>
@@ -271,75 +396,78 @@ export default function Home() {
               </button>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-16">
-                {testimonials.map((testimonial, index) => (
-                  <div
-                    key={index}
-                    className={`rounded-4xl p-10 pt-16 shadow-xl relative transition-all duration-300 ${
-                      testimonial.color === "blue"
-                        ? "bg-auditik-blue text-white scale-105 z-20 shadow-2xl shadow-auditik-blue/30"
-                        : "bg-white hover:scale-[1.02]"
-                    } ${
-                      index !== testimonialsIndex ? "opacity-50 md:opacity-100" : ""
-                    }`}
-                  >
-                    <div className="absolute -top-12 left-1/2 -translate-x-1/2">
-                      <div className="p-1 bg-white rounded-full shadow-lg">
-                        <Image
-                          alt={testimonial.author}
-                          src={testimonial.image}
-                          width={96}
-                          height={96}
-                          className="w-24 h-24 rounded-full object-cover"
-                        />
+                {visibleTestimonials.map((testimonial, offset) => {
+                  const colorClass =
+                    testimonial.color === "blue"
+                      ? "bg-auditik-blue text-white scale-105 z-20 shadow-2xl shadow-auditik-blue/30"
+                      : "bg-white hover:scale-[1.02]";
+
+                  return (
+                    <div
+                      key={`${testimonial.author}-${offset}`}
+                      className={`rounded-4xl p-10 pt-16 shadow-xl relative transition-all duration-300 ${colorClass}`}
+                    >
+                      <div className="absolute -top-12 left-1/2 -translate-x-1/2">
+                        <div className="p-1 bg-white rounded-full shadow-lg">
+                          <Image
+                            alt={testimonial.author}
+                            src={testimonial.image}
+                            width={96}
+                            height={96}
+                            className="w-24 h-24 rounded-full object-cover"
+                          />
+                        </div>
+                      </div>
+
+                      <div
+                        className={`text-7xl font-serif absolute top-8 left-8 leading-none select-none ${
+                          testimonial.color === "blue"
+                            ? "text-white/10"
+                            : "text-auditik-blue/10"
+                        }`}
+                      >
+                        "
+                      </div>
+                      <p
+                        className={`text-center mb-8 italic leading-relaxed relative z-10 ${
+                          testimonial.color === "blue" ? "text-white" : "text-slate-600"
+                        }`}
+                      >
+                        "{testimonial.text}"
+                      </p>
+                      <div
+                        className={`text-center border-t ${
+                          testimonial.color === "blue"
+                            ? "border-white/10 pt-6"
+                            : "border-gray-100 pt-6"
+                        }`}
+                      >
+                        <p
+                          className={`font-extrabold ${
+                            testimonial.color === "blue"
+                              ? "text-white"
+                              : "text-slate-800"
+                          }`}
+                        >
+                          {testimonial.author}
+                        </p>
+                        <p
+                          className={`text-xs uppercase tracking-widest mt-1 ${
+                            testimonial.color === "blue"
+                              ? "text-white/60"
+                              : "text-slate-400"
+                          }`}
+                        >
+                          {testimonial.location}
+                        </p>
                       </div>
                     </div>
-
-                    <div
-                      className={`text-7xl font-serif absolute top-8 left-8 leading-none select-none ${
-                        testimonial.color === "blue"
-                          ? "text-white/10"
-                          : "text-auditik-blue/10"
-                      }`}
-                    >
-                      "
-                    </div>
-                    <p
-                      className={`text-center mb-8 italic leading-relaxed relative z-10 ${
-                        testimonial.color === "blue" ? "text-white" : "text-slate-600"
-                      }`}
-                    >
-                      "{testimonial.text}"
-                    </p>
-                    <div
-                      className={`text-center border-t ${
-                        testimonial.color === "blue"
-                          ? "border-white/10 pt-6"
-                          : "border-gray-100 pt-6"
-                      }`}
-                    >
-                      <p
-                        className={`font-extrabold ${
-                          testimonial.color === "blue" ? "text-white" : "text-slate-800"
-                        }`}
-                      >
-                        {testimonial.author}
-                      </p>
-                      <p
-                        className={`text-xs uppercase tracking-widest mt-1 ${
-                          testimonial.color === "blue"
-                            ? "text-white/60"
-                            : "text-slate-400"
-                        }`}
-                      >
-                        {testimonial.location}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <div className="flex justify-center gap-3 mt-16">
-                {testimonials.map((_, index) => (
+                {Array.from({ length: testimonialPageCount }).map((_, index) => (
                   <button
                     key={index}
                     onClick={() => {
@@ -376,7 +504,7 @@ export default function Home() {
                 <form onSubmit={handleFormSubmit} className="space-y-6">
                   <div className="group">
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">
-                      Nome Completo
+                      Nome
                     </label>
                     <input
                       type="text"
@@ -392,7 +520,7 @@ export default function Home() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="group">
                       <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">
-                        Seu WhatsApp
+                        Seu Telefone com DDD
                       </label>
                       <input
                         type="tel"
@@ -400,6 +528,7 @@ export default function Home() {
                         value={formData.whatsapp}
                         onChange={handleFormChange}
                         placeholder="(00) 00000-0000"
+                        maxLength={15}
                         required
                         className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none"
                       />
@@ -408,18 +537,37 @@ export default function Home() {
                       <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">
                         Sua Cidade
                       </label>
-                      <input
-                        type="text"
+                      <select
                         name="cidade"
                         value={formData.cidade}
                         onChange={handleFormChange}
-                        placeholder="Ex: Americana"
                         required
-                        className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none"
-                      />
+                        className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none cursor-pointer"
+                      >
+                        <option value="">Selecione uma cidade</option>
+                        <option value="Piracicaba">Piracicaba</option>
+                        <option value="Americana">Americana</option>
+                        <option value="Santa Bárbara d'Oeste">
+                          Santa Bárbara d'Oeste
+                        </option>
+                        <option value="Nova Odessa">Nova Odessa</option>
+                        <option value="Sumaré">Sumaré</option>
+                        <option value="Campinas">Campinas</option>
+                        <option value="Paulínia">Paulínia</option>
+                        <option value="Limeira">Limeira</option>
+                        <option value="Rio Claro">Rio Claro</option>
+                        <option value="São Pedro">São Pedro</option>
+                        <option value="Águas de São Pedro">Águas de São Pedro</option>
+                        <option value="Charqueada">Charqueada</option>
+                        <option value="Capivari">Capivari</option>
+                        <option value="Saltinho">Saltinho</option>
+                        <option value="Tietê">Tietê</option>
+                        <option value="Outra cidade">Outra cidade</option>
+                      </select>
                     </div>
                   </div>
 
+                  {/* #TODO Pensar onde direcionar o formulário, talvez para um CRM ou Google Sheets */}
                   <button
                     type="submit"
                     disabled={formSubmitting}
@@ -452,7 +600,7 @@ export default function Home() {
                     Estamos online agora mesmo para te atender pelo WhatsApp.
                   </p>
                   <a
-                    href="https://wa.me/5591999774156"
+                    href="https://wa.me/551933776941?text=Ol%C3%A1%20Auditik%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20aparelhos%20auditivos%20Philips%20HearLink."
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() =>
@@ -476,6 +624,15 @@ export default function Home() {
         {/* Locations Section */}
         <section className="pb-24 bg-white">
           <div className="container-wide">
+            <div className="mb-16">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-center text-slate-900 mb-4">
+                Nossas Unidades
+              </h2>
+              <p className="text-center text-slate-500 text-lg max-w-2xl mx-auto">
+                Visite-nos em uma de nossas unidades e conheça de perto nossa equipe de
+                especialistas.
+              </p>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {locations.map((location, index) => (
                 <div
@@ -498,6 +655,8 @@ export default function Home() {
                     </p>
                     <a
                       href={location.maps}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       onClick={() =>
                         trackButtonClick(`location_${index}`, { section: "locations" })
                       }
@@ -546,25 +705,57 @@ export default function Home() {
               <div className="flex gap-4">
                 <a
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
-                  href="#"
+                  href="https://www.facebook.com/auditik.piracicaba"
                   onClick={() =>
                     trackButtonClick("social_facebook", { section: "footer" })
                   }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Facebook Auditik"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1V12h3l-.5 3H13v6.8c4.56-.93 8-4.96 8-9.8z"></path>
-                  </svg>
+                  <Image
+                    src="/images/icons/facebook.png"
+                    alt="Facebook"
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
                 </a>
                 <a
                   className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
-                  href="#"
+                  href="https://www.instagram.com/auditik.piracicaba"
                   onClick={() =>
                     trackButtonClick("social_instagram", { section: "footer" })
                   }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Instagram Auditik"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"></path>
-                  </svg>
+                  <Image
+                    src="/images/icons/instagram.png"
+                    alt="Instagram"
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
+                </a>
+                <a
+                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
+                  href="https://www.youtube.com/@auditik"
+                  onClick={() =>
+                    trackButtonClick("social_youtube", { section: "footer" })
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="YouTube Auditik"
+                >
+                  <Image
+                    src="/images/icons/youtube.png"
+                    alt="YouTube"
+                    width={20}
+                    height={20}
+                    className="w-5 h-5"
+                  />
                 </a>
               </div>
             </div>
@@ -579,7 +770,7 @@ export default function Home() {
                   }
                 >
                   <span className="material-symbols-outlined text-xl">call</span>
-                  <span className="text-sm font-medium">(91) 9977-4156</span>
+                  <span className="text-sm font-medium">(19) 3377-6941</span>
                 </li>
                 <li
                   className="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors cursor-pointer"
@@ -594,7 +785,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors">
                   <span className="material-symbols-outlined text-xl">schedule</span>
-                  <span className="text-sm font-medium">Seg - Sex: 08h às 18h</span>
+                  <span className="text-sm font-medium">Seg - Sex: 08h às 17h</span>
                 </li>
               </ul>
             </div>
@@ -632,14 +823,6 @@ export default function Home() {
                     className="text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Blog
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/faq"
-                    className="text-sm text-blue-100/80 hover:text-white transition-colors"
-                  >
-                    F.A.Q
                   </Link>
                 </li>
                 <li>

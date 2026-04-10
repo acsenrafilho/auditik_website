@@ -139,9 +139,9 @@ export default function ContatoPage() {
                       <br />
                       Centro, Piracicaba - SP
                     </p>
-                    <p className="text-auditik-blue font-bold">(91) 9977-4156</p>
+                    <p className="text-auditik-blue font-bold">(19) 3377-6941</p>
                     <a
-                      href="https://wa.me/5591399774156"
+                      href="https://wa.me/551933776941"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-green-500 font-bold mt-2 inline-block"
@@ -157,9 +157,9 @@ export default function ContatoPage() {
                       <br />
                       Vila Santa Catarina, Americana - SP
                     </p>
-                    <p className="text-auditik-blue font-bold">(91) 9977-4156</p>
+                    <p className="text-auditik-blue font-bold">(19) 3377-6941</p>
                     <a
-                      href="https://wa.me/5591399774156"
+                      href="https://wa.me/551933776941"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-green-500 font-bold mt-2 inline-block"
