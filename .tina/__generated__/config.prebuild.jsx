@@ -1,18 +1,18 @@
+// .tina/config.ts
 import { defineConfig } from "tinacms";
-
-export default defineConfig({
+var config_default = defineConfig({
   branch: "main",
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID || "",
   token: process.env.TINA_TOKEN || "",
   build: {
     outputFolder: "admin",
-    publicFolder: "public",
+    publicFolder: "public"
   },
   media: {
     tina: {
       mediaRoot: "images",
-      publicFolder: "public",
-    },
+      publicFolder: "public"
+    }
   },
   schema: {
     collections: [
@@ -27,28 +27,28 @@ export default defineConfig({
             name: "title",
             label: "Title",
             isTitle: true,
-            required: true,
+            required: true
           },
           {
             type: "string",
             name: "description",
             label: "Description (SEO)",
             ui: {
-              component: "textarea",
-            },
+              component: "textarea"
+            }
           },
           {
             type: "string",
             name: "author",
-            label: "Author",
+            label: "Author"
           },
           {
             type: "string",
             name: "date",
             label: "Publication Date",
             ui: {
-              component: "datetime",
-            },
+              component: "datetime"
+            }
           },
           {
             type: "string",
@@ -58,55 +58,55 @@ export default defineConfig({
             options: [
               {
                 label: "Perda auditiva e sinais de alerta",
-                value: "perda-auditiva",
+                value: "perda-auditiva"
               },
               {
-                label: "Diagnóstico e avaliação auditiva",
-                value: "diagnostico-avaliacao",
+                label: "Diagn\xF3stico e avalia\xE7\xE3o auditiva",
+                value: "diagnostico-avaliacao"
               },
               {
                 label: "Aparelhos auditivos Philips HearLink",
-                value: "aparelhos-philips-hearlink",
+                value: "aparelhos-philips-hearlink"
               },
               {
                 label: "Tecnologia, IA e conectividade",
-                value: "tecnologia-conectividade",
+                value: "tecnologia-conectividade"
               },
               {
-                label: "Adaptação, uso e manutenção",
-                value: "adaptacao-manutencao",
+                label: "Adapta\xE7\xE3o, uso e manuten\xE7\xE3o",
+                value: "adaptacao-manutencao"
               },
               {
-                label: "Acessórios e carregamento",
-                value: "acessorios-carregamento",
+                label: "Acess\xF3rios e carregamento",
+                value: "acessorios-carregamento"
               },
               {
-                label: "Convênios e acesso ao tratamento",
-                value: "convenios-acesso",
+                label: "Conv\xEAnios e acesso ao tratamento",
+                value: "convenios-acesso"
               },
               {
                 label: "Depoimentos e qualidade de vida",
-                value: "depoimentos-qualidade-de-vida",
+                value: "depoimentos-qualidade-de-vida"
               },
               {
-                label: "Dúvidas frequentes e mitos",
-                value: "duvidas-frequentes",
+                label: "D\xFAvidas frequentes e mitos",
+                value: "duvidas-frequentes"
               },
               {
-                label: "Promoções e novidades da marca",
-                value: "novidades-promocoes",
-              },
-            ],
+                label: "Promo\xE7\xF5es e novidades da marca",
+                value: "novidades-promocoes"
+              }
+            ]
           },
           {
             type: "image",
             name: "featuredImage",
-            label: "Featured Image",
+            label: "Featured Image"
           },
           {
             type: "boolean",
             name: "featured",
-            label: "Featured Post",
+            label: "Featured Post"
           },
           {
             type: "string",
@@ -114,13 +114,13 @@ export default defineConfig({
             label: "Body",
             isBody: true,
             ui: {
-              component: "markdown",
-            },
-          },
-        ],
+              component: "markdown"
+            }
+          }
+        ]
       },
       {
-        label: "Insurance Partners (Convênios)",
+        label: "Insurance Partners (Conv\xEAnios)",
         name: "convenios",
         path: "content/convenios",
         format: "md",
@@ -131,55 +131,58 @@ export default defineConfig({
             name: "partners",
             label: "Insurance Partners",
             ui: {
-              itemProps: (item: any) => {
+              itemProps: (item) => {
                 return { label: item?.name };
-              },
+              }
             },
             fields: [
               {
                 type: "string",
                 name: "name",
                 label: "Partner Name",
-                required: true,
+                required: true
               },
               {
                 type: "string",
                 name: "description",
                 label: "Description",
                 ui: {
-                  component: "textarea",
-                },
+                  component: "textarea"
+                }
               },
               {
                 type: "string",
                 name: "benefits",
                 label: "Benefits (comma-separated)",
                 ui: {
-                  component: "textarea",
-                },
+                  component: "textarea"
+                }
               },
               {
                 type: "string",
                 name: "coverage",
                 label: "Coverage Details",
                 ui: {
-                  component: "textarea",
-                },
+                  component: "textarea"
+                }
               },
               {
                 type: "string",
                 name: "contactInfo",
-                label: "Contact Information",
+                label: "Contact Information"
               },
               {
                 type: "image",
                 name: "logo",
-                label: "Partner Logo",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
+                label: "Partner Logo"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 });
+export {
+  config_default as default
+};

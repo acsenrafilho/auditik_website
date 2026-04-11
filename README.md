@@ -89,7 +89,7 @@ auditik_website/
 
    Open [http://localhost:3000](http://localhost:3000)
 
-5. **Access TinaCMS Admin** (with local Git backend)
+5. **Access TinaCMS Admin**
    ```bash
    npm run tina:dev
    ```
@@ -213,8 +213,9 @@ The server is configured to be accessible from:
 2. **Create Blog Post**: Click "Blog Posts" → "New Post"
 
    - Fill in title, description, author, date
+   - Select one or more fixed Topics
    - Upload featured image
-   - Write content in the editor
+   - Write content in markdown editor
    - Click "Save & Publish"
 
 3. **Manage Insurance Partners**: Click "Insurance Partners"
@@ -224,8 +225,14 @@ The server is configured to be accessible from:
 
 ### Content Files Location
 
-- **Blog posts** saved in: `content/blog/*.mdx`
+- **Blog posts** saved in: `content/blog/*.md`
 - **Insurance Partners** saved in: `content/convenios/index.md`
+
+### Blog Discovery Model
+
+- Blog listing supports full-text search (title, description, author, content)
+- Posts can belong to multiple fixed topics
+- Topic filters are URL-driven (`/blog?topic=...&q=...`) for shareable links
 
 All content is tracked in Git, providing version history and backup.
 
@@ -233,9 +240,9 @@ All content is tracked in Git, providing version history and backup.
 
 See `.env.example` for all required variables:
 
-- `GITHUB_PERSONAL_ACCESS_TOKEN` - GitHub token for TinaCMS
 - `NEXT_PUBLIC_TINA_CLIENT_ID` - TinaCMS client ID
 - `TINA_TOKEN` - TinaCMS token
+- `GITHUB_PERSONAL_ACCESS_TOKEN` - Optional PAT for local legacy git workflows
 - `AWS_ACCESS_KEY_ID` - AWS credentials
 - `AWS_SECRET_ACCESS_KEY` - AWS credentials
 - `AWS_REGION` - AWS region (default: us-east-1)
@@ -348,8 +355,8 @@ npm run build
 
 ### TinaCMS Issues
 
-- Ensure `GITHUB_PERSONAL_ACCESS_TOKEN` is set correctly
-- Check GitHub repo permissions
+- Ensure `NEXT_PUBLIC_TINA_CLIENT_ID` and `TINA_TOKEN` are set correctly
+- Check repository permissions for the editor account
 - Verify file paths in `.tina/config.ts`
 
 ### Deployment Issues
@@ -381,7 +388,7 @@ For changes to the codebase:
 For questions or issues:
 
 - Email: atendimento@auditik.com.br
-- WhatsApp: (91) 9977-4156
+- WhatsApp: (19) 3377-6941
 - GitHub Issues: Create an issue in this repository
 
 ## 📄 License

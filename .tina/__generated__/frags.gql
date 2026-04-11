@@ -1,0 +1,24 @@
+fragment BlogParts on Blog {
+  __typename
+  title
+  description
+  author
+  date
+  topics
+  featuredImage
+  featured
+  body
+}
+
+fragment ConveniosParts on Convenios {
+  __typename
+  partners {
+    __typename
+    name
+    description
+    benefits
+    coverage
+    contactInfo
+    logo
+  }
+}
