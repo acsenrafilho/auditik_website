@@ -1,13 +1,15 @@
 // SEO utilities for meta tags and OpenGraph
 
 export const DEFAULT_SEO = {
-  title: 'Auditik - Aparelhos Auditivos Philips HearLink',
-  description: 'Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba, Americana, Limeira, Rio Claro e região. Agende sua avaliação gratuita!',
-  canonical: 'https://auditik.com.br',
-  ogImage: 'https://auditik.com.br/og-image.jpg',
-  ogType: 'website',
-  twitterCard: 'summary_large_image',
-  keywords: 'aparelhos auditivos, Philips HearLink, deficiência auditiva, Piracicaba, Americana',
+  title: "Auditik - Aparelhos Auditivos Philips HearLink",
+  description:
+    "Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba, Americana, Limeira, Rio Claro e região. Agende sua avaliação gratuita!",
+  canonical: "https://auditik.com.br",
+  ogImage: "https://auditik.com.br/og-image.jpg",
+  ogType: "website",
+  twitterCard: "summary_large_image",
+  keywords:
+    "aparelhos auditivos, Philips HearLink, deficiência auditiva, Piracicaba, Americana",
 };
 
 export interface SEOProps {
@@ -31,7 +33,7 @@ export const getSEOMeta = (props: SEOProps = {}) => {
     description: seo.description,
     canonical: seo.canonical,
     openGraph: {
-      type: seo.ogType as 'website' | 'article',
+      type: seo.ogType as "website" | "article",
       url: seo.canonical,
       title: seo.title,
       description: seo.description,
@@ -43,26 +45,14 @@ export const getSEOMeta = (props: SEOProps = {}) => {
           alt: seo.title,
         },
       ],
-      siteName: 'Auditik',
+      siteName: "Auditik",
     },
     twitter: {
       cardType: seo.twitterCard,
-      handle: '@auditik',
-      site: '@auditik',
+      handle: "@auditik",
+      site: "@auditik",
     },
     article: seo.article,
     keywords: seo.keywords,
   };
-};
-
-export const generateSitemap = (pages: string[]) => {
-  const baseUrl = 'https://auditik.com.br';
-  const urls = pages.map(page => ({
-    loc: `${baseUrl}${page}`,
-    lastmod: new Date().toISOString(),
-    changefreq: 'weekly',
-    priority: page === '/' ? 1.0 : 0.8,
-  }));
-
-  return urls;
 };

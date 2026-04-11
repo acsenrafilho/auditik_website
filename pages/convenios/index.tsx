@@ -51,9 +51,9 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
   }, [partners, searchTerm, selectedCoverage]);
 
   const seo = getSEOMeta({
-    title: "Convênios - Auditik",
+    title: "Clube de Benefícios - Auditik",
     description:
-      "Conheça os convênios e seguradoras que aceitam nossos aparelhos auditivos Philips HearLink. Cobertura em todo Brasil.",
+      "Nosso clube de benefícios inclui os melhores pareceiros para complementar os cuidados para sua qualidade de vida. Conheça os descontos e benefícios exclusivos para nossos cliente da Philips aparelhos auditivos.",
   });
 
   return (
@@ -66,8 +66,8 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Auditik - Convênios",
-              description: "Seguradoras e convênios parceiros",
+              name: "Auditik - Clube de Benefícios",
+              description: "Todos os benefícios de ser cliente Auditik",
               url: "https://auditik.com.br/convenios",
             }),
           }}
@@ -80,8 +80,8 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
         {/* Hero Section */}
         <section className="page-section hero-gradient">
           <div className="container-wide">
-            <h1>Convênios e Seguradoras</h1>
-            <p>Encontre cobertura para seus aparelhos auditivos</p>
+            <h1>Clube de Benefícios</h1>
+            <p>Encontre todos os benefícios de ser cliente Auditik</p>
           </div>
         </section>
 

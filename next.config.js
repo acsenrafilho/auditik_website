@@ -2,12 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  serverRuntimeConfig: {
-    PROJECT_ROOT: __dirname,
-  },
-  publicRuntimeConfig: {
-    staticFolder: "/public",
-  },
   images: {
     remotePatterns: [
       {
@@ -26,9 +20,6 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
-  redirects: async () => {
-    return [];
-  },
   headers: async () => {
     return [
       {
@@ -49,15 +40,6 @@ const nextConfig = {
           {
             key: "X-XSS-Protection",
             value: "1; mode=block",
-          },
-        ],
-      },
-      {
-        source: "/public/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
           },
         ],
       },

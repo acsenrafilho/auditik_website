@@ -680,24 +680,19 @@ export default function Home() {
         <div className="container-wide">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
             <div className="space-y-6">
-              <Link
-                href="/"
-                className="text-white flex items-center font-extrabold text-2xl tracking-tight"
-              >
+              <div className="text-white flex items-center font-extrabold text-2xl tracking-tight select-none cursor-default">
                 <span className="mr-2">
-                  <svg
-                    className="w-8 h-8"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    <path d="M12 6c-3.31 0-6 2.69-6 6 0 1.66.67 3.16 1.76 4.24l1.42-1.42C8.44 14.11 8 13.11 8 12c0-2.21 1.79-4 4-4s4 1.79 4 4c0 1.11-.44 2.11-1.18 2.82l1.42 1.42C17.33 15.16 18 13.66 18 12c0-3.31-2.69-6-6-6z"></path>
-                  </svg>
+                  <Image
+                    src="/images/logo-auditik-short.png"
+                    alt="Auditik logo"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 object-contain"
+                    priority
+                  />
                 </span>
                 Auditik
-              </Link>
+              </div>
               <p className="text-blue-100/60 text-sm leading-relaxed max-w-xs">
                 Especialistas em devolver a alegria de ouvir através de tecnologia de
                 ponta e cuidado humanizado.
@@ -827,10 +822,10 @@ export default function Home() {
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/politica-de-privacidade"
                     className="text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
-                    Política
+                    Política de Privacidade
                   </Link>
                 </li>
               </ul>

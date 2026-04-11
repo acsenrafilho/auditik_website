@@ -21,7 +21,7 @@ export function Header() {
     { href: "/", label: "Página Inicial" },
     { href: "/nossa-clinica", label: "Nossa Clínica" },
     { href: "/aparelhos", label: "Aparelhos Auditivos" },
-    { href: "/convenios", label: "Convênios" },
+    { href: "/convenios", label: "Clube de Benefícios" },
     { href: "/blog", label: "Artigos" },
     { href: "/contato", label: "Contato" },
   ];
