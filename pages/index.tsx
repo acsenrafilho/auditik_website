@@ -8,7 +8,12 @@ import { Header } from "@components/Header";
 
 export default function Home() {
   const [testimonialsIndex, setTestimonialsIndex] = useState(0);
-  const [formData, setFormData] = useState({ nome: "", whatsapp: "", cidade: "" });
+  const [formData, setFormData] = useState({
+    nome: "",
+    whatsapp: "",
+    cidade: "",
+    paraQuem: "",
+  });
   const [formSubmitting, setFormSubmitting] = useState(false);
   const testimonialsPerPage = 3;
 
@@ -189,13 +194,14 @@ export default function Home() {
       trackFormSubmit("contact_form", {
         nome: formData.nome,
         cidade: formData.cidade,
+        para_quem: formData.paraQuem,
       });
 
       // Here you would send form data to your backend or CMS
       console.log("Form submitted:", formData);
 
       // Reset form
-      setFormData({ nome: "", whatsapp: "", cidade: "" });
+      setFormData({ nome: "", whatsapp: "", cidade: "", paraQuem: "" });
       alert("Obrigado! Nossa equipe entrará em contato em breve.");
     } catch (error) {
       console.error("Form submission error:", error);
@@ -245,7 +251,7 @@ export default function Home() {
                 <div className="relative z-10 overflow-hidden rounded-[2rem] border-8 border-white/80 shadow-2xl bg-white">
                   <Image
                     alt="Mulher usando aparelho auditivo Philips HearLink em um ambiente moderno"
-                    src="/images/philips/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.png"
+                    src="/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg"
                     width={1200}
                     height={800}
                     className="w-full h-[320px] md:h-[420px] object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000"
@@ -565,6 +571,26 @@ export default function Home() {
                         <option value="Outra cidade">Outra cidade</option>
                       </select>
                     </div>
+                  </div>
+
+                  <div className="group">
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">
+                      Para quem será o aparelho auditivo?
+                    </label>
+                    <select
+                      name="paraQuem"
+                      value={formData.paraQuem}
+                      onChange={handleFormChange}
+                      required
+                      className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none cursor-pointer"
+                    >
+                      <option value="">Selecione uma opção</option>
+                      <option value="Para eu mesmo(a)">Para eu mesmo(a)</option>
+                      <option value="Para um amigo ou familiar">
+                        Para um amigo ou familiar
+                      </option>
+                      <option value="Para outra pessoa">Para outra pessoa</option>
+                    </select>
                   </div>
 
                   {/* #TODO Pensar onde direcionar o formulário, talvez para um CRM ou Google Sheets */}

@@ -1,32 +1,12 @@
-# Convênios e Parcerias
+# Clube de Benefícios Auditik
 
-## Parceiros de Seguros e Saúde
+Este arquivo não é mais usado para renderizar parceiros individuais.
 
-Nossa clínica trabalha com diversos convênios e parceiros para oferecer as melhores condições para sua audição, bem-estar e qualidade de vida.
+Agora cada parceiro deve ser cadastrado em um arquivo próprio dentro de `content/convenios/`.
 
----
+## Como cadastrar um novo parceiro
 
-## Parceiros Disponíveis
-
-Edite esta página através do TinaCMS para adicionar seus parceiros de convênio:
-
----
-
-### Template de Parceiro (substitua por informações reais)
-
-**Nome:** Nome do Convênio  
-**Benefícios:** Cobertura 100%, Consultas grátis, Manutenção  
-**Cobertura:** Aparelhos HearLink 100H, 500, 700  
-**Contato:** Central de Atendimento  
-**Logo:** [Adicione via TinaCMS]
-
----
-
-## Informações Gerais
-
-- **Financiamento:** Até 24x sem juros
-- **Desconto à Vista:** 10% em todos os aparelhos
-- **Garantia:** 4 anos em todos os produtos
-- **Atendimento:** Piracicaba e Americana
-
-Para dúvidas sobre cobertura, entre em contato conosco!
+1. Duplique `content/convenios/.template.md`.
+2. Renomeie o arquivo com um slug descritivo em português.
+3. Preencha frontmatter e conteúdo markdown no TinaCMS.
+4. Publique para disponibilizar o parceiro em `/convenios` e `/convenios/[slug]`.

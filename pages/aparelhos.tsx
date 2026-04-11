@@ -167,7 +167,7 @@ const accessories: AccessoryItem[] = [
       "/images/philips/optimized/acessories/Philips_Pro_TV_Adapter_Angled_1200x1200px_Original file.webp",
   },
   {
-    name: "HearLink 2 App (iPhone 15)",
+    name: "HearLink 2 App (iOS e Android)",
     category: "App",
     description:
       "Interface completa para personalizar experiência sonora no smartphone.",
@@ -175,16 +175,16 @@ const accessories: AccessoryItem[] = [
       "/images/philips/optimized/acessories/Philips_HearLink_202_App_General_unmerged_Bezel_iPhone_15_Plus_1290x2796px_Original20file.webp",
   },
   {
-    name: "HearLink 2 App 23",
+    name: "HearLink 2 App (iOS e Android)",
     category: "App",
     description: "Gestão de programas, ajustes e suporte diário na palma da mão.",
     image: "/images/philips/optimized/acessories/Philips_HearLink_2_App_23.webp",
   },
   {
-    name: "HearLink 2 App 23 (variação)",
+    name: "HearLink 2 App (iOS e Android)",
     category: "App",
     description:
-      "Variação visual do app para reforçar funcionalidades digitais da linha.",
+      "Facilidade no dia a dia para ajustes finos e recursos do seu aparelho auditivo.",
     image: "/images/philips/optimized/acessories/Philips_HearLink_2_App_23 (1).webp",
   },
 ];
@@ -397,7 +397,7 @@ export default function AparelhosPage() {
               <div className="absolute inset-0 bg-white/50 blur-2xl rounded-[2rem] scale-105" />
               <div className="relative rounded-[2rem] overflow-hidden border-8 border-white/80 shadow-2xl">
                 <Image
-                  src={backgroundHighlights[0]}
+                  src={backgroundHighlights[3]}
                   alt="Mulher usando aparelho auditivo Philips HearLink"
                   width={1200}
                   height={800}

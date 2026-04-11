@@ -73,24 +73,67 @@ These items should be handled by developers:
 - Contact form structure
 - Global styling system
 
-## Insurance Partners (Convênios)
+## Clube de Beneficios (Convenios)
 
-### Managing Insurance Partners
+### Managing Partners
 
-1. Go to website admin: `yoursite.com/admin`
-2. Click `Insurance Partners` in the left menu
-3. Click `+ New Partner` or edit an existing entry
+1. Go to website admin: yoursite.com/admin
+2. Click Clube de Beneficios in the left menu
+3. Click New and create one partner file per card
+4. Save and publish
 
-### Partner Fields
+Each partner card is generated from one markdown file in content/convenios/.
 
-| Field        | Description                         | Example                                |
-| ------------ | ----------------------------------- | -------------------------------------- |
-| Partner Name | Full name of the insurer or partner | `Unimed Piracicaba`                    |
-| Description  | Brief overview                      | `Cobertura completa para aparelhos...` |
-| Benefits     | What customers get                  | `Cobertura 100%, Consultas grátis`     |
-| Coverage     | Which devices are covered           | `HearLink 100H, 500, 700`              |
-| Contact Info | How to verify coverage              | `Central: 0800-123-4567`               |
-| Logo         | Partner company logo                | Upload PNG or SVG                      |
+### Required Partner Fields
+
+| Field                           | Description                              | Example                                   |
+| ------------------------------- | ---------------------------------------- | ----------------------------------------- |
+| Nome do parceiro                | Full public partner name                 | Espaco Sorriso Auditivo                   |
+| Slug da URL                     | Portuguese descriptive slug for route    | espaco-sorriso-auditivo                   |
+| Descricao curta                 | Summary shown in card list               | Beneficio exclusivo para clientes Auditik |
+| Endereco                        | Full address shown in card               | Av. Exemplo, 123 - Centro, Piracicaba/SP  |
+| Telefone                        | Contact phone shown in card              | (19) 3333-1234                            |
+| URL do Google Maps              | Maps link used for route/location button | https://maps.app.goo.gl/...               |
+| Cidades                         | One or more supported cities             | piracicaba, americana                     |
+| Area de atuacao                 | One or more controlled areas             | saude, tecnologia, bem-estar              |
+| Tipo de beneficio               | Category used in filter                  | desconto, cashback                        |
+| Perfil de cliente               | Audience category                        | idosos, familias, empresas                |
+| Resumo do beneficio em destaque | Highlight text in detail page            | 15% de desconto na avaliacao inicial      |
+| Detalhes completos do beneficio | Markdown body rendered in detail page    | Steps, conditions and rules               |
+
+### Optional Fields
+
+| Field                | Description                        | Example                        |
+| -------------------- | ---------------------------------- | ------------------------------ |
+| Parceiro em destaque | Pushes card to top and shows badge | true                           |
+| Logo do parceiro     | Replaces automatic initials avatar | /images/partners/nome-logo.png |
+
+### Card Rendering Rules
+
+1. Card list page shows only summary info:
+   address, phone, tags and short description.
+2. Detailed benefit rules are shown only inside the partner detail page.
+3. If logo is empty, the card uses an automatic initials avatar.
+4. Google Maps URL enables:
+   Ver no mapa link near address and Abrir rota no Google Maps action.
+
+### Creating a New Card Fast
+
+1. Duplicate content/convenios/.template.md
+2. Rename file to your desired slug-name.md
+3. Fill all required frontmatter fields
+4. Write benefit details in markdown body
+5. Publish and validate in /convenios and /convenios/slug
+
+### Convenios Quality Checklist
+
+1. Slug is unique and readable
+2. Google Maps URL opens the exact partner location
+3. Address and phone are complete and human readable
+4. At least one city, area, benefit type and client profile are selected
+5. Benefit summary is objective and clear
+6. Markdown body includes activation steps and eligibility rules
+7. Card and detail page links are working
 
 ## Content Best Practices
 
