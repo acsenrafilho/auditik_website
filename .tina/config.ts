@@ -18,9 +18,13 @@ export default defineConfig({
     collections: [
       {
         label: "Blog Posts",
-        name: "post",
+        name: "blog",
         path: "content/blog",
         format: "md",
+        match: {
+          include: "*",
+          exclude: "\\.template",
+        },
         fields: [
           {
             type: "string",
@@ -124,6 +128,10 @@ export default defineConfig({
         name: "convenios",
         path: "content/convenios",
         format: "md",
+        match: {
+          include: "*",
+          exclude: "index|\\.template",
+        },
         fields: [
           {
             type: "string",

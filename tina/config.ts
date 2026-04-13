@@ -29,10 +29,14 @@ export default defineConfig({
   schema: {
     collections: [
       {
-        name: "post",
+        name: "blog",
         label: "Blog Posts",
         path: "content/blog",
         format: "md",
+        match: {
+          include: "*",
+          exclude: "\\.template",
+        },
         fields: [
           {
             type: "string",
@@ -93,7 +97,7 @@ export default defineConfig({
         format: "md",
         match: {
           include: "*",
-          exclude: "index|.template",
+          exclude: "index|\\.template",
         },
         fields: [
           {
