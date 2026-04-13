@@ -7,21 +7,22 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: ${{ secrets.AWS_REGION }}
-  AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-  CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-  NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID || secrets.PUBLIC_TINA_CLIENT_ID || secrets.public_tina_client_id }}
-  NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
-  NEXT_PUBLIC_META_PIXEL_ID: ${{ secrets.NEXT_PUBLIC_META_PIXEL_ID }}
-  NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_ID }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
-  TINA_TOKEN: ${{ secrets.TINA_TOKEN || secrets.tina_token }}
+  AWS_REGION: ${{ vars.AWS_REGION || 'us-east-1' }}
+  AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
+  CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+  NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+  NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
+  NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.NEXT_PUBLIC_META_PIXEL_ID }}
+  NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_ID }}
+  NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT }}
+  NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT }}
+  NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP }}
+  NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
+  TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
 
 jobs:
   build-and-deploy:
+    environment: prod
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,14 +43,18 @@ jobs:
       - name: Validate Tina environment variables
         run: |
           if [ -z "$NEXT_PUBLIC_TINA_CLIENT_ID" ]; then
-            echo "Missing NEXT_PUBLIC_TINA_CLIENT_ID/PUBLIC_TINA_CLIENT_ID secret"
+            echo "Missing environment secret: NEXT_PUBLIC_TINA_CLIENT_ID"
             exit 1
           fi
           if [ -z "$TINA_TOKEN" ]; then
-            echo "Missing TINA_TOKEN secret"
+            echo "Missing environment secret: TINA_TOKEN"
             exit 1
           fi
-          echo "Tina env vars detected for CI build"
+          if [ -z "$AWS_S3_BUCKET" ]; then
+            echo "Missing environment variable: AWS_S3_BUCKET"
+            exit 1
+          fi
+          echo "Environment variables detected for CI build"
 
       - name: Build Next.js
         run: npm run build
