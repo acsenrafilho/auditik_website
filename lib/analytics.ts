@@ -3,6 +3,8 @@
  * Requires: NEXT_PUBLIC_GA_ID environment variable configured
  */
 
+import { trackCrossPlatformConversion } from "@lib/ad-platform-tracking";
+
 export interface EventParams {
   [key: string]: string | number | boolean;
 }
@@ -48,6 +50,23 @@ export const trackButtonClick = (buttonName: string, params?: EventParams) => {
     button_name: buttonName,
     ...params,
   });
+
+  // Map high-intent CTAs to ad-platform conversions without changing each page file.
+  const normalizedName = buttonName.toLowerCase();
+
+  if (normalizedName.includes("whatsapp")) {
+    trackCrossPlatformConversion("whatsapp_click", {
+      source: normalizedName,
+      ...params,
+    });
+  }
+
+  if (normalizedName.includes("phone") || normalizedName.includes("call")) {
+    trackCrossPlatformConversion("phone_call_initiated", {
+      source: normalizedName,
+      ...params,
+    });
+  }
 };
 
 /**
@@ -70,6 +89,9 @@ export const trackConversion = (goalName: string, params?: EventParams) => {
     goal_name: goalName,
     ...params,
   });
+
+  // Dispatch equivalent conversion signals to Meta Pixel and Google Ads.
+  trackCrossPlatformConversion(goalName, params);
 };
 
 /**

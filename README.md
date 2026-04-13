@@ -249,6 +249,12 @@ See `.env.example` for all required variables:
 - `AWS_S3_BUCKET` - S3 bucket name
 - `CLOUDFRONT_DISTRIBUTION_ID` - CloudFront distribution ID
 - `NEXT_PUBLIC_GA_ID` - Google Analytics ID
+- `NEXT_PUBLIC_META_PIXEL_ID` - Meta Pixel ID
+- `NEXT_PUBLIC_GOOGLE_ADS_ID` - Google Ads ID (AW-XXXXXXXXX)
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT` - Google Ads conversion label for contact
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT` - Google Ads conversion label for appointment
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP` - Google Ads conversion label for WhatsApp
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE` - Google Ads conversion label for phone call
 
 ## 🚀 Deployment
 
@@ -317,6 +323,15 @@ Your site automatically tracks:
 - Conversion events
 
 Configure Google Analytics ID in `.env.local` with `NEXT_PUBLIC_GA_ID`.
+
+For paid media tracking, also configure Meta and Google Ads variables in `.env.local`:
+
+- `NEXT_PUBLIC_META_PIXEL_ID`
+- `NEXT_PUBLIC_GOOGLE_ADS_ID`
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT`
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT`
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP`
+- `NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE`
 
 ## 🎨 Customization
 

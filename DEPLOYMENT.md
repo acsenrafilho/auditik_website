@@ -7,6 +7,7 @@ Complete guide for deploying the Auditik website to AWS using GitHub Actions, S3
 Before you can deploy, you need:
 
 1. **AWS Account** with permissions to:
+
    - Create/manage S3 buckets
    - Create/manage CloudFront distributions
    - Use Route53 for DNS
@@ -46,6 +47,7 @@ aws s3api put-public-access-block \
 1. Go to AWS CloudFront Console
 2. Click "Create distribution"
 3. Configure:
+
    - **Origin domain**: `auditik-website-prod.s3.us-east-1.amazonaws.com`
    - **Origin access identity**: Create new (OAI)
    - **Viewer protocol policy**: Redirect HTTP to HTTPS
@@ -59,6 +61,7 @@ aws s3api put-public-access-block \
    - **TLS 1.2+**: Yes
 
 4. **Add Custom Domain**:
+
    - Alternative domain name: `auditik.com.br`
    - SSL certificate: Use AWS Certificate Manager (or request new)
    - Minimum SSL/TLS version: TLSv1.2_2021
@@ -85,18 +88,18 @@ Allow CloudFront OAI to read S3:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "CloudFrontAccess",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity [YOUR_OAI]"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::auditik-website-prod/*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "CloudFrontAccess",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity [YOUR_OAI]"
+      },
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::auditik-website-prod/*"
+    }
+  ]
 }
 ```
 
@@ -106,14 +109,20 @@ Replace `[YOUR_OAI]` with your CloudFront OAI ID.
 
 Add these to your repository secrets (Settings → Secrets → Actions):
 
-| Secret Name | Value | Example |
-|-------------|-------|---------|
-| AWS_ACCESS_KEY_ID | Your AWS access key | AKIA2XXXXXXXXXXXX |
-| AWS_SECRET_ACCESS_KEY | Your AWS secret key | wJal0SECRET... |
-| AWS_REGION | AWS region | us-east-1 |
-| AWS_S3_BUCKET | S3 bucket name | auditik-website-prod |
-| CLOUDFRONT_DISTRIBUTION_ID | CloudFront ID | E1XXXXXXXXXXXXX |
-| NEXT_PUBLIC_GA_ID | Google Analytics ID | G-XXXXXXXXXXXX |
+| Secret Name                              | Value                   | Example              |
+| ---------------------------------------- | ----------------------- | -------------------- |
+| AWS_ACCESS_KEY_ID                        | Your AWS access key     | AKIA2XXXXXXXXXXXX    |
+| AWS_SECRET_ACCESS_KEY                    | Your AWS secret key     | wJal0SECRET...       |
+| AWS_REGION                               | AWS region              | us-east-1            |
+| AWS_S3_BUCKET                            | S3 bucket name          | auditik-website-prod |
+| CLOUDFRONT_DISTRIBUTION_ID               | CloudFront ID           | E1XXXXXXXXXXXXX      |
+| NEXT_PUBLIC_GA_ID                        | Google Analytics ID     | G-XXXXXXXXXXXX       |
+| NEXT_PUBLIC_META_PIXEL_ID                | Meta Pixel ID           | 123456789012345      |
+| NEXT_PUBLIC_GOOGLE_ADS_ID                | Google Ads ID           | AW-123456789         |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT     | Ads label (contact)     | AbCdEfGhIjKlMnOpQr   |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT | Ads label (appointment) | ZyXwVuTsRqPoNmLkJi   |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP    | Ads label (WhatsApp)    | QwErTyUiOpAsDfGhJk   |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE       | Ads label (phone)       | LmNoPqRsTuVwXyZaBc   |
 
 ### How to Add GitHub Secrets
 
@@ -183,6 +192,7 @@ aws cloudfront create-invalidation \
 ### S3 Console
 
 Verify files uploaded:
+
 1. AWS Console → S3
 2. Select `auditik-website-prod` bucket
 3. Look for `index.html`, `_next/`, etc.
@@ -191,6 +201,7 @@ Verify files uploaded:
 ### CloudFront
 
 Check cache status:
+
 1. AWS Console → CloudFront
 2. Select distribution
 3. Check "Last modified" and "Status" (Deployed = live)
@@ -252,10 +263,12 @@ npx http-server ./out
 The deployment automatically sets:
 
 - **HTML files** (index.html, etc.):
+
   - Cache-Control: public, max-age=3600 (1 hour)
   - Reason: Frequent updates
 
 - **Static assets** (.js, .css, .woff, .ttf):
+
   - Cache-Control: public, max-age=31536000, immutable (1 year)
   - Reason: Hashed filenames change with every build
 
@@ -266,11 +279,13 @@ The deployment automatically sets:
 ### Monitoring Performance
 
 Check site speed:
+
 1. [PageSpeed Insights](https://pagespeed.web.dev/) → Enter auditik.com.br
 2. [WebPageTest](https://www.webpagetest.org/) → Detailed analysis
 3. CloudWatch → Monitor CDN metrics
 
 Target scores:
+
 - ✅ Performance: 90+
 - ✅ Accessibility: 90+
 - ✅ Best Practices: 90+
@@ -297,12 +312,14 @@ Target scores:
 ### Issue: Deployment fails in GitHub Actions
 
 **Check**:
+
 1. GitHub Secrets are set correctly (❌ typos common)
 2. AWS credentials are valid (not expired)
 3. S3 bucket exists
 4. CloudFront distribution ID is correct
 
 **Fix**:
+
 ```bash
 # Test AWS credentials locally
 aws s3 ls s3://auditik-website-prod --region us-east-1
@@ -314,6 +331,7 @@ aws s3 ls s3://auditik-website-prod --region us-east-1
 
 **Cause**: CloudFront cache not invalidated  
 **Fix**:
+
 ```bash
 aws cloudfront create-invalidation \
   --distribution-id YOUR_ID \
@@ -324,6 +342,7 @@ aws cloudfront create-invalidation \
 
 **Cause**: S3 bucket policy not configured correctly  
 **Fix**:
+
 1. Verify OAI is correct in bucket policy
 2. Ensure S3 block public access is enabled
 3. Check CloudFront origin access setting
@@ -331,6 +350,7 @@ aws cloudfront create-invalidation \
 ### Issue: Domain doesn't resolve
 
 **Check**:
+
 1. Route53 A record points to CloudFront (not S3 directly)
 2. DNS propagation (can take 15 min - 48 hours)
 3. CloudFront distribution status is "Deployed"
@@ -350,6 +370,7 @@ nslookup auditik.com.br
 ---
 
 **Deployment Checklist**:
+
 - [ ] AWS infrastructure (S3, CloudFront, Route53) configured
 - [ ] GitHub Secrets added to repository
 - [ ] DNS pointing to CloudFront
