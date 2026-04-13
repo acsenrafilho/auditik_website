@@ -425,7 +425,7 @@ export const getStaticProps: GetStaticProps<ConvenioPartnerPageProps> = async ({
         contentHtml,
         photoGallery,
       },
-      revalidate: 3600,
+      // revalidate removed for static export compatibility
     };
   } catch (error) {
     console.error("Error loading convenio partner:", error);

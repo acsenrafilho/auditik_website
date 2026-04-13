@@ -1,8 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export", // Enables static export for Next.js 14+
   reactStrictMode: true,
   swcMinify: true,
   images: {
+    // Required for static export (`output: "export"`).
+    // Next.js image optimization API is not available without a Node server.
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -20,31 +24,7 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
-  headers: async () => {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "X-DNS-Prefetch-Control",
-            value: "on",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "SAMEORIGIN",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "X-XSS-Protection",
-            value: "1; mode=block",
-          },
-        ],
-      },
-    ];
-  },
+  // For static export, set security headers in S3/CloudFront instead of Next headers().
 };
 
 module.exports = nextConfig;

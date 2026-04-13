@@ -410,7 +410,7 @@ export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
         posts,
         topics,
       },
-      revalidate: 3600,
+      // revalidate removed for static export compatibility
     };
   } catch (error) {
     console.error("Error loading blog posts:", error);
@@ -420,7 +420,7 @@ export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
         posts: [],
         topics: [],
       },
-      revalidate: 300,
+      // revalidate removed for static export compatibility
     };
   }
 };

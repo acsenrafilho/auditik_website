@@ -27,11 +27,6 @@ aws s3api create-bucket \
   --bucket auditik-website-prod \
   --region us-east-1
 
-# Enable versioning for rollback capability
-aws s3api put-bucket-versioning \
-  --bucket auditik-website-prod \
-  --versioning-configuration Status=Enabled
-
 # Block public access (CloudFront will access via OAI)
 aws s3api put-public-access-block \
   --bucket auditik-website-prod \

@@ -240,35 +240,44 @@ export type BlogConnection = Connection & {
   edges?: Maybe<Array<Maybe<BlogConnectionEdges>>>;
 };
 
-export type ConveniosPartners = {
-  __typename?: 'ConveniosPartners';
-  name: Scalars['String']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  benefits?: Maybe<Scalars['String']['output']>;
-  coverage?: Maybe<Scalars['String']['output']>;
-  contactInfo?: Maybe<Scalars['String']['output']>;
-  logo?: Maybe<Scalars['String']['output']>;
-};
-
 export type Convenios = Node & Document & {
   __typename?: 'Convenios';
-  partners?: Maybe<Array<Maybe<ConveniosPartners>>>;
+  name: Scalars['String']['output'];
+  slug: Scalars['String']['output'];
+  description: Scalars['String']['output'];
+  address: Scalars['String']['output'];
+  phone: Scalars['String']['output'];
+  googleMapsUrl: Scalars['String']['output'];
+  logo?: Maybe<Scalars['String']['output']>;
+  gallery?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  featured?: Maybe<Scalars['Boolean']['output']>;
+  cities: Array<Scalars['String']['output']>;
+  areas: Array<Scalars['String']['output']>;
+  benefitTypes: Array<Scalars['String']['output']>;
+  clientProfiles: Array<Scalars['String']['output']>;
+  benefitSummary: Scalars['String']['output'];
+  body?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   _sys: SystemInfo;
   _values: Scalars['JSON']['output'];
 };
 
-export type ConveniosPartnersFilter = {
-  name?: InputMaybe<StringFilter>;
-  description?: InputMaybe<StringFilter>;
-  benefits?: InputMaybe<StringFilter>;
-  coverage?: InputMaybe<StringFilter>;
-  contactInfo?: InputMaybe<StringFilter>;
-  logo?: InputMaybe<ImageFilter>;
-};
-
 export type ConveniosFilter = {
-  partners?: InputMaybe<ConveniosPartnersFilter>;
+  name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<StringFilter>;
+  description?: InputMaybe<StringFilter>;
+  address?: InputMaybe<StringFilter>;
+  phone?: InputMaybe<StringFilter>;
+  googleMapsUrl?: InputMaybe<StringFilter>;
+  logo?: InputMaybe<ImageFilter>;
+  gallery?: InputMaybe<StringFilter>;
+  featured?: InputMaybe<BooleanFilter>;
+  cities?: InputMaybe<StringFilter>;
+  areas?: InputMaybe<StringFilter>;
+  benefitTypes?: InputMaybe<StringFilter>;
+  clientProfiles?: InputMaybe<StringFilter>;
+  benefitSummary?: InputMaybe<StringFilter>;
+  body?: InputMaybe<StringFilter>;
 };
 
 export type ConveniosConnectionEdges = {
@@ -376,22 +385,27 @@ export type BlogMutation = {
   body?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ConveniosPartnersMutation = {
-  name?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  benefits?: InputMaybe<Scalars['String']['input']>;
-  coverage?: InputMaybe<Scalars['String']['input']>;
-  contactInfo?: InputMaybe<Scalars['String']['input']>;
-  logo?: InputMaybe<Scalars['String']['input']>;
-};
-
 export type ConveniosMutation = {
-  partners?: InputMaybe<Array<InputMaybe<ConveniosPartnersMutation>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  address?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  googleMapsUrl?: InputMaybe<Scalars['String']['input']>;
+  logo?: InputMaybe<Scalars['String']['input']>;
+  gallery?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  featured?: InputMaybe<Scalars['Boolean']['input']>;
+  cities?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  areas?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  benefitTypes?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  clientProfiles?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  benefitSummary?: InputMaybe<Scalars['String']['input']>;
+  body?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type BlogPartsFragment = { __typename: 'Blog', title: string, description?: string | null, author?: string | null, date?: string | null, topics?: Array<string | null> | null, featuredImage?: string | null, featured?: boolean | null, body?: string | null };
 
-export type ConveniosPartsFragment = { __typename: 'Convenios', partners?: Array<{ __typename: 'ConveniosPartners', name: string, description?: string | null, benefits?: string | null, coverage?: string | null, contactInfo?: string | null, logo?: string | null } | null> | null };
+export type ConveniosPartsFragment = { __typename: 'Convenios', name: string, slug: string, description: string, address: string, phone: string, googleMapsUrl: string, logo?: string | null, gallery?: Array<string | null> | null, featured?: boolean | null, cities: Array<string>, areas: Array<string>, benefitTypes: Array<string>, clientProfiles: Array<string>, benefitSummary: string, body?: string | null };
 
 export type BlogQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -417,7 +431,7 @@ export type ConveniosQueryVariables = Exact<{
 }>;
 
 
-export type ConveniosQuery = { __typename?: 'Query', convenios: { __typename: 'Convenios', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, partners?: Array<{ __typename: 'ConveniosPartners', name: string, description?: string | null, benefits?: string | null, coverage?: string | null, contactInfo?: string | null, logo?: string | null } | null> | null } };
+export type ConveniosQuery = { __typename?: 'Query', convenios: { __typename: 'Convenios', id: string, name: string, slug: string, description: string, address: string, phone: string, googleMapsUrl: string, logo?: string | null, gallery?: Array<string | null> | null, featured?: boolean | null, cities: Array<string>, areas: Array<string>, benefitTypes: Array<string>, clientProfiles: Array<string>, benefitSummary: string, body?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
 
 export type ConveniosConnectionQueryVariables = Exact<{
   before?: InputMaybe<Scalars['String']['input']>;
@@ -429,7 +443,7 @@ export type ConveniosConnectionQueryVariables = Exact<{
 }>;
 
 
-export type ConveniosConnectionQuery = { __typename?: 'Query', conveniosConnection: { __typename?: 'ConveniosConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ConveniosConnectionEdges', cursor: string, node?: { __typename: 'Convenios', id: string, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string }, partners?: Array<{ __typename: 'ConveniosPartners', name: string, description?: string | null, benefits?: string | null, coverage?: string | null, contactInfo?: string | null, logo?: string | null } | null> | null } | null } | null> | null } };
+export type ConveniosConnectionQuery = { __typename?: 'Query', conveniosConnection: { __typename?: 'ConveniosConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ConveniosConnectionEdges', cursor: string, node?: { __typename: 'Convenios', id: string, name: string, slug: string, description: string, address: string, phone: string, googleMapsUrl: string, logo?: string | null, gallery?: Array<string | null> | null, featured?: boolean | null, cities: Array<string>, areas: Array<string>, benefitTypes: Array<string>, clientProfiles: Array<string>, benefitSummary: string, body?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
 export const BlogPartsFragmentDoc = gql`
     fragment BlogParts on Blog {
@@ -447,15 +461,21 @@ export const BlogPartsFragmentDoc = gql`
 export const ConveniosPartsFragmentDoc = gql`
     fragment ConveniosParts on Convenios {
   __typename
-  partners {
-    __typename
-    name
-    description
-    benefits
-    coverage
-    contactInfo
-    logo
-  }
+  name
+  slug
+  description
+  address
+  phone
+  googleMapsUrl
+  logo
+  gallery
+  featured
+  cities
+  areas
+  benefitTypes
+  clientProfiles
+  benefitSummary
+  body
 }
     `;
 export const BlogDocument = gql`
@@ -630,7 +650,7 @@ export const ExperimentalGetTinaClient = () =>
   getSdk(
     generateRequester(
       createClient({
-        url: "http://localhost:4001/graphql",
+        url: "https://content.tinajs.io/1.5/content/2e012d06-ec48-4a5e-ba88-07304d062e2e/github/main",
         queries,
       })
     )

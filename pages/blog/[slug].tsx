@@ -347,7 +347,7 @@ export const getStaticProps: GetStaticProps<BlogPostPageProps> = async ({ params
         relatedPosts,
         contentHtml,
       },
-      revalidate: 3600,
+      // revalidate removed for static export compatibility
     };
   } catch (error) {
     console.error("Error loading blog post:", error);

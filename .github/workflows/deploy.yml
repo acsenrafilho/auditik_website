@@ -24,8 +24,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -34,9 +34,14 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
-
-      - name: Export static site
-        run: npm run export
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+          NEXT_PUBLIC_META_PIXEL_ID: ${{ secrets.NEXT_PUBLIC_META_PIXEL_ID }}
+          NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_ID }}
+          NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT }}
+          NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT }}
+          NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP }}
+          NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -45,24 +50,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Sync files to S3
+      - name: Sync HTML and XML (short cache)
         run: |
           aws s3 sync ./out s3://${{ env.AWS_S3_BUCKET }} \
             --delete \
             --cache-control 'public, max-age=3600' \
+            --exclude '*' \
+            --include '*.html' \
+            --include '*.xml' \
+            --include '*.txt' \
             --exclude '.git*'
 
-      - name: Set S3 cache headers for static assets
+      - name: Sync static assets (long cache, immutable)
         run: |
-          aws s3 cp s3://${{ env.AWS_S3_BUCKET }} s3://${{ env.AWS_S3_BUCKET }} \
-            --recursive \
-            --exclude "*" \
-            --include "*.js" \
-            --include "*.css" \
-            --include "*.woff*" \
-            --include "*.ttf" \
-            --metadata-directive REPLACE \
-            --cache-control 'public, max-age=31536000, immutable'
+          aws s3 sync ./out s3://${{ env.AWS_S3_BUCKET }} \
+            --cache-control 'public, max-age=31536000, immutable' \
+            --exclude '*.html' \
+            --exclude '*.xml' \
+            --exclude '*.txt' \
+            --exclude '.git*'
 
       - name: Invalidate CloudFront cache
         run: |

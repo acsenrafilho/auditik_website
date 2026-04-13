@@ -584,14 +584,14 @@ export const getStaticProps: GetStaticProps<ConveniosPageProps> = async () => {
 
     return {
       props: { partners },
-      revalidate: 3600,
+      // revalidate removed for static export compatibility
     };
   } catch (error) {
     console.error("Error loading convenios:", error);
 
     return {
       props: { partners: [] },
-      revalidate: 300,
+      // revalidate removed for static export compatibility
     };
   }
 };

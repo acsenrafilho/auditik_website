@@ -120,63 +120,151 @@ var config_default = defineConfig({
         ]
       },
       {
-        label: "Insurance Partners (Conv\xEAnios)",
+        label: "Clube de Benef\xEDcios",
         name: "convenios",
         path: "content/convenios",
         format: "md",
         fields: [
           {
-            type: "object",
-            list: true,
-            name: "partners",
-            label: "Insurance Partners",
+            type: "string",
+            name: "name",
+            label: "Nome do parceiro",
+            isTitle: true,
+            required: true
+          },
+          {
+            type: "string",
+            name: "slug",
+            label: "Slug da URL",
+            required: true,
+            description: "Use formato descritivo em portugues, ex: farmacia-centro-piracicaba"
+          },
+          {
+            type: "string",
+            name: "description",
+            label: "Descri\xE7\xE3o curta (listagem)",
+            required: true,
             ui: {
-              itemProps: (item) => {
-                return { label: item?.name };
-              }
-            },
-            fields: [
+              component: "textarea"
+            }
+          },
+          {
+            type: "string",
+            name: "address",
+            label: "Endere\xE7o",
+            required: true
+          },
+          {
+            type: "string",
+            name: "phone",
+            label: "Telefone",
+            required: true
+          },
+          {
+            type: "string",
+            name: "googleMapsUrl",
+            label: "URL do Google Maps",
+            required: true,
+            description: "Cole a URL do local no Google Maps para habilitar o bot\xE3o de rota no card e no detalhe."
+          },
+          {
+            type: "image",
+            name: "logo",
+            label: "Logo do parceiro (opcional)"
+          },
+          {
+            type: "string",
+            list: true,
+            name: "gallery",
+            label: "Galeria manual (opcional)",
+            description: "URLs de imagens para fallback quando o Google Maps nao disponibilizar fotos automaticamente."
+          },
+          {
+            type: "boolean",
+            name: "featured",
+            label: "Parceiro em destaque"
+          },
+          {
+            type: "string",
+            list: true,
+            name: "cities",
+            label: "Cidades",
+            required: true,
+            options: [
+              { label: "Piracicaba", value: "piracicaba" },
+              { label: "Americana", value: "americana" },
+              { label: "Campinas", value: "campinas" },
+              { label: "Limeira", value: "limeira" },
+              { label: "Sumar\xE9", value: "sumare" }
+            ]
+          },
+          {
+            type: "string",
+            list: true,
+            name: "areas",
+            label: "\xC1rea de atua\xE7\xE3o",
+            required: true,
+            options: [
+              { label: "Sa\xFAde", value: "saude" },
+              { label: "Tecnologia", value: "tecnologia" },
               {
-                type: "string",
-                name: "name",
-                label: "Partner Name",
-                required: true
+                label: "Servi\xE7os Empresariais",
+                value: "servicos-empresariais"
               },
+              { label: "Alimenta\xE7\xE3o", value: "alimentacao" },
+              { label: "Servi\xE7os Pessoais", value: "servicos-pessoais" },
+              { label: "Educa\xE7\xE3o", value: "educacao" },
+              { label: "Bem-estar", value: "bem-estar" }
+            ]
+          },
+          {
+            type: "string",
+            list: true,
+            name: "benefitTypes",
+            label: "Tipo de benef\xEDcio",
+            required: true,
+            options: [
+              { label: "Desconto", value: "desconto" },
+              { label: "Cashback", value: "cashback" },
+              { label: "Servi\xE7o gratuito", value: "servico-gratuito" },
+              { label: "Upgrade", value: "upgrade" },
               {
-                type: "string",
-                name: "description",
-                label: "Description",
-                ui: {
-                  component: "textarea"
-                }
-              },
-              {
-                type: "string",
-                name: "benefits",
-                label: "Benefits (comma-separated)",
-                ui: {
-                  component: "textarea"
-                }
-              },
-              {
-                type: "string",
-                name: "coverage",
-                label: "Coverage Details",
-                ui: {
-                  component: "textarea"
-                }
-              },
-              {
-                type: "string",
-                name: "contactInfo",
-                label: "Contact Information"
-              },
-              {
-                type: "image",
-                name: "logo",
-                label: "Partner Logo"
+                label: "Benef\xEDcio exclusivo",
+                value: "beneficio-exclusivo"
               }
             ]
+          },
+          {
+            type: "string",
+            list: true,
+            name: "clientProfiles",
+            label: "Perfil de cliente",
+            required: true,
+            options: [
+              { label: "Idosos", value: "idosos" },
+              { label: "Fam\xEDlias", value: "familias" },
+              { label: "Estudantes", value: "estudantes" },
+              { label: "Empresas", value: "empresas" },
+              { label: "P\xFAblico geral", value: "publico-geral" }
+            ]
+          },
+          {
+            type: "string",
+            name: "benefitSummary",
+            label: "Resumo do benef\xEDcio em destaque",
+            required: true,
+            ui: {
+              component: "textarea"
+            }
+          },
+          {
+            type: "string",
+            name: "body",
+            label: "Detalhes completos do benef\xEDcio",
+            isBody: true,
+            ui: {
+              component: "markdown"
+            }
           }
         ]
       }

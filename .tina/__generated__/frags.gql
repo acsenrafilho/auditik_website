@@ -12,13 +12,19 @@ fragment BlogParts on Blog {
 
 fragment ConveniosParts on Convenios {
   __typename
-  partners {
-    __typename
-    name
-    description
-    benefits
-    coverage
-    contactInfo
-    logo
-  }
+  name
+  slug
+  description
+  address
+  phone
+  googleMapsUrl
+  logo
+  gallery
+  featured
+  cities
+  areas
+  benefitTypes
+  clientProfiles
+  benefitSummary
+  body
 }

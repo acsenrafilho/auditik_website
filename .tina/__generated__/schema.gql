@@ -144,33 +144,43 @@ type BlogConnection implements Connection {
   edges: [BlogConnectionEdges]
 }
 
-type ConveniosPartners {
-  name: String!
-  description: String
-  benefits: String
-  coverage: String
-  contactInfo: String
-  logo: String
-}
-
 type Convenios implements Node & Document {
-  partners: [ConveniosPartners]
+  name: String!
+  slug: String!
+  description: String!
+  address: String!
+  phone: String!
+  googleMapsUrl: String!
+  logo: String
+  gallery: [String]
+  featured: Boolean
+  cities: [String!]!
+  areas: [String!]!
+  benefitTypes: [String!]!
+  clientProfiles: [String!]!
+  benefitSummary: String!
+  body: String
   id: ID!
   _sys: SystemInfo!
   _values: JSON!
 }
 
-input ConveniosPartnersFilter {
-  name: StringFilter
-  description: StringFilter
-  benefits: StringFilter
-  coverage: StringFilter
-  contactInfo: StringFilter
-  logo: ImageFilter
-}
-
 input ConveniosFilter {
-  partners: ConveniosPartnersFilter
+  name: StringFilter
+  slug: StringFilter
+  description: StringFilter
+  address: StringFilter
+  phone: StringFilter
+  googleMapsUrl: StringFilter
+  logo: ImageFilter
+  gallery: StringFilter
+  featured: BooleanFilter
+  cities: StringFilter
+  areas: StringFilter
+  benefitTypes: StringFilter
+  clientProfiles: StringFilter
+  benefitSummary: StringFilter
+  body: StringFilter
 }
 
 type ConveniosConnectionEdges {
@@ -218,17 +228,22 @@ input BlogMutation {
   body: String
 }
 
-input ConveniosPartnersMutation {
-  name: String
-  description: String
-  benefits: String
-  coverage: String
-  contactInfo: String
-  logo: String
-}
-
 input ConveniosMutation {
-  partners: [ConveniosPartnersMutation]
+  name: String
+  slug: String
+  description: String
+  address: String
+  phone: String
+  googleMapsUrl: String
+  logo: String
+  gallery: [String]
+  featured: Boolean
+  cities: [String]
+  areas: [String]
+  benefitTypes: [String]
+  clientProfiles: [String]
+  benefitSummary: String
+  body: String
 }
 
 schema {
