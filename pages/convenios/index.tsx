@@ -216,7 +216,8 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                 Vantagens exclusivas para clientes Auditik
               </span>
               <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.05] mb-6 max-w-3xl">
-                Clube de benefícios com parceiros para seu dia a dia
+                <span className="text-auditik-blue">Clube de benefícios</span> com
+                parceiros para seu dia a dia
               </h1>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
                 Filtre por cidade, área de atuação, tipo de benefício e perfil para

@@ -152,35 +152,46 @@ export default function NossaClinicaPage() {
                     perda auditiva.
                   </p>
                   <p>
-                    Fundada com o compromisso de transformar vidas através da audição, a
-                    Auditik atua em Piracicaba, Americana, São Pedro e Charqueada,
-                    regiões do interior de São Paulo, oferecendo soluções personalizadas
-                    e humanizadas para cada perfil de paciente. Somos referência em
-                    tratamento auditivo e audiologia clínica, com especialistas formados
-                    nas melhores universidades do país.
+                    Fundada com o compromisso de transformar vidas através da{" "}
+                    <strong>audição</strong>, a Auditik atua em Piracicaba, Americana,
+                    São Pedro e Charqueada, regiões do interior de São Paulo, oferecendo
+                    soluções <strong>personalizadas e humanizadas</strong> para cada
+                    perfil de paciente. Somos referência em tratamento auditivo e
+                    audiologia clínica, com especialistas formados nas melhores
+                    universidades do país.
                   </p>
                   <p>
                     Nossa equipe de profissionais qualificados trabalha com dedicação
                     para garantir que cada paciente recupere sua conexão com o mundo
                     sonoro e disfrute plenamente dos momentos importantes da vida.
-                    Oferecemos acompanhamento vitalício gratuito, adaptação precisa com
-                    testes auditivos avançados e suporte contínuo em todas as nossas
-                    unidades.
+                    Oferecemos <strong>acompanhamento vitalício gratuito</strong>,
+                    adaptação precisa com testes auditivos avançados e suporte contínuo
+                    em todas as nossas unidades.
                   </p>
                   <p>
-                    Como única clínica da região com o selo DNA USP emitido pela
-                    Universidade de São Paulo, garantimos excelência em audiologia e
-                    saúde auditiva especializada.
+                    Como única clínica da região com o selo <strong>DNA USP</strong>{" "}
+                    emitido pela Universidade de São Paulo, garantimos excelência em
+                    audiologia e saúde auditiva especializada.
                   </p>
                 </div>
               </div>
-              <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
-                <Image
-                  src="/images/clinica-equipe.jpg"
-                  alt="Equipe Auditik - Especialistas em Saúde Auditiva"
-                  fill
-                  className="object-cover"
-                />
+              <div className="flex flex-col gap-6">
+                <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
+                  <Image
+                    src="/images/auditik/background/275509282_4861028950639866_3280880387799368483_n.webp"
+                    alt="Decoração da sala de atendimento mostrando avó e neta se abraçando com alegria após adaptação de aparelho auditivo"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
+                  <Image
+                    src="/images/auditik/background/sala_atendimento.webp"
+                    alt="Satal de atendimento da Auditik com conforto e tecnologia de ponta"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -324,22 +335,22 @@ export default function NossaClinicaPage() {
                     Marcas que respaldam nossa qualidade
                   </h3>
                   <div className="space-y-6">
-                    <div className="bg-white p-4 rounded-xl flex items-center justify-center h-20">
+                    <div className="bg-white p-6 rounded-xl flex items-center justify-center h-64">
                       <Image
-                        src="/images/logo-philips.png"
+                        src="/images/philips/optimized/PH_Authorized dealer_Large_PT.jpg"
                         alt="Philips HearLink"
-                        width={150}
-                        height={60}
-                        className="object-contain"
+                        width={300}
+                        height={100}
+                        className="object-contain rounded-xl"
                       />
                     </div>
-                    <div className="bg-white p-4 rounded-xl flex items-center justify-center h-20">
+                    <div className="bg-white p-6 rounded-xl flex items-center justify-center h-64">
                       <Image
-                        src="/images/logo-demant.png"
-                        alt="Group Demant"
-                        width={150}
-                        height={60}
-                        className="object-contain"
+                        src="/images/auditik/background/recepcao.webp"
+                        alt="Auditik Soluções Auditivas"
+                        width={450}
+                        height={100}
+                        className="object-contain rounded-xl"
                       />
                     </div>
                   </div>
@@ -419,12 +430,16 @@ export default function NossaClinicaPage() {
               Recupere a Qualidade de Vida
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Agende uma avaliação auditiva gratuita e descubra como nossos aparelhos
-              Philips HearLink com inteligência artificial, Sound Map e conectividade
-              Bluetooth podem transformar sua audição e seu dia a dia. Contamos com
-              especialistas formados nas melhores universidades e oferecemos
-              acompanhamento vitalício em nossas unidades em Piracicaba, Americana, São
-              Pedro e Charqueada.
+              Agende uma <strong>avaliação auditiva gratuita</strong> e descubra como
+              nossos aparelhos <strong>Philips HearLink</strong> com inteligência
+              artificial, Sound Map e conectividade Bluetooth podem transformar sua
+              audição e seu dia a dia.
+            </p>
+            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+              Contamos com especialistas formados nas melhores universidades e
+              oferecemos <strong>acompanhamento vitalício</strong> em nossas unidades em
+              Piracicaba, Americana, São Pedro e Charqueada. Temos o compromisso de
+              <strong>transformar vidas através da audição</strong>.
             </p>
             <Link
               href="/contato"
