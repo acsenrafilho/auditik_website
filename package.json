@@ -5,12 +5,12 @@
   "private": true,
   "scripts": {
     "dev": "TINA_PUBLIC_IS_LOCAL=true tinacms dev -c \"next dev\"",
-    "build": "tinacms build && npm run tina:build && node scripts/generate-sitemap.mjs && next build",
+    "build": "npm run tina:build && node scripts/generate-sitemap.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build",
     "tina:dev": "npx -y @tinacms/cli@1.6.7 dev --local --skip-cloud-checks -c \"npm run dev\"",
-    "tina:build": "dotenv -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks"
+    "tina:build": "bash -lc 'if [ -f .env.local ]; then dotenv -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks; else npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks; fi' && node scripts/fix-tina-generated-client.mjs"
   },
   "dependencies": {
     "@udecode/plate": "^36.5.9",
@@ -23,7 +23,7 @@
     "next-tinacms-github": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tinacms": "^1.5.0",
+    "tinacms": "^1.6.7",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

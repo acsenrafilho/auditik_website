@@ -70,11 +70,11 @@ jobs:
             --exclude '*.txt' \
             --exclude '.git*'
 
-      - name: Invalidate CloudFront cache
-        run: |
-          aws cloudfront create-invalidation \
-            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
-            --paths "/*"
+      # - name: Invalidate CloudFront cache
+      #   run: |
+      #     aws cloudfront create-invalidation \
+      #       --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+      #       --paths "/*"
 
       - name: Deployment notification
         if: success()
