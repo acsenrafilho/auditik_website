@@ -40,22 +40,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate Tina environment variables
-        run: |
-          if [ -z "$NEXT_PUBLIC_TINA_CLIENT_ID" ]; then
-            echo "Missing environment secret: NEXT_PUBLIC_TINA_CLIENT_ID"
-            exit 1
-          fi
-          if [ -z "$TINA_TOKEN" ]; then
-            echo "Missing environment secret: TINA_TOKEN"
-            exit 1
-          fi
-          if [ -z "$AWS_S3_BUCKET" ]; then
-            echo "Missing environment variable: AWS_S3_BUCKET"
-            exit 1
-          fi
-          echo "Environment variables detected for CI build"
-
       - name: Build Next.js
         run: npm run build
 

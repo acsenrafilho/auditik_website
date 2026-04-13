@@ -192,10 +192,15 @@ export default defineConfig({
           },
         ],
         ui: {
-          router: ({ document }) =>
-            `/convenios/${
-              document?.slug || document?._values?.slug || document?._sys?.filename
-            }`,
+          router: ({ document }) => {
+            const convenioDocument = document as any;
+
+            return `/convenios/${
+              convenioDocument?.slug ||
+              convenioDocument?._values?.slug ||
+              convenioDocument?._sys?.filename
+            }`;
+          },
         },
       },
     ],
