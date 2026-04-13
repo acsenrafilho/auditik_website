@@ -192,7 +192,10 @@ export default defineConfig({
           },
         ],
         ui: {
-          router: ({ document }) => `/convenios/${document._sys.filename}`,
+          router: ({ document }) =>
+            `/convenios/${
+              document?.slug || document?._values?.slug || document?._sys?.filename
+            }`,
         },
       },
     ],

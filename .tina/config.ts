@@ -132,6 +132,12 @@ export default defineConfig({
           include: "*",
           exclude: "index|\\.template",
         },
+        ui: {
+          router: ({ document }) =>
+            `/convenios/${
+              document?.slug || document?._values?.slug || document?._sys?.filename
+            }`,
+        },
         fields: [
           {
             type: "string",
