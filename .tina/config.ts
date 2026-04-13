@@ -18,7 +18,7 @@ export default defineConfig({
     collections: [
       {
         label: "Blog Posts",
-        name: "blog",
+        name: "post",
         path: "content/blog",
         format: "md",
         fields: [
