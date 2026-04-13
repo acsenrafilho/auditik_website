@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "export", // Enables static export for Next.js 14+
+  trailingSlash: true, // Keeps exported routes compatible with S3 static website hosting on refresh.
   reactStrictMode: true,
   swcMinify: true,
   images: {

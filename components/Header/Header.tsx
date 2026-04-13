@@ -2,28 +2,41 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { trackButtonClick } from "@lib/analytics";
+import { APP_ROUTES } from "@lib/routes";
 
 export function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
 
+  const normalizePath = (path: string) => {
+    if (path === "/") {
+      return "/";
+    }
+
+    return path.endsWith("/") ? path.slice(0, -1) : path;
+  };
+
   const isActive = (path: string) => {
-    if (path === "/" && currentPath === "/") {
+    const normalizedCurrentPath = normalizePath(currentPath);
+    const normalizedPath = normalizePath(path);
+
+    if (normalizedPath === "/" && normalizedCurrentPath === "/") {
       return true;
     }
-    if (path !== "/" && currentPath.startsWith(path)) {
+
+    if (normalizedPath !== "/" && normalizedCurrentPath.startsWith(normalizedPath)) {
       return true;
     }
     return false;
   };
 
   const navLinks = [
-    { href: "/", label: "Página Inicial" },
-    { href: "/nossa-clinica", label: "Nossa Clínica" },
-    { href: "/aparelhos", label: "Aparelhos Auditivos" },
-    { href: "/convenios", label: "Clube de Benefícios" },
-    { href: "/blog", label: "Artigos" },
-    { href: "/contato", label: "Contato" },
+    { href: APP_ROUTES.home, label: "Página Inicial" },
+    { href: APP_ROUTES.nossaClinica, label: "Nossa Clínica" },
+    { href: APP_ROUTES.aparelhos, label: "Aparelhos Auditivos" },
+    { href: APP_ROUTES.convenios, label: "Clube de Benefícios" },
+    { href: APP_ROUTES.blog, label: "Artigos" },
+    { href: APP_ROUTES.contato, label: "Contato" },
   ];
 
   return (
