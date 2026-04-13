@@ -10,7 +10,7 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
   CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-  NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+  NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID || secrets.PUBLIC_TINA_CLIENT_ID || secrets.public_tina_client_id }}
   NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
   NEXT_PUBLIC_META_PIXEL_ID: ${{ secrets.NEXT_PUBLIC_META_PIXEL_ID }}
   NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_ID }}
@@ -18,7 +18,7 @@ env:
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT }}
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP }}
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ secrets.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
-  TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+  TINA_TOKEN: ${{ secrets.TINA_TOKEN || secrets.tina_token }}
 
 jobs:
   build-and-deploy:
@@ -38,6 +38,18 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Validate Tina environment variables
+        run: |
+          if [ -z "$NEXT_PUBLIC_TINA_CLIENT_ID" ]; then
+            echo "Missing NEXT_PUBLIC_TINA_CLIENT_ID/PUBLIC_TINA_CLIENT_ID secret"
+            exit 1
+          fi
+          if [ -z "$TINA_TOKEN" ]; then
+            echo "Missing TINA_TOKEN secret"
+            exit 1
+          fi
+          echo "Tina env vars detected for CI build"
 
       - name: Build Next.js
         run: npm run build
