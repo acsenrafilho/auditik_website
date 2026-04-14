@@ -5,6 +5,7 @@ import { useState } from "react";
 import { getSEOMeta } from "@lib/seo";
 import { trackFormSubmit, trackButtonClick } from "@lib/analytics";
 import { Header } from "@components/Header";
+import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 
 export default function Home() {
   const [testimonialsIndex, setTestimonialsIndex] = useState(0);
@@ -625,22 +626,18 @@ export default function Home() {
                   <p className="text-blue-100 mb-10 px-6">
                     Estamos online agora mesmo para te atender pelo WhatsApp.
                   </p>
-                  <a
-                    href="https://wa.me/551933776941?text=Ol%C3%A1%20Auditik%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20aparelhos%20auditivos%20Philips%20HearLink."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() =>
-                      trackButtonClick("whatsapp_button", {
-                        section: "contact_section",
-                      })
-                    }
+                  <WhatsAppLeadButton
+                    buttonName="whatsapp_button"
+                    leadSource="Website Home"
+                    trackingParams={{ section: "contact_section" }}
+                    whatsappMessage="Olá Auditik, gostaria de saber mais sobre os aparelhos auditivos Philips HearLink."
                     className="bg-white text-auditik-blue font-bold py-5 px-10 rounded-3xl shadow-lg hover:bg-gray-50 transition-all flex items-center gap-2 group-hover:scale-105"
                   >
                     Iniciar Conversa
                     <span className="material-symbols-outlined text-sm">
                       open_in_new
                     </span>
-                  </a>
+                  </WhatsAppLeadButton>
                 </div>
               </div>
             </div>

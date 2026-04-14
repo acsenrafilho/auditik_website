@@ -56,6 +56,11 @@ export const trackCrossPlatformConversion = (
     trackMetaEvent("Contact", params);
   }
 
+  if (goal === "whatsapp_lead_submitted") {
+    trackMetaEvent("Lead", params);
+    trackMetaEvent("Contact", params);
+  }
+
   if (goal === "appointment_scheduled" || goal === "free_evaluation_requested") {
     trackMetaEvent("Schedule", params);
     trackMetaEvent("Lead", params);
@@ -67,6 +72,10 @@ export const trackCrossPlatformConversion = (
 
   // Google Ads mapping
   if (goal === "contact_form_submit") {
+    trackGoogleAdsConversion(GOOGLE_ADS_LABELS.CONTACT, params);
+  }
+
+  if (goal === "whatsapp_lead_submitted") {
     trackGoogleAdsConversion(GOOGLE_ADS_LABELS.CONTACT, params);
   }
 

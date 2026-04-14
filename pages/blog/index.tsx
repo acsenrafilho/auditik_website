@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import type { GetStaticProps } from "next";
 
 import { Header } from "@components/Header";
+import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import type { BlogPost, BlogTopicOption } from "@lib/blog";
@@ -377,19 +378,15 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                   >
                     Falar com a Auditik
                   </Link>
-                  <a
-                    href="https://wa.me/551933776941?text=Ol%C3%A1%20Auditik,%20gostaria%20de%20conversar%20sobre%20a%20audi%C3%A7%C3%A3o%20e%20os%20aparelhos%20Philips%20HearLink."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() =>
-                      trackButtonClick("blog_index_cta_whatsapp", {
-                        section: "blog_index_cta",
-                      })
-                    }
+                  <WhatsAppLeadButton
+                    buttonName="blog_index_cta_whatsapp"
+                    leadSource="Website Blog Index"
+                    trackingParams={{ section: "blog_index_cta" }}
+                    whatsappMessage="Olá Auditik, gostaria de conversar sobre a audição e os aparelhos Philips HearLink."
                     className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full text-center border border-white/20 transition-colors"
                   >
                     Iniciar conversa no WhatsApp
-                  </a>
+                  </WhatsAppLeadButton>
                 </div>
               </div>
             </section>

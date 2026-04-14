@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { GetStaticPaths, GetStaticProps } from "next";
 
 import { Header } from "@components/Header";
+import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { generateArticleSchema } from "@lib/schema";
 import { getSEOMeta } from "@lib/seo";
@@ -274,20 +275,18 @@ export default function BlogPostPage({
               >
                 Agendar avaliação
               </Link>
-              <a
-                href="https://wa.me/551933776941?text=Ol%C3%A1%20Auditik,%20li%20um%20artigo%20no%20blog%20e%20quero%20conversar%20sobre%20audi%C3%A7%C3%A3o%20e%20aparelhos%20Philips%20HearLink."
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  trackButtonClick("blog_article_cta_whatsapp", {
-                    section: "blog_article_cta",
-                    topic: post.category,
-                  })
-                }
+              <WhatsAppLeadButton
+                buttonName="blog_article_cta_whatsapp"
+                leadSource="Website Blog Article"
+                trackingParams={{
+                  section: "blog_article_cta",
+                  topic: post.category,
+                }}
+                whatsappMessage="Olá Auditik, li um artigo no blog e quero conversar sobre audição e aparelhos Philips HearLink."
                 className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full text-center border border-white/20 transition-colors"
               >
                 Falar no WhatsApp
-              </a>
+              </WhatsAppLeadButton>
             </div>
           </div>
         </section>

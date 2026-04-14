@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Header } from "@components/Header";
+import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import { generateFAQSchema, generateProductSchema } from "@lib/schema";
@@ -379,17 +380,15 @@ export default function AparelhosPage() {
                 >
                   Agendar avaliação gratuita
                 </Link>
-                <a
-                  href="https://wa.me/551933776941?text=Olá%20Auditik,%20quero%20conhecer%20a%20linha%20Philips%20HearLink."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() =>
-                    trackButtonClick("aparelhos_cta_whatsapp", { section: "hero" })
-                  }
+                <WhatsAppLeadButton
+                  buttonName="aparelhos_cta_whatsapp"
+                  leadSource="Website Aparelhos Hero"
+                  trackingParams={{ section: "hero" }}
+                  whatsappMessage="Olá Auditik, quero conhecer a linha Philips HearLink."
                   className="cta-button-secondary text-center"
                 >
                   Falar no WhatsApp
-                </a>
+                </WhatsAppLeadButton>
               </div>
             </div>
 
@@ -768,19 +767,15 @@ export default function AparelhosPage() {
               >
                 Agendar minha avaliação
               </Link>
-              <a
-                href="https://wa.me/551933776941?text=Olá%20Auditik,%20quero%20testar%20os%20aparelhos%20Philips%20HearLink."
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() =>
-                  trackButtonClick("aparelhos_final_cta_whatsapp", {
-                    section: "final_cta",
-                  })
-                }
+              <WhatsAppLeadButton
+                buttonName="aparelhos_final_cta_whatsapp"
+                leadSource="Website Aparelhos Final CTA"
+                trackingParams={{ section: "final_cta" }}
+                whatsappMessage="Olá Auditik, quero testar os aparelhos Philips HearLink."
                 className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full border border-white/30 transition-colors"
               >
                 Falar com especialista
-              </a>
+              </WhatsAppLeadButton>
             </div>
           </div>
         </section>

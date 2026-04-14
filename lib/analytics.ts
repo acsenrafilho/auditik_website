@@ -171,6 +171,7 @@ export const CONVERSION_GOALS = {
   CONTACT_FORM_SUBMIT: "contact_form_submit",
   APPOINTMENT_SCHEDULED: "appointment_scheduled",
   WHATSAPP_CLICK: "whatsapp_click",
+  WHATSAPP_LEAD_SUBMITTED: "whatsapp_lead_submitted",
   FREE_EVALUATION_REQUESTED: "free_evaluation_requested",
   PHONE_CALL_INITIATED: "phone_call_initiated",
   INSURANCE_INQUIRY: "insurance_inquiry",
