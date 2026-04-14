@@ -39,7 +39,7 @@ export default function Custom404() {
           </p>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-full bg-auditik-blue px-6 py-3 text-white font-semibold transition-transform hover:scale-[1.02]"
+            className="inline-flex items-center justify-center rounded-full bg-auditik-yellow px-6 py-3 text-white font-semibold"
           >
             Ir para a página inicial
           </a>

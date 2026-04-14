@@ -366,14 +366,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
       paths: slugs.map((slug) => ({
         params: { slug },
       })),
-      fallback: "blocking",
+      fallback: false,
     };
   } catch (error) {
     console.error("Error loading convenios slugs:", error);
 
     return {
       paths: [],
-      fallback: "blocking",
+      fallback: false,
     };
   }
 };

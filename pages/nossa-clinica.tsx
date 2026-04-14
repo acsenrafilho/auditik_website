@@ -359,7 +359,7 @@ export default function NossaClinicaPage() {
                 <Link
                   href="/contato"
                   onClick={handleCTA}
-                  className="w-full bg-gradient-to-r from-auditik-blue to-auditik-dark-blue hover:shadow-lg text-white font-bold py-4 px-8 rounded-xl transition-all text-center text-lg"
+                  className="w-full bg-gradient-to-r bg-auditik-yellow hover:shadow-lg text-white font-bold py-4 px-8 rounded-xl transition-all text-center text-lg"
                 >
                   Agende uma Avaliação Gratuita
                 </Link>
