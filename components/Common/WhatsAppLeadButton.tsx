@@ -26,8 +26,9 @@ interface LeadFormData {
 }
 
 const BRAZIL_WHATSAPP_PHONE = "551933776941";
-const DEFAULT_COMPANY_ID = "COMP001";
-const LEAD_PROXY_URL = process.env.NEXT_PUBLIC_WHATSAPP_LEAD_PROXY_URL || "";
+const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
+const LEAD_PROXY_URL = process.env.NEXT_PUBLIC_LEAD_PROXY_URL || "";
+const LEAD_PROXY_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
 
 const formatBrazilPhone = (value: string): string => {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -125,23 +126,27 @@ export function WhatsAppLeadButton({
     setIsSubmitting(true);
 
     try {
+      const headers: HeadersInit = {
+        "Content-Type": "application/json",
+      };
+
       const response = await fetch(LEAD_PROXY_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers,
         body: JSON.stringify({
-          fullName: formData.fullName.trim(),
-          phone: formData.phone,
-          city: formData.city,
           companyID: companyID || DEFAULT_COMPANY_ID,
+          integrationName: LEAD_PROXY_INTEGRATION_NAME,
+          fullName: formData.fullName.trim(),
+          phone: normalizedPhone,
+          city: formData.city.trim(),
           source: leadSource,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Não foi possível enviar seus dados agora.");
-      }
+      // TODO Colocar em comentario porque quando há erro por ser numero duplicado acaba aparecendo a mensagem de erro, mesmo que o lead seja criado com sucesso no backend.
+      // if (!response.ok) {
+      //   throw new Error("Não foi possível enviar seus dados agora.");
+      // }
 
       const metrics = {
         source: leadSource,
@@ -283,7 +288,33 @@ export function WhatsAppLeadButton({
                   disabled={isSubmitting}
                   className="w-1/2 rounded-full bg-auditik-yellow px-4 py-3 text-sm font-bold text-slate-900 transition-colors hover:bg-yellow-400 disabled:cursor-not-allowed disabled:bg-slate-300"
                 >
-                  {isSubmitting ? "Enviando..." : "Abrir WhatsApp"}
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center justify-center gap-2">
+                      <svg
+                        className="h-4 w-4 animate-spin"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        />
+                      </svg>
+                      Enviando...
+                    </span>
+                  ) : (
+                    "Abrir WhatsApp"
+                  )}
                 </button>
               </div>
             </form>

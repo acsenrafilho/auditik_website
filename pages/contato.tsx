@@ -11,7 +11,14 @@ import {
 } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import { generateLocalBusinessSchema } from "@lib/schema";
+import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
+import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
+import { LeadSubmitSuccessModal } from "@components/Common/LeadSubmitSuccessModal";
+
+const BRAZIL_WHATSAPP_PHONE = "551933776941";
+const FORM_WHATSAPP_MESSAGE =
+  "Olá Auditik, acabei de preencher o formulário e gostaria de continuar pelo WhatsApp.";
 
 export default function ContatoPage() {
   const [formData, setFormData] = useState({
@@ -20,7 +27,9 @@ export default function ContatoPage() {
     cidade: "",
     paraQuem: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const seo = getSEOMeta({
     title: "Contato - Auditik",
@@ -57,59 +66,70 @@ export default function ContatoPage() {
     },
   ];
 
-  const formatPhoneNumber = (value: string): string => {
-    const phoneNumber = value.replace(/\D/g, "");
-
-    if (phoneNumber.length <= 2) {
-      return phoneNumber;
-    }
-    if (phoneNumber.length <= 6) {
-      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
-    }
-    if (phoneNumber.length <= 10) {
-      return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(
-        2,
-        6,
-      )}-${phoneNumber.slice(6)}`;
-    }
-
-    return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(
-      7,
-      11,
-    )}`;
-  };
-
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
 
     if (name === "whatsapp") {
-      setFormData((prev) => ({ ...prev, whatsapp: formatPhoneNumber(value) }));
+      setFormData((prev) => ({ ...prev, whatsapp: formatBrazilPhone(value) }));
       return;
     }
 
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formSubmitting) return;
 
-    trackFormSubmit("contact", {
-      page: "contato",
-      cidade: formData.cidade,
-      para_quem: formData.paraQuem,
+    setFormSubmitting(true);
+    setFormError("");
+
+    try {
+      trackFormSubmit("contact", {
+        page: "contato",
+        cidade: formData.cidade,
+        para_quem: formData.paraQuem,
+      });
+
+      trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
+        page: "contato",
+        user_location: "unknown",
+      });
+
+      await submitLeadToCRM({
+        fullName: formData.nome,
+        phone: formData.whatsapp,
+        city: formData.cidade,
+        paraQuem: formData.paraQuem,
+        fallbackSource: "Website Contato",
+      });
+
+      setFormData({ nome: "", whatsapp: "", cidade: "", paraQuem: "" });
+      setIsSuccessModalOpen(true);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível enviar seus dados agora. Tente novamente.",
+      );
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
+
+  const handleOpenSuccessWhatsApp = () => {
+    const encodedMessage = encodeURIComponent(FORM_WHATSAPP_MESSAGE);
+    const whatsappUrl = `https://wa.me/${BRAZIL_WHATSAPP_PHONE}?text=${encodedMessage}`;
+
+    trackButtonClick("form_success_whatsapp_contato", {
+      source: "Website Contato",
+      section: "form_success_modal",
     });
 
-    trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
-      page: "contato",
-      user_location: "unknown",
-    });
-
-    console.log("Form submitted:", formData);
-    setFormData({ nome: "", whatsapp: "", cidade: "", paraQuem: "" });
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -158,13 +178,6 @@ export default function ContatoPage() {
                   conversa acolhedora.
                 </p>
 
-                {submitted && (
-                  <div className="bg-green-100 text-green-700 p-4 rounded-2xl mb-6 font-semibold">
-                    Sua mensagem foi enviada com sucesso. Entraremos em contato em
-                    breve.
-                  </div>
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="group">
                     <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-4">
@@ -210,24 +223,11 @@ export default function ContatoPage() {
                         className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none cursor-pointer"
                       >
                         <option value="">Selecione uma cidade</option>
-                        <option value="Piracicaba">Piracicaba</option>
-                        <option value="Americana">Americana</option>
-                        <option value="Santa Barbara d'Oeste">
-                          Santa Barbara d'Oeste
-                        </option>
-                        <option value="Nova Odessa">Nova Odessa</option>
-                        <option value="Sumare">Sumare</option>
-                        <option value="Campinas">Campinas</option>
-                        <option value="Paulinia">Paulinia</option>
-                        <option value="Limeira">Limeira</option>
-                        <option value="Rio Claro">Rio Claro</option>
-                        <option value="Sao Pedro">Sao Pedro</option>
-                        <option value="Aguas de Sao Pedro">Aguas de Sao Pedro</option>
-                        <option value="Charqueada">Charqueada</option>
-                        <option value="Capivari">Capivari</option>
-                        <option value="Saltinho">Saltinho</option>
-                        <option value="Tiete">Tiete</option>
-                        <option value="Outra cidade">Outra cidade</option>
+                        {WHATSAPP_LEAD_CITIES.map((city) => (
+                          <option key={city} value={city}>
+                            {city}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -252,11 +252,44 @@ export default function ContatoPage() {
                     </select>
                   </div>
 
+                  {formError && (
+                    <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                      {formError}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-extrabold py-6 rounded-3xl shadow-xl shadow-auditik-yellow/10 transition-all hover:scale-[1.01] active:scale-[0.99] uppercase tracking-widest"
+                    disabled={formSubmitting}
+                    className="w-full bg-auditik-yellow hover:bg-yellow-400 disabled:bg-gray-300 text-slate-900 font-extrabold py-6 rounded-3xl shadow-xl shadow-auditik-yellow/10 transition-all hover:scale-[1.01] active:scale-[0.99] uppercase tracking-widest disabled:cursor-not-allowed"
                   >
-                    Quero agendar minha avaliação
+                    {formSubmitting ? (
+                      <span className="inline-flex items-center justify-center gap-2">
+                        <svg
+                          className="h-4 w-4 animate-spin"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          />
+                        </svg>
+                        Enviando...
+                      </span>
+                    ) : (
+                      "Quero agendar minha avaliação"
+                    )}
                   </button>
                 </form>
               </div>
@@ -442,6 +475,12 @@ export default function ContatoPage() {
           </div>
         </section>
       </main>
+
+      <LeadSubmitSuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        onOpenWhatsApp={handleOpenSuccessWhatsApp}
+      />
     </>
   );
 }

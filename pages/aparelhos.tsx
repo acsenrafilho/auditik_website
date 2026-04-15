@@ -382,7 +382,7 @@ export default function AparelhosPage() {
                 </Link>
                 <WhatsAppLeadButton
                   buttonName="aparelhos_cta_whatsapp"
-                  leadSource="Website Aparelhos Hero"
+                  leadSource="Website Aparelhos Auditivos Hero"
                   trackingParams={{ section: "hero" }}
                   whatsappMessage="Olá Auditik, quero conhecer a linha Philips HearLink."
                   className="cta-button-secondary text-center"
@@ -769,7 +769,7 @@ export default function AparelhosPage() {
               </Link>
               <WhatsAppLeadButton
                 buttonName="aparelhos_final_cta_whatsapp"
-                leadSource="Website Aparelhos Final CTA"
+                leadSource="Website Aparelhos Auditivos"
                 trackingParams={{ section: "final_cta" }}
                 whatsappMessage="Olá Auditik, quero testar os aparelhos Philips HearLink."
                 className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full border border-white/30 transition-colors"
