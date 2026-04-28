@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { trackButtonClick } from "@lib/analytics";
 import { APP_ROUTES } from "@lib/routes";
 
 export function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const normalizePath = (path: string) => {
     if (path === "/") {
@@ -39,9 +41,25 @@ export function Header() {
     { href: APP_ROUTES.contato, label: "Contato" },
   ];
 
+  const handleMobileMenuToggle = () => {
+    const nextState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(nextState);
+    trackButtonClick(nextState ? "mobile_menu_open" : "mobile_menu_close", {
+      section: "header",
+    });
+  };
+
+  const handleMobileNavClick = (href: string) => {
+    trackButtonClick("mobile_menu_nav_link", {
+      section: "header",
+      destination: href,
+    });
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 py-4">
-      <div className="container-wide flex justify-between items-center">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md py-4">
+      <div className="container-wide flex flex-wrap items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 group cursor-pointer">
           <div className="transform group-hover:scale-105 transition-transform duration-300">
             <Image
@@ -75,11 +93,39 @@ export function Header() {
         </nav>
 
         <button
-          className="lg:hidden text-auditik-blue"
-          onClick={() => trackButtonClick("mobile_menu", { section: "header" })}
+          type="button"
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-navigation"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-auditik-blue lg:hidden"
+          onClick={handleMobileMenuToggle}
         >
           <span className="material-symbols-outlined">menu</span>
         </button>
+
+        {isMobileMenuOpen && (
+          <nav
+            id="mobile-navigation"
+            className="mt-2 w-full rounded-[1.75rem] border border-slate-100 bg-white/98 p-3 shadow-2xl shadow-slate-900/10 lg:hidden"
+          >
+            <ul className="grid gap-2 text-sm font-bold uppercase tracking-widest text-slate-600">
+              {navLinks.map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    onClick={() => handleMobileNavClick(href)}
+                    className={`flex min-h-12 items-center rounded-2xl px-4 py-3 transition-colors ${
+                      isActive(href)
+                        ? "bg-auditik-blue/10 text-auditik-blue"
+                        : "hover:bg-slate-50 hover:text-auditik-blue"
+                    }`}
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
       </div>
     </header>
   );

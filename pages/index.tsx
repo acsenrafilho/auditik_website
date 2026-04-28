@@ -290,7 +290,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handleScheduleClick}
-                  className="bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-5 px-10 rounded-full shadow-xl shadow-auditik-yellow/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-1"
+                  className="min-h-12 bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-5 px-10 rounded-full shadow-xl shadow-auditik-yellow/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-1"
                 >
                   Agende sua Avaliação
                   <span
@@ -393,13 +393,13 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="relative px-4">
+            <div className="relative px-4 lg:px-10">
               <button
                 onClick={() => {
                   handleTestimonialPrev();
                   trackButtonClick("testimonial_prev", { section: "testimonials" });
                 }}
-                className="absolute left-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white w-14 h-14 rounded-full flex items-center justify-center text-auditik-blue shadow-lg hover:bg-auditik-blue hover:text-white transition-all hidden lg:flex"
+                className="absolute left-2 top-1/2 z-10 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white text-auditik-blue shadow-lg transition-all hover:bg-auditik-blue hover:text-white lg:flex"
               >
                 <span className="material-symbols-outlined">arrow_back</span>
               </button>
@@ -409,7 +409,7 @@ export default function Home() {
                   handleTestimonialNext();
                   trackButtonClick("testimonial_next", { section: "testimonials" });
                 }}
-                className="absolute right-[-20px] top-1/2 -translate-y-1/2 z-10 bg-white w-14 h-14 rounded-full flex items-center justify-center text-auditik-blue shadow-lg hover:bg-auditik-blue hover:text-white transition-all hidden lg:flex"
+                className="absolute right-2 top-1/2 z-10 hidden h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full bg-white text-auditik-blue shadow-lg transition-all hover:bg-auditik-blue hover:text-white lg:flex"
               >
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
@@ -495,7 +495,7 @@ export default function Home() {
                         section: "testimonials",
                       });
                     }}
-                    className={`rounded-full cursor-pointer hover:bg-auditik-blue transition-colors ${
+                    className={`min-h-11 min-w-11 rounded-full cursor-pointer transition-colors hover:bg-auditik-blue ${
                       index === testimonialsIndex
                         ? "w-8 h-2.5 bg-auditik-blue"
                         : "w-2.5 h-2.5 bg-gray-200"
@@ -603,7 +603,7 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={formSubmitting}
-                    className="w-full bg-auditik-yellow hover:bg-yellow-400 disabled:bg-gray-300 text-slate-900 font-extrabold py-6 rounded-3xl shadow-xl shadow-auditik-yellow/10 transition-all hover:scale-[1.01] active:scale-[0.99] uppercase tracking-widest disabled:cursor-not-allowed"
+                    className="w-full min-h-12 bg-auditik-yellow hover:bg-yellow-400 disabled:bg-gray-300 text-slate-900 font-extrabold py-6 rounded-3xl shadow-xl shadow-auditik-yellow/10 transition-all hover:scale-[1.01] active:scale-[0.99] uppercase tracking-widest disabled:cursor-not-allowed"
                   >
                     {formSubmitting ? (
                       <span className="inline-flex items-center justify-center gap-2">
@@ -662,7 +662,7 @@ export default function Home() {
                     leadSource="Website Home"
                     trackingParams={{ section: "contact_section" }}
                     whatsappMessage="Olá Auditik, gostaria de saber mais sobre os aparelhos auditivos Philips HearLink."
-                    className="bg-white text-auditik-blue font-bold py-5 px-10 rounded-3xl shadow-lg hover:bg-gray-50 transition-all flex items-center gap-2 group-hover:scale-105"
+                    className="min-h-12 bg-white text-auditik-blue font-bold py-5 px-10 rounded-3xl shadow-lg hover:bg-gray-50 transition-all flex items-center justify-center gap-2 group-hover:scale-105"
                   >
                     Iniciar Conversa
                     <span className="material-symbols-outlined text-sm">
@@ -759,7 +759,7 @@ export default function Home() {
               </p>
               <div className="flex gap-4">
                 <a
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
+                  className="min-h-11 min-w-11 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
                   href="https://www.facebook.com/auditik.piracicaba"
                   onClick={() =>
                     trackButtonClick("social_facebook", { section: "footer" })
@@ -777,7 +777,7 @@ export default function Home() {
                   />
                 </a>
                 <a
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
+                  className="min-h-11 min-w-11 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
                   href="https://www.instagram.com/auditik.piracicaba"
                   onClick={() =>
                     trackButtonClick("social_instagram", { section: "footer" })
@@ -795,7 +795,7 @@ export default function Home() {
                   />
                 </a>
                 <a
-                  className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
+                  className="min-h-11 min-w-11 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 hover:border-white transition-all"
                   href="https://www.youtube.com/@auditik"
                   onClick={() =>
                     trackButtonClick("social_youtube", { section: "footer" })
@@ -851,7 +851,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="/nossa-clinica"
-                    className="text-sm text-blue-100/80 hover:text-white transition-colors"
+                    className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Nossa Clínica
                   </Link>
@@ -859,7 +859,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="/aparelhos"
-                    className="text-sm text-blue-100/80 hover:text-white transition-colors"
+                    className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Aparelhos
                   </Link>
@@ -867,7 +867,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="/convenios"
-                    className="text-sm text-blue-100/80 hover:text-white transition-colors"
+                    className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Convênios
                   </Link>
