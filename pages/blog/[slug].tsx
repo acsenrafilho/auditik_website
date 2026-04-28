@@ -58,7 +58,7 @@ export default function BlogPostPage({
           <h1>Artigo não encontrado</h1>
           <Link
             href="/blog"
-            className="text-auditik-blue hover:text-auditik-dark-blue font-bold"
+            className="inline-flex min-h-11 items-center px-2 text-auditik-blue hover:text-auditik-dark-blue font-bold"
           >
             ← Voltar ao blog
           </Link>
@@ -102,7 +102,7 @@ export default function BlogPostPage({
           <div className="container-wide relative z-10 max-w-4xl">
             <Link
               href="/blog"
-              className="text-auditik-blue hover:text-auditik-dark-blue font-bold mb-6 inline-flex items-center gap-2"
+              className="mb-6 inline-flex min-h-11 items-center gap-2 px-2 text-auditik-blue hover:text-auditik-dark-blue font-bold"
             >
               ← Voltar
             </Link>
@@ -149,7 +149,7 @@ export default function BlogPostPage({
 
         <section className="py-16 md:py-20 bg-white">
           <div className="container-wide grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
-            <article className="prose prose-lg max-w-none prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-auditik-blue prose-strong:text-slate-900">
+            <article className="prose prose-lg max-w-none overflow-x-hidden [overflow-wrap:anywhere] prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-auditik-blue prose-strong:text-slate-900 [&_a]:break-words [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto">
               <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
             </article>
 
@@ -235,7 +235,7 @@ export default function BlogPostPage({
                       </p>
                       <Link
                         href={`/blog/${relatedPost.slug}`}
-                        className="text-auditik-blue hover:text-auditik-dark-blue font-bold"
+                        className="inline-flex min-h-11 items-center px-2 text-auditik-blue hover:text-auditik-dark-blue font-bold"
                       >
                         Ler mais →
                       </Link>
@@ -262,7 +262,7 @@ export default function BlogPostPage({
                 Fale conosco antes de decidir sozinho.
               </p>
             </div>
-            <div className="flex flex-col gap-4 lg:justify-self-end lg:min-w-[320px]">
+            <div className="flex w-full flex-col gap-4 lg:justify-self-end lg:min-w-[320px]">
               <Link
                 href="/contato"
                 onClick={() =>
@@ -271,7 +271,7 @@ export default function BlogPostPage({
                     topic: post.category,
                   })
                 }
-                className="bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full text-center transition-colors"
+                className="inline-flex min-h-11 w-full items-center justify-center bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-3 px-6 sm:px-8 rounded-full text-center transition-colors"
               >
                 Agendar avaliação
               </Link>
@@ -283,7 +283,7 @@ export default function BlogPostPage({
                   topic: post.category,
                 }}
                 whatsappMessage="Olá Auditik, li um artigo no blog e quero conversar sobre audição e aparelhos Philips HearLink."
-                className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full text-center border border-white/20 transition-colors"
+                className="inline-flex min-h-11 w-full items-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 sm:px-8 rounded-full text-center border border-white/20 transition-colors"
               >
                 Falar no WhatsApp
               </WhatsAppLeadButton>

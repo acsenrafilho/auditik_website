@@ -409,7 +409,7 @@ export default function NossaClinicaPage() {
                           section: "locations",
                         })
                       }
-                      className="text-auditik-blue font-bold flex items-center gap-2 group-hover:gap-4 transition-all"
+                      className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
                     >
                       Ver no Google Maps
                       <span className="material-symbols-outlined text-sm">
@@ -444,7 +444,7 @@ export default function NossaClinicaPage() {
             <Link
               href="/contato"
               onClick={handleCTA}
-              className="inline-block bg-auditik-yellow hover:bg-yellow-300 text-gray-900 font-bold py-4 px-12 rounded-full text-lg transition-all transform hover:scale-105"
+              className="inline-flex min-h-11 w-full sm:w-auto items-center justify-center bg-auditik-yellow hover:bg-yellow-300 text-gray-900 font-bold py-3 px-8 sm:px-12 rounded-full text-lg transition-all transform hover:scale-105"
             >
               Agende Sua Avaliação
             </Link>

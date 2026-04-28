@@ -290,7 +290,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handleScheduleClick}
-                  className="min-h-12 bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-5 px-10 rounded-full shadow-xl shadow-auditik-yellow/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-1"
+                  className="min-h-12 w-full sm:w-auto bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-5 px-6 sm:px-10 rounded-full shadow-xl shadow-auditik-yellow/20 flex items-center justify-center gap-3 transition-all hover:-translate-y-1"
                 >
                   Agende sua Avaliação
                   <span
@@ -714,7 +714,7 @@ export default function Home() {
                       onClick={() =>
                         trackButtonClick(`location_${index}`, { section: "locations" })
                       }
-                      className="text-auditik-blue font-bold flex items-center gap-2 group-hover:gap-4 transition-all"
+                      className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
                     >
                       Ver no Google Maps
                       <span className="material-symbols-outlined text-sm">
@@ -818,25 +818,33 @@ export default function Home() {
             <div>
               <h4 className="font-bold text-lg mb-6">Central de Atendimento</h4>
               <ul className="space-y-4">
-                <li
-                  className="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors cursor-pointer"
-                  onClick={() =>
-                    trackButtonClick("phone_footer", { section: "footer" })
-                  }
-                >
-                  <span className="material-symbols-outlined text-xl">call</span>
-                  <span className="text-sm font-medium">(19) 3377-6941</span>
+                <li>
+                  <a
+                    href="tel:+551933776941"
+                    className="inline-flex min-h-11 items-center gap-3 px-2 text-blue-100/80 hover:text-white transition-colors"
+                    onClick={() =>
+                      trackButtonClick("phone_footer", { section: "footer" })
+                    }
+                    aria-label="Ligar para Auditik no número (19) 3377-6941"
+                  >
+                    <span className="material-symbols-outlined text-xl">call</span>
+                    <span className="text-sm font-medium">(19) 3377-6941</span>
+                  </a>
                 </li>
-                <li
-                  className="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors cursor-pointer"
-                  onClick={() =>
-                    trackButtonClick("email_footer", { section: "footer" })
-                  }
-                >
-                  <span className="material-symbols-outlined text-xl">mail</span>
-                  <span className="text-sm font-medium">
-                    atendimento@auditik.com.br
-                  </span>
+                <li>
+                  <a
+                    href="mailto:atendimento@auditik.com.br"
+                    className="inline-flex min-h-11 items-center gap-3 px-2 text-blue-100/80 hover:text-white transition-colors"
+                    onClick={() =>
+                      trackButtonClick("email_footer", { section: "footer" })
+                    }
+                    aria-label="Enviar e-mail para atendimento@auditik.com.br"
+                  >
+                    <span className="material-symbols-outlined text-xl">mail</span>
+                    <span className="text-sm font-medium">
+                      atendimento@auditik.com.br
+                    </span>
+                  </a>
                 </li>
                 <li className="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors">
                   <span className="material-symbols-outlined text-xl">schedule</span>
@@ -875,7 +883,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="/blog"
-                    className="text-sm text-blue-100/80 hover:text-white transition-colors"
+                    className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Blog
                   </Link>
@@ -883,7 +891,7 @@ export default function Home() {
                 <li>
                   <Link
                     href="/politica-de-privacidade"
-                    className="text-sm text-blue-100/80 hover:text-white transition-colors"
+                    className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Política de Privacidade
                   </Link>

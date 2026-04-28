@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { trackButtonClick } from "@lib/analytics";
 import { APP_ROUTES } from "@lib/routes";
 
@@ -9,6 +9,18 @@ export function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [router.asPath]);
+
+  useEffect(() => {
+    document.body.classList.toggle("overflow-hidden", isMobileMenuOpen);
+
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isMobileMenuOpen]);
 
   const normalizePath = (path: string) => {
     if (path === "/") {
@@ -95,6 +107,8 @@ export function Header() {
         <button
           type="button"
           aria-expanded={isMobileMenuOpen}
+          aria-label={isMobileMenuOpen ? "Fechar menu principal" : "Abrir menu principal"}
+          aria-haspopup="true"
           aria-controls="mobile-navigation"
           className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-auditik-blue lg:hidden"
           onClick={handleMobileMenuToggle}

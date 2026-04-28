@@ -374,7 +374,7 @@ export default function ContatoPage() {
                           section: "locations",
                         })
                       }
-                      className="text-auditik-blue font-bold flex items-center gap-2 group-hover:gap-4 transition-all"
+                      className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
                     >
                       Ver no Google Maps
                       <span className="material-symbols-outlined text-sm">

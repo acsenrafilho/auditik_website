@@ -149,7 +149,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                 HearLink, adaptação, manutenção, convênios e tudo o que ajuda a tomar
                 uma decisão mais segura.
               </p>
-              <div className="grid gap-4 sm:grid-cols-[1fr_auto] max-w-2xl">
+              <div className="grid gap-4 md:grid-cols-[1fr_auto] max-w-2xl">
                 <label className="block">
                   <span className="sr-only">Pesquisar artigos</span>
                   <div className="relative">
@@ -176,7 +176,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                     setSelectedTopic("all");
                     syncFilters("", "all");
                   }}
-                  className={`rounded-full px-6 py-4 font-bold transition-colors ${
+                  className={`inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 font-bold transition-colors ${
                     hasActiveFilters
                       ? "bg-slate-900 text-white hover:bg-slate-800"
                       : "bg-white/60 text-slate-400 cursor-default"
@@ -233,7 +233,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                   setSelectedTopic("all");
                   syncFilters(searchTerm, "all");
                 }}
-                className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
+                className={`inline-flex min-h-11 items-center rounded-full px-4 py-3 text-sm font-bold transition-colors ${
                   selectedTopic === "all"
                     ? "bg-auditik-blue text-white"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -253,7 +253,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                       topic: topic.value,
                     });
                   }}
-                  className={`rounded-full px-4 py-2 text-sm font-bold transition-colors ${
+                  className={`inline-flex min-h-11 items-center rounded-full px-4 py-3 text-sm font-bold transition-colors ${
                     selectedTopic === topic.value
                       ? "bg-auditik-blue text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -320,7 +320,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                         </span>
                         <Link
                           href={`/blog/${post.slug}`}
-                          className="font-bold text-slate-900 hover:text-auditik-blue transition-colors"
+                          className="inline-flex min-h-11 items-center px-2 font-bold text-slate-900 hover:text-auditik-blue transition-colors"
                         >
                           Ler artigo →
                         </Link>
@@ -366,7 +366,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                     e entender qual solução faz sentido para o seu caso.
                   </p>
                 </div>
-                <div className="flex flex-col gap-4 lg:justify-self-end lg:min-w-[320px]">
+                <div className="flex w-full flex-col gap-4 lg:justify-self-end lg:min-w-[320px]">
                   <Link
                     href="/contato"
                     onClick={() =>
@@ -374,7 +374,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                         section: "blog_index_cta",
                       })
                     }
-                    className="bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full text-center transition-colors"
+                    className="inline-flex min-h-11 w-full items-center justify-center bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-3 px-6 sm:px-8 rounded-full text-center transition-colors"
                   >
                     Falar com a Auditik
                   </Link>
@@ -383,7 +383,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                     leadSource="Website Blog Index"
                     trackingParams={{ section: "blog_index_cta" }}
                     whatsappMessage="Olá Auditik, gostaria de conversar sobre a audição e os aparelhos Philips HearLink."
-                    className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full text-center border border-white/20 transition-colors"
+                    className="inline-flex min-h-11 w-full items-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 sm:px-8 rounded-full text-center border border-white/20 transition-colors"
                   >
                     Iniciar conversa no WhatsApp
                   </WhatsAppLeadButton>

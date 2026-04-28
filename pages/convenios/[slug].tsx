@@ -90,7 +90,7 @@ export default function ConvenioPartnerPage({
           <h1>Parceiro não encontrado</h1>
           <Link
             href="/convenios"
-            className="text-auditik-blue hover:text-auditik-dark-blue font-bold"
+            className="inline-flex min-h-11 items-center px-2 text-auditik-blue hover:text-auditik-dark-blue font-bold"
           >
             ← Voltar ao clube de benefícios
           </Link>
@@ -125,7 +125,7 @@ export default function ConvenioPartnerPage({
           <div className="container-wide relative z-10 max-w-5xl">
             <Link
               href="/convenios"
-              className="text-auditik-blue hover:text-auditik-dark-blue font-bold mb-6 inline-flex items-center gap-2"
+              className="mb-6 inline-flex min-h-11 items-center gap-2 px-2 text-auditik-blue hover:text-auditik-dark-blue font-bold"
             >
               ← Voltar
             </Link>
@@ -243,7 +243,8 @@ export default function ConvenioPartnerPage({
                               : activePhotoIndex - 1,
                           )
                         }
-                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-white transition-colors"
+                        aria-label="Foto anterior"
+                        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-white transition-colors"
                       >
                         ← Anterior
                       </button>
@@ -256,7 +257,8 @@ export default function ConvenioPartnerPage({
                               : activePhotoIndex + 1,
                           )
                         }
-                        className="rounded-full border border-slate-200 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-white transition-colors"
+                        aria-label="Próxima foto"
+                        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-white transition-colors"
                       >
                         Próxima →
                       </button>
@@ -266,7 +268,7 @@ export default function ConvenioPartnerPage({
               )}
 
               {contentHtml ? (
-                <div className="prose prose-lg max-w-none prose-headings:text-slate-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-slate-700 prose-p:my-5 prose-a:text-auditik-blue prose-strong:text-slate-900 prose-ul:my-6 prose-li:my-2">
+                <div className="prose prose-lg max-w-none overflow-x-hidden [overflow-wrap:anywhere] prose-headings:text-slate-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-slate-700 prose-p:my-5 prose-a:text-auditik-blue prose-strong:text-slate-900 prose-ul:my-6 prose-li:my-2 [&_a]:break-words [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto">
                   <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
                 </div>
               ) : (
@@ -312,7 +314,7 @@ export default function ConvenioPartnerPage({
                           partner: partner.slug,
                         })
                       }
-                      className="inline-flex w-full justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors mb-3"
+                      className="mb-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                     >
                       Abrir local no Google Maps
                     </a>
@@ -343,7 +345,7 @@ export default function ConvenioPartnerPage({
                     </p>
                     <Link
                       href={`/convenios/${relatedPartner.slug}`}
-                      className="text-auditik-blue hover:text-auditik-dark-blue font-bold"
+                      className="inline-flex min-h-11 items-center px-2 text-auditik-blue hover:text-auditik-dark-blue font-bold"
                     >
                       Ver benefício →
                     </Link>

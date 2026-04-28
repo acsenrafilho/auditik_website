@@ -223,7 +223,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                 Filtre por cidade, área de atuação, tipo de benefício e perfil para
                 descobrir onde você pode aproveitar vantagens imediatas.
               </p>
-              <div className="grid gap-4 sm:grid-cols-[1fr_auto] max-w-2xl">
+              <div className="grid gap-4 md:grid-cols-[1fr_auto] max-w-2xl">
                 <label className="block">
                   <span className="sr-only">Pesquisar parceiros</span>
                   <div className="relative">
@@ -259,7 +259,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                     setSelectedProfile(ALL_VALUE);
                     syncFilters("", ALL_VALUE, ALL_VALUE, ALL_VALUE, ALL_VALUE);
                   }}
-                  className={`rounded-full px-6 py-4 font-bold transition-colors ${
+                  className={`inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 font-bold transition-colors ${
                     hasActiveFilters
                       ? "bg-slate-900 text-white hover:bg-slate-800"
                       : "bg-white/60 text-slate-400 cursor-default"
@@ -489,7 +489,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                                     partner: partner.slug,
                                   })
                                 }
-                                className="ml-2 text-auditik-blue hover:text-auditik-dark-blue font-semibold"
+                                className="ml-2 inline-flex min-h-11 items-center px-2 text-auditik-blue hover:text-auditik-dark-blue font-semibold"
                               >
                                 Ver no mapa
                               </a>
@@ -535,7 +535,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
                                   partner: partner.slug,
                                 })
                               }
-                              className="inline-flex w-full justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                              className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                             >
                               Abrir rota no Google Maps
                             </a>

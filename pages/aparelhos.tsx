@@ -555,7 +555,7 @@ export default function AparelhosPage() {
                       model: item.name,
                     });
                   }}
-                  className={`rounded-3xl border p-3 text-left transition-all ${
+                  className={`min-h-11 rounded-3xl border p-3 text-left transition-all ${
                     index === activeAasiIndex
                       ? "border-auditik-blue bg-bg-light-blue"
                       : "border-gray-100 bg-white hover:border-auditik-blue/40"
@@ -600,7 +600,7 @@ export default function AparelhosPage() {
                       tab,
                     });
                   }}
-                  className={`px-5 py-2.5 rounded-full text-sm font-bold transition-colors ${
+                  className={`inline-flex min-h-11 items-center px-5 py-3 rounded-full text-sm font-bold transition-colors ${
                     accessoryTab === tab
                       ? "bg-auditik-blue text-white"
                       : "bg-white text-slate-600 hover:bg-slate-100"
@@ -763,7 +763,7 @@ export default function AparelhosPage() {
                     section: "final_cta",
                   })
                 }
-                className="bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-4 px-8 rounded-full transition-colors"
+                className="inline-flex min-h-11 w-full sm:w-auto items-center justify-center bg-auditik-yellow hover:bg-yellow-400 text-slate-900 font-bold py-3 px-6 sm:px-8 rounded-full transition-colors"
               >
                 Agendar minha avaliação
               </Link>
@@ -772,7 +772,7 @@ export default function AparelhosPage() {
                 leadSource="Website Aparelhos Auditivos"
                 trackingParams={{ section: "final_cta" }}
                 whatsappMessage="Olá Auditik, quero testar os aparelhos Philips HearLink."
-                className="bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full border border-white/30 transition-colors"
+                className="inline-flex min-h-11 w-full sm:w-auto items-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-6 sm:px-8 rounded-full border border-white/30 transition-colors"
               >
                 Falar com especialista
               </WhatsAppLeadButton>
