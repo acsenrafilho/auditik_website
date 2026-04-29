@@ -149,7 +149,7 @@ export default function BlogPostPage({
 
         <section className="py-16 md:py-20 bg-white">
           <div className="container-wide grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
-            <article className="prose prose-lg max-w-none overflow-x-hidden [overflow-wrap:anywhere] prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-auditik-blue prose-strong:text-slate-900 [&_a]:break-words [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto">
+            <article className="prose prose-lg markdown-content">
               <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
             </article>
 

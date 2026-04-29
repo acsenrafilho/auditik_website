@@ -1,0 +1,46 @@
+---
+title: OTORRINO E FONOAUDIÓLOGO NA SAÚDE AUDITIVA
+source: https://sonoritaaparelhosauditivos.com.br/o-papel-do-otorrino-e-do-fonoaudiologo-na-saude-auditiva
+---
+
+# OTORRINO E FONOAUDIÓLOGO NA SAÚDE AUDITIVA
+
+### OTORRINO E FONOAUDIÓLOGO NA SAÚDE AUDITIVA
+
+Qual é o papel do otorrino e do fonoaudiólogo na saúde auditiva? Quando começamos a ter queixas como, por exemplo: não escutar bem; dificuldade para compreender o que está sendo dito; falar ao telefone passou a ser um desafio; os familiares estão reclamando que a TV ou o rádio  estão muito altos; devemos acender o sinal de alerta. Provavelmente, a nossa audição não é mais a mesma. O que fazer?
+
+#### Exames para o diagnóstico da perda auditiva
+
+Primeiramente você deve marcar uma consulta com um otorrinolaringologista, que é o médico especialista em cuidar da saúde auditiva. Ele irá realizar uma avaliação e solicitar vários exames para o diagnóstico da perda auditiva. Entre os exames pedidos pelo otorrino estão a [audiometria](https://sonoritaaparelhosauditivos.com.br/audiometria/), a [imitanciometria](https://sonoritaaparelhosauditivos.com.br/imitanciometria-ou-impedanciometria-teste-de-audicao/), [o BERA](https://sonoritaaparelhosauditivos.com.br/bera-indicado-para-pacientes-que-nao-conseguem-responder-a-audiometria/) e o teste vestibular. Todos eles realizados por um fonoaudiólogo.
+
+De posse do resultado dos exames e confirmada a [perda auditiva](https://sonoritaaparelhosauditivos.com.br/entenda-os-tipos-de-perda-auditiva/) o médico definirá o melhor tratamento.  Muitas vezes é indicado o uso do aparelho auditivo. Portanto, preste bastante atenção: somente o médico pode indicar o uso do aparelho auditivo.
+
+#### Aparelho mais adequado ao seu tipo e grau de perda auditiva
+
+Vencida essa etapa, vem a seguinte: a escolha do melhor aparelho que se adeque ao seu [tipo e grau de perda auditiva](https://sonoritaaparelhosauditivos.com.br/causas-mais-comuns-de-perda-auditiva/), assim como à sua vida social e características individuais. Nesse momento entra em ação o fonoaudiólogo, ele é o profissional responsável e capacitado para realizar a escolha e adaptação do seu aparelho auditivo.
+
+#### Adaptação e teste de aparelhos auditivos
+
+Realizada a escolha, inicia-se o período de adaptação, que começa com o teste da prótese auditiva. É fundamental você [testar o aparelho auditivo antes de comprá-lo](https://sonoritaaparelhosauditivos.com.br/eu-posso-experimentar-os-aparelhos-auditivos-antes-de-compra-los/), avaliar o que está sendo bom, os benefícios de voltar a ouvir sem esforço e atentar-se para o que precisa ser melhorado.  Pois, inicialmente é realizada uma primeira regulagem e, em seguida, ajustes menores e mais precisos à medida que necessário. O período de adaptação ao uso de um aparelho auditivo varia portanto de pessoa para pessoa. Fatores como, por exemplo, o tempo em que demorou para iniciar o uso, tecnologia do aparelho entre outros interferem diretamente na adaptação.
+
+Com certeza, paciência e persistência são fundamentais nesse período. O fundamental é ter a certeza de que com o tempo o novo mundo sonoro vai se tornando cada vez mais natural e você nem irá perceber que está usando aparelhos auditivos. E, o mais importante, a compreensão da fala tende a ficar mais fácil, exigindo menos esforço para compreender o que as pessoas estão dizendo. As funções cognitivas têm uma melhora de um modo geral, trazendo significativa evolução na qualidade de vida.
+
+Caso você ou algum familiar tenha alguma queixa auditiva, procure um médico otorrinolaringologista para uma avaliação adequada e definição do melhor tratamento. Lembre-se: a prevenção e o tratamento precoce continuam sendo os melhores aliados da sua saúde auditiva.
+
+### [SONORITÀ](https://sonoritaaparelhosauditivos.com.br/a-sonorita/)
+
+Na [SONORITÀ](https://sonoritaaparelhosauditivos.com.br/a-sonorita/) você pode testar os aparelhos antes de comprar e constatar os [benefícios](https://sonoritaaparelhosauditivos.com.br/beneficios-do-uso-de-aparelhos-auditivos/) que eles oferecem, melhorando sobretudo a sua [qualidade de vida](https://sonoritaaparelhosauditivos.com.br/qualidade-de-vida-com-o-uso-do-aparelho-auditivo/). Tudo isso sem custo algum. Perseguimos a sua melhor experiência auditiva com muita dedicação. [Os melhores aparelhos de audição](https://sonoritaaparelhosauditivos.com.br/linha-de-aparelhos-auditivos/), ótima adaptação, [programa de acompanhamento](https://sonoritaaparelhosauditivos.com.br/a-importancia-de-um-bom-programa-de-acompanhamento/) e atendimento diferenciado você encontra aqui! Um centro auditivo diferenciado, a sua [loja de aparelhos auditivos em BH!](https://sonoritaaparelhosauditivos.com.br/a-sonorita/)
+
+*Tatiana Guedes Santólia Martini**Fonoaudióloga – CRFa: 6-3289**e-mail:* [tatiana@sonoritaaparelhosauditivos.com.br](mailto:tatiana@sonoritaaparelhosauditivos.com.br)
+
+### 
+
+### [Sonorità Aparelhos Auditivos](https://sonoritaaparelhosauditivos.com.br/a-sonorita/)
+
+A [SONORITÀ aparelhos auditivos](https://sonoritaaparelhosauditivos.com.br/a-sonorita/) é um centro auditivo planejado e gestado com foco na melhor experiência auditiva dos nossos clientes.
+
+Qualidade no atendimento e liberdade de escolha entre [marcas reconhecidas mundialmente](https://sonoritaaparelhosauditivos.com.br/linha-de-aparelhos-auditivos/). Um atendimento diferenciado que respeita sobretudo suas necessidades individuais e que vai te proporcionar inclusão e qualidade de audição e de vida, nossa missão.
+
+**[Loja de aparelhos auditivos em BH](https://api.whatsapp.com/send?phone=5531998721006) |[Loja Especializada Aparelhos Auditivos Oticon em BH](https://api.whatsapp.com/send?phone=5531998721006) | [Loja Especializada Coselgi em BH](http://whats.link/sonorita) | [Agende sua avaliação de aparelho auditivo e teste grátis | Teste grátis aparelhos auditivos por até 7 dias | Compre seu aparelho auditivo em até 12x no cartão | Compre seu aparelho auditivo em até 18x no boleto | Compre seu aparelho auditivo em até 60x pelo Crédito](https://api.whatsapp.com/send?phone=5531998721006) [Acessibilidade do Branco do Brasil | Confira nossos preços de aparelhos auditivos e nossas condições de pagamento.](https://api.whatsapp.com/send?phone=5531998721006)**
+
+Com as tags [adaptação](https://sonoritaaparelhosauditivos.com.br/tag/adaptacao), [aparelho auditivo](https://sonoritaaparelhosauditivos.com.br/tag/aparelho-auditivo), [aparelhos auditivos](https://sonoritaaparelhosauditivos.com.br/tag/aparelhos-auditivos), [aparelhos auditivos bh](https://sonoritaaparelhosauditivos.com.br/tag/aparelhos-auditivos-bh), [aparelhos auditivos em BH](https://sonoritaaparelhosauditivos.com.br/tag/aparelhos-auditivos-em-bh), [audiometria](https://sonoritaaparelhosauditivos.com.br/tag/audiometria), [benefícios do uso de aparelhos auditivos](https://sonoritaaparelhosauditivos.com.br/tag/beneficios-do-uso-de-aparelhos-auditivos), [BERA](https://sonoritaaparelhosauditivos.com.br/tag/bera), [Coselgi](https://sonoritaaparelhosauditivos.com.br/tag/coselgi), [COSELGI EM BH](https://sonoritaaparelhosauditivos.com.br/tag/coselgi-em-bh), [distribuidor autorizado Oticon](https://sonoritaaparelhosauditivos.com.br/tag/distribuidor-autorizado-oticon), [Exames para o diagnóstico da perda auditiva](https://sonoritaaparelhosauditivos.com.br/tag/exames-para-o-diagnostico-da-perda-auditiva), [fono](https://sonoritaaparelhosauditivos.com.br/tag/fono), [fonoaudiólogo](https://sonoritaaparelhosauditivos.com.br/tag/fonoaudiologo), [imitanciometria](https://sonoritaaparelhosauditivos.com.br/tag/imitanciometria), [indicação de uso](https://sonoritaaparelhosauditivos.com.br/tag/indicacao-de-uso), [OTICON](https://sonoritaaparelhosauditivos.com.br/tag/oticon), [Oticon em Bh](https://sonoritaaparelhosauditivos.com.br/tag/oticon-em-bh), [Oticon em BH é na SONORITÀ](https://sonoritaaparelhosauditivos.com.br/tag/oticon-em-bh-e-na-sonorita), [otorrino](https://sonoritaaparelhosauditivos.com.br/tag/otorrino), [OTORRINO E FONOAUDIÓLOGO NA SAÚDE AUDITIVA](https://sonoritaaparelhosauditivos.com.br/tag/otorrino-e-fonoaudiologo-na-saude-auditiva), [perda auditiva](https://sonoritaaparelhosauditivos.com.br/tag/perda-auditiva), [perda de audição](https://sonoritaaparelhosauditivos.com.br/tag/perda-de-audicao), [problema auditivo](https://sonoritaaparelhosauditivos.com.br/tag/problema-auditivo), [prótese auditiva](https://sonoritaaparelhosauditivos.com.br/tag/protese-auditiva), [qualidade de vida](https://sonoritaaparelhosauditivos.com.br/tag/qualidade-de-vida), [saúde auditiva](https://sonoritaaparelhosauditivos.com.br/tag/saude-auditiva), [SONORITÀ Aparelhos Auditivos](https://sonoritaaparelhosauditivos.com.br/tag/sonorita-aparelhos-auditivos), [teste vestibular](https://sonoritaaparelhosauditivos.com.br/tag/teste-vestibular), [tipo e grau de perda auditiva](https://sonoritaaparelhosauditivos.com.br/tag/tipo-e-grau-de-perda-auditiva), [venda de aparelhos auditivos](https://sonoritaaparelhosauditivos.com.br/tag/venda-de-aparelhos-auditivos), [venda de aparelhos auditivos bh](https://sonoritaaparelhosauditivos.com.br/tag/venda-de-aparelhos-auditivos-bh), [zumbido](https://sonoritaaparelhosauditivos.com.br/tag/zumbido)

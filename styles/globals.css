@@ -102,3 +102,81 @@ button:active {
 .cta-button-secondary {
   @apply cta-button bg-auditik-blue hover:bg-auditik-dark-blue text-white;
 }
+
+/* Rich markdown rendering - use with prose prose-lg in HTML */
+@layer components {
+  .markdown-content {
+    @apply max-w-none overflow-x-hidden;
+    overflow-wrap: anywhere;
+  }
+
+  .markdown-content h1,
+  .markdown-content h2,
+  .markdown-content h3,
+  .markdown-content h4,
+  .markdown-content h5,
+  .markdown-content h6 {
+    @apply text-slate-900 font-extrabold tracking-tight;
+  }
+
+  .markdown-content h2 {
+    @apply mt-12 mb-5;
+  }
+
+  .markdown-content h3 {
+    @apply mt-10 mb-4;
+  }
+
+  .markdown-content h4 {
+    @apply mt-8 mb-3;
+  }
+
+  .markdown-content p {
+    @apply my-6 leading-8 text-slate-700;
+  }
+
+  .markdown-content a {
+    @apply text-auditik-blue font-semibold break-words;
+  }
+
+  .markdown-content strong {
+    @apply text-slate-900;
+  }
+
+  .markdown-content ul,
+  .markdown-content ol {
+    @apply my-6;
+  }
+
+  .markdown-content li {
+    @apply my-2;
+  }
+
+  .markdown-content blockquote {
+    @apply my-8 border-l-4 border-auditik-blue/30 pl-5 text-slate-700;
+  }
+
+  .markdown-content hr {
+    @apply my-10;
+  }
+
+  .markdown-content table {
+    @apply my-8 block max-w-full overflow-x-auto;
+  }
+
+  .markdown-content th {
+    @apply text-slate-900;
+  }
+
+  .markdown-content td {
+    vertical-align: top;
+  }
+
+  .markdown-content img {
+    @apply my-8 h-auto max-w-full;
+  }
+
+  .markdown-content pre {
+    @apply my-8 max-w-full overflow-x-auto;
+  }
+}

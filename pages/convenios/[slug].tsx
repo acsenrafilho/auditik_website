@@ -268,7 +268,7 @@ export default function ConvenioPartnerPage({
               )}
 
               {contentHtml ? (
-                <div className="prose prose-lg max-w-none overflow-x-hidden [overflow-wrap:anywhere] prose-headings:text-slate-900 prose-headings:mt-8 prose-headings:mb-4 prose-p:text-slate-700 prose-p:my-5 prose-a:text-auditik-blue prose-strong:text-slate-900 prose-ul:my-6 prose-li:my-2 [&_a]:break-words [&_img]:h-auto [&_img]:max-w-full [&_pre]:max-w-full [&_pre]:overflow-x-auto [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto">
+                <div className="prose prose-lg markdown-content">
                   <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
                 </div>
               ) : (

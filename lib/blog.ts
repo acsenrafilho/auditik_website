@@ -150,7 +150,7 @@ function getPrimaryTopic(topics: string[], fallbackCategory?: unknown): string {
 }
 
 function buildBlogPost(fileName: string, fileContents: string): BlogPost {
-  const slug = fileName.replace(/\.mdx?$/, "").replace(/^\./, "");
+  const fileSlug = fileName.replace(/\.mdx?$/, "").replace(/^\./, "");
   const { data, content } = matter(fileContents);
   const topics = normalizeTopics(data.topics ?? data.topic ?? data.category);
   const primaryTopic = getPrimaryTopic(topics, data.category);
@@ -163,7 +163,7 @@ function buildBlogPost(fileName: string, fileContents: string): BlogPost {
   const normalizedContent = content.trim();
 
   return {
-    slug,
+    slug: fileSlug,
     title:
       typeof data.title === "string" && data.title.trim() ? data.title : "Untitled",
     description,
@@ -196,6 +196,46 @@ function buildBlogPost(fileName: string, fileContents: string): BlogPost {
   };
 }
 
+function createUniqueTitleSlugs(posts: BlogPost[]): BlogPost[] {
+  const slugCounts = new Map<string, number>();
+
+  // Build unique slugs from title, adding "-2", "-3", ... on collisions.
+  return posts.map((post) => {
+    const baseSlug = normalizeText(post.title) || "artigo";
+    const currentCount = slugCounts.get(baseSlug) ?? 0;
+    const nextCount = currentCount + 1;
+    slugCounts.set(baseSlug, nextCount);
+
+    return {
+      ...post,
+      slug: nextCount === 1 ? baseSlug : `${baseSlug}-${nextCount}`,
+    };
+  });
+}
+
+function loadAllBlogPostsWithSeoSlugs(): BlogPost[] {
+  const allPostsData = getMarkdownFiles().map((fileName) => {
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+    return buildBlogPost(fileName, fileContents);
+  });
+
+  const slugAssignmentOrder = [...allPostsData].sort((a, b) => {
+    const dateCompare = new Date(a.date).getTime() - new Date(b.date).getTime();
+    if (dateCompare !== 0) {
+      return dateCompare;
+    }
+
+    return a.slug.localeCompare(b.slug);
+  });
+
+  const postsWithSeoSlugs = createUniqueTitleSlugs(slugAssignmentOrder);
+
+  return postsWithSeoSlugs.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+  );
+}
+
 function getMarkdownFiles(): string[] {
   if (!fs.existsSync(postsDirectory)) {
     return [];
@@ -211,45 +251,22 @@ function getMarkdownFiles(): string[] {
  * Get all blog posts, sorted by date (newest first)
  */
 export function getAllBlogPosts(): BlogPost[] {
-  const allPostsData = getMarkdownFiles().map((fileName) => {
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    return buildBlogPost(fileName, fileContents);
-  });
-
-  return allPostsData.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  return loadAllBlogPostsWithSeoSlugs();
 }
 
 /**
  * Get a single blog post by slug
  */
 export function getBlogPostBySlug(slug: string): BlogPost | null {
-  if (!fs.existsSync(postsDirectory)) {
-    return null;
-  }
-
-  const fileName = getMarkdownFiles().find(
-    (entry) => entry.replace(/\.mdx?$/, "") === slug,
-  );
-
-  if (!fileName) {
-    return null;
-  }
-
-  const fullPath = path.join(postsDirectory, fileName);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  return buildBlogPost(fileName, fileContents);
+  const post = loadAllBlogPostsWithSeoSlugs().find((entry) => entry.slug === slug);
+  return post ?? null;
 }
 
 /**
  * Get all post slugs (for static generation)
  */
 export function getAllBlogSlugs(): string[] {
-  return getMarkdownFiles()
-    .map((fileName) => fileName.replace(/\.mdx?$/, ""))
-    .filter((slug) => slug !== "template");
+  return loadAllBlogPostsWithSeoSlugs().map((post) => post.slug);
 }
 
 /**
