@@ -8,7 +8,7 @@ topics:
   - "saude-e-bem-estar"
   - "tecnologia-auditiva"
 featured: false
-featuredImage: "/images/auditik/blog/post-001.png"
+featuredImage: "/images/auditik/blog/post-001.jpg"
 ---
 
 ## Entendendo a Perda Auditiva: Um Olhar Detalhado
