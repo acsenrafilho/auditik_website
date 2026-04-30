@@ -181,7 +181,7 @@ function buildConvenioPartner(fileName: string, fileContents: string): ConvenioP
     typeof data.benefitSummary === "string" && data.benefitSummary.trim()
       ? data.benefitSummary.trim()
       : description;
-  const gallery = normalizeUrlList(data.gallery).slice(0, 5);
+  const gallery = normalizeUrlList(data.gallery).slice(0, 4);
   const normalizedContent = content.trim();
 
   const searchText = normalizeSearchText(
@@ -269,7 +269,7 @@ export function normalizeConvenioSearchValue(value: string): string {
 
 export async function getConvenioGalleryFromMaps(
   googleMapsUrl: string,
-  maxImages = 5,
+  maxImages = 4,
 ): Promise<string[]> {
   if (!googleMapsUrl) {
     return [];

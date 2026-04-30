@@ -281,7 +281,7 @@ export default function Home() {
               <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-8">
                 Philips HearLink:{" "}
                 <span className="text-auditik-blue">Sinta cada detalhe</span> da vida em
-                até 21x.
+                até 21x sem juros.
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed">
                 Desenvolvemos uma experiência auditiva completa, unindo a inteligência

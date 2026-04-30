@@ -5,9 +5,9 @@ author: "Equipe Auditik"
 date: "2026-04-29"
 topics:
   - "perda-auditiva"
-  - "saude-e-bem-estar"
-  - "tecnologia-auditiva"
-featured: false
+  - "depoimentos-qualidade-de-vida"
+  - "tecnologia-conectividade"
+featured: true
 featuredImage: "/images/auditik/blog/post-001.jpg"
 ---
 

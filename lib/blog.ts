@@ -30,6 +30,18 @@ export const BLOG_TOPICS = [
 
 export type BlogTopicValue = (typeof BLOG_TOPICS)[number]["value"];
 
+const BLOG_TOPIC_ALIASES: Record<string, BlogTopicValue> = {
+  "tecnologia-auditiva": "tecnologia-conectividade",
+  "adaptacao-auditiva": "adaptacao-manutencao",
+  "aparelhos-auditivos": "aparelhos-philips-hearlink",
+  "diagnostico-e-prevencao": "diagnostico-avaliacao",
+  "manutencao-e-cuidados": "adaptacao-manutencao",
+  "guia-do-usuario": "duvidas-frequentes",
+  "tratamento-auditivo": "convenios-acesso",
+  "zumbido-no-ouvido": "perda-auditiva",
+  "saude-e-bem-estar": "depoimentos-qualidade-de-vida",
+};
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -75,9 +87,11 @@ function toTitleCase(value: string): string {
 
 function getTopicMatch(value: string): BlogTopicOption | undefined {
   const normalized = normalizeText(value);
+  const canonicalTopic = BLOG_TOPIC_ALIASES[normalized] ?? normalized;
 
   return BLOG_TOPICS.find(
-    (topic) => topic.value === normalized || normalizeText(topic.label) === normalized,
+    (topic) =>
+      topic.value === canonicalTopic || normalizeText(topic.label) === canonicalTopic,
   );
 }
 
@@ -100,7 +114,8 @@ function normalizeTopics(value: unknown): string[] {
     .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
     .filter(Boolean)
     .map((entry) => {
-      const matchedTopic = getTopicMatch(entry);
+      const aliasNormalized = BLOG_TOPIC_ALIASES[normalizeText(entry)] ?? entry;
+      const matchedTopic = getTopicMatch(aliasNormalized);
       return matchedTopic ? matchedTopic.value : normalizeText(entry);
     });
 

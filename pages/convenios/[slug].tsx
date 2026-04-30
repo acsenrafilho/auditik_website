@@ -2,7 +2,6 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
 import type { GetStaticPaths, GetStaticProps } from "next";
 
 import { Header } from "@components/Header";
@@ -81,8 +80,6 @@ export default function ConvenioPartnerPage({
   relatedPartners,
   photoGallery,
 }: ConvenioPartnerPageProps) {
-  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
-
   if (!partner) {
     return (
       <main className="page-section">
@@ -215,55 +212,23 @@ export default function ConvenioPartnerPage({
                     <h3 className="text-lg font-extrabold text-slate-900">
                       Fotos do parceiro
                     </h3>
-                    <p className="text-sm text-slate-500">
-                      {activePhotoIndex + 1} de {photoGallery.length}
-                    </p>
                   </div>
-
-                  <div className="relative rounded-2xl overflow-hidden bg-white border border-slate-100 mb-4">
-                    <div className="relative aspect-[16/10]">
-                      <Image
-                        src={photoGallery[activePhotoIndex]}
-                        alt={`${partner.name} - foto ${activePhotoIndex + 1}`}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 760px"
-                      />
-                    </div>
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
+                    {photoGallery.map((photoUrl, index) => (
+                      <div
+                        key={`${partner.slug}-photo-${photoUrl}-${index}`}
+                        className="relative aspect-square overflow-hidden rounded-2xl border border-slate-100 bg-white"
+                      >
+                        <Image
+                          src={photoUrl}
+                          alt={`${partner.name} - foto ${index + 1}`}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 50vw, 260px"
+                        />
+                      </div>
+                    ))}
                   </div>
-
-                  {photoGallery.length > 1 && (
-                    <div className="flex items-center justify-between gap-3">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setActivePhotoIndex(
-                            activePhotoIndex === 0
-                              ? photoGallery.length - 1
-                              : activePhotoIndex - 1,
-                          )
-                        }
-                        aria-label="Foto anterior"
-                        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-white transition-colors"
-                      >
-                        ← Anterior
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setActivePhotoIndex(
-                            activePhotoIndex === photoGallery.length - 1
-                              ? 0
-                              : activePhotoIndex + 1,
-                          )
-                        }
-                        aria-label="Próxima foto"
-                        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-white transition-colors"
-                      >
-                        Próxima →
-                      </button>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -398,12 +363,12 @@ export const getStaticProps: GetStaticProps<ConvenioPartnerPageProps> = async ({
 
     const extractedMapsGallery = await getConvenioGalleryFromMaps(
       partner.googleMapsUrl,
-      5,
+      4,
     );
     const photoGallery =
       extractedMapsGallery.length > 0
         ? extractedMapsGallery
-        : partner.gallery.slice(0, 5);
+        : partner.gallery.slice(0, 4);
 
     const relatedPartners = allPartners
       .filter((candidate) => candidate.slug !== slug)

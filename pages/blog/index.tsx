@@ -2,7 +2,7 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import type { GetStaticProps } from "next";
 
@@ -11,6 +11,9 @@ import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import type { BlogPost, BlogTopicOption } from "@lib/blog";
+
+const POSTS_PER_PAGE = 10;
+const FEATURED_CAROUSEL_ID = "featured-posts-carousel";
 
 const getAllBlogPosts = async () => {
   const { getAllBlogPosts: loadAllBlogPosts } = await import("@lib/blog");
@@ -44,6 +47,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -53,32 +57,44 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
     const querySearch = typeof router.query.q === "string" ? router.query.q : "";
     const queryTopic =
       typeof router.query.topic === "string" ? router.query.topic : "all";
+    const queryPageRaw =
+      typeof router.query.page === "string" ? Number.parseInt(router.query.page, 10) : 1;
+    const queryPage =
+      Number.isFinite(queryPageRaw) && queryPageRaw > 0 ? queryPageRaw : 1;
     const topicExists = topics.some((topic) => topic.value === queryTopic);
 
     setSearchTerm(querySearch);
     setSelectedTopic(topicExists ? queryTopic : "all");
-  }, [router.isReady, router.query.q, router.query.topic, topics]);
+    setCurrentPage(queryPage);
+  }, [router.isReady, router.query.q, router.query.topic, router.query.page, topics]);
 
-  const syncFilters = (nextSearch: string, nextTopic: string) => {
-    if (!router.isReady) {
-      return;
-    }
+  const syncFilters = useCallback(
+    (nextSearch: string, nextTopic: string, nextPage = 1) => {
+      if (!router.isReady) {
+        return;
+      }
 
-    const query: Record<string, string> = {};
+      const query: Record<string, string> = {};
 
-    if (nextSearch.trim()) {
-      query.q = nextSearch.trim();
-    }
+      if (nextSearch.trim()) {
+        query.q = nextSearch.trim();
+      }
 
-    if (nextTopic !== "all") {
-      query.topic = nextTopic;
-    }
+      if (nextTopic !== "all") {
+        query.topic = nextTopic;
+      }
 
-    void router.replace({ pathname: router.pathname, query }, undefined, {
-      shallow: true,
-      scroll: false,
-    });
-  };
+      if (nextPage > 1) {
+        query.page = String(nextPage);
+      }
+
+      void router.replace({ pathname: router.pathname, query }, undefined, {
+        shallow: true,
+        scroll: false,
+      });
+    },
+    [router],
+  );
 
   const filteredPosts = useMemo(() => {
     const normalizedSearch = normalizeSearchValue(searchTerm);
@@ -94,13 +110,43 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
   }, [posts, searchTerm, selectedTopic]);
 
   const topicStats = useMemo(
-    () =>
-      topics.map((topic) => ({
-        ...topic,
-        count: posts.filter((post) => post.topics.includes(topic.value)).length,
-      })),
+    () => {
+      return topics
+        .map((topic) => ({
+          ...topic,
+          count: posts.filter((post) => post.topics.includes(topic.value)).length,
+        }))
+        .filter((topic) => topic.count > 0);
+    },
     [posts, topics],
   );
+
+  const featuredPosts = useMemo(
+    () => posts.filter((post) => post.featured),
+    [posts],
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE));
+  const visiblePage = Math.min(currentPage, totalPages);
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (visiblePage - 1) * POSTS_PER_PAGE;
+    return filteredPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
+  }, [filteredPosts, visiblePage]);
+
+  useEffect(() => {
+    if (visiblePage === currentPage) {
+      return;
+    }
+
+    setCurrentPage(visiblePage);
+    syncFilters(searchTerm, selectedTopic, visiblePage);
+  }, [currentPage, visiblePage, searchTerm, selectedTopic, syncFilters]);
+
+  const changePage = (nextPage: number) => {
+    const boundedPage = Math.min(Math.max(nextPage, 1), totalPages);
+    setCurrentPage(boundedPage);
+    syncFilters(searchTerm, selectedTopic, boundedPage);
+  };
 
   const seo = getSEOMeta({
     title: "Blog - Auditik",
@@ -162,7 +208,8 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                       onChange={(event) => {
                         const nextSearch = event.target.value;
                         setSearchTerm(nextSearch);
-                        syncFilters(nextSearch, selectedTopic);
+                        setCurrentPage(1);
+                        syncFilters(nextSearch, selectedTopic, 1);
                       }}
                       placeholder="Pesquisar por tema, palavra-chave ou autor"
                       className="w-full rounded-full border border-white/70 bg-white/90 py-4 pl-14 pr-5 text-slate-900 shadow-xl shadow-slate-900/5 outline-none transition focus:border-auditik-blue focus:bg-white"
@@ -174,7 +221,8 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                   onClick={() => {
                     setSearchTerm("");
                     setSelectedTopic("all");
-                    syncFilters("", "all");
+                    setCurrentPage(1);
+                    syncFilters("", "all", 1);
                   }}
                   className={`inline-flex min-h-11 items-center justify-center rounded-full px-6 py-3 font-bold transition-colors ${
                     hasActiveFilters
@@ -231,7 +279,8 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                 type="button"
                 onClick={() => {
                   setSelectedTopic("all");
-                  syncFilters(searchTerm, "all");
+                  setCurrentPage(1);
+                  syncFilters(searchTerm, "all", 1);
                 }}
                 className={`inline-flex min-h-11 items-center rounded-full px-4 py-3 text-sm font-bold transition-colors ${
                   selectedTopic === "all"
@@ -247,7 +296,8 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                   type="button"
                   onClick={() => {
                     setSelectedTopic(topic.value);
-                    syncFilters(searchTerm, topic.value);
+                    setCurrentPage(1);
+                    syncFilters(searchTerm, topic.value, 1);
                     trackButtonClick("blog_topic_filter", {
                       section: "blog_index",
                       topic: topic.value,
@@ -266,11 +316,91 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
           </div>
         </section>
 
+        {featuredPosts.length > 0 && (
+          <section className="py-10 bg-white border-b border-slate-100">
+            <div className="container-wide">
+              <div className="flex items-center justify-between gap-4 mb-6">
+                <h2 className="text-xl md:text-2xl font-extrabold text-slate-900">
+                  Artigos em destaque
+                </h2>
+                {featuredPosts.length > 1 && (
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const container = document.getElementById(FEATURED_CAROUSEL_ID);
+                        container?.scrollBy({ left: -360, behavior: "smooth" });
+                      }}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
+                      aria-label="Ver destaques anteriores"
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const container = document.getElementById(FEATURED_CAROUSEL_ID);
+                        container?.scrollBy({ left: 360, behavior: "smooth" });
+                      }}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 hover:bg-slate-100 transition-colors"
+                      aria-label="Ver próximos destaques"
+                    >
+                      →
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div
+                id={FEATURED_CAROUSEL_ID}
+                className="flex gap-5 overflow-x-auto pb-3 snap-x snap-mandatory scroll-smooth"
+              >
+                {featuredPosts.map((post) => (
+                  <article
+                    key={`featured-${post.slug}`}
+                    className="min-w-[290px] max-w-[340px] flex-1 snap-start rounded-[1.75rem] border border-slate-100 bg-white shadow-md shadow-slate-900/5 overflow-hidden"
+                  >
+                    {post.featuredImage ? (
+                      <div className="relative h-44 bg-slate-100">
+                        <Image
+                          src={post.featuredImage}
+                          alt={post.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 85vw, 340px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-44 bg-gradient-to-br from-auditik-blue/10 to-auditik-yellow/20" />
+                    )}
+                    <div className="p-6">
+                      <span className="inline-flex rounded-full bg-auditik-blue/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-auditik-blue mb-4">
+                        Destaque
+                      </span>
+                      <h3 className="text-lg font-extrabold text-slate-900 mb-2 line-clamp-2">
+                        {post.title}
+                      </h3>
+                      <p className="text-sm text-slate-600 mb-5 line-clamp-3">
+                        {post.excerpt}
+                      </p>
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="inline-flex min-h-11 items-center font-bold text-auditik-blue hover:text-auditik-dark-blue transition-colors"
+                      >
+                        Ler destaque →
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="py-16 bg-bg-light-blue">
           <div className="container-wide">
             {filteredPosts.length > 0 ? (
               <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-                {filteredPosts.map((post) => (
+                {paginatedPosts.map((post) => (
                   <article
                     key={post.slug}
                     className="bg-white rounded-[2rem] overflow-hidden border border-white shadow-lg shadow-slate-900/5 transition-transform hover:-translate-y-1"
@@ -343,13 +473,53 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                   onClick={() => {
                     setSearchTerm("");
                     setSelectedTopic("all");
-                    syncFilters("", "all");
+                    setCurrentPage(1);
+                    syncFilters("", "all", 1);
                   }}
                   className="cta-button-primary"
                 >
                   Limpar filtros
                 </button>
               </div>
+            )}
+
+            {filteredPosts.length > 0 && totalPages > 1 && (
+              <nav
+                className="mt-10 flex flex-wrap items-center justify-center gap-2"
+                aria-label="Paginação dos artigos"
+              >
+                <button
+                  type="button"
+                  onClick={() => changePage(visiblePage - 1)}
+                  disabled={visiblePage === 1}
+                  className="inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-bold bg-white text-slate-700 border border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 transition-colors"
+                >
+                  Anterior
+                </button>
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => changePage(page)}
+                    className={`inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-sm font-bold transition-colors ${
+                      page === visiblePage
+                        ? "bg-auditik-blue text-white"
+                        : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-100"
+                    }`}
+                    aria-current={page === visiblePage ? "page" : undefined}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => changePage(visiblePage + 1)}
+                  disabled={visiblePage === totalPages}
+                  className="inline-flex min-h-11 items-center rounded-full px-4 py-2 text-sm font-bold bg-white text-slate-700 border border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100 transition-colors"
+                >
+                  Próxima
+                </button>
+              </nav>
             )}
 
             <section className="mt-20 bg-auditik-blue text-white rounded-[3rem] overflow-hidden relative">
