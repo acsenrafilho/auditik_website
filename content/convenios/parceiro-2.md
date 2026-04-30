@@ -16,6 +16,9 @@ benefitTypes:
 clientProfiles:
   - publico-geral
 benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+gallery:
+  - "https://exemplo.com/imagem-1-quadrada.jpg"
+  - "https://exemplo.com/imagem-2-quadrada.jpg"
 ---
 
 ## Como obter o benefício
