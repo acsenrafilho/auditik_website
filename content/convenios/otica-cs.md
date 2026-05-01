@@ -1,12 +1,12 @@
 ---
-name: "Nome do Parceiro"
-slug: "nome-do-parceiro"
-description: "Resumo curto do parceiro para a listagem."
-address: "Endereço completo do parceiro"
-phone: "(00) 00000-0000"
-googleMapsUrl: "https://maps.google.com/..."
+name: "Ótica CS"
+slug: "otica-cs"
+description: "Ótica CS é uma ótica com mais de 20 anos de experiência em Piracicaba, oferecendo uma ampla gama de produtos de óculos e lentes de contato."
+address: "R. Gov. Pedro de Toledo, 884 - Centro, Piracicaba - SP, 13400-060"
+phone: "(019) 3422-7184"
+googleMapsUrl: "https://maps.app.goo.gl/pXgXbmiZhk4jsGhFA"
 # logo: caminho público (ex.: /images/auditik/convenios/...) ou vazio ""
-logo: ""
+logo: "/images/auditik/convenios/otica-cs/logo.jpg"
 featured: false
 # cities — cidades (valor exato; um ou mais itens):
 #   piracicaba | americana | santa-barbara-d-oeste | limeira | rio-claro | sao-pedro | aguas-de-sao-pedro | charqueada
@@ -25,23 +25,25 @@ benefitTypes:
 clientProfiles:
   - publico-geral
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+benefitSummary: "R$ 150,00 de desconto em qualquer compra de óculos"
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
-  - "https://exemplo.com/imagem-1-quadrada.jpg"
-  - "/images/auditik/convenios/exemplo/foto-quadrada.jpg"
+  - "/images/auditik/convenios/otica-cs/foto_1.png"
+  - "/images/auditik/convenios/otica-cs/foto_2.png"
+  - "/images/auditik/convenios/otica-cs/foto_3.png"
+  - "/images/auditik/convenios/otica-cs/foto_4.png"
 ---
-
-Use o campo `gallery` com no maximo 4 imagens em formato quadrado para manter o grid visual consistente.
 
 ## Como obter o benefício
 
-Descreva o passo a passo para o cliente Auditik solicitar o benefício.
+Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.
 
 ## Regras e elegibilidade
 
-Informe regras, validade, documentação e limitações relevantes.
+O benefício é válido para todos os clientes Auditik/Philips Aparelhos Auditivos e não possui validade específica.
 
 ## Observações importantes
 
-Inclua qualquer condição comercial que o cliente precisa conhecer antes de solicitar.
+É preciso o agendamento prévio com o parceiro para a utilização do benefício.
+
+Desconto válido apenas para compra de óculos.

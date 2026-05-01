@@ -177,7 +177,7 @@ var config_default = defineConfig({
             list: true,
             name: "gallery",
             label: "Galeria manual (opcional)",
-            description: "URLs de imagens para fallback quando o Google Maps nao disponibilizar fotos automaticamente."
+            description: "Ate 4 imagens: URL https ou caminho do site a partir da pasta public (ex.: /images/auditik/convenios/...). Usado como fallback se o Google Maps nao trouxer fotos."
           },
           {
             type: "boolean",
@@ -193,9 +193,12 @@ var config_default = defineConfig({
             options: [
               { label: "Piracicaba", value: "piracicaba" },
               { label: "Americana", value: "americana" },
-              { label: "Campinas", value: "campinas" },
+              { label: "Santa B\xE1rbara d'Oeste", value: "santa-barbara-d-oeste" },
               { label: "Limeira", value: "limeira" },
-              { label: "Sumar\xE9", value: "sumare" }
+              { label: "Rio Claro", value: "rio-claro" },
+              { label: "S\xE3o Pedro", value: "sao-pedro" },
+              { label: "\xC1guas de S\xE3o Pedro", value: "aguas-de-sao-pedro" },
+              { label: "Charqueada", value: "charqueada" }
             ]
           },
           {

@@ -1,12 +1,12 @@
 ---
-name: "Nome do Parceiro"
-slug: "nome-do-parceiro"
-description: "Resumo curto do parceiro para a listagem."
-address: "Endereço completo do parceiro"
-phone: "(00) 00000-0000"
-googleMapsUrl: "https://maps.google.com/..."
+name: "Solumedi"
+slug: "solumedi-consultas-e-exames"
+description: "Consultas e Exames com Preços Populares em Piracicaba"
+address: "R. Riachuelo, 944 - Centro, Piracicaba - SP, 13400-510"
+phone: "(19) 3375-1000 ou (19) 99802-0150"
+googleMapsUrl: "https://maps.app.goo.gl/aXpWz6CjDuKZtGvU8"
 # logo: caminho público (ex.: /images/auditik/convenios/...) ou vazio ""
-logo: ""
+logo: "/images/auditik/convenios/solumedi/logo.jpeg"
 featured: false
 # cities — cidades (valor exato; um ou mais itens):
 #   piracicaba | americana | santa-barbara-d-oeste | limeira | rio-claro | sao-pedro | aguas-de-sao-pedro | charqueada
@@ -25,23 +25,23 @@ benefitTypes:
 clientProfiles:
   - publico-geral
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
-# gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
-gallery:
-  - "https://exemplo.com/imagem-1-quadrada.jpg"
-  - "/images/auditik/convenios/exemplo/foto-quadrada.jpg"
+benefitSummary: "10% de desconto em consultas e exames da Solumedi."
 ---
 
 Use o campo `gallery` com no maximo 4 imagens em formato quadrado para manter o grid visual consistente.
 
 ## Como obter o benefício
 
-Descreva o passo a passo para o cliente Auditik solicitar o benefício.
+Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.
 
 ## Regras e elegibilidade
 
-Informe regras, validade, documentação e limitações relevantes.
+O benefício é válido para todos os clientes Auditik e não possui validade específica.
 
 ## Observações importantes
 
-Inclua qualquer condição comercial que o cliente precisa conhecer antes de solicitar.
+É preciso se identificar como cliente Auditik ou Philips Aparelhos Auditivos para utilizar o benefício. 
+
+Todas as consultas e exames da Solumedi são elegíveis ao benefício, porém é preciso apresentar a receita médica para o agendamento da consulta.
+
+Todos os exames devem ser previamente agendados pelo telefone ou site da Solumedi.

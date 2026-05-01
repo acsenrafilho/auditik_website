@@ -1,10 +1,10 @@
 ---
-name: "Nome do Parceiro"
-slug: "nome-do-parceiro"
+name: "Pilates Carolina Azzi"
+slug: "pilates-carolina-azzi"
 description: "Resumo curto do parceiro para a listagem."
-address: "Endereço completo do parceiro"
-phone: "(00) 00000-0000"
-googleMapsUrl: "https://maps.google.com/..."
+address: "R. Campos Salles, 1449 - Alemães, Piracicaba - SP, 13416-391"
+phone: "(19) 99176-0990"
+googleMapsUrl: "https://maps.app.goo.gl/DzKdWkF2vDZoWtvT9"
 # logo: caminho público (ex.: /images/auditik/convenios/...) ou vazio ""
 logo: ""
 featured: false
@@ -25,18 +25,18 @@ benefitTypes:
 clientProfiles:
   - publico-geral
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+benefitSummary: "10% desconto na primeira mensalidade"
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
-  - "https://exemplo.com/imagem-1-quadrada.jpg"
-  - "/images/auditik/convenios/exemplo/foto-quadrada.jpg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_1.jpeg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_2.jpeg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_3.jpeg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_4.jpeg"
 ---
-
-Use o campo `gallery` com no maximo 4 imagens em formato quadrado para manter o grid visual consistente.
 
 ## Como obter o benefício
 
-Descreva o passo a passo para o cliente Auditik solicitar o benefício.
+Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.
 
 ## Regras e elegibilidade
 

@@ -1,12 +1,12 @@
 ---
-name: "Nome do Parceiro"
-slug: "nome-do-parceiro"
-description: "Resumo curto do parceiro para a listagem."
-address: "Endereço completo do parceiro"
-phone: "(00) 00000-0000"
-googleMapsUrl: "https://maps.google.com/..."
+name: "TBR Web"
+slug: "tbr-web"
+description: "TBR Web é uma empresa de desenvolvimento de sites e sistemas web empresariais."
+address: "Av. Dr. Paulo de Moraes, 555 - Paulista, Piracicaba - SP, 13400-853"
+phone: "(019) 2105-1000"
+googleMapsUrl: "https://maps.app.goo.gl/b4pKs4U2UiBcsJL16"
 # logo: caminho público (ex.: /images/auditik/convenios/...) ou vazio ""
-logo: ""
+logo: "/images/auditik/convenios/tbr-web/logo.jpg"
 featured: false
 # cities — cidades (valor exato; um ou mais itens):
 #   piracicaba | americana | santa-barbara-d-oeste | limeira | rio-claro | sao-pedro | aguas-de-sao-pedro | charqueada
@@ -15,7 +15,7 @@ cities:
 # areas — área de atuação do parceiro:
 #   saude | tecnologia | servicos-empresariais | alimentacao | servicos-pessoais | educacao | bem-estar
 areas:
-  - saude
+  - servicos-empresariais
 # benefitTypes — tipo de benefício oferecido:
 #   desconto | cashback | servico-gratuito | upgrade | beneficio-exclusivo
 benefitTypes:
@@ -24,24 +24,25 @@ benefitTypes:
 #   idosos | familias | estudantes | empresas | publico-geral
 clientProfiles:
   - publico-geral
+  - empresas
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+benefitSummary: "Consultoria de SEO gratuito do site atual e 10% de desconto no projeto de novo site."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
-  - "https://exemplo.com/imagem-1-quadrada.jpg"
-  - "/images/auditik/convenios/exemplo/foto-quadrada.jpg"
+  - "/images/auditik/convenios/tbr-web/foto_1.png"
 ---
 
-Use o campo `gallery` com no maximo 4 imagens em formato quadrado para manter o grid visual consistente.
 
 ## Como obter o benefício
 
-Descreva o passo a passo para o cliente Auditik solicitar o benefício.
+Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.
 
 ## Regras e elegibilidade
 
-Informe regras, validade, documentação e limitações relevantes.
+O benefício é válido para todos os clientes Auditik/Philips Aparelhos Auditivos. 
+
+Benefício válido para empresas e para o público geral.
 
 ## Observações importantes
 
-Inclua qualquer condição comercial que o cliente precisa conhecer antes de solicitar.
+É preciso o agendamento prévio com o parceiro para a utilização do benefício.

@@ -6,9 +6,12 @@ export interface ConvenioTagOption {
 export const CONVENIO_CITIES = [
   { value: "piracicaba", label: "Piracicaba" },
   { value: "americana", label: "Americana" },
-  { value: "campinas", label: "Campinas" },
+  { value: "santa-barbara-d-oeste", label: "Santa Bárbara d'Oeste" },
   { value: "limeira", label: "Limeira" },
-  { value: "sumare", label: "Sumaré" },
+  { value: "rio-claro", label: "Rio Claro" },
+  { value: "sao-pedro", label: "São Pedro" },
+  { value: "aguas-de-sao-pedro", label: "Águas de São Pedro" },
+  { value: "charqueada", label: "Charqueada" },
 ] as const satisfies readonly ConvenioTagOption[];
 
 export const CONVENIO_AREAS = [

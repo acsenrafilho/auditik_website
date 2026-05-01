@@ -112,6 +112,18 @@ function normalizeTagList(
   return Array.from(new Set(mappedValues));
 }
 
+/** Remote image URL or root-relative path under `public/` (e.g. `/images/foo.png`). */
+function isConvenioGallerySource(entry: string): boolean {
+  if (!entry) {
+    return false;
+  }
+  if (/^https?:\/\//i.test(entry)) {
+    return true;
+  }
+  // Same-origin path from `public/`; reject protocol-relative URLs (`//...`).
+  return entry.startsWith("/") && !entry.startsWith("//") && entry.length > 1;
+}
+
 function normalizeUrlList(value: unknown): string[] {
   const rawValues = Array.isArray(value)
     ? value
@@ -124,7 +136,7 @@ function normalizeUrlList(value: unknown): string[] {
       rawValues
         .map((entry) => (typeof entry === "string" ? entry.trim() : ""))
         .filter(Boolean)
-        .filter((entry) => /^https?:\/\//i.test(entry)),
+        .filter(isConvenioGallerySource),
     ),
   );
 }

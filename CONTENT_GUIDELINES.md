@@ -94,7 +94,7 @@ Each partner card is generated from one markdown file in content/convenios/.
 | Endereco                        | Full address shown in card               | Av. Exemplo, 123 - Centro, Piracicaba/SP  |
 | Telefone                        | Contact phone shown in card              | (19) 3333-1234                            |
 | URL do Google Maps              | Maps link used for route/location button | https://maps.app.goo.gl/...               |
-| Cidades                         | One or more supported cities             | piracicaba, americana                     |
+| Cidades                         | One or more supported cities             | piracicaba, rio-claro, charqueada         |
 | Area de atuacao                 | One or more controlled areas             | saude, tecnologia, bem-estar              |
 | Tipo de beneficio               | Category used in filter                  | desconto, cashback                        |
 | Perfil de cliente               | Audience category                        | idosos, familias, empresas                |
