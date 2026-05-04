@@ -49,25 +49,24 @@ export const trackCrossPlatformConversion = (
   params?: AdsEventParams,
 ) => {
   const goal = goalName.toLowerCase();
+  const metaParams = {};
 
   // Meta mapping
   if (goal === "contact_form_submit") {
-    trackMetaEvent("Lead", params);
-    trackMetaEvent("Contact", params);
+    trackMetaEvent("Lead", metaParams);
   }
 
   if (goal === "whatsapp_lead_submitted") {
-    trackMetaEvent("Lead", params);
-    trackMetaEvent("Contact", params);
+    trackMetaEvent("Lead", metaParams);
   }
 
   if (goal === "appointment_scheduled" || goal === "free_evaluation_requested") {
-    trackMetaEvent("Schedule", params);
-    trackMetaEvent("Lead", params);
+    trackMetaEvent("Schedule", metaParams);
+    trackMetaEvent("Lead", metaParams);
   }
 
   if (goal === "whatsapp_click" || goal === "phone_call_initiated") {
-    trackMetaEvent("Contact", params);
+    trackMetaEvent("Lead", metaParams);
   }
 
   // Google Ads mapping

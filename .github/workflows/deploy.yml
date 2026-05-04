@@ -18,7 +18,6 @@ env:
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT }}
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP }}
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
-  NEXT_PUBLIC_WHATSAPP_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_WHATSAPP_LEAD_PROXY_URL }}
   NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
   NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
   TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
@@ -43,8 +42,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate required public env vars
+        run: |
+          test -n "${NEXT_PUBLIC_LEAD_PROXY_URL}" || (echo "Missing NEXT_PUBLIC_LEAD_PROXY_URL" && exit 1)
+          test -n "${NEXT_PUBLIC_LEAD_INTEGRATION_NAME}" || (echo "Missing NEXT_PUBLIC_LEAD_INTEGRATION_NAME" && exit 1)
+
       - name: Build Next.js
         run: npm run build
+        env:
+          NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
+          NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -83,6 +90,7 @@ jobs:
             --include '*.html' \
             --include '*.xml' \
             --include '*.txt' \
+            --include '*.ico' \
             --exclude '.git*'
 
       - name: Sync static assets (long cache, immutable)
@@ -92,6 +100,7 @@ jobs:
             --exclude '*.html' \
             --exclude '*.xml' \
             --exclude '*.txt' \
+            --exclude '*.ico' \
             --exclude '.git*'
 
       - name: Invalidate CloudFront cache

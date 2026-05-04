@@ -24,6 +24,8 @@ export interface LeadProxyPayload {
 const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
 const LEAD_PROXY_URL = process.env.NEXT_PUBLIC_LEAD_PROXY_URL || "";
 const LEAD_PROXY_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
+const LEAD_SUBMISSION_NETWORK_ERROR_MESSAGE =
+  "Não foi possível conectar com nossa integração agora. Verifique sua conexão e tente novamente.";
 
 const CAMPAIGN_SOURCE_BY_ID: CampaignSourceMap = {
   "21231083976": "Google Search",
@@ -98,6 +100,7 @@ export const submitLeadToCRM = async (
   input: LeadSubmissionInput,
 ): Promise<Response> => {
   if (!LEAD_PROXY_URL) {
+    console.error("Lead proxy URL missing. Check NEXT_PUBLIC_LEAD_PROXY_URL at build time.");
     throw new Error(
       "Integração indisponível no momento. Tente novamente em instantes.",
     );
@@ -109,13 +112,24 @@ export const submitLeadToCRM = async (
     throw new Error("Informe um telefone válido com DDD.");
   }
 
-  const response = await fetch(LEAD_PROXY_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  let response: Response;
+  try {
+    response = await fetch(LEAD_PROXY_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (error) {
+    console.error("Lead proxy request failed before receiving a response.", {
+      hasUrl: Boolean(LEAD_PROXY_URL),
+      integrationNameConfigured: Boolean(LEAD_PROXY_INTEGRATION_NAME),
+      source: payload.source,
+      error,
+    });
+    throw new Error(LEAD_SUBMISSION_NETWORK_ERROR_MESSAGE);
+  }
 
   // The CRM API may return non-2xx for duplicated leads even when the contact is stored.
   // We still proceed with user success flow to avoid false-negative UX.
@@ -123,6 +137,7 @@ export const submitLeadToCRM = async (
     console.warn("Lead proxy returned non-OK status", {
       status: response.status,
       statusText: response.statusText,
+      source: payload.source,
     });
   }
 
