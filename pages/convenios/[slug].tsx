@@ -3,11 +3,19 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import type { GetStaticPaths, GetStaticProps } from "next";
+import { useState } from "react";
+import type { FormEvent } from "react";
 
 import { Header } from "@components/Header";
 import { trackButtonClick } from "@lib/analytics";
 import type { ConvenioPartner } from "@lib/convenios";
 import { getSEOMeta } from "@lib/seo";
+import { formatBrazilPhone } from "@lib/lead-submission";
+
+const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
+const BENEFIT_ACTIVATE_URL = process.env.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL || "";
+const LEAD_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
+const PHILIPS_STORES = ["Piracicaba", "Americana", "São Pedro", "Charqueada"];
 
 const getAllConvenioSlugs = async () => {
   const { getAllConvenioSlugs: loadAllConvenioSlugs } = await import("@lib/convenios");
@@ -80,6 +88,94 @@ export default function ConvenioPartnerPage({
   relatedPartners,
   photoGallery,
 }: ConvenioPartnerPageProps) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalForm, setModalForm] = useState({ nome: "", telefone: "", loja: "" });
+  const [modalSubmitting, setModalSubmitting] = useState(false);
+  const [modalError, setModalError] = useState("");
+  const [modalSuccess, setModalSuccess] = useState(false);
+
+  const handleModalFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    if (name === "telefone") {
+      setModalForm((prev) => ({ ...prev, telefone: formatBrazilPhone(value) }));
+      return;
+    }
+    setModalForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+    setModalSuccess(false);
+    setModalError("");
+    setModalForm({ nome: "", telefone: "", loja: "" });
+    if (partner) {
+      trackButtonClick("convenio_activate_benefit_open", {
+        section: "convenio_detail",
+        partner: partner.slug,
+      });
+    }
+  };
+
+  const handleActivateBenefit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (modalSubmitting || !partner) return;
+
+    setModalSubmitting(true);
+    setModalError("");
+
+    try {
+      const phone = modalForm.telefone.replace(/\D/g, "");
+
+      if (phone.length < 10) {
+        throw new Error("Informe um telefone válido com DDD.");
+      }
+
+      if (!BENEFIT_ACTIVATE_URL) {
+        throw new Error("Serviço indisponível no momento. Tente novamente em instantes.");
+      }
+
+      const payload = {
+        companyID: DEFAULT_COMPANY_ID,
+        integrationName: LEAD_INTEGRATION_NAME,
+        fullName: modalForm.nome.trim(),
+        phone,
+        philipsStore: modalForm.loja,
+        benefitName: partner.name,
+        benefitSlug: partner.slug,
+      };
+
+      const res = await fetch(BENEFIT_ACTIVATE_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(
+          data?.message || "Não foi possível ativar o benefício. Tente novamente.",
+        );
+      }
+
+      trackButtonClick("convenio_benefit_activated", {
+        section: "convenio_detail",
+        partner: partner.slug,
+      });
+
+      setModalSuccess(true);
+    } catch (err) {
+      setModalError(
+        err instanceof Error
+          ? err.message
+          : "Não foi possível ativar o benefício. Tente novamente.",
+      );
+    } finally {
+      setModalSubmitting(false);
+    }
+  };
+
   if (!partner) {
     return (
       <main className="page-section">
@@ -267,7 +363,14 @@ export default function ConvenioPartnerPage({
                   </div>
                 </dl>
 
-                <div className="mt-6 pt-6 border-t border-blue-100">
+                <div className="mt-6 pt-6 border-t border-blue-100 space-y-3">
+                  <button
+                    type="button"
+                    onClick={openModal}
+                    className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-auditik-blue px-4 py-3 text-sm font-bold text-white hover:bg-auditik-dark-blue transition-colors shadow-sm"
+                  >
+                    Ativar benefício
+                  </button>
                   {partner.googleMapsUrl && (
                     <a
                       href={partner.googleMapsUrl}
@@ -279,7 +382,7 @@ export default function ConvenioPartnerPage({
                           partner: partner.slug,
                         })
                       }
-                      className="mb-3 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="inline-flex min-h-11 w-full items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 transition-colors"
                     >
                       Abrir local no Google Maps
                     </a>
@@ -321,6 +424,138 @@ export default function ConvenioPartnerPage({
           </section>
         )}
       </main>
+
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+        >
+          <div className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-2xl w-full max-w-md relative">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              aria-label="Fechar modal"
+              className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {modalSuccess ? (
+              <div className="text-center py-4">
+                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                  <svg className="h-8 w-8 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-3">
+                  Benefício ativado!
+                </h3>
+                <p className="text-slate-500 text-sm leading-relaxed mb-8">
+                  Sua solicitação foi registrada com sucesso. Nossa equipe entrará em contato em breve para confirmar o seu benefício.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-auditik-blue px-4 py-3 text-sm font-bold text-white hover:bg-auditik-dark-blue transition-colors"
+                >
+                  Fechar
+                </button>
+              </div>
+            ) : (
+              <>
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2">
+                  Ativar benefício
+                </h3>
+                <p className="text-slate-500 text-sm mb-6 leading-relaxed">
+                  Preencha seus dados para ativar o benefício{" "}
+                  <strong className="text-slate-700">{partner.name}</strong>.
+                </p>
+
+                <form onSubmit={handleActivateBenefit} className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                      Nome completo
+                    </label>
+                    <input
+                      type="text"
+                      name="nome"
+                      value={modalForm.nome}
+                      onChange={handleModalFormChange}
+                      placeholder="Seu nome completo"
+                      required
+                      className="w-full px-6 py-4 rounded-3xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                      Telefone com DDD
+                    </label>
+                    <input
+                      type="tel"
+                      name="telefone"
+                      value={modalForm.telefone}
+                      onChange={handleModalFormChange}
+                      placeholder="(00) 00000-0000"
+                      maxLength={15}
+                      required
+                      className="w-full px-6 py-4 rounded-3xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">
+                      Qual loja Philips você é cliente?
+                    </label>
+                    <select
+                      name="loja"
+                      value={modalForm.loja}
+                      onChange={handleModalFormChange}
+                      required
+                      className="w-full px-6 py-4 rounded-3xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none cursor-pointer text-sm"
+                    >
+                      <option value="">Selecione sua loja</option>
+                      {PHILIPS_STORES.map((store) => (
+                        <option key={store} value={store}>
+                          {store}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {modalError && (
+                    <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                      {modalError}
+                    </p>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={modalSubmitting}
+                    className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-auditik-blue px-4 py-3 text-sm font-bold text-white hover:bg-auditik-dark-blue disabled:bg-slate-300 disabled:cursor-not-allowed transition-colors shadow-sm"
+                  >
+                    {modalSubmitting ? (
+                      <span className="inline-flex items-center gap-2">
+                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                        </svg>
+                        Ativando...
+                      </span>
+                    ) : (
+                      "Ativar benefício"
+                    )}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
