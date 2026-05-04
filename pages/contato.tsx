@@ -469,7 +469,7 @@ export default function ContatoPage() {
                 <p className="text-xs uppercase tracking-widest text-blue-100/70 font-bold">
                   Horario de atendimento
                 </p>
-                <p className="text-lg font-bold">Seg - Sex: 08h as 17h</p>
+                <p className="text-lg font-bold">Seg - Sex: 08h as 17h30</p>
               </div>
             </div>
           </div>

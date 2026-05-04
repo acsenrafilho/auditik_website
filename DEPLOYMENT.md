@@ -63,6 +63,23 @@ aws s3api put-public-access-block \
 
 5. **Copy Distribution ID** (you'll need this for GitHub Actions)
 
+### Step 2b: Fix refresh (F5) on subpages — `AccessDenied` XML from S3
+
+This project uses `output: "export"` and `trailingSlash: true` in `next.config.js`, so each route is published as a **folder** with `index.html` inside it (for example `out/contato/index.html`). The live URL is `/contato/`.
+
+If CloudFront uses the **S3 REST API** origin (`your-bucket.s3.region.amazonaws.com`) with OAI/OAC, a request to `/contato/` asks S3 for an object whose key is literally `contato/`. That object does not exist (the real key is `contato/index.html`), so S3 responds with **403** and an XML body whose `<Code>` is `AccessDenied`. The home page works because the distribution’s **Default root object** maps `/` to `index.html` only at the site root — not for subfolders.
+
+**Fix (recommended):** attach a **CloudFront Function** on **Viewer request** that rewrites directory URLs to `.../index.html`. Source of truth for the snippet: [`infra/cloudfront-viewer-request-index-html.js`](infra/cloudfront-viewer-request-index-html.js).
+
+1. In AWS Console → **CloudFront** → **Functions** → **Create function**.
+2. Name it (for example `auditik-append-index-html`), paste the code from `infra/cloudfront-viewer-request-index-html.js`.
+3. Click **Save changes**, then **Publish** (must be published to use in a distribution).
+4. Open your **distribution** → **Behaviors** → select the behavior that serves your site (usually `Default (*)`).
+5. **Edit** → **Function associations** → **Viewer request** → choose **CloudFront function** → select the function you published → **Save changes**.
+6. Wait for the distribution to deploy, then hard-refresh a subpage (for example `https://auditik.com.br/contato/`).
+
+**Alternative (infrastructure change):** point CloudFront at the bucket’s **S3 website endpoint** (`your-bucket.s3-website-region.amazonaws.com`) with static website hosting enabled and index document `index.html`. That endpoint resolves `folder/` to `folder/index.html` automatically, but the bucket policy and origin setup differ from the REST + OAI pattern above — prefer the function if you already use OAI/OAC.
+
 ### Step 3: Configure Route53 DNS
 
 1. Go to Route53 Console
