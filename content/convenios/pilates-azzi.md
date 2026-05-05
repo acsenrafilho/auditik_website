@@ -28,10 +28,10 @@ clientProfiles:
 benefitSummary: "10% desconto na primeira mensalidade"
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
-  - "/images/auditik/convenios/pilates-carolina-azzi/foto_1.jpeg"
-  - "/images/auditik/convenios/pilates-carolina-azzi/foto_2.jpeg"
-  - "/images/auditik/convenios/pilates-carolina-azzi/foto_3.jpeg"
-  - "/images/auditik/convenios/pilates-carolina-azzi/foto_4.jpeg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_1.jpg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_2.jpg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_3.jpg"
+  - "/images/auditik/convenios/pilates-carolina-azzi/foto_4.jpg"
 ---
 
 ## Como obter o benefício

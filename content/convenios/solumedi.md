@@ -28,7 +28,6 @@ clientProfiles:
 benefitSummary: "10% de desconto em consultas e exames da Solumedi."
 ---
 
-Use o campo `gallery` com no maximo 4 imagens em formato quadrado para manter o grid visual consistente.
 
 ## Como obter o benefício
 

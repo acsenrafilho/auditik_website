@@ -117,32 +117,43 @@ Allow CloudFront OAI to read S3:
 
 Replace `[YOUR_OAI]` with your CloudFront OAI ID.
 
-## 🔐 GitHub Secrets Configuration
+## 🔐 GitHub Actions Environment Variables
 
-Add these to your repository secrets (Settings → Secrets → Actions):
+Configure these in **Settings → Secrets and variables → Actions**, based on how they are used in `.github/workflows/deploy.yml`.
 
-| Secret Name                              | Value                   | Example              |
-| ---------------------------------------- | ----------------------- | -------------------- |
-| AWS_ACCESS_KEY_ID                        | Your AWS access key     | AKIA2XXXXXXXXXXXX    |
-| AWS_SECRET_ACCESS_KEY                    | Your AWS secret key     | wJal0SECRET...       |
-| AWS_REGION                               | AWS region              | us-east-1            |
-| AWS_S3_BUCKET                            | S3 bucket name          | auditik-website-prod |
-| CLOUDFRONT_DISTRIBUTION_ID               | CloudFront ID           | E1XXXXXXXXXXXXX      |
-| NEXT_PUBLIC_GA_ID                        | Google Analytics ID     | G-XXXXXXXXXXXX       |
-| NEXT_PUBLIC_META_PIXEL_ID                | Meta Pixel ID           | 123456789012345      |
-| NEXT_PUBLIC_GOOGLE_ADS_ID                | Google Ads ID           | AW-123456789         |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT     | Ads label (contact)     | AbCdEfGhIjKlMnOpQr   |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT | Ads label (appointment) | ZyXwVuTsRqPoNmLkJi   |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP    | Ads label (WhatsApp)    | QwErTyUiOpAsDfGhJk   |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE       | Ads label (phone)       | LmNoPqRsTuVwXyZaBc   |
+### Required **Secrets**
 
-### How to Add GitHub Secrets
+| Name                       | Purpose                 | Example           |
+| -------------------------- | ----------------------- | ----------------- |
+| AWS_ACCESS_KEY_ID          | AWS IAM access key      | AKIA2XXXXXXXXXXXX |
+| AWS_SECRET_ACCESS_KEY      | AWS IAM secret key      | wJal0SECRET...    |
+| NEXT_PUBLIC_TINA_CLIENT_ID | TinaCMS client ID       | abcdefghijklmnop  |
+| TINA_TOKEN                 | TinaCMS read/write token| tina_XXXXXXXXXXXX |
+
+### Required **Variables**
+
+| Name                                    | Purpose                       | Example                        |
+| --------------------------------------- | ----------------------------- | ------------------------------ |
+| AWS_REGION                              | AWS region                    | us-east-1                      |
+| AWS_S3_BUCKET                           | S3 bucket name                | auditik-website-prod           |
+| CLOUDFRONT_DISTRIBUTION_ID              | CloudFront distribution ID    | E1XXXXXXXXXXXXX                |
+| NEXT_PUBLIC_GA_ID                       | Google Analytics ID           | G-XXXXXXXXXXXX                 |
+| NEXT_PUBLIC_META_PIXEL_ID               | Meta Pixel ID                 | 123456789012345                |
+| NEXT_PUBLIC_GOOGLE_ADS_ID               | Google Ads ID                 | AW-123456789                   |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT    | Ads conversion label (contact)| AbCdEfGhIjKlMnOpQr             |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT| Ads conversion label (booking)| ZyXwVuTsRqPoNmLkJi             |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP   | Ads conversion label (WhatsApp)| QwErTyUiOpAsDfGhJk            |
+| NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE      | Ads conversion label (phone)  | LmNoPqRsTuVwXyZaBc             |
+| NEXT_PUBLIC_LEAD_PROXY_URL              | Lead proxy endpoint           | https://api.example.com/integrations/leads |
+| NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |
+
+### How to Add (Secrets and Variables)
 
 1. Go to your repository on GitHub
 2. Settings → Secrets and variables → Actions
-3. Click "New repository secret"
-4. Add each secret with the name and value
-5. Click "Add secret"
+3. For sensitive values, open the **Secrets** tab and click "New repository secret"
+4. For non-sensitive config, open the **Variables** tab and click "New repository variable"
+5. Add each name/value pair exactly as listed above
 
 ## 🚀 Deployment Process
 

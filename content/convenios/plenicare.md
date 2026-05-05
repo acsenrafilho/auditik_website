@@ -28,10 +28,10 @@ clientProfiles:
 benefitSummary: "2 Aulas de Pilates Gratuitas OU 10% de desconto no pacote semestral."
 # gallery: até 4 URLs http(s); outras entradas são ignoradas. Preferir imagens quadradas.
 gallery:
-  - "/images/auditik/convenios/plenicare/foto_1.jpeg"
-  - "/images/auditik/convenios/plenicare/foto_2.jpeg"
-  - "/images/auditik/convenios/plenicare/foto_3.jpeg"
-  - "/images/auditik/convenios/plenicare/foto_4.jpeg"
+  - "/images/auditik/convenios/plenicare/foto_1.jpg"
+  - "/images/auditik/convenios/plenicare/foto_2.jpg"
+  - "/images/auditik/convenios/plenicare/foto_3.jpg"
+  - "/images/auditik/convenios/plenicare/foto_4.jpg"
 ---
 
 ## Como obter o benefício

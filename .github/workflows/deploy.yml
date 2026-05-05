@@ -20,6 +20,7 @@ env:
   NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
   NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
   NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
+  NEXT_PUBLIC_BENEFIT_ACTIVATE_URL: ${{ vars.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL }}
   TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
 
 jobs:
@@ -46,12 +47,14 @@ jobs:
         run: |
           test -n "${NEXT_PUBLIC_LEAD_PROXY_URL}" || (echo "Missing NEXT_PUBLIC_LEAD_PROXY_URL" && exit 1)
           test -n "${NEXT_PUBLIC_LEAD_INTEGRATION_NAME}" || (echo "Missing NEXT_PUBLIC_LEAD_INTEGRATION_NAME" && exit 1)
+          test -n "${NEXT_PUBLIC_BENEFIT_ACTIVATE_URL}" || (echo "Missing NEXT_PUBLIC_BENEFIT_ACTIVATE_URL" && exit 1)
 
       - name: Build Next.js
         run: npm run build
         env:
           NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
           NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
+          NEXT_PUBLIC_BENEFIT_ACTIVATE_URL: ${{ vars.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL }}
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
