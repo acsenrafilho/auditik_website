@@ -34,6 +34,10 @@ gallery:
   - "/images/auditik/convenios/otica-cs/foto_4.png"
 ---
 
+## Sobre o parceiro
+
+A Ótica CS é especializada em soluções para a saúde visual e estética, oferecendo uma curadoria de armações de grau e óculos de sol que alinham as tendências da moda ao conforto ocular. O estabelecimento trabalha com lentes de alta tecnologia para diferentes necessidades corretivas, além de proporcionar um atendimento personalizado para a escolha do modelo ideal para cada formato de rosto. Com foco na qualidade e durabilidade, a ótica busca reunir marcas reconhecidas e opções versáteis para atender diversos estilos e perfis de público.
+
 ## Como obter o benefício
 
 Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.

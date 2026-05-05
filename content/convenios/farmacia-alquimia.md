@@ -18,6 +18,10 @@ clientProfiles:
 benefitSummary: "20% de desconto em todos os produtos da farmácia Alquimia."
 ---
 
+## Sobre o parceiro
+
+A Pharmácia Alquimia é uma empresa de manipulação e drogaria com atuação em Piracicaba e região desde 1994, oferecendo uma ampla gama de produtos voltados à saúde, beleza e bem-estar. Especializada em fórmulas personalizadas, seu portfólio inclui desde compostos fitoterápicos, emagrecedores e florais de Bach até óleos essenciais, suplementos e itens de cuidados faciais.
+
 ## Como obter o benefício
 
 Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.

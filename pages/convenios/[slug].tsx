@@ -43,10 +43,14 @@ const renderConvenioMarkdownToHtml = async (content: string) => {
 
 interface ConvenioPartnerPageProps {
   partner: ConvenioPartner | null;
+  aboutPartnerHtml: string;
   contentHtml: string;
   relatedPartners: ConvenioPartner[];
   photoGallery: string[];
 }
+
+const ABOUT_PARTNER_SECTION_REGEX =
+  /(?:^|\n)##\s+Sobre o parceiro\s*\n+([\s\S]*?)(?=\n##\s+|$)/i;
 
 function buildConvenioSchema(partner: ConvenioPartner) {
   const phoneDigits = partner.phone.replace(/\D/g, "");
@@ -84,6 +88,7 @@ function buildConvenioSchema(partner: ConvenioPartner) {
 
 export default function ConvenioPartnerPage({
   partner,
+  aboutPartnerHtml,
   contentHtml,
   relatedPartners,
   photoGallery,
@@ -295,6 +300,17 @@ export default function ConvenioPartnerPage({
         <section className="py-16 bg-white">
           <div className="container-wide grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
             <article className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-lg shadow-slate-900/5">
+              {aboutPartnerHtml && (
+                <div className="mb-10 rounded-[1.75rem] border border-slate-100 bg-slate-50 p-6">
+                  <h2 className="text-2xl font-extrabold text-slate-900 mb-4">
+                    Sobre o parceiro
+                  </h2>
+                  <div className="prose prose-lg markdown-content">
+                    <div dangerouslySetInnerHTML={{ __html: aboutPartnerHtml }} />
+                  </div>
+                </div>
+              )}
+
               <h2 className="text-2xl font-extrabold text-slate-900 mb-4">
                 Benefício em destaque
               </h2>
@@ -618,11 +634,21 @@ export const getStaticProps: GetStaticProps<ConvenioPartnerPageProps> = async ({
       .slice(0, 3)
       .map((entry) => entry.candidate);
 
-    const contentHtml = await renderConvenioMarkdownToHtml(partner.content);
+    const aboutPartnerMatch = partner.content.match(ABOUT_PARTNER_SECTION_REGEX);
+    const aboutPartnerMarkdown = aboutPartnerMatch?.[1]?.trim() || "";
+    const contentWithoutAboutPartner = partner.content
+      .replace(ABOUT_PARTNER_SECTION_REGEX, "\n")
+      .trim();
+
+    const [aboutPartnerHtml, contentHtml] = await Promise.all([
+      aboutPartnerMarkdown ? renderConvenioMarkdownToHtml(aboutPartnerMarkdown) : "",
+      renderConvenioMarkdownToHtml(contentWithoutAboutPartner),
+    ]);
 
     return {
       props: {
         partner,
+        aboutPartnerHtml,
         relatedPartners,
         contentHtml,
         photoGallery,

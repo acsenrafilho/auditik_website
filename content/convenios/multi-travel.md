@@ -35,6 +35,9 @@ gallery:
   - "/images/auditik/convenios/multi-travel/foto_4.png"
 ---
 
+## Sobre o parceiro
+
+Multi Travel Viagens é uma agência de viagens com mais de 15 anos de experiência em Piracicaba, oferecendo uma ampla gama de serviços de viagens e turismo. A empresa é conhecida por sua expertise em organizar viagens personalizadas, com destinos variados e atendimento de alta qualidade.
 
 ## Como obter o benefício
 

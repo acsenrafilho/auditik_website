@@ -34,6 +34,10 @@ gallery:
   - "/images/auditik/convenios/denise-dentista/foto_4.png"
 ---
 
+## Sobre o parceiro
+
+A Dra. Denise Pupim é cirurgiã-dentista com ampla formação acadêmica e uma abordagem humanizada no cuidado com a saúde bucal. Graduada em Odontologia pela Universidade Estadual de Maringá (2009), sempre teve como prioridade oferecer um atendimento ético, qualificado e centrado no bem-estar de cada paciente. A busca por conhecimento contínuo a levou a concluir o Mestrado em Odontologia Integrada também pela Universidade Estadual de Maringá (2012), e posteriormente o Doutorado em Reabilitação Oral pela Faculdade de Odontologia de Ribeirão Preto - USP (2016), uma das instituições mais respeitadas do Brasil.
+
 ## Como obter o benefício
 
 Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.

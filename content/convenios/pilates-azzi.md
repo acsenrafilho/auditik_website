@@ -34,6 +34,10 @@ gallery:
   - "/images/auditik/convenios/pilates-carolina-azzi/foto_4.jpg"
 ---
 
+## Sobre o parceiro
+
+A Pilates Carolina Azzi é uma academia de pilates com mais de 10 anos de experiência em Piracicaba, oferecendo uma ampla gama de serviços de pilates e bem-estar. A empresa é conhecida por sua expertise em oferecer atendimento personalizado, com foco na saúde e bem-estar de cada cliente.
+
 ## Como obter o benefício
 
 Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.

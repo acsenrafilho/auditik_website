@@ -34,6 +34,10 @@ gallery:
   - "/images/auditik/convenios/plenicare/foto_4.jpg"
 ---
 
+## Sobre o parceiro
+
+A Plenicare é uma empresa dedicada à gestão de saúde e bem-estar, oferecendo soluções integradas para o cuidado preventivo e o acompanhamento clínico. Com foco em uma abordagem humanizada e multidisciplinar, a instituição disponibiliza serviços que visam a promoção da qualidade de vida, utilizando infraestrutura moderna e suporte especializado para atender às necessidades de seus pacientes. A empresa destaca-se pela busca constante por eficiência no atendimento e pela oferta de programas que auxiliam no equilíbrio físico e mental, adaptando-se a diferentes perfis de cuidados em saúde.
+
 ## Como obter o benefício
 
 Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.

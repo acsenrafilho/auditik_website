@@ -30,8 +30,12 @@ benefitSummary: "Consultoria de SEO gratuito do site atual e 10% de desconto no 
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/tbr-web/foto_1.png"
+  - "/images/auditik/convenios/tbr-web/foto_2.jpeg"
 ---
 
+## Sobre o parceiro
+
+A TBR Web é uma agência especializada em soluções digitais que busca impulsionar a presença online e a eficiência operacional de seus clientes por meio de tecnologia e estratégia. Com foco no desenvolvimento de websites, lojas virtuais e sistemas personalizados, a empresa alia design funcional a ferramentas de marketing digital para otimizar a conversão e o alcance de resultados. Através de um suporte técnico próximo e do uso de infraestrutura moderna, a TBR Web entrega projetos voltados à inovação, ajudando marcas a se consolidarem no ambiente digital de forma profissional e competitiva.
 
 ## Como obter o benefício
 

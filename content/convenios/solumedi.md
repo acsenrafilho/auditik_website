@@ -26,8 +26,14 @@ clientProfiles:
   - publico-geral
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
 benefitSummary: "10% de desconto em consultas e exames da Solumedi."
+# gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
+gallery:
+  - "/images/auditik/convenios/solumedi/foto_1.jpg"
 ---
 
+## Sobre o parceiro
+
+A Solumedi é uma instituição dedicada a facilitar o acesso a serviços de saúde de qualidade, conectando pacientes a uma ampla rede de clínicas, laboratórios e profissionais especializados. Em Piracicaba, a unidade atua como um suporte para quem busca agilidade no agendamento de consultas médicas e exames laboratoriais ou de imagem, oferecendo opções com valores acessíveis. O foco da plataforma é promover a inclusão e o cuidado preventivo, garantindo que a assistência médica e o diagnóstico sejam realizados de forma rápida, eficiente e humanizada.
 
 ## Como obter o benefício
 

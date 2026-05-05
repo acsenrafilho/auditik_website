@@ -35,6 +35,10 @@ gallery:
   - "/images/auditik/convenios/supera/foto_4.png"
 ---
 
+## Sobre o parceiro
+
+O Método SUPERA é uma rede de escolas focada no desenvolvimento cognitivo e no treino cerebral, oferecendo cursos presenciais e online para todas as idades. Através de uma metodologia baseada em neurociência, a instituição utiliza ferramentas como o ábaco, jogos pedagógicos e exercícios de raciocínio lógico para potencializar habilidades como memória, concentração, criatividade e raciocínio. Além de promover o desempenho acadêmico e profissional, o programa também atua na manutenção da saúde mental de idosos, proporcionando mais qualidade de vida e autonomia por meio da estimulação cerebral contínua.
+
 ## Como obter o benefício
 
 Ative o benefício pelo botão dessa página, fornecendo seu Nome e Telefone de contato.
