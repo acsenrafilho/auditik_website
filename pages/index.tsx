@@ -575,8 +575,8 @@ export default function Home() {
                   Garantia Internacional Philips
                 </h3>
                 <p className="text-slate-500 leading-relaxed">
-                  Tranquilidade para seguir sua rotina com suporte de uma marca global em
-                  qualquer viagem.
+                  Tranquilidade para seguir sua rotina com suporte de uma marca global
+                  em qualquer viagem.
                 </p>
               </div>
             </div>
@@ -615,7 +615,9 @@ export default function Home() {
                           {faq.question}
                         </span>
                         <span
-                          className={`material-symbols-outlined text-auditik-blue transition-transform ${isOpen ? "rotate-180" : ""}`}
+                          className={`material-symbols-outlined text-auditik-blue transition-transform ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
                           aria-hidden="true"
                         >
                           expand_more
