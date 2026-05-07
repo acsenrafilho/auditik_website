@@ -16,6 +16,7 @@ const FORM_WHATSAPP_MESSAGE =
 
 export default function Home() {
   const [testimonialsIndex, setTestimonialsIndex] = useState(0);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [formData, setFormData] = useState({
     nome: "",
     whatsapp: "",
@@ -161,6 +162,39 @@ export default function Home() {
     },
   ];
 
+  const faqItems = [
+    {
+      question: "Qual aparelho Philips HearLink é ideal para mim?",
+      answer:
+        "A escolha depende do grau de perda auditiva, rotina, preferências de discrição e conectividade. Na Auditik, a indicação é feita após avaliação auditiva completa e teste supervisionado.",
+    },
+    {
+      question: "Como saber se eu realmente preciso usar aparelho auditivo?",
+      answer:
+        "Os sinais mais comuns são dificuldade para entender conversas, necessidade de aumentar volume da TV, cansaço em ambientes ruidosos e sensação de isolamento social. A confirmação é feita por avaliação auditiva com profissional especializado.",
+    },
+    {
+      question: "Perda auditiva tem tratamento ou o aparelho é para sempre?",
+      answer:
+        "Cada caso é único. Em muitas situações o aparelho auditivo é a melhor estratégia para reabilitação e qualidade de vida, mas a conduta correta depende do diagnóstico clínico e audiológico completo.",
+    },
+    {
+      question: "O aparelho auditivo fica visível?",
+      answer:
+        "Hoje existem formatos muito discretos, incluindo modelos intra-auriculares e miniRITE. Na consultoria da Auditik, você conhece opções com diferentes níveis de discrição e conforto estético.",
+    },
+    {
+      question: "Aparelho auditivo incomoda ou dói no ouvido?",
+      answer:
+        "Com seleção correta do modelo, adaptação progressiva e ajustes finos, a tendência é de conforto no uso diário. Eventuais incômodos iniciais podem ser corrigidos nas revisões de acompanhamento.",
+    },
+    {
+      question: "Os aparelhos Philips HearLink conectam ao celular?",
+      answer:
+        "Sim. A linha oferece conectividade para chamadas, áudio e ajustes personalizados por aplicativo, além de acessórios dedicados para ampliar a experiência.",
+    },
+  ];
+
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
@@ -258,34 +292,18 @@ export default function Home() {
           <div className="absolute bottom-[-5%] right-[5%] w-96 h-96 bg-auditik-yellow/10 rounded-full blur-3xl"></div>
 
           <div className="container-wide flex flex-col md:flex-row items-center relative">
-            <div className="w-full md:w-1/2 flex justify-center md:justify-start order-2 md:order-1 mb-12 md:mb-0">
-              <div className="relative group w-full max-w-[520px]">
-                <div className="absolute inset-0 bg-white/40 rounded-[2rem] blur-2xl scale-110 group-hover:scale-115 transition-transform duration-700"></div>
-                <div className="relative z-10 overflow-hidden rounded-[2rem] border-8 border-white/80 shadow-2xl bg-white">
-                  <Image
-                    alt="Mulher usando aparelho auditivo Philips HearLink em um ambiente moderno"
-                    src="/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg"
-                    width={1200}
-                    height={800}
-                    className="w-full h-[320px] md:h-[420px] object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="w-full md:w-1/2 md:pl-16 order-1 md:order-2">
+            <div className="w-full md:w-1/2 md:pr-16 order-1 md:order-1">
               <span className="inline-block px-4 py-1.5 bg-auditik-blue/10 text-auditik-blue rounded-full text-xs font-bold uppercase tracking-widest mb-6">
                 Inovação em Saúde Auditiva
               </span>
               <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-8">
-                Philips HearLink:{" "}
-                <span className="text-auditik-blue">Sinta cada detalhe</span> da vida em
-                até 21x sem juros.
+                Volte a viver sem o peso do{" "}
+                <span className="text-auditik-blue">zumbido e da perda auditiva</span>.
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed">
-                Desenvolvemos uma experiência auditiva completa, unindo a inteligência
-                artificial da Philips com o atendimento humanizado que você merece.
+                Com a tecnologia Philips HearLink e acompanhamento especializado da
+                Auditik, você recupera qualidade de vida, clareza nas conversas e
+                segurança para aproveitar cada momento.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
@@ -302,67 +320,20 @@ export default function Home() {
                 </button>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Features Section */}
-        <section className="py-24 bg-white relative">
-          <div className="container-wide relative">
-            <div className="text-center max-w-3xl mx-auto mb-20">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
-                Excelência Philips na Auditik
-              </h2>
-              <p className="text-slate-500 text-lg leading-relaxed">
-                Tecnologia que se adapta ao seu estilo de vida, proporcionando clareza e
-                conforto em qualquer ambiente.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-              {/* Feature 1: AI Technology */}
-              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
-                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-blue-50 rounded-3xl group-hover:bg-auditik-blue transition-colors duration-300">
-                  <span className="material-symbols-outlined text-auditik-blue text-4xl group-hover:text-white transition-colors">
-                    memory
-                  </span>
+            <div className="w-full md:w-1/2 flex justify-center md:justify-end order-2 md:order-2 mb-12 md:mb-0">
+              <div className="relative group w-full max-w-[520px]">
+                <div className="absolute inset-0 bg-white/40 rounded-[2rem] blur-2xl scale-110 group-hover:scale-115 transition-transform duration-700"></div>
+                <div className="relative z-10 overflow-hidden rounded-[2rem] border-8 border-white/80 shadow-2xl bg-white">
+                  <Image
+                    alt="Mulher usando aparelho auditivo Philips HearLink em um ambiente moderno"
+                    src="/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg"
+                    width={1200}
+                    height={800}
+                    className="w-full h-[320px] md:h-[420px] object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000"
+                    priority
+                  />
                 </div>
-                <h3 className="font-bold text-xl text-slate-800 mb-4">Tecnologia IA</h3>
-                <p className="text-slate-500 leading-relaxed">
-                  Processamento de som inteligente que prioriza a fala humana em
-                  ambientes ruidosos.
-                </p>
-              </div>
-
-              {/* Feature 2: Discretion */}
-              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
-                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-yellow-50 rounded-3xl group-hover:bg-auditik-yellow transition-colors duration-300">
-                  <span className="material-symbols-outlined text-auditik-yellow text-4xl group-hover:text-slate-900 transition-colors">
-                    visibility_off
-                  </span>
-                </div>
-                <h3 className="font-bold text-xl text-slate-800 mb-4">
-                  Discrição Total
-                </h3>
-                <p className="text-slate-500 leading-relaxed">
-                  Designs anatômicos e ultrapequenos que desaparecem no ouvido com
-                  máximo conforto.
-                </p>
-              </div>
-
-              {/* Feature 3: Custom Adjustment */}
-              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
-                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-green-50 rounded-3xl group-hover:bg-green-500 transition-colors duration-300">
-                  <span className="material-symbols-outlined text-green-600 text-4xl group-hover:text-white transition-colors">
-                    settings_input_component
-                  </span>
-                </div>
-                <h3 className="font-bold text-xl text-slate-800 mb-4">
-                  Ajuste sob Medida
-                </h3>
-                <p className="text-slate-500 leading-relaxed">
-                  Calibração personalizada realizada por fonoaudiólogos experientes para
-                  sua necessidade única.
-                </p>
               </div>
             </div>
           </div>
@@ -503,6 +474,162 @@ export default function Home() {
                   ></button>
                 ))}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="py-24 bg-white relative">
+          <div className="container-wide relative">
+            <div className="text-center max-w-3xl mx-auto mb-20">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6">
+                Excelência Philips na Auditik
+              </h2>
+              <p className="text-slate-500 text-lg leading-relaxed">
+                Tecnologia que se adapta ao seu estilo de vida, proporcionando clareza e
+                conforto em qualquer ambiente.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-blue-50 rounded-3xl group-hover:bg-auditik-blue transition-colors duration-300">
+                  <span className="material-symbols-outlined text-auditik-blue text-4xl group-hover:text-white transition-colors">
+                    memory
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl text-slate-800 mb-4">Tecnologia IA</h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Processamento de som inteligente que prioriza a fala humana em
+                  ambientes ruidosos.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-yellow-50 rounded-3xl group-hover:bg-auditik-yellow transition-colors duration-300">
+                  <span className="material-symbols-outlined text-auditik-yellow text-4xl group-hover:text-slate-900 transition-colors">
+                    visibility_off
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl text-slate-800 mb-4">
+                  Discrição Total
+                </h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Designs anatômicos e ultrapequenos que desaparecem no ouvido com
+                  máximo conforto.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-green-50 rounded-3xl group-hover:bg-green-500 transition-colors duration-300">
+                  <span className="material-symbols-outlined text-green-600 text-4xl group-hover:text-white transition-colors">
+                    settings_input_component
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl text-slate-800 mb-4">
+                  Ajuste sob Medida
+                </h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Calibração personalizada realizada por fonoaudiólogos experientes para
+                  sua necessidade única.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-orange-50 rounded-3xl group-hover:bg-orange-500 transition-colors duration-300">
+                  <span className="material-symbols-outlined text-orange-500 text-4xl group-hover:text-white transition-colors">
+                    payments
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl text-slate-800 mb-4">
+                  Até 21x sem juros
+                </h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Pagamento facilitado para iniciar seu tratamento auditivo sem pesar no
+                  orçamento mensal.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-indigo-50 rounded-3xl group-hover:bg-indigo-500 transition-colors duration-300">
+                  <span className="material-symbols-outlined text-indigo-500 text-4xl group-hover:text-white transition-colors">
+                    account_balance
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl text-slate-800 mb-4">
+                  Financiamento BB em até 60x
+                </h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Convênio com Banco do Brasil para ampliar o acesso ao melhor plano de
+                  reabilitação auditiva.
+                </p>
+              </div>
+
+              <div className="bg-white rounded-5xl p-12 flex flex-col items-center text-center layered-card hover:-translate-y-2 transition-all duration-300 group border border-gray-50">
+                <div className="w-20 h-20 mb-8 flex items-center justify-center bg-teal-50 rounded-3xl group-hover:bg-teal-500 transition-colors duration-300">
+                  <span className="material-symbols-outlined text-teal-600 text-4xl group-hover:text-white transition-colors">
+                    verified
+                  </span>
+                </div>
+                <h3 className="font-bold text-xl text-slate-800 mb-4">
+                  Garantia Internacional Philips
+                </h3>
+                <p className="text-slate-500 leading-relaxed">
+                  Tranquilidade para seguir sua rotina com suporte de uma marca global em
+                  qualquer viagem.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-24 bg-bg-light-blue">
+          <div className="container-wide max-w-4xl">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 text-center">
+              FAQ: dúvidas frequentes sobre aparelhos Philips HearLink
+            </h2>
+            <p className="text-slate-600 text-center mb-10">
+              Clique na pergunta para ver a resposta.
+            </p>
+            <div className="space-y-4">
+              {faqItems.map((faq, index) => {
+                const isOpen = openFaqIndex === index;
+                const answerId = `home-faq-answer-${index}`;
+                return (
+                  <article
+                    key={faq.question}
+                    className="bg-white rounded-4xl border border-blue-50 shadow-sm overflow-hidden"
+                  >
+                    <h3>
+                      <button
+                        type="button"
+                        className="w-full flex items-center justify-between gap-4 p-6 text-left"
+                        aria-expanded={isOpen}
+                        aria-controls={answerId}
+                        onClick={() =>
+                          setOpenFaqIndex((prev) => (prev === index ? null : index))
+                        }
+                      >
+                        <span className="text-lg font-bold text-slate-900">
+                          {faq.question}
+                        </span>
+                        <span
+                          className={`material-symbols-outlined text-auditik-blue transition-transform ${isOpen ? "rotate-180" : ""}`}
+                          aria-hidden="true"
+                        >
+                          expand_more
+                        </span>
+                      </button>
+                    </h3>
+                    {isOpen && (
+                      <div id={answerId} className="px-6 pb-6">
+                        <p className="text-slate-600 leading-relaxed">{faq.answer}</p>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

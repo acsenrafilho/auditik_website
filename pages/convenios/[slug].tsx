@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import type { GetStaticPaths, GetStaticProps } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { FormEvent } from "react";
 
 import { Header } from "@components/Header";
@@ -16,6 +16,7 @@ const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
 const BENEFIT_ACTIVATE_URL = process.env.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL || "";
 const LEAD_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
 const PHILIPS_STORES = ["Piracicaba", "Americana", "São Pedro", "Charqueada"];
+const ACTIVATION_STORAGE_KEY_PREFIX = "convenio_benefit_activated_";
 
 const getAllConvenioSlugs = async () => {
   const { getAllConvenioSlugs: loadAllConvenioSlugs } = await import("@lib/convenios");
@@ -62,21 +63,23 @@ function buildConvenioSchema(partner: ConvenioPartner) {
     description: partner.description,
     url: `https://auditik.com.br/convenios/${partner.slug}`,
     logo: partner.logo ? `https://auditik.com.br${partner.logo}` : undefined,
-    address: partner.address
-      ? {
-          "@type": "PostalAddress",
-          streetAddress: partner.address,
-          addressCountry: "BR",
-        }
-      : undefined,
-    contactPoint: partner.phone
-      ? {
-          "@type": "ContactPoint",
-          telephone: phoneDigits ? `+55${phoneDigits}` : partner.phone,
-          contactType: "customer support",
-          availableLanguage: ["Portuguese"],
-        }
-      : undefined,
+    address:
+      includeContactInfo && partner.address
+        ? {
+            "@type": "PostalAddress",
+            streetAddress: partner.address,
+            addressCountry: "BR",
+          }
+        : undefined,
+    contactPoint:
+      includeContactInfo && partner.phone
+        ? {
+            "@type": "ContactPoint",
+            telephone: phoneDigits ? `+55${phoneDigits}` : partner.phone,
+            contactType: "customer support",
+            availableLanguage: ["Portuguese"],
+          }
+        : undefined,
     knowsAbout: [
       ...partner.cityLabels,
       ...partner.areaLabels,
@@ -85,6 +88,23 @@ function buildConvenioSchema(partner: ConvenioPartner) {
     ],
   };
 }
+
+const getActivationStorageKey = (slug: string) =>
+  `${ACTIVATION_STORAGE_KEY_PREFIX}${slug}`;
+
+const maskPhone = (value: string) => {
+  if (!value) return "Ative o benefício para desbloquear";
+  const digits = value.replace(/\D/g, "");
+  if (digits.length < 10) return "Ative o benefício para desbloquear";
+  const ddd = digits.slice(0, 2);
+  const end = digits.slice(-4);
+  return `(${ddd}) *****-${end}`;
+};
+
+const maskAddress = (value: string) => {
+  if (!value) return "Ative o benefício para desbloquear";
+  return "Endereço oculto. Ative o benefício para desbloquear.";
+};
 
 export default function ConvenioPartnerPage({
   partner,
@@ -98,6 +118,15 @@ export default function ConvenioPartnerPage({
   const [modalSubmitting, setModalSubmitting] = useState(false);
   const [modalError, setModalError] = useState("");
   const [modalSuccess, setModalSuccess] = useState(false);
+  const [hasActivatedBenefit, setHasActivatedBenefit] = useState(false);
+
+  useEffect(() => {
+    if (!partner || typeof window === "undefined") return;
+    const storedValue = window.localStorage.getItem(
+      getActivationStorageKey(partner.slug),
+    );
+    setHasActivatedBenefit(storedValue === "1");
+  }, [partner]);
 
   const handleModalFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
@@ -138,7 +167,9 @@ export default function ConvenioPartnerPage({
       }
 
       if (!BENEFIT_ACTIVATE_URL) {
-        throw new Error("Serviço indisponível no momento. Tente novamente em instantes.");
+        throw new Error(
+          "Serviço indisponível no momento. Tente novamente em instantes.",
+        );
       }
 
       const payload = {
@@ -170,6 +201,10 @@ export default function ConvenioPartnerPage({
       });
 
       setModalSuccess(true);
+      setHasActivatedBenefit(true);
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(getActivationStorageKey(partner.slug), "1");
+      }
     } catch (err) {
       setModalError(
         err instanceof Error
@@ -203,7 +238,7 @@ export default function ConvenioPartnerPage({
     ogImage: partner.logo,
   });
 
-  const convenioSchema = buildConvenioSchema(partner);
+  const convenioSchema = buildConvenioSchema(partner, hasActivatedBenefit);
 
   return (
     <>
@@ -274,7 +309,9 @@ export default function ConvenioPartnerPage({
                   Endereço
                 </p>
                 <p className="font-semibold text-slate-800">
-                  {partner.address || "A confirmar"}
+                  {hasActivatedBenefit
+                    ? partner.address || "A confirmar"
+                    : maskAddress(partner.address)}
                 </p>
               </div>
               <div className="rounded-3xl bg-white/90 p-5 border border-white/60">
@@ -282,7 +319,9 @@ export default function ConvenioPartnerPage({
                   Telefone
                 </p>
                 <p className="font-semibold text-slate-800">
-                  {partner.phone || "A confirmar"}
+                  {hasActivatedBenefit
+                    ? partner.phone || "A confirmar"
+                    : maskPhone(partner.phone)}
                 </p>
               </div>
               <div className="rounded-3xl bg-white/90 p-5 border border-white/60">
@@ -380,6 +419,11 @@ export default function ConvenioPartnerPage({
                 </dl>
 
                 <div className="mt-6 pt-6 border-t border-blue-100 space-y-3">
+                  {!hasActivatedBenefit && (
+                    <p className="rounded-2xl bg-white px-4 py-3 text-xs font-semibold text-slate-600 border border-slate-100">
+                      Endereço e telefone ficam visíveis após ativar o benefício.
+                    </p>
+                  )}
                   <button
                     type="button"
                     onClick={openModal}
@@ -387,7 +431,7 @@ export default function ConvenioPartnerPage({
                   >
                     Ativar benefício
                   </button>
-                  {partner.googleMapsUrl && (
+                  {hasActivatedBenefit && partner.googleMapsUrl && (
                     <a
                       href={partner.googleMapsUrl}
                       target="_blank"
@@ -455,23 +499,44 @@ export default function ConvenioPartnerPage({
               aria-label="Fechar modal"
               className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
             >
-              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 
             {modalSuccess ? (
               <div className="text-center py-4">
                 <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <svg className="h-8 w-8 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  <svg
+                    className="h-8 w-8 text-green-600"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={2.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 </div>
                 <h3 className="text-2xl font-extrabold text-slate-900 mb-3">
                   Benefício ativado!
                 </h3>
                 <p className="text-slate-500 text-sm leading-relaxed mb-8">
-                  Sua solicitação foi registrada com sucesso. Nossa equipe entrará em contato em breve para confirmar o seu benefício.
+                  Sua solicitação foi registrada com sucesso. Nossa equipe entrará em
+                  contato em breve para confirmar o seu benefício.
                 </p>
                 <button
                   type="button"
@@ -556,9 +621,25 @@ export default function ConvenioPartnerPage({
                   >
                     {modalSubmitting ? (
                       <span className="inline-flex items-center gap-2">
-                        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                        <svg
+                          className="h-4 w-4 animate-spin"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          />
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                          />
                         </svg>
                         Ativando...
                       </span>

@@ -475,31 +475,11 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
 
                       <dl className="space-y-3 mb-6 text-sm">
                         <div>
-                          <dt className="font-bold text-slate-700">Endereço</dt>
+                          <dt className="font-bold text-slate-700">Benefício concedido</dt>
                           <dd className="text-slate-600">
-                            {partner.address || "A confirmar"}
-                            {partner.googleMapsUrl && (
-                              <a
-                                href={partner.googleMapsUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() =>
-                                  trackButtonClick("convenios_partner_open_maps", {
-                                    section: "convenios_index",
-                                    partner: partner.slug,
-                                  })
-                                }
-                                className="ml-2 inline-flex min-h-11 items-center px-2 text-auditik-blue hover:text-auditik-dark-blue font-semibold"
-                              >
-                                Ver no mapa
-                              </a>
-                            )}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt className="font-bold text-slate-700">Telefone</dt>
-                          <dd className="text-slate-600">
-                            {partner.phone || "A confirmar"}
+                            {partner.benefitSummary ||
+                              partner.benefitTypeLabels.join(", ") ||
+                              "Benefício exclusivo para clientes Auditik"}
                           </dd>
                         </div>
                         <div>
