@@ -53,7 +53,7 @@ interface ConvenioPartnerPageProps {
 const ABOUT_PARTNER_SECTION_REGEX =
   /(?:^|\n)##\s+Sobre o parceiro\s*\n+([\s\S]*?)(?=\n##\s+|$)/i;
 
-function buildConvenioSchema(partner: ConvenioPartner) {
+function buildConvenioSchema(partner: ConvenioPartner, includeContactInfo: boolean) {
   const phoneDigits = partner.phone.replace(/\D/g, "");
 
   return {
@@ -338,7 +338,7 @@ export default function ConvenioPartnerPage({
 
         <section className="py-16 bg-white">
           <div className="container-wide grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
-            <article className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-lg shadow-slate-900/5">
+            <article className="rounded-[2rem] border-2 border-auditik-yellow bg-white p-8 shadow-lg shadow-slate-900/5">
               {aboutPartnerHtml && (
                 <div className="mb-10 rounded-[1.75rem] border border-slate-100 bg-slate-50 p-6">
                   <h2 className="text-2xl font-extrabold text-slate-900 mb-4">
