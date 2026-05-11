@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { trackButtonClick } from "@lib/analytics";
 import { APP_ROUTES } from "@lib/routes";
 
@@ -9,7 +9,6 @@ export function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
@@ -18,22 +17,22 @@ export function Header() {
   useEffect(() => {
     if (!isMobileMenuOpen) return;
 
+    // `overflow-hidden` no body quebra `position: sticky` do header (o cabeçalho deixa de
+    // ficar fixo na viewport). Não bloqueamos scroll no body aqui.
+
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    headerRef.current?.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start",
+    // Após o painel entrar no DOM, envia a vista ao topo para o menu ficar visível.
+    const id = window.requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
     });
-  }, [isMobileMenuOpen]);
 
-  useEffect(() => {
-    document.body.classList.toggle("overflow-hidden", isMobileMenuOpen);
-
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
+    return () => window.cancelAnimationFrame(id);
   }, [isMobileMenuOpen]);
 
   const normalizePath = (path: string) => {
@@ -84,10 +83,7 @@ export function Header() {
   };
 
   return (
-    <header
-      ref={headerRef}
-      className="sticky top-0 z-50 bg-white/80 backdrop-blur-md py-4"
-    >
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md py-4">
       <div className="container-wide flex flex-wrap items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 group cursor-pointer">
           <div className="transform group-hover:scale-105 transition-transform duration-300">
