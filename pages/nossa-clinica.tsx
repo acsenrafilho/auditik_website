@@ -25,13 +25,13 @@ export default function NossaClinicaPage() {
       name: "Unidade São Pedro",
       address: "Rua Malaquias Guerra, 290",
       city: "Centro, São Pedro - SP",
-      maps: "https://maps.app.goo.gl/8p4JUU1WWaR4KMNaA",
+      maps: "https://maps.app.goo.gl/HAKJ6zmwJ3JjvhseA",
     },
     {
       name: "Unidade Charqueada",
       address: "Avenida Brasil, 151",
       city: "Centro, Charqueada - SP",
-      maps: "https://maps.app.goo.gl/LUpi8CYH7kw4BYom8",
+      maps: "https://maps.app.goo.gl/PcWnKA3BTexc2FFm9",
     },
   ];
   const seo = getSEOMeta({

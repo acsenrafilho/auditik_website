@@ -152,13 +152,13 @@ export default function Home() {
       name: "Unidade São Pedro",
       address: "Rua Malaquias Guerra, 290",
       city: "Centro, São Pedro - SP",
-      maps: "https://maps.app.goo.gl/8p4JUU1WWaR4KMNaA",
+      maps: "https://maps.app.goo.gl/HAKJ6zmwJ3JjvhseA",
     },
     {
       name: "Unidade Charqueada",
       address: "Avenida Brasil, 151",
       city: "Centro, Charqueada - SP",
-      maps: "https://maps.app.goo.gl/LUpi8CYH7kw4BYom8",
+      maps: "https://maps.app.goo.gl/PcWnKA3BTexc2FFm9",
     },
   ];
 
@@ -977,7 +977,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-3 text-blue-100/80 hover:text-white transition-colors">
                   <span className="material-symbols-outlined text-xl">schedule</span>
-                  <span className="text-sm font-medium">Seg - Sex: 08h às 17h</span>
+                  <span className="text-sm font-medium">Seg - Sex: 08h às 17h30</span>
                 </li>
               </ul>
             </div>
@@ -1006,7 +1006,7 @@ export default function Home() {
                     href="/convenios"
                     className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
-                    Convênios
+                    Clube de Benefícios
                   </Link>
                 </li>
                 <li>
