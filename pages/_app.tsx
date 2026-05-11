@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { GA_ID, trackPageView } from "@lib/analytics";
 import { GOOGLE_ADS_ID, META_PIXEL_ID } from "@lib/ad-platform-tracking";
+import { ScrollToTopButton } from "@components/Common/ScrollToTopButton";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -116,6 +117,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
       <Component {...pageProps} />
+      <ScrollToTopButton />
     </>
   );
 }

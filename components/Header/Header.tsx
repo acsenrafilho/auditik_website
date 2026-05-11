@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { trackButtonClick } from "@lib/analytics";
 import { APP_ROUTES } from "@lib/routes";
 
@@ -9,10 +9,24 @@ export function Header() {
   const router = useRouter();
   const currentPath = router.pathname;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [router.asPath]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    headerRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     document.body.classList.toggle("overflow-hidden", isMobileMenuOpen);
@@ -70,7 +84,10 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md py-4">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 bg-white/80 backdrop-blur-md py-4"
+    >
       <div className="container-wide flex flex-wrap items-center justify-between gap-4">
         <Link href="/" className="flex items-center gap-2 group cursor-pointer">
           <div className="transform group-hover:scale-105 transition-transform duration-300">
