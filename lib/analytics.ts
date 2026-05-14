@@ -1,22 +1,25 @@
 /**
- * Google Analytics 4 tracking utilities
- * Requires: NEXT_PUBLIC_GA_ID environment variable configured
+ * Site measurement signals for Google Tag Manager (dataLayer).
+ * GA4 / Google Ads tags are configured in the GTM container, not loaded here.
  */
 
 import { trackCrossPlatformConversion } from "@lib/ad-platform-tracking";
+import { pushToDataLayer } from "@lib/data-layer";
 
 export interface EventParams {
   [key: string]: string | number | boolean;
 }
 
 /**
- * Track a custom event in Google Analytics 4
+ * Track a custom event (GTM listens on `event` name).
  * Usage: trackEvent('contact_form_submit', { location: 'piracicaba' })
  */
 export const trackEvent = (eventName: string, params?: EventParams) => {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", eventName, params);
-  }
+  const base = (params || {}) as Record<string, unknown>;
+  pushToDataLayer({
+    ...base,
+    event: eventName,
+  });
 };
 
 /**
@@ -51,7 +54,6 @@ export const trackButtonClick = (buttonName: string, params?: EventParams) => {
     ...params,
   });
 
-  // Map high-intent CTAs to ad-platform conversions without changing each page file.
   const normalizedName = buttonName.toLowerCase();
 
   if (normalizedName.includes("whatsapp")) {
@@ -90,7 +92,6 @@ export const trackConversion = (goalName: string, params?: EventParams) => {
     ...params,
   });
 
-  // Dispatch equivalent conversion signals to Meta Pixel and Google Ads.
   trackCrossPlatformConversion(goalName, params);
 };
 
@@ -118,15 +119,14 @@ export const trackEngagement = (contentType: string, params?: EventParams) => {
 };
 
 /**
- * Track user demographics and custom properties
+ * User properties for GA4 — map this event in GTM to GA4 user_properties.
  * Usage: setUserProperties({ user_type: 'prospective_customer', interest: 'hearing_aids' })
  */
 export const setUserProperties = (properties: EventParams) => {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("config", process.env.NEXT_PUBLIC_GA_ID, {
-      user_properties: properties,
-    });
-  }
+  pushToDataLayer({
+    event: "set_user_properties",
+    user_properties: properties as Record<string, unknown>,
+  });
 };
 
 /**
@@ -154,15 +154,6 @@ export const trackVideoEvent = (
     ...params,
   });
 };
-
-/**
- * Initialize GA4 script in the page head
- * This is typically done in pages/_app.tsx or pages/_document.tsx
- * Usage in _document.tsx:
- *   import { GA_ID } from '@lib/analytics'
- *   <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
- */
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 
 /**
  * Common conversion goals for hearing aid clinic

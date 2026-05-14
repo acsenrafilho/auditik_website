@@ -137,13 +137,8 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | AWS_REGION                              | AWS region                    | us-east-1                      |
 | AWS_S3_BUCKET                           | S3 bucket name                | auditik-website-prod           |
 | CLOUDFRONT_DISTRIBUTION_ID              | CloudFront distribution ID    | E1XXXXXXXXXXXXX                |
-| NEXT_PUBLIC_GA_ID                       | Google Analytics ID           | G-XXXXXXXXXXXX                 |
+| NEXT_PUBLIC_GTM_ID                      | Google Tag Manager container  | GTM-KHQP88V                    |
 | NEXT_PUBLIC_META_PIXEL_ID               | Meta Pixel ID                 | 123456789012345                |
-| NEXT_PUBLIC_GOOGLE_ADS_ID               | Google Ads ID                 | AW-123456789                   |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT    | Ads conversion label (contact)| AbCdEfGhIjKlMnOpQr             |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT| Ads conversion label (booking)| ZyXwVuTsRqPoNmLkJi             |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP   | Ads conversion label (WhatsApp)| QwErTyUiOpAsDfGhJk            |
-| NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE      | Ads conversion label (phone)  | LmNoPqRsTuVwXyZaBc             |
 | NEXT_PUBLIC_LEAD_PROXY_URL              | Lead proxy endpoint           | https://api.example.com/integrations/leads |
 | NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |
 
