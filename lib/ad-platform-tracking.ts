@@ -1,3 +1,5 @@
+import { pushToDataLayer } from "@lib/data-layer";
+
 export interface AdsEventParams {
   [key: string]: string | number | boolean;
 }
@@ -7,40 +9,21 @@ export interface AdsEventParams {
 // NEXT_PUBLIC_META_PIXEL_ID=123456789012345
 export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
 
-// Optional Google Ads account ID used by gtag config.
-// Fill with your account ID in .env.local / deployment env:
-// NEXT_PUBLIC_GOOGLE_ADS_ID=AW-123456789
-export const GOOGLE_ADS_ID = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "";
+/** Google Ads conversion kinds emitted to dataLayer for GTM tags. */
+export type GoogleAdsConversionKind = "contact" | "appointment" | "whatsapp" | "phone";
 
-// Conversion labels (one per Google Ads conversion action).
-// Replace placeholders with real labels from Google Ads conversion setup.
-export const GOOGLE_ADS_LABELS = {
-  CONTACT: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT || "", // e.g. AbCdEfGhIjKlMnOpQr
-  APPOINTMENT: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT || "", // e.g. ZyXwVuTsRqPoNmLkJi
-  WHATSAPP: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP || "", // e.g. QwErTyUiOpAsDfGhJk
-  PHONE: process.env.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE || "", // e.g. LmNoPqRsTuVwXyZaBc
-} as const;
-
-const getGoogleAdsSendTo = (label: string) => {
-  if (!GOOGLE_ADS_ID || !label) return "";
-  return `${GOOGLE_ADS_ID}/${label}`;
+const pushGoogleAdsConversion = (conversionType: GoogleAdsConversionKind, params?: AdsEventParams) => {
+  const extra = (params || {}) as Record<string, unknown>;
+  pushToDataLayer({
+    ...extra,
+    event: "google_ads_conversion",
+    conversion_type: conversionType,
+  });
 };
 
 export const trackMetaEvent = (eventName: string, params?: AdsEventParams) => {
   if (typeof window !== "undefined" && (window as any).fbq) {
     (window as any).fbq("track", eventName, params || {});
-  }
-};
-
-export const trackGoogleAdsConversion = (label: string, params?: AdsEventParams) => {
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    const sendTo = getGoogleAdsSendTo(label);
-    if (!sendTo) return;
-
-    (window as any).gtag("event", "conversion", {
-      send_to: sendTo,
-      ...params,
-    });
   }
 };
 
@@ -51,7 +34,6 @@ export const trackCrossPlatformConversion = (
   const goal = goalName.toLowerCase();
   const metaParams = {};
 
-  // Meta mapping
   if (goal === "contact_form_submit") {
     trackMetaEvent("Lead", metaParams);
   }
@@ -69,24 +51,19 @@ export const trackCrossPlatformConversion = (
     trackMetaEvent("Lead", metaParams);
   }
 
-  // Google Ads mapping
-  if (goal === "contact_form_submit") {
-    trackGoogleAdsConversion(GOOGLE_ADS_LABELS.CONTACT, params);
-  }
-
-  if (goal === "whatsapp_lead_submitted") {
-    trackGoogleAdsConversion(GOOGLE_ADS_LABELS.CONTACT, params);
+  if (goal === "contact_form_submit" || goal === "whatsapp_lead_submitted") {
+    pushGoogleAdsConversion("contact", params);
   }
 
   if (goal === "appointment_scheduled" || goal === "free_evaluation_requested") {
-    trackGoogleAdsConversion(GOOGLE_ADS_LABELS.APPOINTMENT, params);
+    pushGoogleAdsConversion("appointment", params);
   }
 
   if (goal === "whatsapp_click") {
-    trackGoogleAdsConversion(GOOGLE_ADS_LABELS.WHATSAPP, params);
+    pushGoogleAdsConversion("whatsapp", params);
   }
 
   if (goal === "phone_call_initiated") {
-    trackGoogleAdsConversion(GOOGLE_ADS_LABELS.PHONE, params);
+    pushGoogleAdsConversion("phone", params);
   }
 };

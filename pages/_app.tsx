@@ -3,26 +3,19 @@ import { DefaultSeo } from "next-seo";
 import Script from "next/script";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { GA_ID, trackPageView } from "@lib/analytics";
-import { GOOGLE_ADS_ID, META_PIXEL_ID } from "@lib/ad-platform-tracking";
+import { trackPageView } from "@lib/analytics";
+import { META_PIXEL_ID } from "@lib/ad-platform-tracking";
 import { ScrollToTopButton } from "@components/Common/ScrollToTopButton";
 import "../styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const hasGtagTracking = Boolean(GA_ID || GOOGLE_ADS_ID);
 
   useEffect(() => {
-    if (!GA_ID && !META_PIXEL_ID) return;
-
-    // Track page views on route change
     const handleRouteChange = (url: string) => {
       const pageName = url.split("/")[1] || "home";
-      if (GA_ID) {
-        trackPageView(url, pageName);
-      }
+      trackPageView(url, pageName);
 
-      // Meta Pixel route tracking for SPA navigation.
       if (typeof window !== "undefined" && (window as any).fbq) {
         (window as any).fbq("track", "PageView");
       }
@@ -30,7 +23,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
     router.events.on("routeChangeComplete", handleRouteChange);
 
-    // Cleanup
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
@@ -38,36 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      {/* Google Analytics + Google Ads base gtag */}
-      {hasGtagTracking && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${
-              GA_ID || GOOGLE_ADS_ID
-            }`}
-            strategy="afterInteractive"
-          />
-          <Script
-            id="google-analytics"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                ${
-                  GA_ID
-                    ? `gtag('config', '${GA_ID}', { page_path: window.location.pathname });`
-                    : ""
-                }
-                ${GOOGLE_ADS_ID ? `gtag('config', '${GOOGLE_ADS_ID}');` : ""}
-              `,
-            }}
-          />
-        </>
-      )}
-
-      {/* Meta Pixel: set NEXT_PUBLIC_META_PIXEL_ID in environment variables */}
       {META_PIXEL_ID && (
         <>
           <Script

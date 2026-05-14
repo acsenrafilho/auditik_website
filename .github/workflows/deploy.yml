@@ -11,13 +11,8 @@ env:
   AWS_S3_BUCKET: ${{ vars.AWS_S3_BUCKET }}
   CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
   NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
-  NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
+  NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
   NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.NEXT_PUBLIC_META_PIXEL_ID }}
-  NEXT_PUBLIC_GOOGLE_ADS_ID: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_ID }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_CONTACT }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_APPOINTMENT }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_WHATSAPP }}
-  NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE: ${{ vars.NEXT_PUBLIC_GOOGLE_ADS_LABEL_PHONE }}
   NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
   NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
   NEXT_PUBLIC_BENEFIT_ACTIVATE_URL: ${{ vars.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL }}
@@ -43,15 +38,60 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate required public env vars
+      # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
+      # Tracking: GA4 + Google Ads are loaded via GTM — NEXT_PUBLIC_GTM_ID must be set (e.g. GTM-KHQP88V).
+      # Meta Pixel: NEXT_PUBLIC_META_PIXEL_ID must be numeric. Tina: client id + token required for CMS build.
+      - name: Validate required environment variables for build
         run: |
-          test -n "${NEXT_PUBLIC_LEAD_PROXY_URL}" || (echo "Missing NEXT_PUBLIC_LEAD_PROXY_URL" && exit 1)
-          test -n "${NEXT_PUBLIC_LEAD_INTEGRATION_NAME}" || (echo "Missing NEXT_PUBLIC_LEAD_INTEGRATION_NAME" && exit 1)
-          test -n "${NEXT_PUBLIC_BENEFIT_ACTIVATE_URL}" || (echo "Missing NEXT_PUBLIC_BENEFIT_ACTIVATE_URL" && exit 1)
+          set -euo pipefail
+          fail() { echo "::error::$1" >&2; exit 1; }
+
+          require_nonempty() {
+            local name="$1"
+            [ -n "${!name:-}" ] || fail "Missing or empty required variable: $name (set in GitHub Actions → Settings → Secrets and variables → Actions)"
+          }
+
+          require_regex() {
+            local name="$1"
+            local pattern="$2"
+            local val="${!name:-}"
+            [[ "$val" =~ $pattern ]] || fail "$name has invalid format (expected pattern: $pattern). Current value length: ${#val}"
+          }
+
+          require_https_url() {
+            local name="$1"
+            local val="${!name:-}"
+            [[ "$val" == https://* ]] || fail "$name must start with https:// (got: ${val:0:40})"
+          }
+
+          echo "Checking TinaCMS (build-time)…"
+          require_nonempty NEXT_PUBLIC_TINA_CLIENT_ID
+          require_nonempty TINA_TOKEN
+
+          echo "Checking Google Tag Manager container…"
+          require_nonempty NEXT_PUBLIC_GTM_ID
+          require_regex NEXT_PUBLIC_GTM_ID '^GTM-[A-Za-z0-9]+$'
+
+          echo "Checking Meta Pixel…"
+          require_nonempty NEXT_PUBLIC_META_PIXEL_ID
+          require_regex NEXT_PUBLIC_META_PIXEL_ID '^[0-9]+$'
+
+          echo "Checking lead proxy and convênios activation…"
+          require_nonempty NEXT_PUBLIC_LEAD_PROXY_URL
+          require_https_url NEXT_PUBLIC_LEAD_PROXY_URL
+          require_nonempty NEXT_PUBLIC_LEAD_INTEGRATION_NAME
+          require_nonempty NEXT_PUBLIC_BENEFIT_ACTIVATE_URL
+          require_https_url NEXT_PUBLIC_BENEFIT_ACTIVATE_URL
+
+          echo "✅ All required environment variables for production build are present and well-formed."
 
       - name: Build Next.js
         run: npm run build
         env:
+          NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+          NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
+          NEXT_PUBLIC_META_PIXEL_ID: ${{ vars.NEXT_PUBLIC_META_PIXEL_ID }}
           NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
           NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
           NEXT_PUBLIC_BENEFIT_ACTIVATE_URL: ${{ vars.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL }}
