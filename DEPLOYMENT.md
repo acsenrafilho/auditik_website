@@ -141,6 +141,7 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | NEXT_PUBLIC_META_PIXEL_ID               | Meta Pixel ID                 | 123456789012345                |
 | NEXT_PUBLIC_LEAD_PROXY_URL              | Lead proxy endpoint           | https://api.example.com/integrations/leads |
 | NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |
+| NEXT_PUBLIC_BENEFIT_ACTIVATE_URL        | Convênios benefit activation  | https://api.example.com/activate |
 
 ### How to Add (Secrets and Variables)
 
@@ -149,6 +150,8 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 3. For sensitive values, open the **Secrets** tab and click "New repository secret"
 4. For non-sensitive config, open the **Variables** tab and click "New repository variable"
 5. Add each name/value pair exactly as listed above
+
+The deploy workflow (`.github/workflows/deploy.yml`) runs a **validation step before the build**: required values must be present, `NEXT_PUBLIC_GTM_ID` must look like `GTM-…`, `NEXT_PUBLIC_META_PIXEL_ID` must be numeric only, and lead/benefit URLs must use `https://`.
 
 ## 🚀 Deployment Process
 
