@@ -30,10 +30,10 @@ clientProfiles:
 benefitSummary: "Consulta com especialista em osteopatia e reabilitadora física."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
-  - "/images/auditik/convenios/carla-osteopata/foto_1.png"
-  - "/images/auditik/convenios/carla-osteopata/foto_2.png"
-  - "/images/auditik/convenios/carla-osteopata/foto_3.png"
-  - "/images/auditik/convenios/carla-osteopata/foto_4.png"
+  - "/images/auditik/convenios/carla-osteopata/foto_1.jpeg"
+  - "/images/auditik/convenios/carla-osteopata/foto_2.jpeg"
+  - "/images/auditik/convenios/carla-osteopata/foto_3.jpeg"
+  - "/images/auditik/convenios/carla-osteopata/foto_4.jpeg"
 ---
 
 ## Sobre o parceiro
