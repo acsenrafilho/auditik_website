@@ -622,7 +622,7 @@ export default function PrecoAparelhoAuditivoPage() {
                 </div>
               ))}
             </div>
-            <p className="text-center text-slate-600 text-lg">
+            <p className="text-center text-slate-600 text-lg leading-relaxed">
               Para comparar modelos RITE, BTE e intra-auriculares, veja a{" "}
               <Link
                 href={APP_ROUTES.aparelhos}
@@ -635,6 +635,19 @@ export default function PrecoAparelhoAuditivoPage() {
                 className="text-auditik-blue font-bold hover:underline"
               >
                 linha completa Philips HearLink
+              </Link>
+              . Busca máxima discrição? Veja o{" "}
+              <Link
+                href={SUBS_APARELHOS_ROUTES.invisivel}
+                onClick={() =>
+                  trackButtonClick("preco_link_invisivel", {
+                    section: "tecnologia",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="text-auditik-blue font-bold hover:underline"
+              >
+                aparelho auditivo invisível
               </Link>
               .
             </p>

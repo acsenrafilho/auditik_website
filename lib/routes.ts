@@ -14,6 +14,7 @@ export const SUBS_APARELHOS_ROUTES = {
   piracicaba: "/aparelhos-auditivos-em-piracicaba/",
   preco: "/preco-aparelho-auditivo/",
   financiamento: "/financiamento-aparelho-auditivo/",
+  invisivel: "/aparelho-auditivo-invisivel/",
 } as const;
 
 export const ensureTrailingSlash = (path: string) => {

@@ -704,6 +704,19 @@ export default function FinanciamentoAparelhoAuditivoPage() {
               >
                 linha completa Philips HearLink
               </Link>
+              . Interessado em formatos discretos? Conheça o{" "}
+              <Link
+                href={SUBS_APARELHOS_ROUTES.invisivel}
+                onClick={() =>
+                  trackButtonClick("financiamento_link_invisivel", {
+                    section: "tecnologia",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="text-auditik-blue font-bold hover:underline"
+              >
+                aparelho auditivo invisível
+              </Link>
               .
             </p>
           </div>

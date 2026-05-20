@@ -397,7 +397,7 @@ export default function AparelhosPage() {
                 </Link>{" "}
                 com transparência e avaliação gratuita.
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Precisa facilitar o pagamento? Veja{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.financiamento}
@@ -411,6 +411,19 @@ export default function AparelhosPage() {
                   financiamento de aparelho auditivo
                 </Link>{" "}
                 com parcelamento em até 21x sem juros e Crédito BB.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Busca máxima discrição? Conheça o{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.invisivel}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_invisivel", { section: "hero" })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  aparelho auditivo invisível
+                </Link>{" "}
+                (IIC e CIC Philips HearLink).
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
