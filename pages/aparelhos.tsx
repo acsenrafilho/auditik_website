@@ -438,7 +438,7 @@ export default function AparelhosPage() {
                 </Link>{" "}
                 Philips HearLink com bateria de íon-lítio.
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Quer conectividade com celular e TV? Conheça o{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.bluetooth}
@@ -450,6 +450,21 @@ export default function AparelhosPage() {
                   aparelho auditivo com Bluetooth
                 </Link>{" "}
                 com app HearLink 2 e acessórios Philips.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Quer conhecer a marca por trás da tecnologia? Veja{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.philipsHearingSolutions}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_philips_hearing_solutions", {
+                      section: "hero",
+                    })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  aparelhos auditivos Philips Hearing Solutions
+                </Link>{" "}
+                e por que a Auditik é distribuidor autorizado na região.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
