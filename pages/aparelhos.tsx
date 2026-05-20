@@ -412,7 +412,7 @@ export default function AparelhosPage() {
                 </Link>{" "}
                 com parcelamento em até 21x sem juros e Crédito BB.
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Busca máxima discrição? Conheça o{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.invisivel}
@@ -424,6 +424,19 @@ export default function AparelhosPage() {
                   aparelho auditivo invisível
                 </Link>{" "}
                 (IIC e CIC Philips HearLink).
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Quer praticidade sem pilhas? Conheça o{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.recarregavel}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_recarregavel", { section: "hero" })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  aparelho auditivo recarregável
+                </Link>{" "}
+                Philips HearLink com bateria de íon-lítio.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link

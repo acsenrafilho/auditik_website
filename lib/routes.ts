@@ -15,6 +15,7 @@ export const SUBS_APARELHOS_ROUTES = {
   preco: "/preco-aparelho-auditivo/",
   financiamento: "/financiamento-aparelho-auditivo/",
   invisivel: "/aparelho-auditivo-invisivel/",
+  recarregavel: "/aparelho-auditivo-recarregavel/",
 } as const;
 
 export const ensureTrailingSlash = (path: string) => {

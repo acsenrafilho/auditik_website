@@ -649,6 +649,19 @@ export default function PrecoAparelhoAuditivoPage() {
               >
                 aparelho auditivo invisível
               </Link>
+              . Quer praticidade sem pilhas? Veja o{" "}
+              <Link
+                href={SUBS_APARELHOS_ROUTES.recarregavel}
+                onClick={() =>
+                  trackButtonClick("preco_link_recarregavel", {
+                    section: "tecnologia",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="text-auditik-blue font-bold hover:underline"
+              >
+                aparelho auditivo recarregável
+              </Link>
               .
             </p>
           </div>

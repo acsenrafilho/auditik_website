@@ -20,6 +20,7 @@ O `exportPathMap` em `next.config.js` **não exporta** rotas `/subs-aparelhos/*`
 | `preco-aparelho-auditivo` | `/preco-aparelho-auditivo/` |
 | `financiamento-aparelho-auditivo` | `/financiamento-aparelho-auditivo/` |
 | `aparelho-auditivo-invisivel` | `/aparelho-auditivo-invisivel/` |
+| `aparelho-auditivo-recarregavel` | `/aparelho-auditivo-recarregavel/` |
 
 ## Adicionar nova satélite
 

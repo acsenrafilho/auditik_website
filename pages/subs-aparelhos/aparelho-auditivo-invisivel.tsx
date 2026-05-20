@@ -842,6 +842,19 @@ export default function AparelhoAuditivoInvisivelPage() {
                 <span className="material-symbols-outlined">location_on</span>
                 Aparelhos em Piracicaba
               </Link>
+              <Link
+                href={SUBS_APARELHOS_ROUTES.recarregavel}
+                onClick={() =>
+                  trackButtonClick("invisivel_link_recarregavel", {
+                    section: "investimento",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-bg-light-blue text-auditik-blue font-bold rounded-full border border-blue-50 hover:border-auditik-blue transition-colors"
+              >
+                <span className="material-symbols-outlined">battery_charging_full</span>
+                Aparelho recarregável
+              </Link>
             </div>
           </div>
         </section>
