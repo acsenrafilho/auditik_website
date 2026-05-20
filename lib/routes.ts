@@ -9,6 +9,11 @@ export const APP_ROUTES = {
   privacyPolicy: "/politica-de-privacidade/",
 } as const;
 
+/** Satellite landing pages in the aparelhos SEO silo (see pages/subs-aparelhos/). */
+export const SUBS_APARELHOS_ROUTES = {
+  piracicaba: "/aparelhos-auditivos-em-piracicaba/",
+} as const;
+
 export const ensureTrailingSlash = (path: string) => {
   if (!path || path === "/" || path.endsWith("/") || path.includes(".")) {
     return path;

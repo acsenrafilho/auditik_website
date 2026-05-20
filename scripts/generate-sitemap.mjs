@@ -8,12 +8,18 @@ const staticPaths = [
   "",
   "/nossa-clinica",
   "/aparelhos",
+  "/aparelhos-auditivos-em-piracicaba",
   "/convenios",
   "/blog",
   "/contato",
   "/faq",
   "/politica-de-privacidade",
 ];
+
+/** Routes with custom sitemap priority (default 0.7). */
+const staticPathPriority = {
+  "/aparelhos-auditivos-em-piracicaba": "0.8",
+};
 
 const getSlugsFromDir = async (relativeDir) => {
   const fullDir = path.join(ROOT, relativeDir);
@@ -40,7 +46,12 @@ const run = async () => {
 
   const nodes = [
     ...staticPaths.map((route) =>
-      toUrlNode(route, nowIso, route === "" ? "1.0" : "0.7", "weekly"),
+      toUrlNode(
+        route,
+        nowIso,
+        route === "" ? "1.0" : (staticPathPriority[route] ?? "0.7"),
+        "weekly",
+      ),
     ),
     ...blogSlugs.map((slug) => toUrlNode(`/blog/${slug}`, nowIso, "0.7", "weekly")),
     ...convenioSlugs.map((slug) =>

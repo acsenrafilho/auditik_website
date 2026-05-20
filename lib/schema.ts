@@ -6,17 +6,17 @@ export const generateLocalBusinessSchema = (
   const locations = {
     piracicaba: {
       name: "Auditik - Piracicaba",
-      street: "Rua de Cavvarteira, 320",
+      street: "Rua Samuel Neves, 1800",
       city: "Piracicaba",
       state: "SP",
-      postalCode: "13400-000",
+      postalCode: "13420-000",
       phone: "(19) 3377-6941",
       latitude: "-22.7339",
       longitude: "-47.6492",
     },
     americana: {
       name: "Auditik - Americana",
-      street: "Rua Praras de Carellho, 3338",
+      street: "Rua Luíza Meneghel Mancine, 72 - Sala 12",
       city: "Americana",
       state: "SP",
       postalCode: "13460-000",
@@ -53,7 +53,10 @@ export const generateLocalBusinessSchema = (
       longitude: loc.longitude,
     },
     priceRange: "$$",
-    sameAs: ["https://www.facebook.com/auditik", "https://www.instagram.com/auditik"],
+    sameAs: [
+      "https://www.facebook.com/auditik.piracicaba",
+      "https://www.instagram.com/auditik.piracicaba",
+    ],
   };
 };
 

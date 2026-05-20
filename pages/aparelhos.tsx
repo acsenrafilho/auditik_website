@@ -8,6 +8,7 @@ import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import { generateFAQSchema, generateProductSchema } from "@lib/schema";
+import { SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
 type ProductItem = {
   name: string;
@@ -365,10 +366,23 @@ export default function AparelhosPage() {
                   IA, precisão clínica e conforto real
                 </span>
               </h1>
-              <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-4">
                 Na Auditik, você encontra a linha completa Philips HearLink com
                 atendimento fonoaudiológico especializado, programação individual e
                 acompanhamento contínuo para escutar melhor em todos os momentos.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Atendimento presencial em{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.piracicaba}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_piracicaba", { section: "hero" })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  aparelhos auditivos em Piracicaba
+                </Link>
+                .
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link

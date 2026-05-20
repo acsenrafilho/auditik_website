@@ -26,6 +26,16 @@ const nextConfig = {
   compress: true,
   productionBrowserSourceMaps: false,
   // For static export, set security headers in S3/CloudFront instead of Next headers().
+  // Satellite pages live under pages/subs-aparelhos/ for code organization; public URLs use
+  // flat stubs in pages/ (e.g. aparelhos-auditivos-em-piracicaba.tsx re-export).
+  exportPathMap: async (defaultPathMap) => {
+    const pathMap = {};
+    for (const [pathname, config] of Object.entries(defaultPathMap)) {
+      if (pathname.startsWith("/subs-aparelhos/")) continue;
+      pathMap[pathname] = config;
+    }
+    return pathMap;
+  },
 };
 
 module.exports = nextConfig;
