@@ -730,6 +730,19 @@ export default function FinanciamentoAparelhoAuditivoPage() {
               >
                 aparelho auditivo recarregável
               </Link>
+              . Quer celular e TV conectados? Veja o{" "}
+              <Link
+                href={SUBS_APARELHOS_ROUTES.bluetooth}
+                onClick={() =>
+                  trackButtonClick("financiamento_link_bluetooth", {
+                    section: "tecnologia",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="text-auditik-blue font-bold hover:underline"
+              >
+                aparelho auditivo com Bluetooth
+              </Link>
               .
             </p>
           </div>

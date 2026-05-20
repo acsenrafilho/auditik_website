@@ -425,7 +425,7 @@ export default function AparelhosPage() {
                 </Link>{" "}
                 (IIC e CIC Philips HearLink).
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Quer praticidade sem pilhas? Conheça o{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.recarregavel}
@@ -437,6 +437,19 @@ export default function AparelhosPage() {
                   aparelho auditivo recarregável
                 </Link>{" "}
                 Philips HearLink com bateria de íon-lítio.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Quer conectividade com celular e TV? Conheça o{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.bluetooth}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_bluetooth", { section: "hero" })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  aparelho auditivo com Bluetooth
+                </Link>{" "}
+                com app HearLink 2 e acessórios Philips.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link

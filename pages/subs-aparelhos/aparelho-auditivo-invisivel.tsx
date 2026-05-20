@@ -855,6 +855,19 @@ export default function AparelhoAuditivoInvisivelPage() {
                 <span className="material-symbols-outlined">battery_charging_full</span>
                 Aparelho recarregável
               </Link>
+              <Link
+                href={SUBS_APARELHOS_ROUTES.bluetooth}
+                onClick={() =>
+                  trackButtonClick("invisivel_link_bluetooth", {
+                    section: "investimento",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-bg-light-blue text-auditik-blue font-bold rounded-full border border-blue-50 hover:border-auditik-blue transition-colors"
+              >
+                <span className="material-symbols-outlined">bluetooth</span>
+                Aparelho com Bluetooth
+              </Link>
             </div>
           </div>
         </section>
