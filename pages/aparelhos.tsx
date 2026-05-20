@@ -371,7 +371,7 @@ export default function AparelhosPage() {
                 atendimento fonoaudiológico especializado, programação individual e
                 acompanhamento contínuo para escutar melhor em todos os momentos.
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Atendimento presencial em{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.piracicaba}
@@ -383,6 +383,19 @@ export default function AparelhosPage() {
                   aparelhos auditivos em Piracicaba
                 </Link>
                 .
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Quer entender o investimento? Veja nosso guia sobre{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.preco}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_preco", { section: "hero" })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  preço de aparelho auditivo
+                </Link>{" "}
+                com transparência e avaliação gratuita.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link

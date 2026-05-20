@@ -12,6 +12,7 @@ export const APP_ROUTES = {
 /** Satellite landing pages in the aparelhos SEO silo (see pages/subs-aparelhos/). */
 export const SUBS_APARELHOS_ROUTES = {
   piracicaba: "/aparelhos-auditivos-em-piracicaba/",
+  preco: "/preco-aparelho-auditivo/",
 } as const;
 
 export const ensureTrailingSlash = (path: string) => {

@@ -9,6 +9,7 @@ const staticPaths = [
   "/nossa-clinica",
   "/aparelhos",
   "/aparelhos-auditivos-em-piracicaba",
+  "/preco-aparelho-auditivo",
   "/convenios",
   "/blog",
   "/contato",
@@ -19,6 +20,7 @@ const staticPaths = [
 /** Routes with custom sitemap priority (default 0.7). */
 const staticPathPriority = {
   "/aparelhos-auditivos-em-piracicaba": "0.8",
+  "/preco-aparelho-auditivo": "0.8",
 };
 
 const getSlugsFromDir = async (relativeDir) => {

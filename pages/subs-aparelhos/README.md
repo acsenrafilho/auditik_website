@@ -12,6 +12,13 @@ Implementações das landing pages SEO ligadas à página pilar [`/aparelhos/`](
 
 O `exportPathMap` em `next.config.js` **não exporta** rotas `/subs-aparelhos/*` — apenas os stubs na raiz de `pages/` geram HTML estático.
 
+## Satélites publicadas
+
+| Slug | URL pública |
+|------|-------------|
+| `aparelhos-auditivos-em-piracicaba` | `/aparelhos-auditivos-em-piracicaba/` |
+| `preco-aparelho-auditivo` | `/preco-aparelho-auditivo/` |
+
 ## Adicionar nova satélite
 
 1. Criar `pages/subs-aparelhos/<slug>.tsx`

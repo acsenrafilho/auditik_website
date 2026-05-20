@@ -29,11 +29,6 @@ const faqItems = [
       "Sim. Agende sem compromisso para conhecer seu perfil auditivo e as opções Philips HearLink com nossa equipe de fonoaudiólogos.",
   },
   {
-    question: "Preciso de encaminhamento médico?",
-    answer:
-      "Não é obrigatório para a avaliação inicial. Nossa equipe orienta sobre exames complementares quando necessário.",
-  },
-  {
     question: "Quanto tempo dura a primeira consulta?",
     answer:
       "A primeira consulta geralmente dura 1 hora e meia, pois a fonoaudióloga precisa realizar uma avaliação auditiva completa e entender sua rotina e necessidades para indicar o modelo mais adequado. Depois da consulta, você pode experimentar o aparelho no conforto da sua casa e tomar a decisão com mais tranquilidade.",
