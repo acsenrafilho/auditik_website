@@ -7,7 +7,7 @@ import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
-import { APP_ROUTES } from "@lib/routes";
+import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
 const PAGE_TRACKING = "subs-aparelhos/preco";
 
@@ -446,7 +446,21 @@ export default function PrecoAparelhoAuditivoPage() {
             </div>
             <p className="mt-10 text-center text-slate-600 text-lg max-w-3xl mx-auto leading-relaxed">
               <strong>Importante:</strong> parcelamento e condições comerciais são
-              apresentados presencialmente, após a avaliação, com total transparência.
+              apresentados presencialmente, após a avaliação, com total transparência.{" "}
+              Conheça as opções de{" "}
+              <Link
+                href={SUBS_APARELHOS_ROUTES.financiamento}
+                onClick={() =>
+                  trackButtonClick("preco_link_financiamento", {
+                    section: "faixas_investimento",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="text-auditik-blue font-bold hover:underline"
+              >
+                financiamento de aparelho auditivo
+              </Link>{" "}
+              — até 21x sem juros no cartão e Crédito Acessibilidade BB.
             </p>
           </div>
         </section>

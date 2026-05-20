@@ -384,7 +384,7 @@ export default function AparelhosPage() {
                 </Link>
                 .
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Quer entender o investimento? Veja nosso guia sobre{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.preco}
@@ -396,6 +396,21 @@ export default function AparelhosPage() {
                   preço de aparelho auditivo
                 </Link>{" "}
                 com transparência e avaliação gratuita.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Precisa facilitar o pagamento? Veja{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.financiamento}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_financiamento", {
+                      section: "hero",
+                    })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  financiamento de aparelho auditivo
+                </Link>{" "}
+                com parcelamento em até 21x sem juros e Crédito BB.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
