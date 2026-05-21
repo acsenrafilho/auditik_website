@@ -464,7 +464,7 @@ export default function AparelhosPage() {
                 </Link>{" "}
                 com app HearLink 2 e acessórios Philips.
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Quer conhecer a marca por trás da tecnologia? Veja{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.philipsHearingSolutions}
@@ -478,6 +478,21 @@ export default function AparelhosPage() {
                   aparelhos auditivos Philips Hearing Solutions
                 </Link>{" "}
                 e por que a Auditik é distribuidor autorizado na região.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Ainda não tem certeza? Leia{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.comoSaberPrecisa}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_como_saber_precisa", {
+                      section: "hero",
+                    })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  como saber se precisa de aparelho auditivo
+                </Link>{" "}
+                — sinais do dia a dia e quando buscar avaliação gratuita.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
