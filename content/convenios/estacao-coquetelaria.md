@@ -1,7 +1,7 @@
 ---
-name: "Estacao Coquetelaria"
+name: "Estação Coquetelaria"
 slug: "estacao-coquetelaria"
-description: "Estacao Coquetelaria em eventos e festas"
+description: "Estação Coquetelaria em eventos e festas"
 address: "Av. Maria Elisa, 450 - Vila Rezende, Piracicaba - SP, 13405-232"
 phone: "(019) 98261-7710"
 googleMapsUrl: "https://maps.app.goo.gl/7qjjcRGpj4N6Q7tD8"

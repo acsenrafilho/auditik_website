@@ -7,7 +7,7 @@ phone: "(019) 3422-7184"
 googleMapsUrl: "https://maps.app.goo.gl/pXgXbmiZhk4jsGhFA"
 # logo: caminho público (ex.: /images/auditik/convenios/...) ou vazio ""
 logo: "/images/auditik/convenios/otica-cs/logo.jpg"
-featured: false
+featured: true
 # cities — cidades (valor exato; um ou mais itens):
 #   piracicaba | americana | santa-barbara-d-oeste | limeira | rio-claro | sao-pedro | aguas-de-sao-pedro | charqueada
 cities:

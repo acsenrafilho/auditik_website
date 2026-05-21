@@ -1,7 +1,7 @@
 ---
 name: "Lorene Guarnieri Terapeuta"
 slug: "lorene-guarnieri-terapeuta"
-description: "Resumo curto do parceiro para a listagem."
+description: "Terapeuta para saúde mental e emocional."
 address: "Atendimento online"
 phone: "(19) 98812-3063"
 googleMapsUrl: ""
@@ -31,6 +31,8 @@ benefitTypes:
 #   idosos | familias | estudantes | empresas | publico-geral
 clientProfiles:
   - publico-geral
+  - idosos
+  - familias
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
 benefitSummary: "15% de desconto em todos os procedimentos especializados."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
