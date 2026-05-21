@@ -18,6 +18,7 @@ export const SUBS_APARELHOS_ROUTES = {
   recarregavel: "/aparelho-auditivo-recarregavel/",
   bluetooth: "/aparelho-auditivo-com-bluetooth/",
   philipsHearingSolutions: "/aparelhos-auditivos-philips-hearing-solutions/",
+  idosos: "/aparelho-auditivo-para-idosos/",
 } as const;
 
 export const ensureTrailingSlash = (path: string) => {

@@ -888,6 +888,19 @@ export default function AparelhoAuditivoRecarregavelPage() {
                 Aparelho com Bluetooth
               </Link>
               <Link
+                href={SUBS_APARELHOS_ROUTES.idosos}
+                onClick={() =>
+                  trackButtonClick("recarregavel_link_idosos", {
+                    section: "investimento",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-auditik-blue font-bold rounded-full border border-blue-50 hover:border-auditik-blue transition-colors"
+              >
+                <span className="material-symbols-outlined">elderly</span>
+                Aparelho para idosos
+              </Link>
+              <Link
                 href={SUBS_APARELHOS_ROUTES.piracicaba}
                 onClick={() =>
                   trackButtonClick("recarregavel_link_piracicaba", {

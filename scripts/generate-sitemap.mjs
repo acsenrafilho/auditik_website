@@ -15,6 +15,7 @@ const staticPaths = [
   "/aparelho-auditivo-recarregavel",
   "/aparelho-auditivo-com-bluetooth",
   "/aparelhos-auditivos-philips-hearing-solutions",
+  "/aparelho-auditivo-para-idosos",
   "/convenios",
   "/blog",
   "/contato",
@@ -31,6 +32,7 @@ const staticPathPriority = {
   "/aparelho-auditivo-recarregavel": "0.8",
   "/aparelho-auditivo-com-bluetooth": "0.8",
   "/aparelhos-auditivos-philips-hearing-solutions": "0.8",
+  "/aparelho-auditivo-para-idosos": "0.8",
 };
 
 const getSlugsFromDir = async (relativeDir) => {

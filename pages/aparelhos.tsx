@@ -439,6 +439,19 @@ export default function AparelhosPage() {
                 Philips HearLink com bateria de íon-lítio.
               </p>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
+                Busca orientação para pai, mãe ou familiar idoso? Veja o guia{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.idosos}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_idosos", { section: "hero" })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  aparelho auditivo para idosos
+                </Link>{" "}
+                — presbiacusia, manuseio fácil e modelos recarregáveis.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Quer conectividade com celular e TV? Conheça o{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.bluetooth}
