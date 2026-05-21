@@ -17,6 +17,7 @@ const staticPaths = [
   "/aparelhos-auditivos-philips-hearing-solutions",
   "/aparelho-auditivo-para-idosos",
   "/como-saber-se-precisa-de-aparelho-auditivo",
+  "/manutencao-e-ajuste-de-aparelho-auditivo",
   "/convenios",
   "/blog",
   "/contato",
@@ -35,6 +36,7 @@ const staticPathPriority = {
   "/aparelhos-auditivos-philips-hearing-solutions": "0.8",
   "/aparelho-auditivo-para-idosos": "0.8",
   "/como-saber-se-precisa-de-aparelho-auditivo": "0.8",
+  "/manutencao-e-ajuste-de-aparelho-auditivo": "0.8",
 };
 
 const getSlugsFromDir = async (relativeDir) => {

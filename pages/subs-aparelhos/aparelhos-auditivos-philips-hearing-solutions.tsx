@@ -1051,6 +1051,19 @@ export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
                 <span className="material-symbols-outlined">location_on</span>
                 Aparelhos em Piracicaba
               </Link>
+              <Link
+                href={SUBS_APARELHOS_ROUTES.manutencaoAjuste}
+                onClick={() =>
+                  trackButtonClick("philips_link_manutencao_silo", {
+                    section: "silo",
+                    page: PAGE_TRACKING,
+                  })
+                }
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-bg-light-blue text-auditik-blue font-bold rounded-full border border-blue-50 hover:border-auditik-blue transition-colors"
+              >
+                <span className="material-symbols-outlined">build</span>
+                Manutenção e ajuste
+              </Link>
             </div>
           </div>
         </section>

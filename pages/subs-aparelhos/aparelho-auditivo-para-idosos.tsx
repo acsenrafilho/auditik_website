@@ -322,6 +322,12 @@ const siloLinks = [
     label: "Aparelho com Bluetooth",
     tracking: "idosos_link_bluetooth",
   },
+  {
+    href: SUBS_APARELHOS_ROUTES.manutencaoAjuste,
+    icon: "build",
+    label: "Manutenção e ajuste",
+    tracking: "idosos_link_manutencao",
+  },
 ];
 
 export default function AparelhoAuditivoParaIdososPage() {
@@ -922,7 +928,7 @@ export default function AparelhoAuditivoParaIdososPage() {
         <section className="py-20 bg-bg-light-blue" id="mais-informacoes">
           <div className="container-wide max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Mais informações no silo Aparelhos Auditivos
+              Mais informações sobre Aparelhos Auditivos
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-4">
               Explore guias complementares sobre investimento, tecnologia e formatos.

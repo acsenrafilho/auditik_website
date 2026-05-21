@@ -479,7 +479,7 @@ export default function AparelhosPage() {
                 </Link>{" "}
                 e por que a Auditik é distribuidor autorizado na região.
               </p>
-              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Ainda não tem certeza? Leia{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.comoSaberPrecisa}
@@ -493,6 +493,21 @@ export default function AparelhosPage() {
                   como saber se precisa de aparelho auditivo
                 </Link>{" "}
                 — sinais do dia a dia e quando buscar avaliação gratuita.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Já usa aparelho e precisa de assistência? Veja{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.manutencaoAjuste}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_manutencao_ajuste", {
+                      section: "hero",
+                    })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  manutenção e ajuste de aparelho auditivo
+                </Link>{" "}
+                — limpeza, revisão técnica e laboratório Philips em Piracicaba.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link

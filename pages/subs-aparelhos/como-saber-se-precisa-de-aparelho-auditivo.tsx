@@ -266,6 +266,12 @@ const siloLinks = [
     label: "Philips Hearing Solutions",
     tracking: "sinais_link_philips",
   },
+  {
+    href: SUBS_APARELHOS_ROUTES.manutencaoAjuste,
+    icon: "build",
+    label: "Manutenção e ajuste",
+    tracking: "sinais_link_manutencao",
+  },
 ];
 
 export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
@@ -273,8 +279,7 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
     title: "Como saber se precisa de aparelho auditivo | Guia Auditik Piracicaba",
     description:
       "Sinais de perda auditiva, riscos de adiar o tratamento e quando fazer avaliação gratuita. Clínica Auditik em Piracicaba — distribuidor Philips HearLink. Agende sem compromisso.",
-    canonical:
-      "https://www.auditik.com.br/como-saber-se-precisa-de-aparelho-auditivo/",
+    canonical: "https://www.auditik.com.br/como-saber-se-precisa-de-aparelho-auditivo/",
     ogImage:
       "https://www.auditik.com.br/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
   });
@@ -448,8 +453,8 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
               <p className="text-slate-600 text-lg leading-relaxed mb-4">
                 A <strong>perda auditiva</strong> é a redução da capacidade de ouvir
                 sons em um ou ambos os ouvidos, de forma leve, moderada, severa ou
-                profunda. Ela pode surgir por envelhecimento (presbiacusia), exposição
-                a ruídos, infecções, medicamentos, genética ou outras causas — e{" "}
+                profunda. Ela pode surgir por envelhecimento (presbiacusia), exposição a
+                ruídos, infecções, medicamentos, genética ou outras causas — e{" "}
                 <strong>não sempre aparece de repente</strong>.
               </p>
               <p className="text-slate-600 text-lg leading-relaxed">
@@ -528,9 +533,7 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
                   <h3 className="text-lg font-bold text-slate-900 mb-2">
                     {item.title}
                   </h3>
-                  <p className="text-slate-600 text-sm leading-relaxed">
-                    {item.text}
-                  </p>
+                  <p className="text-slate-600 text-sm leading-relaxed">{item.text}</p>
                 </article>
               ))}
             </div>
@@ -552,8 +555,8 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
                 Perceber cedo não é exagero — é cuidar da sua qualidade de vida
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed">
-                Muita gente adia a consulta por medo de “confirmar” a perda. Na
-                Auditik, a avaliação é acolhedora e explicativa — não um julgamento.
+                Muita gente adia a consulta por medo de “confirmar” a perda. Na Auditik,
+                a avaliação é acolhedora e explicativa — não um julgamento.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
@@ -643,8 +646,8 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
             </h2>
             <p className="text-blue-100 text-lg mb-8 leading-relaxed">
               Agende uma <strong>avaliação auditiva gratuita</strong> em Piracicaba.
-              Saia com clareza sobre sua audição, se precisa de aparelho auditivo e
-              qual o próximo passo — sem pressão.
+              Saia com clareza sobre sua audição, se precisa de aparelho auditivo e qual
+              o próximo passo — sem pressão.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -815,7 +818,7 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
         <section className="py-20 bg-bg-light-blue" id="mais-informacoes">
           <div className="container-wide max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">
-              Mais informações no silo Aparelhos Auditivos
+              Mais informações sobre Aparelhos Auditivos
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-8">
               Explore guias sobre investimento, tecnologia, formatos e atendimento em
