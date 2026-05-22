@@ -32,6 +32,8 @@ benefitSummary: "10% de desconto em qualquer serviço"
 gallery:
   - "/images/auditik/convenios/solue-spa/foto_1.png"
   - "/images/auditik/convenios/solue-spa/foto_2.png"
+  - "/images/auditik/convenios/solue-spa/foto_3.png"
+  - "/images/auditik/convenios/solue-spa/foto_4.png"
 ---
 
 ## Sobre o parceiro
