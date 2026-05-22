@@ -38,7 +38,22 @@ gallery:
 
 ## Sobre o parceiro
 
-Um refúgio dedicado ao seu bem-estar através de massagens relaxantes e terapias integrativas que equilibram corpo e mente. Viva uma experiência única de cuidado, relaxamento e renovação da sua saúde integral.
+Soluê Spa é um espaço especializado em massoterapia, terapias integrativas e estética corporal, oferecendo serviços voltados ao bem-estar, relaxamento, recuperação muscular e tratamentos estéticos.
+
+Entre os principais atendimentos estão:
+
+- Massagem terapêutica
+- Massagem relaxante
+- Massagem desportiva
+- Drenagem linfática
+- Lipomodelagem
+- Método Nazaré Santos
+- Reflexologia
+- Acupuntura e auriculoterapia
+- Protocolos para celulite, gordura localizada e flacidez
+- Tratamentos integrativos e recovery muscular
+
+O spa trabalha com atendimentos personalizados, unindo técnicas manuais e tecnologias estéticas para proporcionar melhora da qualidade de vida, alívio de dores, relaxamento e resultados corporais.
 
 ## Como obter o benefício
 
