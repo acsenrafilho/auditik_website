@@ -1,7 +1,7 @@
 ---
 name: "Verde+ Hortifruti"
 slug: "verde-hortifruti"
-description: "Oferecemos uma ampla variedade de hortifruti, como frutas, legumes, verduras, etc."
+description: "Oferecemos uma ampla variedade de hortifruti, como frutas, legumes, sucos naturais, alimentos higienizados, padaria, frios, laticínios, caldos, empório, mercearia, carnes, pescados, cogumelos, veganos e verduras da horta própria."
 address: "R. Natale de Negri, 75 - Jardim Presoto, Piracicaba - SP, 13420-518"
 phone: "(019) 3426-3064"
 googleMapsUrl: "https://maps.app.goo.gl/y7gw9nCPwUdSkJis5"
@@ -37,7 +37,7 @@ gallery:
 
 ## Sobre o parceiro
 
-Leve mais saúde e sabor para a sua mesa com a nossa seleção rigorosa de frutas docinhas, legumes selecionados e verduras sempre frescas. Na Verde+ Hortifruti, combinamos a máxima qualidade que sua família merece com o atendimento acolhedor que você procura. Venha nos visitar ou faça seu pedido e sinta a diferença de consumir alimentos de verdade, colhidos com carinho!
+Leve mais saúde e sabor para a sua mesa com a nossa seleção rigorosa de frutas docinhas, legumes selecionados e verduras sempre frescas. Na Verde+ Hortifruti, combinamos a máxima qualidade que sua família merece com o atendimento acolhedor que você procura. Venha nos visitar ou faça seu pedido e sinta a diferença de consumir alimentos de verdade, colhidos com carinho! Aproveite também nossos produtos de qualidade, como sucos naturais, alimentos higienizados, padaria, frios, laticínios, caldos, empório, mercearia, carnes, pescados, cogumelos, veganos e verduras da horta própria.
 
 ## Como obter o benefício
 
