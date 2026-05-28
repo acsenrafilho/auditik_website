@@ -1,7 +1,7 @@
 ---
 name: "Verde+ Hortifruti"
 slug: "verde-hortifruti"
-description: "Hortifruti em Piracicaba."
+description: "Oferecemos uma ampla variedade de hortifruti, como frutas, legumes, verduras, etc."
 address: "R. Natale de Negri, 75 - Jardim Presoto, Piracicaba - SP, 13420-518"
 phone: "(019) 3426-3064"
 googleMapsUrl: "https://maps.app.goo.gl/y7gw9nCPwUdSkJis5"
@@ -37,7 +37,7 @@ gallery:
 
 ## Sobre o parceiro
 
-A Verde+ Hortifruti é uma hortifruti em Piracicaba, SP. Oferecemos uma ampla variedade de hortifruti, como frutas, legumes, verduras, etc.
+Leve mais saúde e sabor para a sua mesa com a nossa seleção rigorosa de frutas docinhas, legumes selecionados e verduras sempre frescas. Na Verde+ Hortifruti, combinamos a máxima qualidade que sua família merece com o atendimento acolhedor que você procura. Venha nos visitar ou faça seu pedido e sinta a diferença de consumir alimentos de verdade, colhidos com carinho!
 
 ## Como obter o benefício
 
