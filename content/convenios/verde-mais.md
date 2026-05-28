@@ -26,7 +26,7 @@ clientProfiles:
   - publico-geral
   - familias
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Frete grátis para compras acima de R$ 100,00."
+benefitSummary: "Frete grátis para compras (verificar condições)."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/verde-hortifruti/foto_1.png"
@@ -47,8 +47,13 @@ Ative o benefício clicando no botão "Ativar benefício" na página de detalhes
 
 O benefício é válido para todos os clientes, familiares e amigos da Auditik/Philips da Verde+ Hortifruti.
 
-## Observações importantes
+Os descontos são aplicados por distância:
+até 5km: pedido mínimo de R$150,00
 
-A condição de frete grátia é válida para compras acima de R$ 100,00 e distância máxima de 5km da loja.
+5-10km: pedido mínimo de R$200,00
+
+10-15km: pedido mínimo de R$250,00
+
+## Observações importantes
 
 Para distâncias maiores, verifique o frete com o atendente da Verde+ Hortifruti.
