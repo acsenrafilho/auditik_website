@@ -28,7 +28,7 @@ clientProfiles:
   - idosos
   - familias
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Definir o benefício em destaque."
+benefitSummary: "10% de desconto em pães de fermentação natural."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/cheff-will-bakery/foto_1.png"
@@ -45,13 +45,11 @@ Há mais de 15 anos mergulhei no universo da gastronomia. Estudei, experimentei,
 
 Ative o benefício clicando no botão "Ativar benefício".
 
-Benefício válido para encomendas de doces e salgados.
-
 Qualquer cliente Auditik/Philips e familiares próximos podem aproveitar o benefício.
 
 ## Regras e elegibilidade
 
-Informe regras, validade, documentação e limitações relevantes.
+É necessário encomendar com o parceiro para aproveitar o benefício.
 
 ## Observações importantes
 
