@@ -17,6 +17,10 @@ __pycache__/
 *.pyd
 *.pyw
 .venv/*
+scripts/social_scrapping/output/
+scripts/social_scrapping/.venv-social/
+scripts/social_scrapping/cookies.txt
+scripts/social_scrapping/**/.tmp/
 
 # Production
 /build/

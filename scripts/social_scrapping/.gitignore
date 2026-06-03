@@ -1,0 +1,6 @@
+output/
+.venv-social/
+cookies.txt
+**/.tmp/
+__pycache__/
+*.pyc

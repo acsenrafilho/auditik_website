@@ -1,0 +1,7 @@
+# Uma URL por linha. Linhas em branco e comentários (#) são ignorados.
+# Substitua pelos links reais de Reels/posts de referência.
+
+https://www.instagram.com/reels/DSQqIJhD819/
+https://www.instagram.com/reels/DTIyVWXkb66/
+https://www.instagram.com/reels/DV7HAgXCaW2/
+https://www.instagram.com/reels/DNjPXQSOaiI/
