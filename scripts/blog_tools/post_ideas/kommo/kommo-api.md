@@ -1,0 +1,89 @@
+---
+title: "Kommo API"
+source: "https://developers.kommo.com/docs/about-kommo-api"
+date: "2025-12-05"
+---
+
+CRM API is a set of programming tools that allows developers to access client's data and other important information within the CRM and use it to create unique solutions. Those solutions cater to specific business needs rather than being limited to the features and functionalities offered by the Kommo, and even integrate Kommo services with other platforms. It results in improving clients' satisfaction and loyalty, as businesses can tailor their clients engagement strategies to meet the needs of their target audience.
+Kommo API offers secure communication, ensuring that all data exchanged between the CRM and external applications is authorized using OAuth 2.0, encrypted and protected from unauthorized access, ensuring safety when handling sensitive client's data, and preventing data breaches and other security threats.
+Kommo API excels at providing developers with the required functionalities with the ease and flexibility they need to unleash their creativity. Developers don't need to worry about the processes inside the CRM or code extensively. CRM API allows businesses to quickly and easily add new features and functionalities without disrupting existing workflows or processes.
+These are the API methods for the core entities of Kommo:
+- Get a leads list
+- Get a single lead
+- Add leads
+- Update a lead
+- Update a bunch of leads
+- Complex addition leads (with contacts and companies)
+- Get a pipelines list
+- Get a single pipeline
+- Add pipelines
+- Edit a pipeline
+- Delete a pipeline
+- Get a pipeline stages list
+- Get a single pipeline stage
+- Add stages
+- Edit stages
+- Delete a stage
+- Stage colors codes
+- Get a users list
+- Get a user
+- Add users
+- Get a user roles list
+- Get a role
+- Add roles
+- Edit a role
+- Delete a role
+- Get a list of entity tags
+- Add tags for a particular entity type
+- Update tags of a single entity
+- Update tags of multiple entities
+- Incoming leads list
+- Getting an incoming lead by its UID
+- Adding incoming leads from the type sip (call)
+- Adding incoming leads from the type form
+- Accepting incoming leads
+- Declining incoming leads
+- Linking incoming leads
+- Incoming leads summary information
+- Metadata objects description
+- Get a list of sources
+- Get a source by its ID
+- Add sources
+- Update a source
+- Update sources
+- Delete a source
+- Delete sources
+- Get Website chat button objects
+- Get a Website chat button
+- Add Website chat button
+- Connect online chat to Website chat button
+- Update Website chat button
+- Get a list of templates
+- Get a template by ID
+- Add templates
+- Edit templates
+- Submit a WhatsApp template for moderation
+- Edit a WhatsApp template status
+- Delete templates
+- Delete a template
+- Widgets List
+- Getting the widget info by its code
+- Installing the widget into the account
+- Uninstalling widget
+- Get a list of lists
+- Get a list
+- Adding lists
+- Editing lists
+- Editing a list
+- Get list elements
+- Get a list element
+- Adding list elements
+- Editing list elements
+- Editing a list element
+- Getting a particular entity’s notes list by the entity ID
+- Notes list by the entity type
+- Get a note by its ID
+- Adding notes
+- Editing notes
+- Editing a note
+- Notes types

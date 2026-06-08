@@ -1,0 +1,20 @@
+---
+title: "Fazendo a diferença também à distância"
+source: "https://pro.doctoralia.com.br/historias-de-sucesso/danilo-munhoz"
+date: "2023-12-04"
+---
+
+Doctoralia Pro
+Fazendo a diferença também à distância
+O coloproctologista e cirurgião Danilo José Munhóz da Silva iniciou na medicina há mais de 15 anos e, como ele mesmo define, teve uma trajetória feita por vários recomeços.
+O coloproctologista e cirurgião Danilo José Munhóz da Silva iniciou na medicina há mais de 15 anos e, como ele mesmo define, teve uma trajetória feita por vários recomeços. Nada que fuja à regra neste momento de pandemia.
+Durante a reclusão social, o profissional continuou se reinventando e incorporou a Telemedicina ao dia a dia de trabalho para dar continuidade aos atendimentos. A modalidade, que gerou certa resistência no início, se transformou em uma maneira dele fazer a diferença e ajudar pacientes nesse momento de tanta fragilidade.
+A trajetória de Danilo pela saúde começou na cidade de Curitiba, mas a profissão o levou a explorar diferentes lugares: da cidade do coração, Maringá, onde teve a oportunidade de trabalhar como cirurgião geral, teve experiências pelo estado de São Paulo e seus laços profissionais o conduziram ao seu atual endereço, Brasília, onde atende em 4 endereços.
+Nesta entrevista, o especialista conta como está se adaptando para realizar suas consultas a distância e como acredita que a Telemedicina tem contribuído para orientar pacientes durante a reclusão social.
+Equipe Doctoralia: Como foi incorporar a Telemedicina ao seu dia a dia como coloproctologista?
+Dr. Danilo Munhóz: No começo, eu fui reticente. Já tinha meu perfil profissional na Doctoralia, mas ainda não tinha pedido para meu nome aparecer entre os profissionais que ofereciam o atendimento online. Depois de alguns dias, no entanto, decidi ativar a modalidade. Vi vários médicos se colocando à disposição dos pacientes no Instagram, em cartazes nos elevadores, então pensei que seria uma boa forma de ajudar as pessoas nesse momento tão triste, ainda que fosse a distância. Isso também me levou a ir atrás de mais informação sobre o tema, para que eu pudesse conhecer melhor os aspectos legais da Telemedicina e oferecer atendimentos online de uma maneira ética, sem imprudência, negligência ou imperícia da minha parte. Com isso começaram a surgir os primeiros contatos para as consultas.
+Equipe Doctoralia: Qual você considera ser a maior responsabilidade ao atender seus pacientes pela Telemedicina?
+Dr. Danilo Munhóz: A coloproctologia é uma especialidade muito cheia de tabus e de vergonhas. Cabe, principalmente ao médico, fazer com que o paciente se sinta acolhido e sem medo para relatar seus sintomas durante os atendimentos. Nesse sentido, a Telemedicina acabou ajudando. Muitas vezes, o paciente tem mais facilidade e se sente mais encorajado a se abrir no conforto do lar. Por outro lado, ficamos mais restritos ao exames físicos e proctológicos. Como eu procuro atuar nesses casos: quando se tratam de pacientes que eu já conheço o histórico, me sinto bem mais confortável para poder atender a distância. Em casos que já sugerem a necessidade de um exame físico, ou em que há muita dor, é meu papel orientar que o paciente busque as urgências ou, quando possível, tenha a sabedoria de esperar a pandemia ser minimizada para uma consulta presencial.
+Equipe Doctoralia: Como você acredita que os pacientes podem se preparar melhor para as consultas online?
+Dr. Danilo Munhóz: Eu sempre oriento que o paciente anote o máximo de informações que deseja relatar, para não se perder durante a consulta e não esquecer detalhes importantes, seja em relação às suas dúvidas ou medos. Costumo pedir também um breve diário alimentar, porque isso é fundamental dentro da minha especialidade, ainda mais nesse momento da pandemia. Muitos de nós estamos pecando mais na alimentação, desembalando mais e descascando menos.
+Faça como o Dr. Danilo Munhóz e conquiste a confiança de pacientes que buscam por especialistas em sua região.

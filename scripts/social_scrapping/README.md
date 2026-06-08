@@ -136,7 +136,7 @@ Relatórios gerados em `scripts/social_scrapping/output/`:
 2. **Triagem** — Rode com `--no-transcribe` para validar legendas
 3. **Extração completa** — Transcreva os posts mais relevantes
 4. **Análise** — Abra o `.md` gerado e cole o bloco "Resumo executivo" no Cursor, ChatGPT ou Gemini
-5. **Criação** — Use os insights manualmente no TinaCMS ou no pipeline `reshape2auditik.py`
+5. **Criação** — Use os insights manualmente no TinaCMS ou no pipeline `reshape_blog_post.py`
 
 ### Prompt sugerido para análise
 

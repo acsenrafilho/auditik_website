@@ -1,0 +1,20 @@
+---
+title: "Artificial Intelligence is Part of Everyday Life for 74% of Brazilian MSMEs"
+source: "https://tuvis.com/artificial-intelligence-is-part-of-everyday-life-for-74-of-brazilian-msmes"
+date: "2024-07-24"
+---
+
+Artificial Intelligence (AI) has become a reality for Brazilian micro, small and medium-sized enterprises (MSMEs). A recent study commissioned by Microsoft and Edelman Brasil shows that 74% of companies are already using artificial intelligence, a significant increase from 61% registered last year.
+The study shows the panorama of digital transformation in MSMEs, highlighting the important role of AI, with 74% of companies having made progress in adopting the technology, with the telecommunications sector standing out.
+The study also points out that investments have increased significantly over the past year: 47% of companies are investing in the technology, a significant increase from 27% in 2022. Cloud storage systems, such as cloud computing, are leading investments, with 56% of MSMEs directing resources to this area.
+How is AI being used in businesses?
+MSMEs are using AI primarily to improve the customer experience, increase efficiency and agility, and ensure business development. The most common tools include virtual assistants for customer service and productivity tools. In the future, companies see potential for AI in IT, communications and marketing, and finance.
+The study “The Cultural Benefits of Artificial Intelligence in the Enterprise”, conducted by the Boston Consulting Group (BCG) and the MIT Sloan Management Review (MIT SMR), found that 51% of companies using artificial intelligence in Latin America were able to benefit from the use of the technology, and in 7% of cases, the financial return was considered high. Globally, 55% of organizations that have adopted AI have made a profit, and 11% of those have made a significant profit.
+The survey also found that AI improves teamwork and has a positive impact on organizational culture. In Latin America, 71% of users reported improvements in team decision-making, 63% said work had become more efficient, 71% noted advances in collective learning, and 61% believed team trust had improved.
+Cybersecurity and emerging technologies
+In this scenario, cyber security must be considered as a point of attention for companies adopting AI in their organizational culture, as 16% of companies have already reported AI-related incidents. “The lack of professionals in the field and uncertainties about leakage of data processed by AI can be initial obstacles, especially since it is a new technology,” says Deborah Palacios Wanzo, president and co-founder of tuvis, a Brazilian-Israeli startup specializing in cybersecurity systems for messaging applications.
+Understanding the risks associated with the use of artificial intelligence is fundamental to avoiding negative consequences. To build a solid defense against these risks, it is essential to implement preventive measures such as access controls, blocks and permissions for downloading and sending documents, word or phrase notifications. Data management must be conducted with clear policies for storage and use, to ensure compliance with laws and regulations.
+Secure your business with tuvis
+The tuvis system already uses artificial intelligence as a tool to protect data. The DLP (Data Loss Prevention) system works to prevent sensitive data from being leaked. It can manage the sending of specific words, files and downloads in messages sent via WhatsApp, as well as notify managers when an incident occurs, such as an attempt to send a specific file or term within messaging software such as WhatsApp.
+The implementation of continuous monitoring and regular audits is important to detect and remediate faults, ensuring the security of AI systems used by organizations. Robust cybersecurity measures are necessary to protect data from cyberattacks. It is essential to use AI systems that are transparent, so that the reasoning behind decisions can be understood.
+Get a free demo of our solutions. Book a demo to request a demo.

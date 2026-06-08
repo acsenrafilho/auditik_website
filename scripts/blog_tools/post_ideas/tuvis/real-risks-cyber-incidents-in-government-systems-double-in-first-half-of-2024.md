@@ -1,0 +1,17 @@
+---
+title: "Real risks: Cyber incidents in government systems double in first half of 2024"
+source: "https://tuvis.com/cybersecurity-government-systems-double-in-first-half-of-2024"
+date: "2024-10-22"
+---
+
+The first half of 2024 has brought to light alarming data about cybersecurity in government. According to the Centre for the Prevention, Treatment and Response to Government Cyber Incidents (CTIR-Gov), the period registered the highest number of incidents in federal government systems since 2020.
+From January to July 2024, 4,700 cyber incidents were reported, a worrying increase that doubled the record from the previous year. Among the most common criminal activities, the center highlighted intrusions, the creation of fake pages, malicious emails and data leaks.
+CTIR-Gov also noted a significant increase in incidents and vulnerabilities related to data leaks, with a total of 3,200 reports in the first half of 2024 alone. This figure includes not only confirmed cases, but also fraud attempts and failures in government computer systems that threaten the integrity of public data and the credibility of organizations.
+The data published by CTIR-Gov shows the fluctuations faced by public bodies: in 2020, 7,200 cyber incidents were recorded, a figure that fell to 3,400 in 2022, but rose again in 2023 to reach 4,900 malicious activities.
+Strategies and Opportunities: Digital Transformation in Government
+Digital transformation in government brings improvements in efficiency, transparency and innovation. By expanding their digital presence, government agencies not only increase their public impact, but also optimize operations and store data more effectively, improving public services.
+In 2023, more than 40 public entities adopted digital solutions to improve services at the federal, state and municipal levels. One example is Tramita GOV.BR, a platform that facilitates the electronic fulfilment of citizens’ requests, currently used by more than 60 entities.
+The sector has also worked to improve communication and ensure that more citizens have access to official information. Many public prosecutors’ offices are investing in improving their virtual service through complaint platforms and messaging channels.
+In the same vein, São Paulo City has implemented WhatsApp services to speed up communication with the population in various areas, such as racism complaints and cleaning requests. This initiative is relevant because 93.4 per cent of Brazilians between the ages of 16 and 64 currently use WhatsApp on a monthly basis to exchange information quickly. However, to ensure that these technological tools do not compromise data security and confidentiality, it is essential to implement preventive systems to detect and prevent cyber-attacks.
+For example, the tuvis security system uses a Data Loss Prevention (DLP) system to monitor malicious activity on messaging platforms, preventing data from being shared and leaked during interactions. This technology can be applied to customer service and internal communications, reducing the vulnerability of sensitive information in government organizations.
+Combining preventative technology with digital systems is fundamental to reducing cyber incidents in any organization, especially those that deal with large amounts of sensitive data about the population. Therefore, seeking partnerships with companies like tuvis is an effective strategy to protect government agencies and ensure public trust.

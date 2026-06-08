@@ -1,0 +1,97 @@
+---
+title: "Sobre la API de Kommo"
+source: "https://es-developers.kommo.com/docs/sobre-api-de-kommo"
+date: "2026-02-11"
+---
+
+La API de CRM es un conjunto de herramientas de programación que permite a los desarrolladores acceder a los datos de los clientes y a otra información importante dentro del CRM, para luego utilizarlos en la creación de soluciones personalizadas. Estas soluciones abordan necesidades específicas de los negocios, en lugar de limitarse a las características y funcionalidades ofrecidas por Kommo, e incluso permiten integrar los servicios de Kommo con otras plataformas. Esto resulta en una mejora de la satisfacción y fidelidad de los clientes, ya que las compañías pueden personalizar sus estrategias de fidelización para satisfacer las necesidades de su audiencia objetivo.
+La API de Kommo ofrece comunicación segura, asegurando que todos los datos intercambiados entre el CRM y aplicaciones externas estén autorizados mediante OAuth 2.0, cifrados y protegidos contra accesos no autorizados. Esto garantiza la seguridad al manejar datos sensibles de los clientes, previniendo filtraciones de datos y otras amenazas de seguridad.
+La API de Kommo se destaca por ofrecer a los desarrolladores las funcionalidades necesarias con la facilidad y flexibilidad que necesitan para desatar su creatividad. Los desarrolladores no tienen que preocuparse por los procesos internos del CRM ni escribir código complejo. La API del CRM permite a las compañías agregar rápidamente nuevas características y funcionalidades sin interrumpir los flujos de trabajo o procesos existentes.
+Estos son los métodos de la API para las entidades principales de Kommo:
+- Obtener una lista de leads
+- Obtener un solo lead
+- Añadir leads
+- Actualizar un lead
+- Actualizar un conjunto de leads
+- Adición compleja de leads(con contactos y compañías)
+- Obtener una lista de pipelines
+- Obtener un solo pipeline
+- Añadir pipelines
+- Editar un pipeline
+- Eliminar un pipeline
+- Obtener una lista de etapas del pipeline
+- Obtener una sola etapa del pipeline
+- Añadir etapas
+- Editar etapa
+- Eliminar una etapa
+- Códigos de colores de las etapas
+- Obtener una lista de contactos
+- Obtener un contacto
+- Añadir contactos
+- Actualizar un contacto
+- Actualizar un conjunto de contactos
+- Obtener una lista de usuarios
+- Obtener un usuario
+- Añadir usuarios
+- Obtener una lista de roles de usuario
+- Obtener un rol
+- Añadir roles
+- Editar un rol
+- Eliminar un rol
+- Obtener una lista de etiquetas de entidad
+- Añadir etiquetas para un tipo de entidad particular
+- Actualizar etiquetas de una entidad individual
+- Actualizar etiquetas de varias entidades
+- Obtener una lista de campos personalizados
+- Obtener un campo personalizado de entidad por ID
+- Añadir campos personalizados
+- Lista de leads entrantes
+- Obtener un lead entrante por su UID
+- Añadir leads entrantes de tipo SIP (call)
+- Añadir leads entrantes del tipo formulario
+- Aceptar leads entrantes
+- Rechazar leads entrantes
+- Vincular leads entrantes
+- Resumen de información de leads entrantes
+- Descripción de objetos de metadatos
+- Obtener una lista de fuentes
+- Obtener una fuente por su ID
+- Añadir fuentes
+- Actualizar una fuente
+- Actualizar fuentes
+- Eliminar una fuente
+- Eliminar fuentes
+- Lista de compañías
+- Obtener una compañía por su ID
+- Añadir compañías
+- Actualizar compañías
+- Actualizar una compañía
+- Obtener una lista de plantillas
+- Obtener una plantilla por su ID
+- Añadir plantillas
+- Editar plantillas
+- Enviar una plantilla de WhatsApp para moderación
+- Editar el estado de una plantilla de WhatsApp
+- Eliminar plantillas
+- Eliminar una plantilla
+- Lista de widgets
+- Obtener la información del widget por su código
+- Instalar el widget en la cuenta
+- Desinstalar el widget
+- Obtener una lista de listas
+- Obtener una lista
+- Añadir listas
+- Editar listas
+- Editar una lista
+- Obtener los elementos de la lista
+- Obtener un elemento de la lista
+- Añadir elementos a la lista
+- Editar elementos de la lista
+- Editar un elemento de la lista
+- Obtener la lista de notas de una entidad particular por su ID
+- Lista de notas por el tipo de entidad
+- Obtener una nota por su ID
+- Añadir notas
+- Editar notas
+- Editar una nota
+- Tipos de notas

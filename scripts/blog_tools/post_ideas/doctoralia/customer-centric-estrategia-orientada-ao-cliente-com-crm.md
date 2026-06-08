@@ -1,0 +1,70 @@
+---
+title: "Customer Centric: estratégia orientada ao cliente com CRM"
+source: "https://blog.nectarcrm.com.br/o-que-e-customer-centric"
+date: "2018-11-26"
+---
+
+Recentemente, começou a se falar muito sobre uma estruturação empresarial em modo Customer Centric. À primeira vista, essa maneira de estruturação pode ser encarada como algo bem superficial e tido como uma simples execução.
+Basicamente, quando perguntamos se o modelo de negócio de uma empresa é centrado no cliente dela, a resposta esperada e bastante óbvia no primeiro momento é a de que: “Sim, claro! Nossa filosofia é o cliente em primeiro lugar pois, nosso produto faz X, Y e Z que ajudam muitos clientes todos os dias.”
+Por muito tempo, essa concepção simplista imperou, muito motivada pelos discursos de vendas que apenas objetivavam a conversão de Leads. Porém, com o amadurecimento do mercado com concorrentes cada vez mais preparados e introdução de novas metodologias e filosofias de business mais holísticas, o verdadeiro Customer Centric começou a se rearranjar com mais profundidade e complexidade.
+O grande objetivo desse artigo é te mostrar um pouquinho dessas novas conformações e te trazer de forma prática como isso anda acontecendo em empresas relevantes!
+Vamos juntos?! :P
+Afinal, o que é Customer Centric?
+Customer Centric em sua essência, é uma estratégica empresarial na qual coloca o cliente no centro em vez do produto. O foco não é apenas oferecer para seu cliente um produto que foi prometido no momento da venda, mas, sim, entregar o sucesso dentro daquela especialidade que a sua empresa se posiciona como autoridade.
+Nesse sentido, o sucesso vem desde a estruturação de conteúdos no marketing de relevância prática para cada um dos visitantes do seu site; passa pelo seu time de vendas, que exercendo uma experiência empática com seus Leads buscam mostrar as melhores saídas para um problema latente, chegando, finalmente, na entrega da solução sempre focada em, mais resultados práticos dentro da realidade de cada cliente do que funcionalidades genéricas.
+No livro Marketing 4.0, dos autores Philip Kotler, Hermawan Kartajaya e Iwan Setiawan, na qual foca muito sobre a experiência do cliente com a marca e também sobre a relação das marca com os consumidores, cita Amazon que tem se destacado por oferecer ao cliente a maior comodidade para o seu cliente que compra seus produtos e também uma solução chamada “Dash Button” na qual é um dispositivo que ao ser acionado realiza uma compra imediata, permitindo que seus consumidores reponha de forma automática seus produtos domésticos.
+Já a uma pesquisa global de 2017 da American Express, revelou que 72% dos consumidores consomem 16% a mais devido ao excelente atendimento e serviço que é lhes prestado. Dentro dessa dinâmica de funcionamento, a filosofia Customer Centric acaba por trazer mais lealdade, retenção dos seus clientes na base, visibilidade da sua marca e consequentemente, mais receita sólida para o negócio.
+O motivo do Customer Centric ser uma NECESSIDADE atual
+Ter toda uma estruturação e prática empresarial colocando os clientes no centro de qualquer ação, deixa de ser, a cada dia mais, algo opcional ou uma cultura “nice to have”, para ser um “must have”, imposto pelo mercado.
+Isso ocorre pelo fato de que todos os meses, muitas plataformas, serviços e produtos no geral surgem com funcionalidades ou entregas que se assemelham ao que a sua empresa se destina a ofertar -e se não tem, é bem provável que tenha em um curto espaço de tempo.
+Isso nos coloca o tempo todo em situação de comparação. Ou seja, se algo que você se propõe a fazer é parecido com que outras marcas fazem, naturalmente os seus possíveis clientes irão colocar na balança os diferenciais entre uma proposta e outra.
+Contraintuitivamente, essa diferenciação não fica a nível apenas de itens técnicos e valores, mas vai muito mais além, que é a experiência que a sua empresa transmite para cada um dos seus Leads, desde a primeira abordagem até o comprometimento da parceria com a assinatura do contrato.
+A Starbucks -apesar de não ser do mercado B2B- é um exemplo prático, pois, nem sempre a verdadeira fidelização dos seus clientes se dá por meio da qualidade do café ou pelo preço abaixo do mercado, mas sim pela experiência desde a ambientação até o atendimento personalizado.
+Dessa forma, as decisões em comprar ou deixar de comprar o que você oferta, passa cada vez menos pelo crivo de possuir ou não algum elemento específico -não que é dispensável, é extremamente importante, mas não é o único critério levado em conta- e vai cada vez mais pelo viés da sensação e experiência que seu cliente tem ao usar o que é oferecido a ele. Se você não coloca esforços na retenção e boa experiência do cliente, seu negócio dificilmente consegue sobreviver.
+Outra empresa que entendeu isso e implementou de forma bastante revolucionária foi o NuBank, o símbolo de startup Customer Centric, na qual a idéia em si não é mais única no mercado, porém a forma como cada usuário da fintech (empresas que oferecem serviços financeiros com mais facilidades através da tecnologia/internet como a Nubank) interage com a empresa, propicia uma experiência única e a leva a patamares de escala que poucos poderiam prever em um curto intervalo de tempo.
+Como implementar o Customer Centric no seu processo comercial?
+Agora que entendemos a importância e a necessidade de se adequar verdadeiramente a um posicionamento Customer Centric na sua empresa, é hora de arregaçar as mangas e entender como isso se dá, em particular, na equipe que normalmente faz o primeiro contato com um cliente: o time de vendas.
+Jacco Vanderkoij, da Winning by Design, em diversas palestras e vídeos, faz uma reflexão que faz MUITO sentido quando analisamos a fundo o raciocínio:
+“Nós não gostamos de ser vendidos, mas nós gostamos de comprar.
+Como que podemos resolver esse paradoxo sendo o vendedor nessa história?
+Simples… ajudando nossos clientes a comprarem e não apenas vendendo.”
+Quando começamos a pensar que nosso papel, como vendedor, é ajudar nossos clientes a curtirem esse momento de prazer ao comprar, todo o funcionamento do departamento comercial troca de chave.
+Isso ocorre pelo fato de que, deixamos de nos preocupar tanto com o quão maravilhoso nosso produto é, e voltamos nossos olhos para o que realmente faria diferença na vida de cada cliente, passando então a manter mais conversas sobre o cenário, problemas e desafios que seu cliente lida no dia a dia.
+Ok… mas como podemos aplicar isso na prática?
+Atualmente temos diversas ferramentas tecnológicas que ajudam a operação no dia a dia. O CRM é, sem sombra de dúvidas, a principal delas quando falamos de relacionamento com o cliente, como a próprio sigla nos indica (Customer Relationship Management / Gestão do Relacionamento com o Cliente).
+Isso se dá pelo fato de que, para conseguirmos verdadeiramente praticar o Customer Centric, o pontapé inicial é ter uma centralização de informações de cada contato, saber em que fase do seu processo de vendas cada pessoa está e principalmente: Reunir informações RELEVANTES que irão fazer cada abordagem o mais personalizada possível.
+Dentro desse contexto, o CRM vem para justamente deixar as coisas menos artesanais, dar inteligência e escala para o processo e te amparar a ajudar os seus clientes na decisão de compra e na permanência com o seu produto.
+Existem diversas formas em que o Customer Centric pode ser aplicado dentro de um CRM e umas das mais relevantes talvez sejam:
+1. Visão 360° de cada Cliente
+Ao centralizarmos toda e qualquer informação dos nossos clientes e possíveis clientes no nosso CRM, conseguimos de maneira rápida e prática acessar qualquer nível de detalhe sobre todas as conversas que tivemos com cada pessoa.
+Para absorver a importância que isso tem, basta imaginarmos a seguinte situação:
+Você consegue entrar em contato com aquele Diretor de uma empresa que você mapeia há algum tempo, consegue algumas informações importantíssimas e, por conta do tempo corrido desse Diretor, consegue um próximo papo rápido somente 2 semanas depois.
+Com o decorrer dos dias, você trabalha outro grande volume de contatos e, naturalmente, ao chegar no dia do retorno a esse Diretor, acaba esquecendo a maior parte das informações e comete um dos piores erros que existem em vendas: Fazer as mesmas perguntas outra vez.
+Parece um cenário de exceção, mas é mais frequente do que podemos imaginar e pode estar acontecendo dentro da sua empresa, principalmente em times segmentados em pré vendedores e vendedores.
+Quando temos um local de fácil acesso a essas informações, como um CRM bem usado, a visão detalhada de cada cliente começa a trazer uma satisfação em conversar com a sua empresa que, naturalmente, te coloca em outro nível frente a concorrência.
+2. Funil de vendas Customer Centric
+Construir um funil de vendas orientado para o momento do seus clientes, ajudando-os na aquisição do seu produto, talvez seja a principal mudança de chave para a implementação do Customer Centric no seu negócio.
+Aqui na Nectar, temos contato todos os dias com as mais variadas conformações de equipes comerciais e processos. A maior parte dos times estruturam um funil que dizem muito mais sobre as ações que os vendedores precisam executar, do que o momento em que cada Lead se encontra dentro do seu processo de compra pessoal.
+Ninguém acorda de manhã, por exemplo, querendo ir para uma etapa de qualificação, ou negociação / fechamento. Isso acaba nos remetendo ao paradoxo de estarmos sendo vendidos ao invés de ter um auxílio na compra.
+Pode parecer besteira num primeiro momento já que é algo de controle interno, porém, com o passar do tempo, o seu time de vendas acaba por enraizar que o funil está apenas a serviço dele mesmo para sua organização ao invés de absorver que, além dessa função, o principal intuito é ajudar na construção de decisão de compra dos seus clientes.
+Um indício bem claro de que seu funil de vendas não está suficientemente voltado para a visão do seu cliente, tanto em nomenclatura quanto em atividades é fazer uma pergunta: “Você, ou seus vendedores, extraem um aceite dos seus leads de que eles desejam estar no próximo passo do seu processo, deixando transparente o que será até em nomenclatura?”
+Se surgir muita dúvida se isso é executado no seu processo, temos um forte sinal de que há espaço para o incremento de melhorias, como por exemplo:
+a) Evitar o nome de atividades em suas etapas, como “envio de proposta”, “negociação / fechamento”;
+b) Definir etapas que gere valor para seus clientes, como “sugestão estratégica” ao invés de “demonstração”;
+c) Instaurar etapas que são voltadas para entender detalhadamente os problemas que seu Lead enfrenta, como por exemplo “imersão 360°” ao invés de “qualificação” ou “validação de qualificação”.
+Dessa maneira, cada contato pode, pelos próprios nomes, trazer algo de novo para seus clientes e o engajamento no processo fica natural, enraizando na sua equipe comercial o mindset de que a função dele é ajudar, do começo ao fim, o seu cliente a adquirir sua solução.
+3. Mapeamento de mercado
+Além de ter uma visão detalhada e de fácil acesso das informações e uma estrutura de funil voltada para ajudar seu cliente na decisão de compra, o Customer Centric pode ser aplicado no seu processo comercial quando pensamos em segmentação de mercado, visando sempre replicar os ganhos de uma determinada empresa de uma vertical com nossa solução em outras que também atuam em mercados iguais.
+Dessa forma, o relacionamento com seu cliente é muito mais pautado em algo empático com o conhecimento alicerçado em dados da realidade do business do seu cliente do que a discursos genéricos de como você consegue ajudar todo e qualquer tipo de empresa.
+Isso pode ser posto em prática quando por exemplo, você define bem sua carteira de clientes com suas segmentações no CRM e traça pontos em comum que eles tinham de problemas antes da intervenção da sua solução.
+Assim, ao entrar em contato com alguém do mesmo ramo e analisar os problemas mais frequentes que esse mercado enfrenta, naturalmente, sua visão estará mais treinada a realidade do cenário do Lead.
+4. Diagnosticar antes de propor solução
+Voltando ao paralelo mais usado - e quase nunca falho- de um processo de vendas com uma consulta médica é possível ver a importância de se diagnosticar todos os problemas que seu cliente enfrenta antes de qualquer proposição de solução.
+Na medicina, dentro desse paralelo comum, é imprescindível que o médico faça uma consulta no intuito de entender toda a situação e problemática enfrentada pelos seus pacientes antes de qualquer receita de medicação.
+Inclusive, a não execução desse diagnóstico prévio é algo obviamente proibido dentro da profissão, já que sem parâmetros e levantamento de hipóteses é impossível receitar a melhor medicação.
+Da mesma forma, em vendas, é imprescindível que se levante toda os problemas que seus clientes enfrentam a fundo de maneira empática, ou seja, se colocando com as dores do seu lead e com o seu conhecimento que poderia ajudá-lo no momento.
+Não existe solução sem um problema real que você tem em compromisso com seu cliente pois, nenhum produto é realmente útil sem um cenário específico que traz a utilidade do mesmo.
+Em síntese, ter uma estratégia Customer Centric vai muito além de ser algo “cool”, ou uma prática empresarial que é típica de Startups com metodologias disruptivas. A pressão externa do mercado, da concorrência e da própria mudança do perfil do consumidor ao longo dos últimos tempos cria toda uma atmosfera que torna uma estratégia orientada ao cliente um critério de seleção natural no mundo dos negócios.
+Na teoria, parece algo tranquilo e até que já executamos, mas quando vamos analisar a fundo, há diversos espaços para aprimoramento nesse sentido.
+Espero que esse artigo tenha te ajudado nessa análise um pouco mais profunda, a ver um pouco da importância e de aplicações práticas do Customer Centric!
+Colha os melhores resultados de vendas implantando a Cultura de CRM da forma correta! Baixe o e-book agora!

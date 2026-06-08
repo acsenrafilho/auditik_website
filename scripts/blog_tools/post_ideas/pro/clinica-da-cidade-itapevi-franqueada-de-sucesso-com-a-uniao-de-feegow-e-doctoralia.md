@@ -1,0 +1,21 @@
+---
+title: "Clínica da Cidade Itapevi: franqueada de sucesso com a união de Feegow e Doctoralia"
+source: "https://pro.doctoralia.com.br/historias-de-sucesso/clinica-da-cidade-itapevi"
+date: "2025-07-14"
+---
+
+Doctoralia Pro
+Clínica da Cidade (Itapevi): franqueada de sucesso com a união estratégica de Feegow e Doctoralia
+A unidade de Itapevi (São Paulo) da Clínica da Cidade, inaugurada em agosto de 2023, é um destaque entre as franquias da rede, que tem 22 anos de história e foi fundada em Campinas. Liderada por Renata More, a unidade de Itapevi é considerada um case de sucesso. Desde o início, Renata buscou a parceria com a Feegow e a Doctoralia, plataforma que já conhecia e utilizava como paciente. A Clínica da Cidade está em expansão por meio de franquias desde a pandemia.
+A Clínica da Cidade se posiciona como uma clínica de medicina acessível, oferecendo serviços de qualidade e atende a mais de 20 especialidades, incluindo clínica geral, reumatologia, cirurgia gastrovascular, fisioterapia, nutrição e fonoaudiologia, totalizando cerca de 25 especialidades na unidade de Itapevi.
+Clínica da Cidade, unidade Itapevi (SP), liderada por Renata More, é um sucesso desde agosto de 2023.
+A parceria com a Doctoralia e Feegow
+A relação da gestora Renata More com a Doctoralia é de longa data, sendo uma usuária da plataforma como paciente desde 2017. Sua decisão de incorporar a Doctoralia à clínica foi estratégica, visando maior visibilidade online em uma cidade onde a clínica ainda não era conhecida. A plataforma da Feegow já era utilizada por todas as franqueadas da Clínica da Cidade, o que se tornou uma surpresa positiva para Renata, oferecendo ainda mais recursos e visibilidade. “Essa junção entre a Feegow e a Doctoralia foi ótima para mim, a cereja no bolo”, diz Renata.
+A franqueada de Itapevi foi pioneira na rede em adotar a Doctoralia, e sua experiência e resultados positivos impulsionaram outras unidades, como a de São Gonçalo, a também aderirem à plataforma.
+Vantagens da integração entre Doctoralia e Feegow
+A gestora explica que a Doctoralia se destaca por posicionar a clínica nas primeiras páginas do Google em buscas orgânicas, sem custo adicional. “A plataforma oferece visibilidade e um ambiente para que as avaliações dos pacientes, focadas no desempenho do médico em sala de consulta, sejam um diferencial”, conta Renata.
+Outro ponto ressaltado por Renata é o trabalho de assessoria e consultoria da Doctoralia para maximizar o uso da ferramenta, garantindo que os profissionais aproveitem ao máximo seus recursos, desde o preenchimento do perfil até a compreensão da importância das avaliações. Para garantir que os médicos estejam cientes da avaliação, a clínica de Itapevi afixa em todas as salas um comunicado informando sobre a plataforma e o processo de avaliação pós-atendimento.
+Crescimento e superação de desafios
+A Clínica da Cidade de Itapevi iniciou a parceria com a Doctoralia com um investimento conservador, incluindo cerca de dez profissionais. A medida que os resultados foram sendo observados, houve um crescimento gradual, e hoje a clínica conta com aproximadamente 27 profissionais cadastrados na plataforma. A percepção é que os profissionais na Doctoralia têm uma agenda mais cheia, e o custo da plataforma é rapidamente compensado por uma ou duas consultas agendadas.
+O ano de 2024 foi desafiador para a clínica, que operou em meio a uma obra de construção de um viaduto em sua porta, resultando em meses sem calçada, rua fechada e ausência de visibilidade para pedestres e veículos. Apesar de todo cenário adverso, a Clínica da Cidade de Itapevi conquistou o primeiro lugar no "Programa de Excelência 2024" promovido pela rede de franquias entre quase 60 unidades no Brasil, com 70% da pontuação atrelada ao faturamento. Esse resultado é atribuído ao forte investimento em marketing digital e à utilização estratégica de plataformas como a Doctoralia e Feegow, que garantiram a captação de pacientes em um contexto onde a visibilidade física era inexistente. O sucesso da Clínica da Cidade de Itapevi é um testemunho do poder das ferramentas digitais e do empenho em superar obstáculos externos.
+Faça como a Renata More da Clínica da Cidade de Itapevi e conquiste a confiança de pacientes que buscam atendimento na sua região.

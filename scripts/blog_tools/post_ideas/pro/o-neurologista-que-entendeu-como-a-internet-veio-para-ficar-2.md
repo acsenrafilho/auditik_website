@@ -1,0 +1,29 @@
+---
+title: "O Neurologista que entendeu como a internet veio para ficar"
+source: "https://pro.doctoralia.com.br/historias-de-sucesso/luis-berchielli"
+date: "2023-12-04"
+---
+
+Doctoralia Pro
+O Neurologista que entendeu como a internet veio para ficar e usou isso à seu favor
+O Dr. Luis Felipe Berchielli sempre foi adepto da tecnologia, mas quando abriu seu consultório, em 2016, percebeu que ela seria peça fundamental em seu trabalho.
+Como o próprio doutor nos contou, quando o consultório dele começou a tomar forma, ficou claro que não seria adequado, e muito menos viável, ter uma estrutura de prontuários físicos e agendamentos apenas dentro do horário comercial.
+Para o Dr. Luis Felipe Berchielli a internet é muito mais que tendência, ela é peça fundamental na rotina de um médico. Principalmente em um mercado tão competitivo, como é o mercado paulista.
+A seguir, você pode conferir a entrevista completa com o Dr. Luis Felipe e entender como ele vem transformando a experiência da saúde mais humana.
+Equipe Doctoralia: Como começou sua trajetória na medicina e quais foram os desafios para se estabelecer profissionalmente, principalmente em um mercado tão competitivo, como o de São Paulo?
+Dr. Luis Felipe Berchielli: Eu comecei a fazer faculdade em 2007, fiz a Universidade de Taubaté. Quando saí da faculdade já tinha o plano de fazer residência em Neurologia. Mas é muito competitivo, né?! Tinham poucas vagas e muitos concorrentes. Então saí da faculdade, comecei a trabalhar e estudar, para me preparar para essa residência. No final das contas, acabei entrando na residência em Neurologia em 2012 e terminei em 2015. Desde então, estou atuando na área. Comecei a atuar em hospital público, depois fui para a iniciativa privada, e o meu consultório particular, onde estou desde 2016. A grande dificuldade que temos é, de fato, construir nosso nome. Principalmente a gente que não tem um familiar médico, amigos próximos, etc. precisei ir igual formiguinha, bem devagar, para conseguir pacientes.
+Equipe Doctoralia: Até hoje, muitos profissionais da área da saúde resistem à internet. O que motivou você a criar um perfil na Doctoralia? Em que momento você sentiu a necessidade de fazer isso?
+Dr. Luis Felipe Berchielli: Eu trabalho com Informática desde 1996, então sempre fui adepto da tecnologia, mesmo na faculdade. Eu vejo a Informática como uma ferramenta essencial para o nosso dia a dia, para ajudar a gente no nosso trabalho e sermos mais produtivos.
+Equipe Doctoralia: Desde que você se juntou a Doctoralia, 62% dos agendamentos em seu consultório foram feitos fora do horário comercial. Qual a importância dessa praticidade (para os pacientes) no crescimento do seu consultório?
+Dr. Luis Felipe Berchielli: Não tem como a gente ficar 24 horas por dia no consultório, né?! Então, tendo essa plataforma online, a abordagem para o paciente fica muito mais fácil. Até mesmo para aquelas pessoas que têm vergonha de ligar ou são muito ocupadas, e não podem ligar. Ajuda muito. No meu caso, da Neurologia, muitas vezes os pacientes são mais idosos, então quem vai marcar a consulta é o filho ou o neto. Essa pessoa vai marcar no horário que tiver disponível.
+Equipe Doctoralia: Mesmo já estando no mercado há algum tempo, 81% das suas consultas são de novos pacientes. O que você acha que contribuiu para esse número tão expressivo?
+Dr. Luis Felipe Berchielli: Eu acho que a qualidade do serviço que a gente está oferecendo faz com que a gente comece a ficar conhecido. Eu, por exemplo, sou especialista em doença de Parkinson, então as pessoas procuram na internet e começam a achar a gente. Já são pessoas que vão procurando especificamente por determinadas doenças, então eles já são direcionados. Eles não vão em um médico geral.
+Equipe Doctoralia: Em 2022, 32% dos seus atendimentos foram via Telemedicina. Como foi incorporar essa modalidade em sua rotina e quais resultados você colheu?
+Dr. Luis Felipe Berchielli: A Telemedicina caiu de paraquedas, né?! Porque veio a pandemia e o pessoal não saía mais de casa, mas precisava fazer tratamento de doença crônica. Como já tínhamos uma estrutura boa no consultório, de computador, internet, etc. essa transição foi muito fácil. Só precisamos fazer o certificado digital, mas o resto foi super tranquilo. Até mesmo os pagamentos, que são feitos via cartão de crédito, são bem fáceis de gerir.
+Equipe Doctoralia: Você já é assinante do First Class há algum tempo, o que essa funcionalidade incrementou no seu consultório?
+Dr. Luis Felipe Berchielli: O First Class deu uma boa melhora na marcação. A gente vê que uma boa parte marca pela internet, pela plataforma, outra marca pela telemedicina, e uma outra parte vai para o WhatsApp. Algumas pessoas entram no perfil, pensam um pouquinho, vão para o site, voltam para o perfil, enfim.
+Equipe Doctoralia: Você também é assinante do M360, como você avalia essa funcionalidade? Quais resultados vem colhendo?
+Dr. Luis Felipe Berchielli: Nesse caso, eu mesmo quem converso com a assessora e a gente vai direcionando as palavras-chaves, avaliando as melhores tendências de procura da minha especialidade e doenças. Estamos vendo que está tendo bastante resultado, a questão de procura de palavras-chaves como “neurologista” e “doença de parkinson", estamos tendo muitos resultados positivos de CTR, muitos cliques, novas marcações, etc..
+Equipe Doctoralia: Qual conselho você daria para quem está começando agora?
+Dr. Luis Felipe Berchielli: A Doctoralia é importante ter, ela serve como uma ferramenta para fazer uma ponte entre pacientes e profissionais que são especializados. Nem sempre, quando uma pessoa vai marcar pelo site do plano de saúde ou por indicação, será direcionada para o médico que precisa. A Doctoralia faz esse link tanto para facilitar a vida do médico, quanto a vida do paciente.
+Faça como o Dr. Luis Felipe Berchielli e conquiste a confiança de pacientes que buscam por neurologistas em sua região.

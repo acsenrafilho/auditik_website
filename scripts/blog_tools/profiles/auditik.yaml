@@ -1,0 +1,62 @@
+name: auditik
+description: "Adaptação padrão para o blog da Auditik"
+
+brand:
+  nome: "Auditik Soluções Auditivas"
+  parceiro: "licenciada exclusiva da Philips Aparelhos Auditivos"
+  contato: "(19) 3377-6941"
+  endereco: "Nossos endereços são na Rua Samuel Neves, 1800, Piracicaba/SP, Rua Luíza Meneghel Mancine, 72 - Sala 12, Americana/SP, Rua Malaquias Guerra, 290, São Pedro/SP, Avenida Brasil, 151, Charqueada/SP"
+  redes:
+    facebook: "https://www.facebook.com/auditik.piracicaba"
+    instagram: "https://www.instagram.com/auditik.piracicaba"
+    youtube: "https://www.youtube.com/@auditik"
+
+voice:
+  tom: "Profissional, empático, focado em tecnologia e qualidade de vida"
+  publico_alvo: "Idosos, familiares e pessoas com perda auditiva"
+  estilo: "Educativo, acessível, sem jargão excessivo"
+
+adaptation:
+  estrategia: |
+    Antes de reescrever, analise o artigo original identificando:
+    - Menções a concorrentes ou outras marcas de aparelhos auditivos
+    - Dados desatualizados ou informações que precisam de contextualização regional
+    - Oportunidades de CTA alinhadas ao público-alvo
+    - Referências científicas relevantes que devem ser preservadas
+    Depois, reescreva o conteúdo aplicando as regras de adaptação.
+  regras:
+    - "Troque linguagem e informações para o contexto da Auditik, removendo menções a concorrentes."
+    - "Preserve estrutura markdown clara e legível (títulos, subtítulos, listas)."
+    - "O resultado deve ser útil para quem busca orientação auditiva, com foco em confiança e clareza."
+    - "O corpo deve terminar com CTA alinhado à empresa."
+    - "Tomar cuidado com a acentuação da língua portuguesa."
+    - "Não inclua marcadores ```yaml para o cabeçalho. Deve estar totalmente direcionado para a estrutura de cabeçalho presente no arquivo .template.md."
+    - "Se houver referências de sites e artigos científicos relevantes, inclua-as no corpo e adicione seção final \"Referências\" com links de acesso."
+  cta_final: |
+    Aloque o CTA mais adequado para o contexto do artigo. Sugestões são:
+    1) Agende uma avaliação gratuita na Auditik e experimente a tecnologia Philips HearLink.
+    2) Entre em contato com a Auditik para mais informações.
+    3) Compartilhe o artigo com amigos e familiares.
+    4) Leia mais sobre a Philips HearLink e a Auditik.
+    5) Siga nossas redes sociais e fique por dentro das novidades.
+  instrucoes_extras: ""
+
+output:
+  mode: full
+  author: "Equipe Auditik"
+  featured_image: "/images/auditik/blog/blog-placeholder.jpg"
+  topics_permitidos:
+    - tecnologia-auditiva
+    - saude-e-bem-estar
+    - perda-auditiva
+    - diagnostico-e-prevencao
+    - guia-do-usuario
+    - manutencao-e-cuidados
+    - adaptacao-auditiva
+    - zumbido-no-ouvido
+    - acessorios-e-conectividade
+    - estilo-de-vida
+  incluir_referencias: true
+
+model:
+  name: "gemini-2.5-flash-lite"

@@ -1,0 +1,13 @@
+# Dependências da ferramenta de coleta de blog.
+# Instale com: pip install -r scripts/blog_tools/requirements-blog.txt
+# Depois: playwright install chromium
+
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+markdownify>=0.13.0
+rich>=13.9.0
+trafilatura>=2.0.0
+lxml>=5.0.0
+lxml_html_clean>=0.4.0
+playwright>=1.40.0
+PyYAML>=6.0

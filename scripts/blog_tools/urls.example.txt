@@ -1,0 +1,7 @@
+# Uma URL de blog por linha. Linhas em branco e comentários (#) são ignorados.
+# Use a página índice do blog (não um artigo individual).
+
+https://comunicareaparelhosauditivos.com/blog/
+https://otoclinic.com.br/blog-otoclinic/
+https://sonoritaaparelhosauditivos.com.br/blog
+https://www.essencialaparelhosauditivos.com/blog/

@@ -1,0 +1,16 @@
+# Uma URL de blog por linha. Linhas em branco e comentários (#) são ignorados.
+# Use a página índice do blog (não um artigo individual).
+
+# https://comunicareaparelhosauditivos.com/blog/
+# https://otoclinic.com.br/blog-otoclinic/
+# https://sonoritaaparelhosauditivos.com.br/blog
+# https://www.essencialaparelhosauditivos.com/blog/
+
+https://leads360.com.br/blog/
+https://www.gestaods.com.br/blog/
+https://www.kommo.com/br/blog/
+https://blog.nectarcrm.com.br/?_gl=1*dp875i*_gcl_au*MjA2NzQ2NjU0LjE3ODA2Nzk2MTg.*_ga*MTU3NjExMzc2MC4xNzgwNjc5NjE4*_ga_E50WSXGTGP*czE3ODA2Nzk2MTgkbzEkZzAkdDE3ODA2Nzk2MTgkajYwJGwwJGgyOTg5OTE2NTk.
+https://tuvis.com/br/tuvis-content-place/
+https://www.amplimed.com.br/blog/
+https://www.socialhub.pro/blog/
+https://pro.doctoralia.com.br/blog?utm_medium=referral&utm_source=MKTP&utm_campaign=footer&_gl=1*6esd8l*_gcl_au*ODAxODQzMzEwLjE3ODA2Nzk4NjQ.
