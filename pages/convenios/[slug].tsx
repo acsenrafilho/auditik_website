@@ -172,6 +172,11 @@ export default function ConvenioPartnerPage({
         );
       }
 
+      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://auditik.com.br").replace(
+        /\/$/,
+        "",
+      );
+
       const payload = {
         companyID: DEFAULT_COMPANY_ID,
         integrationName: LEAD_INTEGRATION_NAME,
@@ -180,6 +185,9 @@ export default function ConvenioPartnerPage({
         philipsStore: modalForm.loja,
         benefitName: partner.name,
         benefitSlug: partner.slug,
+        partnerPhone: partner.phone,
+        partnerAddress: partner.address,
+        partnerPageUrl: `${siteUrl}/convenios/${partner.slug}`,
       };
 
       const res = await fetch(BENEFIT_ACTIVATE_URL, {
