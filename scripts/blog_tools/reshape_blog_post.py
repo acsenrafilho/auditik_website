@@ -31,6 +31,7 @@ DOTENV_PATH = ROOT_DIR / ".env.local"
 TEMPLATE_PATH = ROOT_DIR / "content" / "blog" / ".template.md"
 BLOG_OUTPUT_DIR = ROOT_DIR / "content" / "blog"
 POSTED_DIR = SCRIPT_DIR / "posted"
+POST_IDEAS_DIR = SCRIPT_DIR / "post_ideas"
 
 
 def carregar_env() -> None:
@@ -72,8 +73,42 @@ def carregar_arquivos_de_lista(path_lista: Path) -> list[Path]:
         item = linha.strip()
         if not item or item.startswith("#"):
             continue
-        arquivos.append(Path(item.strip('"').strip("'")).expanduser().resolve())
+        arquivos.append(
+            resolver_arquivo_entrada(Path(item.strip('"').strip("'")))
+        )
     return arquivos
+
+
+def resolver_arquivo_entrada(path: Path) -> Path:
+    """Resolve path relativo, .md implícito ou busca por nome em post_ideas/."""
+    path = path.expanduser()
+    candidatos: list[Path] = [path.resolve()]
+
+    if path.suffix.lower() != ".md":
+        candidatos.append(path.with_suffix(".md").resolve())
+
+    if not path.is_absolute():
+        rel_script = SCRIPT_DIR / path
+        candidatos.append(rel_script.resolve())
+        if rel_script.suffix.lower() != ".md":
+            candidatos.append(rel_script.with_suffix(".md").resolve())
+
+    for candidato in candidatos:
+        if candidato.exists() and candidato.is_file():
+            return candidato
+
+    nome_busca = path.name if path.suffix.lower() == ".md" else f"{path.name}.md"
+    if POST_IDEAS_DIR.is_dir():
+        encontrados = sorted(POST_IDEAS_DIR.rglob(nome_busca))
+        if len(encontrados) == 1:
+            return encontrados[0].resolve()
+        if len(encontrados) > 1:
+            lista = "\n  ".join(str(item) for item in encontrados)
+            raise ValueError(
+                f"Múltiplos arquivos encontrados para '{path.name}':\n  {lista}"
+            )
+
+    return candidatos[0]
 
 
 def deduplicar_paths(paths: list[Path]) -> list[Path]:
@@ -145,7 +180,7 @@ def processar_arquivos(
 
 def coletar_arquivos(args: argparse.Namespace) -> list[Path]:
     arquivos_markdown: list[Path] = [
-        Path(item).expanduser().resolve() for item in args.arquivos
+        resolver_arquivo_entrada(Path(item)) for item in args.arquivos
     ]
 
     if args.input_dir:
