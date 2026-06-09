@@ -10,7 +10,7 @@
     "lint": "next lint",
     "export": "next build",
     "tina:dev": "TINA_PUBLIC_IS_LOCAL=true npx -y @tinacms/cli@1.6.7 dev -c \"next dev\"",
-    "tina:build": "bash -lc 'if [ -f .env.local ]; then dotenv -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; else npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; fi' && node scripts/fix-tina-generated-client.mjs"
+    "tina:build": "bash -c 'if [ -f .env.local ]; then npx dotenv-cli -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; else npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; fi' && node scripts/fix-tina-generated-client.mjs"
   },
   "dependencies": {
     "axios": "^1.6.0",

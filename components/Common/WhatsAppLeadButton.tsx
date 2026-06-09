@@ -7,6 +7,7 @@ import {
   trackEvent,
   trackFormSubmit,
 } from "@lib/analytics";
+import { formatBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 
 interface WhatsAppLeadButtonProps {
@@ -26,21 +27,6 @@ interface LeadFormData {
 }
 
 const BRAZIL_WHATSAPP_PHONE = "551933776941";
-const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
-const LEAD_PROXY_URL = process.env.NEXT_PUBLIC_LEAD_PROXY_URL || "";
-const LEAD_PROXY_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
-
-const formatBrazilPhone = (value: string): string => {
-  const digits = value.replace(/\D/g, "").slice(0, 11);
-
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  if (digits.length <= 10) {
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
-  }
-
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-};
 
 export function WhatsAppLeadButton({
   className,
@@ -110,13 +96,6 @@ export function WhatsAppLeadButton({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!LEAD_PROXY_URL) {
-      setSubmitError(
-        "Integração indisponível no momento. Tente novamente em instantes.",
-      );
-      return;
-    }
-
     if (normalizedPhone.length < 10) {
       setSubmitError("Informe um telefone válido com DDD.");
       return;
@@ -126,27 +105,14 @@ export function WhatsAppLeadButton({
     setIsSubmitting(true);
 
     try {
-      const headers: HeadersInit = {
-        "Content-Type": "application/json",
-      };
-
-      const response = await fetch(LEAD_PROXY_URL, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          companyID: companyID || DEFAULT_COMPANY_ID,
-          integrationName: LEAD_PROXY_INTEGRATION_NAME,
-          fullName: formData.fullName.trim(),
-          phone: normalizedPhone,
-          city: formData.city.trim(),
-          source: leadSource,
-        }),
+      await submitLeadToCRM({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        city: formData.city,
+        fallbackSource: leadSource,
+        formName: `WhatsApp — ${leadSource}`,
+        companyID,
       });
-
-      // TODO Colocar em comentario porque quando há erro por ser numero duplicado acaba aparecendo a mensagem de erro, mesmo que o lead seja criado com sucesso no backend.
-      // if (!response.ok) {
-      //   throw new Error("Não foi possível enviar seus dados agora.");
-      // }
 
       const metrics = {
         source: leadSource,

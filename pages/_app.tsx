@@ -3,6 +3,7 @@ import { DefaultSeo } from "next-seo";
 import Script from "next/script";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { captureAttributionFromUrl } from "@lib/campaign-attribution";
 import { trackPageView } from "@lib/analytics";
 import { META_PIXEL_ID } from "@lib/ad-platform-tracking";
 import { ScrollToTopButton } from "@components/Common/ScrollToTopButton";
@@ -12,7 +13,12 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
+    captureAttributionFromUrl();
+  }, []);
+
+  useEffect(() => {
     const handleRouteChange = (url: string) => {
+      captureAttributionFromUrl();
       const pageName = url.split("/")[1] || "home";
       trackPageView(url, pageName);
 

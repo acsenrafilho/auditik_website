@@ -1,13 +1,20 @@
-interface CampaignSourceMap {
-  [campaignId: string]: string;
-}
+import {
+  formatAttributionSummary,
+  getAttributionForSubmit,
+  resolveSourceLabel,
+} from "@lib/campaign-attribution";
+import {
+  fireConversionSheetSubmit,
+  type ConversionSheetPayload,
+} from "@lib/conversion-sheet-submission";
 
 export interface LeadSubmissionInput {
   fullName: string;
   phone: string;
   city: string;
-  paraQuem: string;
+  paraQuem?: string;
   fallbackSource: string;
+  formName: string;
   companyID?: string;
 }
 
@@ -27,47 +34,22 @@ const LEAD_PROXY_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAM
 const LEAD_SUBMISSION_NETWORK_ERROR_MESSAGE =
   "Não foi possível conectar com nossa integração agora. Verifique sua conexão e tente novamente.";
 
-const CAMPAIGN_SOURCE_BY_ID: CampaignSourceMap = {
-  "21231083976": "Google Search",
-  "23019456363": "Google Max Leads",
-};
-
-const CAMPAIGN_PARAM_KEYS = [
-  "campaignid",
-  "campaignId",
-  "campaign_id",
-  "utm_campaignid",
-  "utm_id",
-] as const;
-
 const normalizeBrazilPhone = (value: string): string =>
   value.replace(/\D/g, "").slice(0, 11);
 
-const getCampaignIdFromSearch = (search: string): string => {
-  if (!search) return "";
-
-  const params = new URLSearchParams(search);
-
-  for (const key of CAMPAIGN_PARAM_KEYS) {
-    const value = params.get(key);
-    if (value) return value;
-  }
-
-  return "";
-};
-
-const resolveSource = (fallbackSource: string): string => {
-  if (typeof window === "undefined") return fallbackSource;
-
-  const campaignId = getCampaignIdFromSearch(window.location.search);
-  if (!campaignId) return fallbackSource;
-
-  return CAMPAIGN_SOURCE_BY_ID[campaignId] || fallbackSource;
-};
-
-const buildObservation = (source: string, paraQuem: string): string => {
+const buildObservation = (
+  source: string,
+  paraQuem: string,
+  attributionSummary: string,
+): string => {
   const integrationName = LEAD_PROXY_INTEGRATION_NAME || "não informado";
-  return `Lead criado via ${source} (integração: ${integrationName}). Para quem é o AASI: ${paraQuem}.`;
+  const parts = [
+    `Lead criado via ${source} (integração: ${integrationName}).`,
+    paraQuem ? `Para quem é o AASI: ${paraQuem}.` : "",
+    attributionSummary ? `Campanha: ${attributionSummary}.` : "",
+  ].filter(Boolean);
+
+  return parts.join(" ");
 };
 
 export const formatBrazilPhone = (value: string): string => {
@@ -83,7 +65,9 @@ export const formatBrazilPhone = (value: string): string => {
 };
 
 export const buildLeadProxyPayload = (input: LeadSubmissionInput): LeadProxyPayload => {
-  const source = resolveSource(input.fallbackSource);
+  const attribution = getAttributionForSubmit();
+  const source = resolveSourceLabel(input.fallbackSource, attribution);
+  const paraQuem = (input.paraQuem || "").trim();
 
   return {
     companyID: input.companyID || DEFAULT_COMPANY_ID,
@@ -92,9 +76,26 @@ export const buildLeadProxyPayload = (input: LeadSubmissionInput): LeadProxyPayl
     phone: normalizeBrazilPhone(input.phone),
     city: input.city.trim(),
     source,
-    observation: buildObservation(source, input.paraQuem.trim()),
+    observation: buildObservation(
+      source,
+      paraQuem,
+      formatAttributionSummary(attribution),
+    ),
   };
 };
+
+const buildConversionPayload = (
+  input: LeadSubmissionInput,
+  crmPayload: LeadProxyPayload,
+): ConversionSheetPayload => ({
+  fullName: crmPayload.fullName,
+  phone: crmPayload.phone,
+  city: crmPayload.city,
+  paraQuem: (input.paraQuem || "").trim() || undefined,
+  formName: input.formName,
+  source: crmPayload.source,
+  attribution: getAttributionForSubmit(),
+});
 
 export const submitLeadToCRM = async (
   input: LeadSubmissionInput,
@@ -131,8 +132,6 @@ export const submitLeadToCRM = async (
     throw new Error(LEAD_SUBMISSION_NETWORK_ERROR_MESSAGE);
   }
 
-  // The CRM API may return non-2xx for duplicated leads even when the contact is stored.
-  // We still proceed with user success flow to avoid false-negative UX.
   if (!response.ok) {
     console.warn("Lead proxy returned non-OK status", {
       status: response.status,
@@ -140,6 +139,8 @@ export const submitLeadToCRM = async (
       source: payload.source,
     });
   }
+
+  fireConversionSheetSubmit(buildConversionPayload(input, payload));
 
   return response;
 };
