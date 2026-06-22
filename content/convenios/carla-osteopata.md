@@ -38,7 +38,7 @@ gallery:
 
 ## Sobre o parceiro
 
-Descreva o parceiro e sua atuação.
+Carla Luchiari atua como fisioterapeuta osteopata na região de Piracicaba (SP) e em eventos de imersão pelo país, com um foco integrado no alívio de dores crônicas, tensões e no esgotamento físico e emocional. Especialista com pós-graduação em Neurociência da Respiração, sua atuação combina técnicas de Osteopatia com a reeducação da postura, do movimento e da capacidade respiratória. O objetivo central de seu trabalho é ajudar tanto pessoas que enfrentam rotinas sedentárias quanto atletas a recuperarem a funcionalidade do corpo e saírem do estado de alerta permanente (estresse e cansaço). Além dos atendimentos clínicos individuais, Carla expande sua atuação por meio de palestras, vivências práticas e workshops imersivos — como as iniciativas "Pausa" e "Respira Wellness Experience" —, ensinando na prática como o controle e a consciência da respiração funcionam como os pilares principais para a regulação do sistema nervoso, gestão emocional e alta performance orgânica e sustentável.
 
 ## Como obter o benefício
 
