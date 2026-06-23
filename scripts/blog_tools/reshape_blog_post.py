@@ -11,6 +11,11 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 import google.generativeai as genai
+from rich.console import Console
+from rich.panel import Panel
+from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
+from rich.table import Table
+from rich.text import Text
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
@@ -32,6 +37,8 @@ TEMPLATE_PATH = ROOT_DIR / "content" / "blog" / ".template.md"
 BLOG_OUTPUT_DIR = ROOT_DIR / "content" / "blog"
 POSTED_DIR = SCRIPT_DIR / "posted"
 POST_IDEAS_DIR = SCRIPT_DIR / "post_ideas"
+
+console = Console()
 
 
 def carregar_env() -> None:
@@ -122,11 +129,50 @@ def deduplicar_paths(paths: list[Path]) -> list[Path]:
     return resultado
 
 
+def render_config_panel(
+    profile: RewriteProfile,
+    *,
+    total: int,
+    model_name: str | None = None,
+) -> None:
+    linhas = [
+        "[bold]Reshape Blog Post[/bold]",
+        f"Perfil: [cyan]{profile.name}[/cyan] ({profile.description or 'sem descrição'})",
+        f"Modo de saída: [magenta]{profile.output.mode}[/magenta]",
+        f"Arquivos: {total}",
+        f"Saída: {BLOG_OUTPUT_DIR}",
+        f"Entrada processada → {POSTED_DIR}",
+    ]
+    if model_name:
+        linhas.append(f"Modelo: [yellow]{model_name}[/yellow]")
+    console.print(Panel.fit("\n".join(linhas), border_style="cyan"))
+
+
+def render_resultados_table(resultados: list[dict[str, str]]) -> None:
+    table = Table(title="Resultados", show_header=True, header_style="bold cyan")
+    table.add_column("#", justify="right", style="dim")
+    table.add_column("Arquivo", style="white", no_wrap=False)
+    table.add_column("Status", justify="center")
+    table.add_column("Detalhe", style="dim", no_wrap=False)
+
+    for item in resultados:
+        status = item["status"]
+        if status == "OK":
+            status_cell = "[green]OK[/green]"
+        else:
+            status_cell = "[red]FALHA[/red]"
+        table.add_row(item["indice"], item["arquivo"], status_cell, item["detalhe"])
+
+    console.print(table)
+
+
 def processar_arquivos(
     arquivos_markdown: list[Path],
     model: genai.GenerativeModel,
     profile: RewriteProfile,
     template_blog: str,
+    *,
+    model_name: str,
 ) -> None:
     BLOG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     POSTED_DIR.mkdir(parents=True, exist_ok=True)
@@ -136,46 +182,89 @@ def processar_arquivos(
     total = len(arquivos_markdown)
     sucesso = 0
     falha = 0
+    resultados: list[dict[str, str]] = []
 
-    print(f"[INFO] Perfil: {profile.name} ({profile.description or 'sem descrição'})")
-    print(f"[INFO] Modo de saída: {profile.output.mode}")
-    print(f"[INFO] Iniciando processamento de {total} arquivo(s).")
-    print(f"[INFO] Saída final: {BLOG_OUTPUT_DIR}")
-    print(f"[INFO] Arquivos de entrada processados serão movidos para: {POSTED_DIR}")
+    render_config_panel(profile, total=total, model_name=model_name)
+    console.print()
 
-    for indice, arquivo in enumerate(arquivos_markdown, start=1):
-        print(f"[INFO] ({indice}/{total}) Processando: {arquivo}")
-        try:
-            if not arquivo.exists() or not arquivo.is_file():
-                raise FileNotFoundError(f"Arquivo inexistente: {arquivo}")
-            if arquivo.suffix.lower() != ".md":
-                raise ValueError("Arquivo não é markdown (.md).")
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        TextColumn("{task.completed}/{task.total}"),
+        TimeElapsedColumn(),
+        console=console,
+    ) as progress:
+        task_id = progress.add_task("[cyan]Aguardando...[/cyan]", total=total)
 
-            conteudo_original = arquivo.read_text(encoding="utf-8")
-            markdown_gerado = adaptar_artigo(
-                model, profile, conteudo_original, template_blog, data_execucao
+        for indice, arquivo in enumerate(arquivos_markdown, start=1):
+            progress.update(
+                task_id,
+                description=f"[cyan]Processando {arquivo.name}[/cyan]",
             )
-            markdown_final = montar_markdown_final(markdown_gerado, profile, data_execucao)
-            markdown_final = normalizar_paths_public(markdown_final)
+            try:
+                if not arquivo.exists() or not arquivo.is_file():
+                    raise FileNotFoundError(f"Arquivo inexistente: {arquivo}")
+                if arquivo.suffix.lower() != ".md":
+                    raise ValueError("Arquivo não é markdown (.md).")
 
-            nome_saida = f"{timestamp_execucao}-{indice:04d}.md"
-            caminho_saida = BLOG_OUTPUT_DIR / nome_saida
-            caminho_saida.write_text(markdown_final, encoding="utf-8")
+                conteudo_original = arquivo.read_text(encoding="utf-8")
+                markdown_gerado = adaptar_artigo(
+                    model, profile, conteudo_original, template_blog, data_execucao
+                )
+                markdown_final = montar_markdown_final(markdown_gerado, profile, data_execucao)
+                markdown_final = normalizar_paths_public(markdown_final)
 
-            destino_posted = POSTED_DIR / arquivo.name
-            if destino_posted.exists():
-                destino_posted = POSTED_DIR / f"{arquivo.stem}_{data_execucao}{arquivo.suffix}"
-            shutil.move(str(arquivo), str(destino_posted))
+                nome_saida = f"{timestamp_execucao}-{indice:04d}.md"
+                caminho_saida = BLOG_OUTPUT_DIR / nome_saida
+                caminho_saida.write_text(markdown_final, encoding="utf-8")
 
-            sucesso += 1
-            print(f"[OK] Post gerado: {caminho_saida}")
-            print(f"[OK] Arquivo de entrada movido para: {destino_posted}")
-        except Exception as exc:
-            falha += 1
-            print(f"[ERRO] Falha ao processar {arquivo}: {exc}")
+                destino_posted = POSTED_DIR / arquivo.name
+                if destino_posted.exists():
+                    destino_posted = (
+                        POSTED_DIR / f"{arquivo.stem}_{data_execucao}{arquivo.suffix}"
+                    )
+                shutil.move(str(arquivo), str(destino_posted))
 
-    print("[RESUMO] Processamento concluído.")
-    print(f"[RESUMO] Total: {total} | Sucesso: {sucesso} | Falhas: {falha}")
+                sucesso += 1
+                detalhe = f"→ {caminho_saida.name}"
+                resultados.append(
+                    {
+                        "indice": str(indice),
+                        "arquivo": arquivo.name,
+                        "status": "OK",
+                        "detalhe": detalhe,
+                    }
+                )
+                console.print(
+                    f"  [green]✓[/green] {arquivo.name} [dim]→[/dim] "
+                    f"[green]{caminho_saida.name}[/green]"
+                )
+            except Exception as exc:
+                falha += 1
+                resultados.append(
+                    {
+                        "indice": str(indice),
+                        "arquivo": arquivo.name,
+                        "status": "FALHA",
+                        "detalhe": str(exc),
+                    }
+                )
+                console.print(f"  [red]✗[/red] {arquivo.name} [red]{exc}[/red]")
+            finally:
+                progress.advance(task_id)
+
+    console.print()
+    render_resultados_table(resultados)
+
+    border = "green" if falha == 0 else "yellow"
+    console.print(
+        Panel.fit(
+            f"[bold]Processamento concluído[/bold]\n"
+            f"Total: {total} | [green]Sucesso: {sucesso}[/green] | "
+            f"[red]Falhas: {falha}[/red]",
+            border_style=border,
+        )
+    )
 
 
 def coletar_arquivos(args: argparse.Namespace) -> list[Path]:
@@ -317,23 +406,36 @@ def main() -> None:
         primeiro = arquivos_markdown[0]
         conteudo = primeiro.read_text(encoding="utf-8")
         prompt = build_prompt(profile, conteudo, template_blog, data_execucao)
-        print(f"[INFO] Perfil: {profile.name}")
-        print(f"[INFO] Arquivo: {primeiro}")
-        print(f"[INFO] Modo de saída: {profile.output.mode}")
-        print("--- PROMPT ---")
-        print(prompt)
+        render_config_panel(profile, total=len(arquivos_markdown))
+        console.print()
+        console.print(
+            Panel(
+                Text(prompt),
+                title=f"[bold cyan]Prompt[/bold cyan] — {primeiro.name}",
+                border_style="cyan",
+                expand=False,
+            )
+        )
+        console.print("[yellow]Modo --show-prompt: API não chamada.[/yellow]")
         return
 
     if not args.api_key:
-        raise ValueError(
-            f"Informe a chave Gemini com --api-key ou variável de ambiente GOOGLE_API_KEY. "
-            f"Arquivo esperado: {DOTENV_PATH}"
+        console.print(
+            f"[bold red]Erro:[/bold red] Informe a chave Gemini com --api-key ou "
+            f"variável de ambiente GOOGLE_API_KEY.\n"
+            f"[dim]Arquivo esperado: {DOTENV_PATH}[/dim]"
         )
+        raise SystemExit(1)
 
     model_name = args.model or profile.model.name
     model = criar_modelo(args.api_key, model_name)
-    print(f"[INFO] Modelo Gemini selecionado: {model_name}")
-    processar_arquivos(arquivos_markdown, model, profile, template_blog)
+    processar_arquivos(
+        arquivos_markdown,
+        model,
+        profile,
+        template_blog,
+        model_name=model_name,
+    )
 
 
 if __name__ == "__main__":
