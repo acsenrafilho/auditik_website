@@ -16,6 +16,10 @@ import {
 } from "@lib/convenios-taxonomy";
 import type { ConvenioPartner } from "@lib/convenios";
 import { getSEOMeta } from "@lib/seo";
+import {
+  generateConveniosIndexSchema,
+} from "@lib/schema";
+import { absoluteUrl } from "@lib/site-url";
 
 const getAllConvenioPartners = async () => {
   const { getAllConvenioPartners: loadAllConvenioPartners } = await import(
@@ -176,7 +180,18 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
     title: "Clube de Benefícios - Auditik",
     description:
       "Conheça parceiros que oferecem benefícios exclusivos para clientes Auditik, com filtros por cidade, área e perfil.",
+    canonical: absoluteUrl("/convenios/"),
   });
+
+  const conveniosSchema = generateConveniosIndexSchema(
+    partners.map((partner) => ({
+      title: partner.name,
+      url: absoluteUrl(`/convenios/${partner.slug}/`),
+    })),
+    {
+      url: absoluteUrl("/convenios/"),
+    },
+  );
 
   const hasActiveFilters =
     Boolean(searchTerm.trim()) ||
@@ -191,15 +206,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
       <Head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "CollectionPage",
-              name: "Clube de Benefícios Auditik",
-              description: "Parcerias e benefícios exclusivos para clientes Auditik.",
-              url: "https://auditik.com.br/convenios",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(conveniosSchema) }}
         />
       </Head>
 

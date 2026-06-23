@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run tina:dev",
-    "build": "npm run tina:build && node scripts/generate-sitemap.mjs && next build",
+    "build": "npm run tina:build && node scripts/generate-sitemap.mjs && node scripts/generate-llms-txt.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "export": "next build",

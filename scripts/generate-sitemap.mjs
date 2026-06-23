@@ -1,79 +1,62 @@
-import { readdir, writeFile } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import path from "node:path";
+import {
+  SITE_URL,
+  SATELLITE_SITE_URL,
+  STATIC_ROUTES,
+  SATELLITE_ROUTES,
+  getBlogEntries,
+  getConvenioEntries,
+  toAbsoluteUrl,
+} from "./lib/content-index.mjs";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://auditik.com.br";
 const ROOT = process.cwd();
 
-const staticPaths = [
-  "",
-  "/nossa-clinica",
-  "/aparelhos",
-  "/aparelhos-auditivos-em-piracicaba",
-  "/preco-aparelho-auditivo",
-  "/financiamento-aparelho-auditivo",
-  "/aparelho-auditivo-invisivel",
-  "/aparelho-auditivo-recarregavel",
-  "/aparelho-auditivo-com-bluetooth",
-  "/aparelhos-auditivos-philips-hearing-solutions",
-  "/aparelho-auditivo-para-idosos",
-  "/como-saber-se-precisa-de-aparelho-auditivo",
-  "/manutencao-e-ajuste-de-aparelho-auditivo",
-  "/convenios",
-  "/blog",
-  "/contato",
-  "/faq",
-  "/politica-de-privacidade",
-];
+function toLastModIso(dateValue, fallbackIso) {
+  const parsed = new Date(dateValue);
+  if (Number.isNaN(parsed.getTime())) {
+    return fallbackIso;
+  }
+  return parsed.toISOString();
+}
 
-/** Routes with custom sitemap priority (default 0.7). */
-const staticPathPriority = {
-  "/aparelhos-auditivos-em-piracicaba": "0.8",
-  "/preco-aparelho-auditivo": "0.8",
-  "/financiamento-aparelho-auditivo": "0.8",
-  "/aparelho-auditivo-invisivel": "0.8",
-  "/aparelho-auditivo-recarregavel": "0.8",
-  "/aparelho-auditivo-com-bluetooth": "0.8",
-  "/aparelhos-auditivos-philips-hearing-solutions": "0.8",
-  "/aparelho-auditivo-para-idosos": "0.8",
-  "/como-saber-se-precisa-de-aparelho-auditivo": "0.8",
-  "/manutencao-e-ajuste-de-aparelho-auditivo": "0.8",
-};
-
-const getSlugsFromDir = async (relativeDir) => {
-  const fullDir = path.join(ROOT, relativeDir);
-  const files = await readdir(fullDir, { withFileTypes: true });
-
-  return files
-    .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
-    .map((entry) => entry.name.replace(/\.md$/, ""))
-    .filter((slug) => slug !== "index");
-};
-
-const toUrlNode = (route, nowIso, priority, changefreq) => `
+function toUrlNode(loc, lastmod, priority, changefreq) {
+  return `
   <url>
-    <loc>${SITE_URL}${route}</loc>
-    <lastmod>${nowIso}</lastmod>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`;
+}
 
-const run = async () => {
-  const nowIso = new Date().toISOString();
-  const blogSlugs = await getSlugsFromDir("content/blog");
-  const convenioSlugs = await getSlugsFromDir("content/convenios");
+async function run() {
+  const buildIso = new Date().toISOString();
+  const blogEntries = getBlogEntries();
+  const convenioEntries = getConvenioEntries();
 
   const nodes = [
-    ...staticPaths.map((route) =>
+    ...STATIC_ROUTES.map((route) =>
       toUrlNode(
-        route,
-        nowIso,
-        route === "" ? "1.0" : (staticPathPriority[route] ?? "0.7"),
-        "weekly",
+        toAbsoluteUrl(SITE_URL, route.path),
+        buildIso,
+        route.priority,
+        route.changefreq,
       ),
     ),
-    ...blogSlugs.map((slug) => toUrlNode(`/blog/${slug}`, nowIso, "0.7", "weekly")),
-    ...convenioSlugs.map((slug) =>
-      toUrlNode(`/convenios/${slug}`, nowIso, "0.7", "weekly"),
+    ...SATELLITE_ROUTES.map((route) =>
+      toUrlNode(
+        toAbsoluteUrl(SATELLITE_SITE_URL, route.path),
+        buildIso,
+        route.priority,
+        route.changefreq,
+      ),
+    ),
+    ...blogEntries.map((entry) =>
+      toUrlNode(entry.url, toLastModIso(entry.date, buildIso), "0.7", "weekly"),
+    ),
+    ...convenioEntries.map((entry) =>
+      toUrlNode(entry.url, buildIso, "0.7", "weekly"),
     ),
   ];
 
@@ -85,8 +68,10 @@ const run = async () => {
   const outputPath = path.join(ROOT, "public", "sitemap.xml");
   await writeFile(outputPath, xml, "utf8");
   // eslint-disable-next-line no-console
-  console.log(`Sitemap generated at ${outputPath}`);
-};
+  console.log(
+    `Sitemap generated at ${outputPath} (${blogEntries.length} blog, ${convenioEntries.length} convênios)`,
+  );
+}
 
 run().catch((error) => {
   // eslint-disable-next-line no-console

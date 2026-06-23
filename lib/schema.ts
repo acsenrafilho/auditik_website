@@ -1,5 +1,39 @@
 // JSON-LD Schema generation utilities for SEO and LLM indexing
 
+import {
+  SITE_URL,
+  absoluteAssetUrl,
+  absoluteUrl,
+  DEFAULT_LOGO_PATH,
+} from "@lib/site-url";
+
+export interface ArticleSchemaInput {
+  title: string;
+  description: string;
+  image?: string;
+  author?: string;
+  date: string;
+  modified?: string;
+  url: string;
+}
+
+export interface IndexListItem {
+  title: string;
+  url: string;
+}
+
+function generateOrganizationPublisher() {
+  return {
+    "@type": "Organization",
+    name: "Auditik",
+    url: SITE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteAssetUrl(DEFAULT_LOGO_PATH),
+    },
+  };
+}
+
 export const generateLocalBusinessSchema = (
   location: "piracicaba" | "americana" = "piracicaba",
 ) => {
@@ -31,12 +65,12 @@ export const generateLocalBusinessSchema = (
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "@id": `https://auditik.com.br#${location}`,
+    "@id": `${SITE_URL}#${location}`,
     name: loc.name,
-    image: "https://auditik.com.br/logo.png",
+    image: absoluteAssetUrl(DEFAULT_LOGO_PATH),
     description:
       "Clínica de aparelhos auditivos Philips HearLink em Piracicaba e Americana",
-    url: "https://auditik.com.br",
+    url: SITE_URL,
     telephone: loc.phone,
     email: "atendimento@auditik.com.br",
     address: {
@@ -60,7 +94,12 @@ export const generateLocalBusinessSchema = (
   };
 };
 
-export const generateProductSchema = (product: any) => {
+export const generateProductSchema = (product: {
+  name?: string;
+  description?: string;
+  image?: string;
+  price?: string;
+}) => {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -100,24 +139,125 @@ export const generateFAQSchema = (
   };
 };
 
-export const generateArticleSchema = (article: any) => {
+export const generateArticleSchema = (article: ArticleSchemaInput) => {
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: article.title,
     description: article.description,
-    image: article.image,
+    image: article.image
+      ? absoluteAssetUrl(article.image)
+      : absoluteAssetUrl(DEFAULT_LOGO_PATH),
     author: {
       "@type": "Person",
       name: article.author || "Auditik Equipe",
     },
+    publisher: generateOrganizationPublisher(),
     datePublished: article.date,
     dateModified: article.modified || article.date,
-    articleBody: article.content,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": article.url,
+    },
   };
 };
 
-export const generateAggregateRatingSchema = (reviews: any[]) => {
+export const generateBlogIndexSchema = (
+  posts: IndexListItem[],
+  options: { name?: string; description?: string; url?: string } = {},
+) => {
+  const blogUrl = options.url || absoluteUrl("/blog/");
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      name: options.name || "Blog - Auditik",
+      description:
+        options.description ||
+        "Blog sobre saúde auditiva, aparelhos auditivos Philips HearLink e qualidade de vida.",
+      url: blogUrl,
+      inLanguage: "pt-BR",
+      publisher: generateOrganizationPublisher(),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: posts.map((post, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: post.url,
+        name: post.title,
+      })),
+    },
+  ];
+};
+
+export const generateConveniosIndexSchema = (
+  partners: IndexListItem[],
+  options: { name?: string; description?: string; url?: string } = {},
+) => {
+  const pageUrl = options.url || absoluteUrl("/convenios/");
+
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: options.name || "Clube de Benefícios Auditik",
+      description:
+        options.description ||
+        "Parcerias e benefícios exclusivos para clientes Auditik.",
+      url: pageUrl,
+      inLanguage: "pt-BR",
+      publisher: generateOrganizationPublisher(),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      itemListElement: partners.map((partner, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: partner.url,
+        name: partner.title,
+      })),
+    },
+  ];
+};
+
+export interface ConvenioSchemaInput {
+  name: string;
+  description: string;
+  slug: string;
+  logo?: string;
+}
+
+export const generateConvenioPartnerSchema = (partner: ConvenioSchemaInput) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: partner.name,
+    description: partner.description,
+    url: absoluteUrl(`/convenios/${partner.slug}/`),
+    logo: partner.logo ? absoluteAssetUrl(partner.logo) : undefined,
+  };
+};
+
+export const generateBreadcrumbSchema = (
+  items: Array<{ name: string; url: string }>,
+) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+};
+
+export const generateAggregateRatingSchema = (reviews: Array<{ rating: number }>) => {
   const rating = reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
   return {
     "@context": "https://schema.org",
@@ -134,8 +274,8 @@ export const generateOrganizationSchema = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Auditik",
-    url: "https://auditik.com.br",
-    logo: "https://auditik.com.br/logo.png",
+    url: SITE_URL,
+    logo: absoluteAssetUrl(DEFAULT_LOGO_PATH),
     description: "Distribuidor licenciado Philips HearLink de aparelhos auditivos",
     telephone: "(19) 3377-6941",
     email: "atendimento@auditik.com.br",

@@ -7,8 +7,9 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { generateArticleSchema } from "@lib/schema";
+import { generateArticleSchema, generateBreadcrumbSchema } from "@lib/schema";
 import { getSEOMeta } from "@lib/seo";
+import { absoluteUrl } from "@lib/site-url";
 import type { BlogPost } from "@lib/blog";
 
 const getBlogPostBySlug = async (slug: string) => {
@@ -67,20 +68,35 @@ export default function BlogPostPage({
     );
   }
 
+  const postUrl = absoluteUrl(`/blog/${post.slug}/`);
+
   const seo = getSEOMeta({
     title: post.title,
     description: post.description || post.excerpt,
+    canonical: postUrl,
     ogImage: post.featuredImage,
+    ogType: "article",
+    article: {
+      publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: [post.author],
+    },
   });
 
   const articleSchema = generateArticleSchema({
-    headline: post.title,
+    title: post.title,
     description: post.description || post.excerpt,
     image: post.featuredImage,
-    datePublished: post.date,
+    date: post.date,
     author: post.author,
-    keywords: [...post.topics, post.category],
+    url: postUrl,
   });
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Início", url: absoluteUrl("/") },
+    { name: "Blog", url: absoluteUrl("/blog/") },
+    { name: post.title, url: postUrl },
+  ]);
 
   const mainTopicLabel = post.topicLabels[0] || post.category;
 
@@ -91,6 +107,10 @@ export default function BlogPostPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
       </Head>
       <Header />

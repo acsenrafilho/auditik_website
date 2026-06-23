@@ -1,5 +1,14 @@
 import { defineConfig } from "tinacms";
 
+function normalizeBlogTitleSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 // Your hosting provider likely exposes this as an environment variable
 const branch =
   process.env.GITHUB_BRANCH ||
@@ -87,7 +96,17 @@ export default defineConfig({
           },
         ],
         ui: {
-          router: ({ document }) => `/blog/${document._sys.filename}`,
+          router: ({ document }) => {
+            const blogDocument = document as {
+              title?: string;
+              _sys?: { filename?: string };
+            };
+            const titleSlug = blogDocument.title
+              ? normalizeBlogTitleSlug(blogDocument.title)
+              : "";
+            const slug = titleSlug || blogDocument._sys?.filename || "artigo";
+            return `/blog/${slug}`;
+          },
         },
       },
       {

@@ -10,6 +10,11 @@ import { Header } from "@components/Header";
 import { trackButtonClick } from "@lib/analytics";
 import type { ConvenioPartner } from "@lib/convenios";
 import { getSEOMeta } from "@lib/seo";
+import {
+  generateBreadcrumbSchema,
+  generateConvenioPartnerSchema,
+} from "@lib/schema";
+import { absoluteUrl } from "@lib/site-url";
 import { formatBrazilPhone } from "@lib/lead-submission";
 
 const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
@@ -53,40 +58,13 @@ interface ConvenioPartnerPageProps {
 const ABOUT_PARTNER_SECTION_REGEX =
   /(?:^|\n)##\s+Sobre o parceiro\s*\n+([\s\S]*?)(?=\n##\s+|$)/i;
 
-function buildConvenioSchema(partner: ConvenioPartner, includeContactInfo: boolean) {
-  const phoneDigits = partner.phone.replace(/\D/g, "");
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
+function buildConvenioSchema(partner: ConvenioPartner) {
+  return generateConvenioPartnerSchema({
     name: partner.name,
     description: partner.description,
-    url: `https://auditik.com.br/convenios/${partner.slug}`,
-    logo: partner.logo ? `https://auditik.com.br${partner.logo}` : undefined,
-    address:
-      includeContactInfo && partner.address
-        ? {
-            "@type": "PostalAddress",
-            streetAddress: partner.address,
-            addressCountry: "BR",
-          }
-        : undefined,
-    contactPoint:
-      includeContactInfo && partner.phone
-        ? {
-            "@type": "ContactPoint",
-            telephone: phoneDigits ? `+55${phoneDigits}` : partner.phone,
-            contactType: "customer support",
-            availableLanguage: ["Portuguese"],
-          }
-        : undefined,
-    knowsAbout: [
-      ...partner.cityLabels,
-      ...partner.areaLabels,
-      ...partner.benefitTypeLabels,
-      ...partner.clientProfileLabels,
-    ],
-  };
+    slug: partner.slug,
+    logo: partner.logo,
+  });
 }
 
 const getActivationStorageKey = (slug: string) =>
@@ -240,13 +218,22 @@ export default function ConvenioPartnerPage({
     );
   }
 
+  const partnerUrl = absoluteUrl(`/convenios/${partner.slug}/`);
+
   const seo = getSEOMeta({
     title: `${partner.name} - Clube de Benefícios Auditik`,
     description: partner.description,
+    canonical: partnerUrl,
     ogImage: partner.logo,
   });
 
-  const convenioSchema = buildConvenioSchema(partner, hasActivatedBenefit);
+  const convenioSchema = buildConvenioSchema(partner);
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: "Início", url: absoluteUrl("/") },
+    { name: "Clube de Benefícios", url: absoluteUrl("/convenios/") },
+    { name: partner.name, url: partnerUrl },
+  ]);
 
   return (
     <>
@@ -255,6 +242,10 @@ export default function ConvenioPartnerPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(convenioSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
       </Head>
       <Header />

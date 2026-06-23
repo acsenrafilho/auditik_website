@@ -6,16 +6,24 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-User-agent: PerplexityBot
+User-agent: GPTBot
 Allow: /
 
-User-agent: GPTBot
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
 Allow: /
 
 # Disallow sensitive paths (if any)
 Disallow: /admin
 Disallow: /.tina
 Disallow: /api/
+
+# LLM content index: https://auditik.com.br/llms.txt
 
 # Sitemaps
 Sitemap: https://auditik.com.br/sitemap.xml

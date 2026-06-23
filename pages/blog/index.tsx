@@ -10,6 +10,8 @@ import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
+import { generateBlogIndexSchema } from "@lib/schema";
+import { absoluteUrl } from "@lib/site-url";
 import type { BlogPost, BlogTopicOption } from "@lib/blog";
 
 const POSTS_PER_PAGE = 10;
@@ -152,7 +154,18 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
     title: "Blog - Auditik",
     description:
       "Leia artigos sobre perda auditiva, aparelhos Philips HearLink, tecnologia, adaptação e cuidados com a audição.",
+    canonical: absoluteUrl("/blog/"),
   });
+
+  const blogSchema = generateBlogIndexSchema(
+    posts.map((post) => ({
+      title: post.title,
+      url: absoluteUrl(`/blog/${post.slug}/`),
+    })),
+    {
+      url: absoluteUrl("/blog/"),
+    },
+  );
 
   const hasActiveFilters = Boolean(searchTerm.trim()) || selectedTopic !== "all";
 
@@ -162,15 +175,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
       <Head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Blog",
-              name: "Blog - Auditik",
-              description: "Blog sobre saúde auditiva e aparelhos auditivos",
-              url: "https://auditik.com.br/blog",
-            }),
-          }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
         />
       </Head>
       <Header />

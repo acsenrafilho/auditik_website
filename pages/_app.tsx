@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { captureAttributionFromUrl } from "@lib/campaign-attribution";
 import { trackPageView } from "@lib/analytics";
 import { META_PIXEL_ID } from "@lib/ad-platform-tracking";
+import { SITE_URL } from "@lib/site-url";
 import { ScrollToTopButton } from "@components/Common/ScrollToTopButton";
 import "../styles/globals.css";
 
@@ -72,11 +73,11 @@ export default function App({ Component, pageProps }: AppProps) {
         titleTemplate="%s | Auditik"
         defaultTitle="Auditik - Aparelhos Auditivos Philips HearLink"
         description="Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba e Americana."
-        canonical="https://auditik.com.br"
+        canonical={SITE_URL}
         openGraph={{
           type: "website",
           locale: "pt_BR",
-          url: "https://auditik.com.br",
+          url: SITE_URL,
           siteName: "Auditik",
         }}
         twitter={{
