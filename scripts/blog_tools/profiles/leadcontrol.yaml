@@ -32,8 +32,8 @@ adaptation:
     - "Posicione o Lead Control como camada de comunicação e follow-up que complementa (e não substitui) prontuários eletrônicos e CRMs genéricos."
     - "Foque nas dores de gestão: leads sumindo no WhatsApp, gargalos na recepção, desperdício de tráfego pago e falta de visibilidade de conversão."
     - "Preserve estrutura markdown clara e legível (títulos, subtítulos, listas)."
-    - "Inclua exemplos práticos para clínicas de saúde (audiologia, odontologia, estética e outras especialidades)."
-    - "Quando o tema for audiologia ou odontologia, mencione e link para as landing pages internas correspondentes. Faça isso para qualquer referência a especialidades que já esteja implementada no Lead Control."
+    - "Inclua exemplos práticos para clínicas de saúde com enfoque para audiologia, fonoaudiologia e aparelhos auditivos."
+    - "Quando o tema for audiologia, mencione e link para as landing pages internas correspondentes. Faça isso para qualquer referência a especialidades que já esteja implementada no Lead Control."
     - "O resultado deve ser útil para quem busca organizar leads e aumentar agendamentos, com foco em confiança, segurança, facilidade de uso e clareza."
     - "O corpo deve terminar com CTA alinhado à empresa."
     - "Tomar cuidado com a acentuação da língua portuguesa."
@@ -44,15 +44,13 @@ adaptation:
     1) Agende uma demonstração gratuita do Lead Control e veja como transformar cliques em agendamentos.
     2) Entre em contato pelo e-mail contato@leadcontrol.ia.br para falar com um especialista.
     3) Cadastre sua clínica e comece a organizar leads e follow-up em um único fluxo.
-    4) Leia mais sobre como o Lead Control atua em centros auditivos ou clínicas odontológicas (ou outras especialidades que já esteja implementada no Lead Control).
+    4) Leia mais sobre como o Lead Control atua em centros auditivos.
     5) Siga nossas redes sociais e fique por dentro de novidades sobre gestão de leads na saúde.
   instrucoes_extras: |
     Links internos úteis (usar quando fizer sentido no contexto):
     - Página principal: https://www.leadcontrol.ia.br/
     - Demonstração/contato: https://www.leadcontrol.ia.br/#contato
     - Centros auditivos: https://www.leadcontrol.ia.br/pages/para-clinicas/centros-auditivos.html
-    - Odontologia: https://www.leadcontrol.ia.br/pages/para-clinicas/odonto.html
-    - Cadastro de clínica: https://www.leadcontrol.ia.br/pages/cadastrar-clinica.html
     - Índice do blog: https://www.leadcontrol.ia.br/pages/blog/index.html
 
     Diferenciais a reforçar quando pertinente:
@@ -71,17 +69,8 @@ output:
     - gestao-leads
     - crm-clinicas
     - audiologia
-    - odontologia
-    - estetica
-    - medicina-geral
-    - medicina-interna
-    - medicina-pediatrica
-    - medicina-geriatrica
-    - medicina-cardiologica
-    - medicina-neurologica
-    - medicina-endocrinologica
-    - medicina-ginecologica
-    - medicina-hematologica
+    - aparelho-auditivo
+    - fonoaudiologia
     - automacao-atendimento
     - conversao-agendamentos
     - marketing-digital-saude
