@@ -26,6 +26,7 @@ import {
 } from "@lib/schema";
 import { absoluteUrl } from "@lib/site-url";
 import { formatBrazilPhone } from "@lib/lead-submission";
+import { fetchWithRetry } from "@lib/fetch-with-retry";
 
 const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
 const BENEFIT_ACTIVATE_URL = process.env.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL || "";
@@ -271,7 +272,7 @@ export default function ConvenioPartnerPage({
           : {}),
       };
 
-      const res = await fetch(BENEFIT_ACTIVATE_URL, {
+      const res = await fetchWithRetry(BENEFIT_ACTIVATE_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

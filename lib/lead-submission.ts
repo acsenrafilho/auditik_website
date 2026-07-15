@@ -7,6 +7,7 @@ import {
   fireConversionSheetSubmit,
   type ConversionSheetPayload,
 } from "@lib/conversion-sheet-submission";
+import { fetchWithRetry } from "@lib/fetch-with-retry";
 
 export interface LeadSubmissionInput {
   fullName: string;
@@ -115,7 +116,7 @@ export const submitLeadToCRM = async (
 
   let response: Response;
   try {
-    response = await fetch(LEAD_PROXY_URL, {
+    response = await fetchWithRetry(LEAD_PROXY_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

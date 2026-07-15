@@ -1,4 +1,5 @@
 import type { CampaignAttribution } from "@lib/campaign-attribution";
+import { fetchWithRetry } from "@lib/fetch-with-retry";
 
 export interface ConversionSheetPayload {
   fullName: string;
@@ -22,7 +23,7 @@ export const submitConversionToSheet = async (
   }
 
   try {
-    const response = await fetch(CONVERSION_INGEST_URL, {
+    const response = await fetchWithRetry(CONVERSION_INGEST_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
