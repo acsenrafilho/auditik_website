@@ -143,6 +143,8 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |
 | NEXT_PUBLIC_BENEFIT_ACTIVATE_URL        | Convênios benefit activation  | https://api.example.com/activate |
 
+The activate endpoint (`gl_activate_benefit` in backend-core) accepts optional `proofImageBase64` + `proofImageMimeType` from the site voucher and attaches the PNG to the internal SES e-mail when valid.
+
 ### How to Add (Secrets and Variables)
 
 1. Go to your repository on GitHub

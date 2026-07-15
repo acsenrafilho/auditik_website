@@ -3,11 +3,21 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import type { GetStaticPaths, GetStaticProps } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { FormEvent } from "react";
+import { flushSync } from "react-dom";
 
+import { BenefitActivationVoucher } from "@components/Convenios/BenefitActivationVoucher";
 import { Header } from "@components/Header";
 import { trackButtonClick } from "@lib/analytics";
+import {
+  buildVoucherFilename,
+  dataUrlToRawBase64,
+  formatActivationDateTime,
+  getFirstName,
+  downloadDataUrl,
+  renderVoucherToPngDataUrl,
+} from "@lib/benefit-voucher";
 import type { ConvenioPartner } from "@lib/convenios";
 import { getSEOMeta } from "@lib/seo";
 import {
@@ -22,6 +32,18 @@ const BENEFIT_ACTIVATE_URL = process.env.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL || "";
 const LEAD_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
 const PHILIPS_STORES = ["Piracicaba", "Americana", "São Pedro", "Charqueada"];
 const ACTIVATION_STORAGE_KEY_PREFIX = "convenio_benefit_activated_";
+
+type VoucherSnapshot = {
+  firstName: string;
+  store: string;
+  partnerName: string;
+  benefitSummary: string;
+  partnerPhone: string;
+  partnerAddress: string;
+  activatedAtLabel: string;
+  activatedAt: Date;
+  slug: string;
+};
 
 const getAllConvenioSlugs = async () => {
   const { getAllConvenioSlugs: loadAllConvenioSlugs } = await import("@lib/convenios");
@@ -97,6 +119,11 @@ export default function ConvenioPartnerPage({
   const [modalError, setModalError] = useState("");
   const [modalSuccess, setModalSuccess] = useState(false);
   const [hasActivatedBenefit, setHasActivatedBenefit] = useState(false);
+  const [voucherSnapshot, setVoucherSnapshot] = useState<VoucherSnapshot | null>(
+    null,
+  );
+  const [voucherPngDataUrl, setVoucherPngDataUrl] = useState<string | null>(null);
+  const voucherRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!partner || typeof window === "undefined") return;
@@ -122,11 +149,38 @@ export default function ConvenioPartnerPage({
     setModalSuccess(false);
     setModalError("");
     setModalForm({ nome: "", telefone: "", loja: "" });
+    setVoucherSnapshot(null);
+    setVoucherPngDataUrl(null);
     if (partner) {
       trackButtonClick("convenio_activate_benefit_open", {
         section: "convenio_detail",
         partner: partner.slug,
       });
+    }
+  };
+
+  const handleDownloadVoucher = async () => {
+    if (!voucherSnapshot) return;
+
+    try {
+      let dataUrl = voucherPngDataUrl;
+      if (!dataUrl && voucherRef.current) {
+        dataUrl = await renderVoucherToPngDataUrl(voucherRef.current);
+        setVoucherPngDataUrl(dataUrl);
+      }
+      if (!dataUrl) {
+        throw new Error("Não foi possível gerar o comprovante.");
+      }
+      downloadDataUrl(
+        dataUrl,
+        buildVoucherFilename(voucherSnapshot.slug, voucherSnapshot.activatedAt),
+      );
+      trackButtonClick("convenio_benefit_voucher_download", {
+        section: "convenio_detail",
+        partner: voucherSnapshot.slug,
+      });
+    } catch {
+      setModalError("Não foi possível baixar o comprovante. Tente novamente.");
     }
   };
 
@@ -150,10 +204,50 @@ export default function ConvenioPartnerPage({
         );
       }
 
-      const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://auditik.com.br").replace(
-        /\/$/,
-        "",
-      );
+      const siteUrl = (
+        process.env.NEXT_PUBLIC_SITE_URL || "https://auditik.com.br"
+      ).replace(/\/$/, "");
+
+      const activatedAt = new Date();
+      const firstName = getFirstName(modalForm.nome);
+      const benefitSummary =
+        partner.benefitSummary ||
+        partner.benefitTypeLabels.join(", ") ||
+        "Benefício exclusivo para clientes Auditik.";
+
+      const snapshot: VoucherSnapshot = {
+        firstName,
+        store: modalForm.loja,
+        partnerName: partner.name,
+        benefitSummary,
+        partnerPhone: partner.phone,
+        partnerAddress: partner.address,
+        activatedAtLabel: formatActivationDateTime(activatedAt),
+        activatedAt,
+        slug: partner.slug,
+      };
+
+      flushSync(() => {
+        setVoucherSnapshot(snapshot);
+      });
+
+      // Allow layout + logo paint before rasterizing.
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      });
+
+      let proofImageBase64: string | undefined;
+      let pngDataUrl: string | undefined;
+      if (voucherRef.current) {
+        try {
+          pngDataUrl = await renderVoucherToPngDataUrl(voucherRef.current);
+          proofImageBase64 = dataUrlToRawBase64(pngDataUrl);
+        } catch {
+          // Activation must not fail if PNG generation fails.
+          pngDataUrl = undefined;
+          proofImageBase64 = undefined;
+        }
+      }
 
       const payload = {
         companyID: DEFAULT_COMPANY_ID,
@@ -166,6 +260,15 @@ export default function ConvenioPartnerPage({
         partnerPhone: partner.phone,
         partnerAddress: partner.address,
         partnerPageUrl: `${siteUrl}/convenios/${partner.slug}`,
+        benefitSummary,
+        customerFirstName: firstName,
+        activatedAt: activatedAt.toISOString(),
+        ...(proofImageBase64
+          ? {
+              proofImageBase64,
+              proofImageMimeType: "image/png" as const,
+            }
+          : {}),
       };
 
       const res = await fetch(BENEFIT_ACTIVATE_URL, {
@@ -186,6 +289,9 @@ export default function ConvenioPartnerPage({
         partner: partner.slug,
       });
 
+      if (pngDataUrl) {
+        setVoucherPngDataUrl(pngDataUrl);
+      }
       setModalSuccess(true);
       setHasActivatedBenefit(true);
       if (typeof window !== "undefined") {
@@ -491,7 +597,11 @@ export default function ConvenioPartnerPage({
             if (e.target === e.currentTarget) setIsModalOpen(false);
           }}
         >
-          <div className="rounded-[2rem] border border-slate-100 bg-white p-8 shadow-2xl w-full max-w-md relative">
+          <div
+            className={`rounded-[2rem] border border-slate-100 bg-white p-8 shadow-2xl w-full relative max-h-[90vh] overflow-y-auto ${
+              modalSuccess ? "max-w-lg" : "max-w-md"
+            }`}
+          >
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
@@ -514,36 +624,62 @@ export default function ConvenioPartnerPage({
             </button>
 
             {modalSuccess ? (
-              <div className="text-center py-4">
-                <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <svg
-                    className="h-8 w-8 text-green-600"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={2.5}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-extrabold text-slate-900 mb-3">
+              <div className="py-2">
+                <h3 className="text-2xl font-extrabold text-slate-900 mb-2 text-center">
                   Benefício ativado!
                 </h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-8">
-                  Sua solicitação foi registrada com sucesso. Nossa equipe entrará em
-                  contato em breve para confirmar o seu benefício.
+                <p className="text-slate-500 text-sm leading-relaxed mb-5 text-center">
+                  Baixe o comprovante para mostrar ao parceiro. Nossa equipe também
+                  recebe um aviso com o mesmo documento.
                 </p>
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-auditik-blue px-4 py-3 text-sm font-bold text-white hover:bg-auditik-dark-blue transition-colors"
-                >
-                  Fechar
-                </button>
+
+                {voucherPngDataUrl ? (
+                  <div className="mb-5 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={voucherPngDataUrl}
+                      alt="Comprovante de ativação do benefício"
+                      className="mx-auto h-auto w-full max-w-full"
+                    />
+                  </div>
+                ) : voucherSnapshot ? (
+                  <div className="mb-5 max-h-72 overflow-auto rounded-2xl border border-slate-200 bg-slate-50 p-2">
+                    <div className="origin-top-left scale-[0.42]">
+                      <BenefitActivationVoucher
+                        firstName={voucherSnapshot.firstName}
+                        store={voucherSnapshot.store}
+                        partnerName={voucherSnapshot.partnerName}
+                        benefitSummary={voucherSnapshot.benefitSummary}
+                        partnerPhone={voucherSnapshot.partnerPhone}
+                        partnerAddress={voucherSnapshot.partnerAddress}
+                        activatedAtLabel={voucherSnapshot.activatedAtLabel}
+                      />
+                    </div>
+                  </div>
+                ) : null}
+
+                {modalError && (
+                  <p className="mb-3 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                    {modalError}
+                  </p>
+                )}
+
+                <div className="flex flex-col gap-3">
+                  <button
+                    type="button"
+                    onClick={handleDownloadVoucher}
+                    className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-auditik-yellow px-4 py-3 text-sm font-bold text-slate-900 hover:bg-yellow-400 transition-colors"
+                  >
+                    Baixar comprovante
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-auditik-blue px-4 py-3 text-sm font-bold text-white hover:bg-auditik-dark-blue transition-colors"
+                  >
+                    Fechar
+                  </button>
+                </div>
               </div>
             ) : (
               <>
@@ -652,6 +788,25 @@ export default function ConvenioPartnerPage({
           </div>
         </div>
       )}
+
+      {voucherSnapshot ? (
+        <div
+          className="pointer-events-none fixed left-0 top-0 -z-10"
+          style={{ transform: "translateX(-10000px)" }}
+          aria-hidden="true"
+        >
+          <BenefitActivationVoucher
+            ref={voucherRef}
+            firstName={voucherSnapshot.firstName}
+            store={voucherSnapshot.store}
+            partnerName={voucherSnapshot.partnerName}
+            benefitSummary={voucherSnapshot.benefitSummary}
+            partnerPhone={voucherSnapshot.partnerPhone}
+            partnerAddress={voucherSnapshot.partnerAddress}
+            activatedAtLabel={voucherSnapshot.activatedAtLabel}
+          />
+        </div>
+      ) : null}
     </>
   );
 }
