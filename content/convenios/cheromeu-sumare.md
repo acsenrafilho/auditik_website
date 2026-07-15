@@ -47,6 +47,8 @@ Aqui você irá encontrar perfumes originais de grifes, os quais garantimos a pr
 
 ## Como obter o benefício
 
+Ative o benefício nesta página de perfil do parceiroAuditik/Philips Aparelhos Auditivos.
+
 Utilize o cupom de desconto: `PRIMEIRA5` e também adicione mais 5% de desconto com a escolha do pagamento via PIX.
 
 Compre pelo site: [https://www.cheromeuperfumaria.com/](https://www.cheromeuperfumaria.com/)
