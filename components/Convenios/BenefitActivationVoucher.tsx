@@ -36,16 +36,29 @@ export const BenefitActivationVoucher = forwardRef<
       style={{ width: 720, minHeight: 960 }}
     >
       <div className="bg-auditik-blue px-10 pb-8 pt-10 text-white">
-        <div className="mb-6 inline-flex rounded-2xl bg-white px-4 py-3">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/logo-auditik.png"
-            alt="Auditik"
-            width={140}
-            height={42}
-            className="h-10 w-auto object-contain"
-            crossOrigin="anonymous"
-          />
+        <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="inline-flex rounded-2xl bg-white px-5 py-3.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-auditik.png"
+              alt="Auditik"
+              width={180}
+              height={54}
+              className="h-14 w-auto object-contain"
+              crossOrigin="anonymous"
+            />
+          </div>
+          <div className="inline-flex rounded-2xl bg-white px-5 py-3.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-Philips.png"
+              alt="Philips Distribuidor Autorizado"
+              width={180}
+              height={54}
+              className="h-14 w-auto object-contain"
+              crossOrigin="anonymous"
+            />
+          </div>
         </div>
         <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-auditik-yellow">
           Clube de Benefícios
