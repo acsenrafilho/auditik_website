@@ -21,7 +21,13 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
-from lib.markdown_output import montar_markdown_final, normalizar_paths_public  # noqa: E402
+from lib.markdown_output import (  # noqa: E402
+    extrair_titulo_gerado,
+    montar_markdown_final,
+    normalizar_paths_public,
+    titulo_normalizado,
+    titulo_tem_prefixo_proibido,
+)
 from lib.prompt_builder import build_prompt  # noqa: E402
 from lib.rewrite_profile import (  # noqa: E402
     DEFAULT_PROFILE_NAME,
@@ -29,7 +35,9 @@ from lib.rewrite_profile import (  # noqa: E402
     RewriteProfile,
     apply_overrides,
     load_profile,
+    resolve_template_path,
 )
+from lib.source_brief import SourceBrief, extract_source_brief  # noqa: E402
 
 ROOT_DIR = SCRIPT_DIR.parents[1]
 DOTENV_PATH = ROOT_DIR / ".env.local"
@@ -62,13 +70,43 @@ def adaptar_artigo(
     conteudo_original: str,
     template_blog: str,
     data_execucao: str,
+    *,
+    source_brief: SourceBrief | None = None,
+    instrucao_regeneracao: str = "",
 ) -> str:
-    prompt = build_prompt(profile, conteudo_original, template_blog, data_execucao)
+    prompt = build_prompt(
+        profile,
+        conteudo_original,
+        template_blog,
+        data_execucao,
+        source_brief=source_brief,
+        instrucao_regeneracao=instrucao_regeneracao,
+    )
     response = model.generate_content(prompt)
     texto = (response.text or "").strip()
     if not texto:
         raise ValueError("Gemini retornou resposta vazia.")
     return texto
+
+
+def titulo_precisa_regenerar(
+    titulo: str,
+    profile: RewriteProfile,
+    titulos_usados: set[str],
+) -> str | None:
+    """Retorna motivo se o título for inválido; None se estiver ok."""
+    if not titulo.strip():
+        return "título vazio"
+    normalizado = titulo_normalizado(titulo)
+    if normalizado in titulos_usados:
+        return f'título duplicado no lote: "{titulo}"'
+    if titulo_tem_prefixo_proibido(
+        titulo, profile.adaptation.titulos_proibidos_prefixos
+    ):
+        return f'título com prefixo proibido: "{titulo}"'
+    if titulo.strip() == profile.output.default_title:
+        return f'título caiu no fallback do perfil: "{titulo}"'
+    return None
 
 
 def carregar_arquivos_de_lista(path_lista: Path) -> list[Path]:
@@ -134,6 +172,7 @@ def render_config_panel(
     *,
     total: int,
     model_name: str | None = None,
+    template_path: Path | None = None,
 ) -> None:
     linhas = [
         "[bold]Reshape Blog Post[/bold]",
@@ -143,6 +182,10 @@ def render_config_panel(
         f"Saída: {BLOG_OUTPUT_DIR}",
         f"Entrada processada → {POSTED_DIR}",
     ]
+    if template_path:
+        linhas.append(f"Template: [green]{template_path}[/green]")
+    campos = ", ".join(profile.output.frontmatter_fields)
+    linhas.append(f"Front matter: [dim]{campos}[/dim]")
     if model_name:
         linhas.append(f"Modelo: [yellow]{model_name}[/yellow]")
     console.print(Panel.fit("\n".join(linhas), border_style="cyan"))
@@ -173,6 +216,7 @@ def processar_arquivos(
     template_blog: str,
     *,
     model_name: str,
+    template_path: Path | None = None,
 ) -> None:
     BLOG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     POSTED_DIR.mkdir(parents=True, exist_ok=True)
@@ -183,8 +227,14 @@ def processar_arquivos(
     sucesso = 0
     falha = 0
     resultados: list[dict[str, str]] = []
+    titulos_usados: set[str] = set()
 
-    render_config_panel(profile, total=total, model_name=model_name)
+    render_config_panel(
+        profile,
+        total=total,
+        model_name=model_name,
+        template_path=template_path,
+    )
     console.print()
 
     with Progress(
@@ -208,11 +258,48 @@ def processar_arquivos(
                     raise ValueError("Arquivo não é markdown (.md).")
 
                 conteudo_original = arquivo.read_text(encoding="utf-8")
+                brief = extract_source_brief(conteudo_original)
                 markdown_gerado = adaptar_artigo(
-                    model, profile, conteudo_original, template_blog, data_execucao
+                    model,
+                    profile,
+                    conteudo_original,
+                    template_blog,
+                    data_execucao,
+                    source_brief=brief,
                 )
-                markdown_final = montar_markdown_final(markdown_gerado, profile, data_execucao)
+                titulo = extrair_titulo_gerado(markdown_gerado, profile)
+                motivo = titulo_precisa_regenerar(titulo, profile, titulos_usados)
+                regenerou = False
+                if motivo:
+                    console.print(
+                        f"  [yellow]↻[/yellow] {arquivo.name} regenerando título "
+                        f"[dim]({motivo})[/dim]"
+                    )
+                    instrucao = (
+                        f"O título anterior foi rejeitado ({motivo}). "
+                        f"Proponha um título SEO distinto, fiel ao título da fonte "
+                        f'"{brief.titulo_fonte}", sem prefixos proibidos e sem '
+                        f"repetir títulos já usados neste lote: "
+                        f"{', '.join(sorted(titulos_usados)) or '(nenhum ainda)'}."
+                    )
+                    markdown_gerado = adaptar_artigo(
+                        model,
+                        profile,
+                        conteudo_original,
+                        template_blog,
+                        data_execucao,
+                        source_brief=brief,
+                        instrucao_regeneracao=instrucao,
+                    )
+                    titulo = extrair_titulo_gerado(markdown_gerado, profile)
+                    regenerou = True
+
+                markdown_final = montar_markdown_final(
+                    markdown_gerado, profile, data_execucao
+                )
                 markdown_final = normalizar_paths_public(markdown_final)
+                titulo_final = extrair_titulo_gerado(markdown_final, profile)
+                titulos_usados.add(titulo_normalizado(titulo_final))
 
                 nome_saida = f"{timestamp_execucao}-{indice:04d}.md"
                 caminho_saida = BLOG_OUTPUT_DIR / nome_saida
@@ -227,6 +314,8 @@ def processar_arquivos(
 
                 sucesso += 1
                 detalhe = f"→ {caminho_saida.name}"
+                if regenerou:
+                    detalhe += " (regenerado)"
                 resultados.append(
                     {
                         "indice": str(indice),
@@ -238,6 +327,7 @@ def processar_arquivos(
                 console.print(
                     f"  [green]✓[/green] {arquivo.name} [dim]→[/dim] "
                     f"[green]{caminho_saida.name}[/green]"
+                    f"{' [yellow](regenerado)[/yellow]' if regenerou else ''}"
                 )
             except Exception as exc:
                 falha += 1
@@ -355,8 +445,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--template",
-        default=str(TEMPLATE_PATH),
-        help="Path para o template markdown do blog.",
+        default="",
+        help=(
+            "Path para o template markdown do blog. "
+            "Se omitido, usa output.template do perfil."
+        ),
     )
     parser.add_argument(
         "--model",
@@ -394,20 +487,47 @@ def carregar_perfil(args: argparse.Namespace) -> RewriteProfile:
     return apply_overrides(profile, overrides)
 
 
+def resolver_template(args: argparse.Namespace, profile: RewriteProfile) -> Path:
+    if args.template:
+        return Path(args.template).expanduser().resolve()
+    return resolve_template_path(profile.output.template)
+
+
 def main() -> None:
     carregar_env()
     args = parse_args()
     profile = carregar_perfil(args)
     arquivos_markdown = coletar_arquivos(args)
-    template_blog = carregar_template(Path(args.template).expanduser().resolve())
+    template_path = resolver_template(args, profile)
+    template_blog = carregar_template(template_path)
     data_execucao = date.today().isoformat()
 
     if args.show_prompt:
         primeiro = arquivos_markdown[0]
         conteudo = primeiro.read_text(encoding="utf-8")
-        prompt = build_prompt(profile, conteudo, template_blog, data_execucao)
-        render_config_panel(profile, total=len(arquivos_markdown))
+        brief = extract_source_brief(conteudo)
+        prompt = build_prompt(
+            profile,
+            conteudo,
+            template_blog,
+            data_execucao,
+            source_brief=brief,
+        )
+        render_config_panel(
+            profile,
+            total=len(arquivos_markdown),
+            template_path=template_path,
+        )
         console.print()
+        console.print(
+            Panel(
+                Text(
+                    f"tipo={brief.tipo_aproximado} | título_fonte={brief.titulo_fonte}"
+                ),
+                title="[bold]Source brief[/bold]",
+                border_style="green",
+            )
+        )
         console.print(
             Panel(
                 Text(prompt),
@@ -435,6 +555,7 @@ def main() -> None:
         profile,
         template_blog,
         model_name=model_name,
+        template_path=template_path,
     )
 
 

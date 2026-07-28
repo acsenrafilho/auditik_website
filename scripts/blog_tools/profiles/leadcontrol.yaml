@@ -14,6 +14,7 @@ brand:
     linkedin: "https://www.linkedin.com/company/leadcontrolcrm"
 
 voice:
+  role: "redator especialista em SEO para gestão de leads, atendimento e conversão em clínicas de saúde"
   tom: "Profissional, corporativo e orientado a resultados de negócio"
   publico_alvo: "Gestores, diretores, donos de clínicas de saúde e equipes de recepção, comercial e marketing"
   estilo: "Educativo, prático, com foco em métricas (ROI, conversão, tempo de resposta) e sem jargão técnico de programação"
@@ -21,50 +22,80 @@ voice:
 adaptation:
   estrategia: |
     Antes de reescrever, analise o artigo original identificando:
-    - Menções a concorrentes (CRMs, automações de WhatsApp ou plataformas de captação para clínicas)
-    - Dados desatualizados ou informações que precisam de contextualização para o mercado de saúde no Brasil
-    - Oportunidades de CTA alinhadas ao funil (consciência do problema → consideração → demonstração)
-    - Referências e estudos relevantes que devem ser preservados
-    - Oportunidades de links internos para as landing pages e páginas institucionais do Lead Control
-    Depois, reescreva o conteúdo aplicando as regras de adaptação.
+    - Tese, formato e subtítulos que devem ser preservados
+    - Menções a concorrentes (CRMs, automações de WhatsApp, plataformas de captação)
+    - Trechos educativos vs. promocionais (densidade de marca proporcional)
+    - Dados que precisam de contextualização para clínicas de saúde no Brasil
+    - Referências úteis a preservar
+    Só depois reescreva aplicando fidelidade à fonte e brand safety.
+  fatos_produto:
+    - "Lead Control é a camada de comunicação e follow-up para clínicas de saúde."
+    - "Complementa (não substitui) prontuários eletrônicos e CRMs genéricos."
+    - "Centraliza conversas de WhatsApp, Instagram, site e anúncios em um fluxo."
+    - "Ajuda com resposta rápida, priorização de leads, follow-up com SLA e histórico completo."
+    - "Oferece visibilidade de origem, conversão e ROI de campanhas."
+    - "Inclui automação e IA conversacional humanizada; operação simples para equipes não técnicas."
+    - "Não inventar módulos, integrações, preços ou cases que não estejam nestes fatos."
+  regras_fidelidade:
+    - "Reescreva o título da fonte mantendo o ângulo (ex.: '15 ideias…', 'O que é LGPD…', 'Melhor CRM com pipeline…')."
+    - "Não transforme artigos educativos (filmes, LGPD, CS, metodologias) em landing page de produto."
+    - "Em artigos de produto/CRM/WhatsApp, substitua o concorrente pelo Lead Control com claims apenas dos FATOS DO PRODUTO."
+    - "Audiologia, fonoaudiologia ou centros auditivos só entram se o tema da fonte ou o exemplo pedido justificarem."
+  titulos_proibidos_prefixos:
+    - "Lead Control:"
+    - "Otimize a Gestão de Leads"
+    - "Transforme Leads em"
+    - "Descubra como o Lead Control"
   regras:
-    - "Troque linguagem e informações para o contexto da Lead Control, removendo menções a concorrentes."
-    - "Posicione o Lead Control como camada de comunicação e follow-up que complementa (e não substitui) prontuários eletrônicos e CRMs genéricos."
-    - "Foque nas dores de gestão: leads sumindo no WhatsApp, gargalos na recepção, desperdício de tráfego pago e falta de visibilidade de conversão."
-    - "Preserve estrutura markdown clara e legível (títulos, subtítulos, listas)."
-    - "Inclua exemplos práticos para clínicas de saúde com enfoque para audiologia, fonoaudiologia e aparelhos auditivos."
-    - "Quando o tema for audiologia, mencione e link para as landing pages internas correspondentes. Faça isso para qualquer referência a especialidades que já esteja implementada no Lead Control."
-    - "O resultado deve ser útil para quem busca organizar leads e aumentar agendamentos, com foco em confiança, segurança, facilidade de uso e clareza."
-    - "O corpo deve terminar com CTA alinhado à empresa."
-    - "Tomar cuidado com a acentuação da língua portuguesa."
-    - "Não inclua marcadores ```yaml para o cabeçalho. Deve estar totalmente direcionado para a estrutura de cabeçalho presente no arquivo content/blog/.template.md."
-    - 'Se houver referências de sites e artigos relevantes, inclua-as no corpo e adicione seção final "Referências" com links de acesso.'
+    - "Remova menções a concorrentes; adapte linguagem ao contexto Lead Control e clínicas de saúde."
+    - "Posicione o Lead Control como camada de comunicação e follow-up que complementa prontuário/CRM — nunca como substituto genérico de tudo."
+    - "Preserve estrutura markdown clara (títulos, subtítulos, listas) espelhando a fonte."
+    - "Exemplos práticos devem caber no tema do artigo; não force o mesmo bloco de dores em todo post."
+    - "O resultado deve ser útil ao leitor do tema original, com confiança, segurança e clareza."
+    - "O corpo termina com CTA alinhado à empresa e ao tema."
+    - "Cuidado com a acentuação da língua portuguesa."
+    - "Não use cercas ``` no front matter; apenas --- no topo."
+    - "Se houver referências relevantes, mantenha-as e adicione seção final \"Referências\" com links."
   cta_final: |
-    Aloque o CTA mais adequado para o contexto do artigo. Sugestões são:
-    1) Agende uma demonstração gratuita do Lead Control e veja como transformar cliques em agendamentos.
-    2) Entre em contato pelo e-mail contato@leadcontrol.ia.br para falar com um especialista.
-    3) Cadastre sua clínica e comece a organizar leads e follow-up em um único fluxo.
-    4) Leia mais sobre como o Lead Control atua em centros auditivos.
-    5) Siga nossas redes sociais e fique por dentro de novidades sobre gestão de leads na saúde.
+    Escolha o CTA mais adequado ao tema do artigo (não repita o mesmo em todos os posts):
+    1) Agende uma demonstração gratuita do Lead Control.
+    2) Contato: contato@leadcontrol.ia.br
+    3) Cadastre a clínica e organize leads/follow-up em um fluxo.
+    4) Leia mais sobre Lead Control em centros auditivos (só se o artigo for de audiologia).
+    5) Redes sociais para novidades de gestão de leads na saúde.
   instrucoes_extras: |
-    Links internos úteis (usar quando fizer sentido no contexto):
+    Links internos (usar somente quando o tema justificar):
     - Página principal: https://www.leadcontrol.ia.br/
     - Demonstração/contato: https://www.leadcontrol.ia.br/#contato
     - Centros auditivos: https://www.leadcontrol.ia.br/pages/para-clinicas/centros-auditivos.html
     - Índice do blog: https://www.leadcontrol.ia.br/pages/blog/index.html
 
-    Diferenciais a reforçar quando pertinente:
-    - Centralização de WhatsApp, Instagram, site e anúncios em um fluxo único
-    - Resposta rápida, priorização de leads e follow-up com SLA
-    - Histórico completo de conversas para recepção e comercial
-    - Visibilidade de origem, conversão e ROI de campanhas
-    - Automação e IA conversacional humanizada (não robôs engessados)
+    Diferenciais (citar só os que forem relevantes ao parágrafo — não checklist obrigatório):
+    - Centralização de WhatsApp, Instagram, site e anúncios
+    - Resposta rápida, priorização e follow-up com SLA
+    - Histórico completo para recepção e comercial
+    - Visibilidade de origem, conversão e ROI
+    - Automação e IA conversacional humanizada
     - Operação simples para equipes não técnicas
 
 output:
   mode: full
   author: "Equipe Lead Control"
   featured_image: "/assets/images/blog/leadcontrol-blog-post-000.jpg"
+  default_title: "Artigo Lead Control"
+  default_description: "Conteúdo sobre gestão de leads em clínicas de saúde."
+  default_topic: "gestao-leads"
+  template: "templates/leadcontrol.md"
+  date_format: "iso"
+  frontmatter_fields:
+    - title
+    - slug
+    - description
+    - author
+    - date
+    - topics
+    - featured
+    - featuredImage
   topics_permitidos:
     - gestao-leads
     - crm-clinicas
@@ -77,4 +108,4 @@ output:
   incluir_referencias: true
 
 model:
-  name: "gemini-2.5-flash-lite"
+  name: "gemini-2.5-flash"

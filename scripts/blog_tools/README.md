@@ -123,23 +123,33 @@ Adapta artigos markdown para o contexto da marca usando Google Gemini. A instru�
 
 ### Perfil YAML
 
-O perfil padrão está em [`profiles/auditik.yaml`](profiles/auditik.yaml). Prioridade de configuração:
+O perfil padrão está em [`profiles/auditik.yaml`](profiles/auditik.yaml). Também existe [`profiles/leadcontrol.yaml`](profiles/leadcontrol.yaml). Prioridade de configuração:
 
 1. Perfil base (`--profile`)
 2. YAML customizado (`--config`) — merge profundo sobre o perfil
 3. Flags CLI (`--tone`, `--audience`, etc.)
 
+O prompt é montado **fonte primeiro** (brief automático + artigo original), depois contrato de fidelidade, fatos de produto e regras de marca. Em lote, títulos duplicados ou com prefixos proibidos do perfil disparam **uma regeneração**.
+
 #### Seções do perfil
 
 | Seção | Função |
 | ----- | ------ |
-| `brand` | Dados da empresa (nome, contato, endereço, redes) |
+| `brand` | Dados da empresa (nome, contato, endereço, site, app, redes) |
+| `voice.role` | Papel do redator no prompt (específico por marca) |
 | `voice` | Tom, público-alvo e estilo de escrita |
-| `adaptation.estrategia` | Raciocínio que o Gemini aplica **internamente** antes de reescrever |
+| `adaptation.estrategia` | Raciocínio interno antes de reescrever |
+| `adaptation.fatos_produto` | Claims permitidos (brand safety; não inventar fora da lista) |
+| `adaptation.regras_fidelidade` | Preservar tese, estrutura e formato do título da fonte |
+| `adaptation.titulos_proibidos_prefixos` | Prefixos que forçam regeneração no lote |
 | `adaptation.regras` | Regras de adaptação do conteúdo |
 | `adaptation.cta_final` | Orientação para o call-to-action final |
-| `adaptation.instrucoes_extras` | Campo vazio por padrão; preenchível via CLI |
+| `adaptation.instrucoes_extras` | Links/diferenciais sob demanda (não checklist) |
 | `output.mode` | `full` (padrão) ou `body_only` |
+| `output.default_title` / `default_description` / `default_topic` | Fallbacks se o modelo omitir front matter |
+| `output.template` | Template markdown do perfil (`templates/auditik.md` ou `templates/leadcontrol.md`) |
+| `output.frontmatter_fields` | Campos e ordem do cabeçalho (Lead Control inclui `slug`) |
+| `output.date_format` | `date` (`YYYY-MM-DD`) ou `iso` (`YYYY-MM-DDT10:00:00.000Z`) |
 | `output.topics_permitidos` | Lista de slugs válidos para o front matter |
 | `model.name` | Modelo Gemini padrão |
 
@@ -151,6 +161,15 @@ cp scripts/blog_tools/profiles/auditik.yaml scripts/blog_tools/profiles/meu-perf
 .venv/bin/python scripts/blog_tools/reshape_blog_post.py \
   --profile meu-perfil \
   --input-dir scripts/blog_tools/post_ideas/comunicare
+```
+
+#### Lead Control
+
+```bash
+.venv/bin/python scripts/blog_tools/reshape_blog_post.py \
+  --profile leadcontrol \
+  --list-file scripts/blog_tools/lista_arquivos.txt \
+  --show-prompt
 ```
 
 #### Exemplo de override parcial via `--config`
@@ -184,7 +203,7 @@ output:
 .venv/bin/python scripts/blog_tools/scrape_blog.py \
   --list-file scripts/blog_tools/urls.txt
 
-# 2. Adaptar para Auditik
+# 2. Adaptar para Auditik (ou --profile leadcontrol)
 .venv/bin/python scripts/blog_tools/reshape_blog_post.py \
   --input-dir scripts/blog_tools/post_ideas/comunicare
 

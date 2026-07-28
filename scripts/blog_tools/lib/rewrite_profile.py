@@ -10,6 +10,16 @@ TOOL_DIR = Path(__file__).resolve().parents[1]
 PROFILES_DIR = TOOL_DIR / "profiles"
 DEFAULT_PROFILE_NAME = "auditik"
 VALID_OUTPUT_MODES = frozenset({"full", "body_only"})
+VALID_DATE_FORMATS = frozenset({"date", "iso"})
+DEFAULT_FRONTMATTER_FIELDS = [
+    "title",
+    "description",
+    "author",
+    "date",
+    "topics",
+    "featured",
+    "featuredImage",
+]
 
 
 @dataclass
@@ -18,11 +28,14 @@ class BrandConfig:
     parceiro: str = ""
     contato: str = ""
     endereco: str = ""
+    site: str = ""
+    app: str = ""
     redes: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass
 class VoiceConfig:
+    role: str = ""
     tom: str = ""
     publico_alvo: str = ""
     estilo: str = ""
@@ -32,6 +45,9 @@ class VoiceConfig:
 class AdaptationConfig:
     estrategia: str = ""
     regras: list[str] = field(default_factory=list)
+    fatos_produto: list[str] = field(default_factory=list)
+    regras_fidelidade: list[str] = field(default_factory=list)
+    titulos_proibidos_prefixos: list[str] = field(default_factory=list)
     cta_final: str = ""
     instrucoes_extras: str = ""
 
@@ -43,6 +59,25 @@ class OutputConfig:
     featured_image: str = "/images/auditik/blog/blog-placeholder.jpg"
     topics_permitidos: list[str] = field(default_factory=list)
     incluir_referencias: bool = True
+    default_title: str = "Artigo"
+    default_description: str = "Conteúdo do blog."
+    default_topic: str = ""
+    # Path relativo a scripts/blog_tools/ ou absoluto
+    template: str = "templates/auditik.md"
+    # Ordem e campos obrigatórios do front matter (espelha o template)
+    frontmatter_fields: list[str] = field(
+        default_factory=lambda: [
+            "title",
+            "description",
+            "author",
+            "date",
+            "topics",
+            "featured",
+            "featuredImage",
+        ]
+    )
+    # "date" = YYYY-MM-DD | "iso" = YYYY-MM-DDTHH:MM:SS.000Z
+    date_format: str = "date"
 
 
 @dataclass
@@ -66,6 +101,15 @@ class RewriteProfile:
                 f"output.mode inválido: {self.output.mode!r}. "
                 f"Use um de: {', '.join(sorted(VALID_OUTPUT_MODES))}"
             )
+        if self.output.date_format not in VALID_DATE_FORMATS:
+            raise ValueError(
+                f"output.date_format inválido: {self.output.date_format!r}. "
+                f"Use um de: {', '.join(sorted(VALID_DATE_FORMATS))}"
+            )
+        if not self.output.frontmatter_fields:
+            raise ValueError("output.frontmatter_fields não pode ser vazio.")
+        if "title" not in self.output.frontmatter_fields:
+            raise ValueError("output.frontmatter_fields deve incluir 'title'.")
 
 
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
@@ -82,12 +126,23 @@ def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any
     return merged
 
 
+def _str_list(value: Any) -> list[str]:
+    if not value:
+        return []
+    return [str(item) for item in value]
+
+
 def _dict_to_profile(data: dict[str, Any]) -> RewriteProfile:
     brand_data = data.get("brand", {}) or {}
     voice_data = data.get("voice", {}) or {}
     adaptation_data = data.get("adaptation", {}) or {}
     output_data = data.get("output", {}) or {}
     model_data = data.get("model", {}) or {}
+
+    topics_permitidos = _str_list(output_data.get("topics_permitidos"))
+    default_topic = str(output_data.get("default_topic", "") or "")
+    if not default_topic and topics_permitidos:
+        default_topic = topics_permitidos[0]
 
     return RewriteProfile(
         name=str(data.get("name", DEFAULT_PROFILE_NAME)),
@@ -97,16 +152,24 @@ def _dict_to_profile(data: dict[str, Any]) -> RewriteProfile:
             parceiro=str(brand_data.get("parceiro", "")),
             contato=str(brand_data.get("contato", "")),
             endereco=str(brand_data.get("endereco", "")),
+            site=str(brand_data.get("site", "")),
+            app=str(brand_data.get("app", "")),
             redes={str(k): str(v) for k, v in (brand_data.get("redes") or {}).items()},
         ),
         voice=VoiceConfig(
+            role=str(voice_data.get("role", "")),
             tom=str(voice_data.get("tom", "")),
             publico_alvo=str(voice_data.get("publico_alvo", "")),
             estilo=str(voice_data.get("estilo", "")),
         ),
         adaptation=AdaptationConfig(
             estrategia=str(adaptation_data.get("estrategia", "")).strip(),
-            regras=[str(r) for r in (adaptation_data.get("regras") or [])],
+            regras=_str_list(adaptation_data.get("regras")),
+            fatos_produto=_str_list(adaptation_data.get("fatos_produto")),
+            regras_fidelidade=_str_list(adaptation_data.get("regras_fidelidade")),
+            titulos_proibidos_prefixos=_str_list(
+                adaptation_data.get("titulos_proibidos_prefixos")
+            ),
             cta_final=str(adaptation_data.get("cta_final", "")).strip(),
             instrucoes_extras=str(adaptation_data.get("instrucoes_extras", "")).strip(),
         ),
@@ -114,15 +177,44 @@ def _dict_to_profile(data: dict[str, Any]) -> RewriteProfile:
             mode=str(output_data.get("mode", "full")),
             author=str(output_data.get("author", "Equipe Auditik")),
             featured_image=str(
-                output_data.get("featured_image", "/images/auditik/blog/blog-placeholder.jpg")
+                output_data.get(
+                    "featured_image", "/images/auditik/blog/blog-placeholder.jpg"
+                )
             ),
-            topics_permitidos=[
-                str(t) for t in (output_data.get("topics_permitidos") or [])
-            ],
+            topics_permitidos=topics_permitidos,
             incluir_referencias=bool(output_data.get("incluir_referencias", True)),
+            default_title=str(output_data.get("default_title", "Artigo") or "Artigo"),
+            default_description=str(
+                output_data.get("default_description", "Conteúdo do blog.")
+                or "Conteúdo do blog."
+            ),
+            default_topic=default_topic,
+            template=str(
+                output_data.get("template", "templates/auditik.md")
+                or "templates/auditik.md"
+            ),
+            frontmatter_fields=_str_list(output_data.get("frontmatter_fields"))
+            or list(DEFAULT_FRONTMATTER_FIELDS),
+            date_format=str(output_data.get("date_format", "date") or "date"),
         ),
         model=ModelConfig(name=str(model_data.get("name", "gemini-2.5-flash-lite"))),
     )
+
+
+def resolve_template_path(template_value: str) -> Path:
+    """Resolve template relativo a scripts/blog_tools/, ao repo ou path absoluto."""
+    raw = Path(template_value).expanduser()
+    if raw.is_absolute():
+        return raw.resolve()
+    candidatos = [
+        (TOOL_DIR / raw).resolve(),
+        (TOOL_DIR.parents[1] / raw).resolve(),  # raiz do repo auditik_website
+        raw.resolve(),
+    ]
+    for candidato in candidatos:
+        if candidato.exists():
+            return candidato
+    return candidatos[0]
 
 
 def load_yaml_file(path: Path) -> dict[str, Any]:
