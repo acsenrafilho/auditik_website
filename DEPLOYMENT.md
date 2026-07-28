@@ -129,6 +129,7 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | AWS_SECRET_ACCESS_KEY      | AWS IAM secret key      | wJal0SECRET...    |
 | NEXT_PUBLIC_TINA_CLIENT_ID | TinaCMS client ID       | abcdefghijklmnop  |
 | TINA_TOKEN                 | TinaCMS read/write token| tina_XXXXXXXXXXXX |
+| INDEXNOW_KEY               | IndexNow ownership key (8–128 chars: `a-zA-Z0-9-`) | `openssl rand -hex 16` |
 
 ### Required **Variables**
 
@@ -330,6 +331,28 @@ Target scores:
 2. Add site: `auditik.com.br`
 3. Submit sitemap
 
+### IndexNow (automatic after deploy)
+
+After a successful S3 sync and CloudFront invalidation, GitHub Actions:
+
+1. Writes `/{INDEXNOW_KEY}.txt` into the deploy artifact (key content = the secret value)
+2. Syncs that file to S3 with short cache (same as other `.txt` files)
+3. POSTs all URLs from `out/sitemap.xml` to `https://api.indexnow.org/indexnow` (one request per host: apex and `www` if both appear)
+
+**Setup**
+
+1. Generate a key: `openssl rand -hex 16`
+2. Add repository/environment secret `INDEXNOW_KEY` (environment `prod`) with that value
+3. Redeploy once so `https://auditik.com.br/{your-key}.txt` returns the key as plain text
+
+**Local test** (after a build that produced `out/sitemap.xml`, and with the key file already live in production):
+
+```bash
+INDEXNOW_KEY=your-key SITEMAP_PATH=./out/sitemap.xml npm run indexnow
+```
+
+The IndexNow workflow step uses `continue-on-error: true` so a ping failure does not fail the deploy. Google is not notified via IndexNow; keep the Search Console sitemap submission above.
+
 ## 🆘 Troubleshooting
 
 ### Issue: Deployment fails in GitHub Actions
@@ -396,10 +419,12 @@ nslookup auditik.com.br
 
 - [ ] AWS infrastructure (S3, CloudFront, Route53) configured
 - [ ] GitHub Secrets added to repository
+- [ ] `INDEXNOW_KEY` secret set (IndexNow post-deploy ping)
 - [ ] DNS pointing to CloudFront
 - [ ] GitHub Actions workflow passing
 - [ ] Site accessible at auditik.com.br
 - [ ] CloudFront showing as "Deployed"
 - [ ] Sitemap submitted to Google Search Console
+- [ ] After deploy: `https://auditik.com.br/{INDEXNOW_KEY}.txt` returns the key
 
 **Ready to deploy!** 🚀

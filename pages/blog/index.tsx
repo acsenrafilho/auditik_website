@@ -14,7 +14,7 @@ import { generateBlogIndexSchema } from "@lib/schema";
 import { absoluteUrl } from "@lib/site-url";
 import type { BlogPost, BlogTopicOption } from "@lib/blog";
 
-const POSTS_PER_PAGE = 10;
+const POSTS_PER_PAGE = 12;
 const FEATURED_CAROUSEL_ID = "featured-posts-carousel";
 
 const getAllBlogPosts = async () => {
