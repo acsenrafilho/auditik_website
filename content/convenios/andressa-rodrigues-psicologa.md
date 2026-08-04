@@ -36,7 +36,7 @@ clientProfiles:
   - idosos
   - empresas
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Desconto de X% na consulta de terapia de alto nível."
+benefitSummary: "Avaliação com especialista em terapia."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/andress-rodrigues-psicologa/1.png"
