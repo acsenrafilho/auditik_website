@@ -44,7 +44,7 @@ A Santa Rubi Semi-jóias transforma a experiência de escolher acessórios em um
 ## Como obter o benefício
 
 1. Ative o benefício no seu perfil Auditik.
-2. Entre em contato com a Santa Rubi Semi-jóias para agendar a visita.
+2. Entre em contato com a Santa Rubi Semi-jóias para agendar a visita. Utilize o site https://www.santarubi.com.br/ ou o WhatsApp
 3. Leve o voucher para a loja e aproveite o benefício.
 
 ## Regras e elegibilidade
