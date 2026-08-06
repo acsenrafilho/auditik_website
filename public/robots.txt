@@ -22,6 +22,7 @@ Allow: /
 Disallow: /admin
 Disallow: /.tina
 Disallow: /api/
+Disallow: /lp/
 
 # LLM content index: https://auditik.com.br/llms.txt
 

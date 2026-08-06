@@ -9,6 +9,12 @@ export const APP_ROUTES = {
   privacyPolicy: "/politica-de-privacidade/",
 } as const;
 
+/** Paid-traffic landing pages (see pages/lp/). Not in sitemap; use noindex. */
+export const LP_ROUTES = {
+  piloto: "/lp/piloto/",
+  americanaPhilips: "/lp/americana-philips/",
+} as const;
+
 /** Satellite landing pages in the aparelhos SEO silo (see pages/subs-aparelhos/). */
 export const SUBS_APARELHOS_ROUTES = {
   piracicaba: "/aparelhos-auditivos-em-piracicaba/",
