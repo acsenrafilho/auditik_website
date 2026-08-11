@@ -147,6 +147,16 @@ export default defineConfig({
           },
           {
             type: "string",
+            name: "neighborhood",
+            label: "Bairro",
+          },
+          {
+            type: "string",
+            name: "locationCity",
+            label: "Cidade do estabelecimento",
+          },
+          {
+            type: "string",
             name: "phone",
             label: "Phone",
           },

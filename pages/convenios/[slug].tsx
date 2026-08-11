@@ -102,9 +102,10 @@ const maskPhone = (value: string) => {
   return `(${ddd}) *****-${end}`;
 };
 
-const maskAddress = (value: string) => {
-  if (!value) return "Ative o benefício para desbloquear";
-  return "Endereço oculto. Ative o benefício para desbloquear.";
+const maskAddress = (neighborhood: string, locationCity: string) => {
+  const parts = [neighborhood, locationCity].filter(Boolean);
+  if (parts.length === 0) return "Ative o benefício para desbloquear";
+  return parts.join(", ");
 };
 
 export default function ConvenioPartnerPage({
@@ -417,7 +418,7 @@ export default function ConvenioPartnerPage({
                 <p className="font-semibold text-slate-800">
                   {hasActivatedBenefit
                     ? partner.address || "A confirmar"
-                    : maskAddress(partner.address)}
+                    : maskAddress(partner.neighborhood, partner.locationCity)}
                 </p>
               </div>
               <div className="rounded-3xl bg-white/90 p-5 border border-white/60">
@@ -527,7 +528,9 @@ export default function ConvenioPartnerPage({
                 <div className="mt-6 pt-6 border-t border-blue-100 space-y-3">
                   {!hasActivatedBenefit && (
                     <p className="rounded-2xl bg-white px-4 py-3 text-xs font-semibold text-slate-600 border border-slate-100">
-                      Endereço e telefone ficam visíveis após ativar o benefício.
+                      Bairro e cidade ficam visíveis para você avaliar o
+                      deslocamento. Rua, número e telefone são liberados ao ativar
+                      o benefício nesta página.
                     </p>
                   )}
                   <button

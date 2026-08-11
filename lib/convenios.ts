@@ -17,6 +17,8 @@ export interface ConvenioPartner {
   initials: string;
   description: string;
   address: string;
+  neighborhood: string;
+  locationCity: string;
   phone: string;
   googleMapsUrl: string;
   logo?: string;
@@ -186,6 +188,10 @@ function buildConvenioPartner(fileName: string, fileContents: string): ConvenioP
       ? data.description.trim()
       : "Benefício exclusivo para clientes Auditik.";
   const address = typeof data.address === "string" ? data.address.trim() : "";
+  const neighborhood =
+    typeof data.neighborhood === "string" ? data.neighborhood.trim() : "";
+  const locationCity =
+    typeof data.locationCity === "string" ? data.locationCity.trim() : "";
   const phone = typeof data.phone === "string" ? data.phone.trim() : "";
   const googleMapsUrl =
     typeof data.googleMapsUrl === "string" ? data.googleMapsUrl.trim() : "";
@@ -201,6 +207,8 @@ function buildConvenioPartner(fileName: string, fileContents: string): ConvenioP
       name,
       description,
       address,
+      neighborhood,
+      locationCity,
       phone,
       googleMapsUrl,
       benefitSummary,
@@ -221,6 +229,8 @@ function buildConvenioPartner(fileName: string, fileContents: string): ConvenioP
     initials: getInitials(name),
     description,
     address,
+    neighborhood,
+    locationCity,
     phone,
     googleMapsUrl,
     logo: typeof data.logo === "string" ? data.logo : undefined,
