@@ -1,14 +1,22 @@
 import type { AppProps } from "next/app";
+import { Inter } from "next/font/google";
 import { DefaultSeo } from "next-seo";
-import Script from "next/script";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { DeferredMarketingScripts } from "@components/Analytics/DeferredMarketingScripts";
+import { MaterialSymbolsLink } from "@components/Analytics/MaterialSymbolsLink";
 import { captureAttributionFromUrl } from "@lib/campaign-attribution";
 import { trackPageView } from "@lib/analytics";
-import { META_PIXEL_ID } from "@lib/ad-platform-tracking";
 import { SITE_URL } from "@lib/site-url";
 import { ScrollToTopButton } from "@components/Common/ScrollToTopButton";
 import "../styles/globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -36,38 +44,9 @@ export default function App({ Component, pageProps }: AppProps) {
   }, [router.events]);
 
   return (
-    <>
-      {META_PIXEL_ID && (
-        <>
-          <Script
-            id="meta-pixel"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                !function(f,b,e,v,n,t,s)
-                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                n.queue=[];t=b.createElement(e);t.async=!0;
-                t.src=v;s=b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t,s)}(window, document,'script',
-                'https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', '${META_PIXEL_ID}');
-                fbq('track', 'PageView');
-              `,
-            }}
-          />
-          <noscript>
-            <img
-              height="1"
-              width="1"
-              style={{ display: "none" }}
-              src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-              alt="meta-pixel"
-            />
-          </noscript>
-        </>
-      )}
+    <div className={`${inter.variable} ${inter.className} font-sans`}>
+      <MaterialSymbolsLink />
+      <DeferredMarketingScripts />
 
       <DefaultSeo
         titleTemplate="%s | Auditik"
@@ -87,6 +66,6 @@ export default function App({ Component, pageProps }: AppProps) {
       />
       <Component {...pageProps} />
       <ScrollToTopButton />
-    </>
+    </div>
   );
 }

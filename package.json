@@ -10,6 +10,7 @@
     "lint": "next lint",
     "export": "next build",
     "indexnow": "node scripts/submit-indexnow.mjs",
+    "optimize:lp-images": "node scripts/optimize-lp-images.mjs",
     "tina:dev": "TINA_PUBLIC_IS_LOCAL=true npx -y @tinacms/cli@1.6.7 dev -c \"next dev\"",
     "tina:build": "bash -c 'if [ -f .env.local ]; then npx dotenv-cli -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; else npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; fi' && node scripts/fix-tina-generated-client.mjs"
   },
@@ -38,6 +39,7 @@
     "eslint": "^8.55.0",
     "eslint-config-next": "14.2.35",
     "postcss": "^8.4.0",
+    "sharp": "^0.33.5",
     "tailwindcss": "^3.3.0",
     "typescript": "^5.3.0"
   }

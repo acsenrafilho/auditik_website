@@ -14,7 +14,8 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import { LandingShell, LandingStickyCta } from "@components/Landing";
+import { LandingShell, LandingStickyCta, LandingIcon, LandingMapPreview } from "@components/Landing";
+import type { LandingIconName } from "@components/Landing/LandingIcon";
 import { LeadSubmitSuccessModal } from "@components/Common/LeadSubmitSuccessModal";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import {
@@ -36,20 +37,22 @@ const BRAZIL_WHATSAPP_PHONE = "551933776941";
 const FORM_SUCCESS_WHATSAPP_MESSAGE =
   "Olá Auditik, acabei de preencher o formulário da página de Americana e gostaria de continuar pelo WhatsApp.";
 
-const PRODUCT_HAND =
-  "/images/philips/optimized/background/PHS_HL50_miniRITE_In_hand1_orange_AS_399253071_MS_0063Expires_On2_14_2032.jpg";
-const PRODUCT_SHOT =
-  "/images/philips/optimized/aasi/Philips_HearLink50_miniRITE_H1-2024_Left_C090Beige_LEDgreen_Speaker60_OpenBassDome_1200x1200px_Original file.webp";
-const CTA_BACKGROUND =
-  "/images/philips/optimized/background/PHS_HL50_miniRITE_Portable_Charger_Lifestyle_blue_shadows_GettyImages-1530702944_MS_0255.jpg";
-const CLINIC_IMAGE = "/images/auditik/background/sala_atendimento.webp";
-const PHILIPS_LOGO = "/images/logo-Philips.png";
+const LP_IMG = "/images/auditik/lp/americana";
+const PRODUCT_HAND = `${LP_IMG}/hero-hand.webp`;
+const PRODUCT_SHOT = `${LP_IMG}/product-shot.webp`;
+const CTA_BACKGROUND = `${LP_IMG}/cta-background.webp`;
+const CLINIC_IMAGE = `${LP_IMG}/sala-atendimento.webp`;
+const PHILIPS_LOGO = `${LP_IMG}/logo-philips.webp`;
 
 const AMERICANA_MAPS_URL = "https://maps.app.goo.gl/j4sTcPKXbBirS1JUA";
 const AMERICANA_MAPS_EMBED =
   "https://maps.google.com/maps?q=Rua+Lu%C3%ADza+Meneghel+Mancine,+72,+Americana+-+SP&hl=pt&z=15&output=embed";
 
-const painPoints = [
+const painPoints: {
+  icon: LandingIconName;
+  title: string;
+  text: string;
+}[] = [
   {
     icon: "forum",
     title: "Conversas cansativas",
@@ -67,7 +70,11 @@ const painPoints = [
   },
 ];
 
-const philipsBenefits = [
+const philipsBenefits: {
+  icon: LandingIconName;
+  title: string;
+  text: string;
+}[] = [
   {
     icon: "hearing",
     title: "Clareza de fala",
@@ -415,7 +422,7 @@ export default function LpAmericanaPhilipsPage() {
   const whatsappClassSticky =
     "flex h-full w-full items-center justify-center rounded-full border-2 border-auditik-blue bg-white px-4 text-sm font-extrabold text-auditik-blue transition-colors hover:bg-auditik-blue/5";
 
-  const trustChips = [
+  const trustChips: { icon: LandingIconName; label: string }[] = [
     { icon: "verified", label: "Philips autorizado" },
     { icon: "event_available", label: "Avaliação gratuita" },
     { icon: "location_on", label: "Unidade em Americana" },
@@ -454,7 +461,6 @@ export default function LpAmericanaPhilipsPage() {
                     width={200}
                     height={72}
                     className="h-12 w-auto object-contain sm:h-16"
-                    priority
                   />
                   <span className="text-[10px] font-bold uppercase tracking-widest text-auditik-blue sm:text-xs">
                     Distribuidor autorizado · Americana-SP
@@ -476,9 +482,10 @@ export default function LpAmericanaPhilipsPage() {
                       key={chip.label}
                       className="inline-flex items-center gap-1.5 rounded-full border border-blue-100 bg-white/90 px-2.5 py-1.5 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-sm sm:px-3 sm:text-sm"
                     >
-                      <span className="material-symbols-outlined text-base text-auditik-blue">
-                        {chip.icon}
-                      </span>
+                      <LandingIcon
+                        name={chip.icon}
+                        className="h-4 w-4 text-auditik-blue sm:h-5 sm:w-5"
+                      />
                       {chip.label}
                     </li>
                   ))}
@@ -588,18 +595,21 @@ export default function LpAmericanaPhilipsPage() {
                       }
                       className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border-2 border-auditik-blue bg-white px-5 py-2.5 text-sm font-bold text-auditik-blue transition-colors hover:bg-auditik-blue hover:text-white sm:w-auto"
                     >
-                      <span className="material-symbols-outlined text-xl">map</span>
+                      <LandingIcon name="map" className="h-5 w-5" />
                       Abrir no Google Maps
                     </a>
                   </div>
 
                   <div className="overflow-hidden rounded-3xl border border-slate-200 shadow-soft">
-                    <iframe
+                    <LandingMapPreview
                       title="Mapa Auditik Americana"
-                      src={AMERICANA_MAPS_EMBED}
-                      className="h-48 w-full border-0 sm:h-56"
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
+                      embedSrc={AMERICANA_MAPS_EMBED}
+                      onReveal={() =>
+                        trackButtonClick("lp_americana_map_reveal", {
+                          source: LEAD_SOURCE,
+                          section: "local_proof",
+                        })
+                      }
                     />
                   </div>
                 </div>
@@ -622,9 +632,10 @@ export default function LpAmericanaPhilipsPage() {
                     className="rounded-4xl border border-blue-50 bg-white p-6 md:p-8"
                   >
                     <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-auditik-blue/10">
-                      <span className="material-symbols-outlined text-2xl text-auditik-blue">
-                        {item.icon}
-                      </span>
+                      <LandingIcon
+                        name={item.icon}
+                        className="h-6 w-6 text-auditik-blue"
+                      />
                     </span>
                     <h3 className="mb-2 text-lg font-bold text-slate-900">
                       {item.title}
@@ -685,9 +696,10 @@ export default function LpAmericanaPhilipsPage() {
                     className="rounded-4xl border border-blue-50 bg-bg-light-blue p-6 md:p-8"
                   >
                     <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white">
-                      <span className="material-symbols-outlined text-2xl text-auditik-blue">
-                        {item.icon}
-                      </span>
+                      <LandingIcon
+                        name={item.icon}
+                        className="h-6 w-6 text-auditik-blue"
+                      />
                     </span>
                     <h3 className="mb-2 text-lg font-bold text-slate-900">
                       {item.title}
@@ -818,9 +830,10 @@ export default function LpAmericanaPhilipsPage() {
                         <span className="font-bold text-slate-900">
                           {item.question}
                         </span>
-                        <span className="material-symbols-outlined shrink-0 text-auditik-blue">
-                          {isOpen ? "remove" : "add"}
-                        </span>
+                        <LandingIcon
+                          name={isOpen ? "remove" : "add"}
+                          className="h-6 w-6 shrink-0 text-auditik-blue"
+                        />
                       </button>
                       {isOpen ? (
                         <p className="border-t border-slate-100 px-5 pb-5 pt-4 text-base leading-relaxed text-slate-600">

@@ -59,9 +59,15 @@ export function ScrollToTopButton() {
       onClick={handleClick}
       className="fixed z-40 flex min-h-11 min-w-11 touch-manipulation select-none items-center justify-center rounded-full border border-slate-200/90 bg-white/95 text-auditik-blue shadow-md shadow-slate-900/10 backdrop-blur-sm transition-[opacity,box-shadow,transform] hover:scale-105 hover:shadow-lg hover:shadow-slate-900/15 active:scale-95 active:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-auditik-blue opacity-90 hover:opacity-100 bottom-[max(1.25rem,env(safe-area-inset-bottom,0px))] right-[max(1.25rem,env(safe-area-inset-right,0px))]"
     >
-      <span className="material-symbols-outlined text-[24px] leading-none" aria-hidden>
-        keyboard_arrow_up
-      </span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="h-6 w-6"
+        aria-hidden
+      >
+        <path d="M7.41 15.41 12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+      </svg>
     </button>
   );
 }

@@ -19,7 +19,7 @@ export function LandingShell({ children }: LandingShellProps) {
       <header className="border-b border-slate-100 bg-white/90 py-4 backdrop-blur-md">
         <div className="container-wide flex items-center justify-center sm:justify-start">
           <Image
-            src="/images/logo-auditik.png"
+            src="/images/auditik/lp/americana/logo-auditik.webp"
             alt="Auditik - Soluções Auditivas"
             width={120}
             height={80}
