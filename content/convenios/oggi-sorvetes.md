@@ -21,7 +21,7 @@ areas:
 # benefitTypes — tipo de benefício oferecido:
 #   desconto | cashback | servico-gratuito | upgrade | beneficio-exclusivo
 benefitTypes:
-  - beneficio-exclusivo
+  - desconto
 # clientProfiles — público-alvo do benefício:
 #   idosos | familias | estudantes | empresas | publico-geral
 clientProfiles:
@@ -31,7 +31,7 @@ clientProfiles:
   - empresas
   - idosos
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Desconto exclusivo para Auditik."
+benefitSummary: "Descontos exclusivos para Auditik."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/oggi-sorvetes/1.png"
@@ -49,6 +49,14 @@ Atua no segmento de compras e varejo especializado em sorvetes, picolés e sobre
 Ative o benefício na sua conta Auditik e aproveite o benefício exclusivo.
 
 Ao clicar no botão "Ativar Benefício", você receberá um voucher de ativação. Apresente o voucher na loja física para aproveitar o benefício.
+
+Detalhes do benefício:
+
+1. Carrinho de sorvete para festas sem pagar frete e com mínimo de sorvetes 250 picoles pagando. No pix 3% desconto, em cartões não temos descontos
+2. Comprando 20 picolés da linha frutos OU linha fazenda OU linha Sensa OU linha Delícia ganha 10% desconto.
+3. Potes de sorvetes acima de 2 potes na mesma compra tem 5% desconto.
+
+Descontos não cumulativos
 
 ## Regras e elegibilidade
 
