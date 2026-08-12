@@ -83,8 +83,14 @@ export const trackLinkClick = (linkName: string, params?: EventParams) => {
 };
 
 /**
- * Track conversion goal (appointment scheduled, form submitted, etc)
- * Usage: trackConversion('free_evaluation_scheduled', { location: 'piracicaba' })
+ * Track conversion goal and fan out to Meta / Google Ads via
+ * `trackCrossPlatformConversion`.
+ *
+ * Meta Lead: `contact_form_submit`, `whatsapp_lead_submitted` only.
+ * Meta Schedule: `appointment_scheduled` only (real booking — not LP request).
+ * `free_evaluation_requested` stays dataLayer-only for ads (request ≠ Schedule).
+ *
+ * Usage: trackConversion('contact_form_submit', { location: 'piracicaba' })
  */
 export const trackConversion = (goalName: string, params?: EventParams) => {
   trackEvent(`conversion_${goalName}`, {
@@ -156,7 +162,13 @@ export const trackVideoEvent = (
 };
 
 /**
- * Common conversion goals for hearing aid clinic
+ * Common conversion goals for hearing aid clinic.
+ *
+ * Ads mapping (see `trackCrossPlatformConversion`):
+ * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → Meta Lead + Google contact
+ * - APPOINTMENT_SCHEDULED → Meta Schedule + Google appointment (real booking)
+ * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
+ * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)
  */
 export const CONVERSION_GOALS = {
   CONTACT_FORM_SUBMIT: "contact_form_submit",

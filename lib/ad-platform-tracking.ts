@@ -27,6 +27,17 @@ export const trackMetaEvent = (eventName: string, params?: AdsEventParams) => {
   }
 };
 
+/**
+ * Cross-platform conversion mapping.
+ *
+ * Meta Lead: only when the visitor left contact data
+ *   (`contact_form_submit`, `whatsapp_lead_submitted`).
+ * Meta Schedule: only when an appointment was actually booked
+ *   (`appointment_scheduled`) — not for LP “request evaluation” intents.
+ * Clicks (`whatsapp_click`, `phone_call_initiated`) stay Google Ads / GTM only.
+ * `free_evaluation_requested` is intentionally a no-op for ads platforms
+ *   (request ≠ scheduled appointment).
+ */
 export const trackCrossPlatformConversion = (
   goalName: string,
   params?: AdsEventParams,
@@ -34,28 +45,13 @@ export const trackCrossPlatformConversion = (
   const goal = goalName.toLowerCase();
   const metaParams = {};
 
-  if (goal === "contact_form_submit") {
-    trackMetaEvent("Lead", metaParams);
-  }
-
-  if (goal === "whatsapp_lead_submitted") {
-    trackMetaEvent("Lead", metaParams);
-  }
-
-  if (goal === "appointment_scheduled" || goal === "free_evaluation_requested") {
-    trackMetaEvent("Schedule", metaParams);
-    trackMetaEvent("Lead", metaParams);
-  }
-
-  if (goal === "whatsapp_click" || goal === "phone_call_initiated") {
-    trackMetaEvent("Lead", metaParams);
-  }
-
   if (goal === "contact_form_submit" || goal === "whatsapp_lead_submitted") {
+    trackMetaEvent("Lead", metaParams);
     pushGoogleAdsConversion("contact", params);
   }
 
-  if (goal === "appointment_scheduled" || goal === "free_evaluation_requested") {
+  if (goal === "appointment_scheduled") {
+    trackMetaEvent("Schedule", metaParams);
     pushGoogleAdsConversion("appointment", params);
   }
 

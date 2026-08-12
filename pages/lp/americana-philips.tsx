@@ -359,16 +359,6 @@ export default function LpAmericanaPhilipsPage() {
         page: "lp/americana-philips",
       });
 
-      trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
-        page: "lp/americana-philips",
-        source: LEAD_SOURCE,
-      });
-
-      trackConversion(CONVERSION_GOALS.FREE_EVALUATION_REQUESTED, {
-        page: "lp/americana-philips",
-        source: LEAD_SOURCE,
-      });
-
       await submitLeadToCRM({
         fullName: formData.nome,
         phone: formData.whatsapp,
@@ -376,6 +366,11 @@ export default function LpAmericanaPhilipsPage() {
         paraQuem: formData.paraQuem,
         fallbackSource: LEAD_SOURCE,
         formName: LEAD_SOURCE,
+      });
+
+      trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
+        page: "lp/americana-philips",
+        source: LEAD_SOURCE,
       });
 
       setFormData(emptyForm());

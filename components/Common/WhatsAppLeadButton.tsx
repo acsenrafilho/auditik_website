@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { EventParams } from "@lib/analytics";
 import {
-  trackButtonClick,
   trackConversion,
   trackEvent,
   trackFormSubmit,
@@ -122,7 +121,10 @@ export function WhatsAppLeadButton({
 
       trackFormSubmit("whatsapp_lead", metrics);
       trackConversion("whatsapp_lead_submitted", metrics);
-      trackButtonClick(buttonName, {
+      // Analytics only — avoid trackButtonClick so whatsapp_click does not
+      // fire a second Google Ads conversion on the same qualified lead.
+      trackEvent("button_click", {
+        button_name: buttonName,
         source: leadSource,
         city: formData.city,
         ...trackingParams,
