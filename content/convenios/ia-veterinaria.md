@@ -31,7 +31,7 @@ clientProfiles:
   - familias
   - idosos
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+benefitSummary: "15% de desconto em todos os serviços."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/ia-veterinaria/1.png"
@@ -42,7 +42,7 @@ gallery:
 
 ## Sobre o parceiro
 
-Clínica veterinária completa localizada em Americana/SP, com mais de 10 anos de mercado. Oferece atendimento multidisciplinar (consultas especializadas, exames diagnósticos, procedimentos cirúrgicos e cirurgias de emergência) com forte foco em atendimento humanizado e cuidado familiar.
+Clínica veterinária e centro de cuidados integrados localizado em Americana/SP, com mais de 10 anos de mercado. Oferece atendimento multidisciplinar completo — incluindo consultas especializadas, exames diagnósticos, procedimentos e cirurgias de emergência —, além de serviços dedicados ao bem-estar animal, como banho, tosa, creche e hotel. Tudo isso aliado a um atendimento humanizado e focado no acolhimento familiar.
 
 ## Como obter o benefício
 
