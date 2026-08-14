@@ -154,6 +154,12 @@ export function getConvenioEntries() {
   return getMarkdownFiles(CONVENIOS_DIR)
     .map((fileName) => {
       const fileContents = readFileSync(path.join(CONVENIOS_DIR, fileName), "utf8");
+      const { data } = matter(fileContents);
+
+      if (data.published === false) {
+        return null;
+      }
+
       const entry = buildConvenioEntry(fileName, fileContents);
       return {
         slug: entry.slug,
@@ -163,6 +169,7 @@ export function getConvenioEntries() {
         url: toAbsoluteUrl(SITE_URL, `/convenios/${entry.slug}/`),
       };
     })
+    .filter(Boolean)
     .sort((a, b) => a.title.localeCompare(b.title, "pt-BR"));
 }
 

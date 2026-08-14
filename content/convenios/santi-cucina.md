@@ -10,6 +10,9 @@ googleMapsUrl: "https://maps.app.goo.gl/VguPvwnEcbConRse8"
 # logo: caminho público (ex.: /images/auditik/convenios/...) ou vazio ""
 logo: "/images/auditik/convenios/santi-cucina/logo.jpg"
 featured: false
+# published: false oculta o parceiro da listagem, da página e do sitemap.
+# Troque para true quando o benefício estiver definido.
+published: false
 # cities — cidades (valor exato; um ou mais itens):
 #   piracicaba | americana | santa-barbara-d-oeste | limeira | rio-claro | sao-pedro | aguas-de-sao-pedro | charqueada
 cities:

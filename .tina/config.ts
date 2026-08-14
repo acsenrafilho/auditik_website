@@ -202,6 +202,11 @@ export default defineConfig({
             label: "Parceiro em destaque",
           },
           {
+            type: "boolean",
+            name: "published",
+            label: "Publicado no site",
+          },
+          {
             type: "string",
             list: true,
             name: "cities",

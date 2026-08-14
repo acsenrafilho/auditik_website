@@ -155,9 +155,13 @@ function getMarkdownFiles(): string[] {
     .filter((fileName) => fileName !== "index.md");
 }
 
-function buildConvenioPartner(fileName: string, fileContents: string): ConvenioPartner {
+function buildConvenioPartner(fileName: string, fileContents: string): ConvenioPartner | null {
   const fileSlug = fileName.replace(/\.mdx?$/, "");
   const { data, content } = matter(fileContents);
+
+  if (data.published === false) {
+    return null;
+  }
 
   const name =
     typeof data.name === "string" && data.name.trim() ? data.name.trim() : fileSlug;
@@ -251,11 +255,13 @@ function buildConvenioPartner(fileName: string, fileContents: string): ConvenioP
 }
 
 export function getAllConvenioPartners(): ConvenioPartner[] {
-  const partners = getMarkdownFiles().map((fileName) => {
-    const fullPath = path.join(conveniosDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    return buildConvenioPartner(fileName, fileContents);
-  });
+  const partners = getMarkdownFiles()
+    .map((fileName) => {
+      const fullPath = path.join(conveniosDirectory, fileName);
+      const fileContents = fs.readFileSync(fullPath, "utf8");
+      return buildConvenioPartner(fileName, fileContents);
+    })
+    .filter((partner): partner is ConvenioPartner => partner !== null);
 
   return partners.sort((left, right) => {
     if (left.featured !== right.featured) {

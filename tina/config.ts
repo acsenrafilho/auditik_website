@@ -176,6 +176,11 @@ export default defineConfig({
             label: "Featured",
           },
           {
+            type: "boolean",
+            name: "published",
+            label: "Published",
+          },
+          {
             type: "string",
             name: "cities",
             label: "Cities",
