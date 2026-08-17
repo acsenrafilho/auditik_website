@@ -12,7 +12,7 @@ logo: "/images/auditik/convenios/santi-cucina/logo.jpg"
 featured: false
 # published: false oculta o parceiro da listagem, da página e do sitemap.
 # Troque para true quando o benefício estiver definido.
-published: false
+published: true
 # cities — cidades (valor exato; um ou mais itens):
 #   piracicaba | americana | santa-barbara-d-oeste | limeira | rio-claro | sao-pedro | aguas-de-sao-pedro | charqueada
 cities:
@@ -32,7 +32,7 @@ clientProfiles:
   - familias
   - idosos
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+benefitSummary: "10% de desconto no valor da conta."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
   - "/images/auditik/convenios/santi-cucina/1.png"
