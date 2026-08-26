@@ -16,7 +16,7 @@ todos:
     status: completed
   - id: fase-4-hardening
     content: "Fase 4: trackConversion na home; Google Ads Lead no mesmo contrato; docs ops"
-    status: pending
+    status: completed
 isProject: false
 ---
 
@@ -26,15 +26,15 @@ isProject: false
 
 O GTM só pode assumir a Meta se o resultado for **equivalente ao contrato atual do código**, não ao setup legado do container (formSubmission / Forminator).
 
-| Ação no site (contrato atual)                                    | Evento dataLayer (já existe)                                                      | Evento Meta esperado                               | Quem dispara Meta                             |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------- | --------------------------------------------- |
-| Load da página                                                   | GTM `gtm.js` + opcional `page_view`                                               | `PageView`                                         | GTM                                           |
-| Navegação SPA                                                    | `page_view` ([`trackPageView`](lib/analytics.ts) em [`_app.tsx`](pages/_app.tsx)) | `PageView`                                         | GTM                                           |
-| Contato / LP com `trackConversion(contact_form_submit)`          | `conversion_contact_form_submit`                                                  | `Lead`                                             | GTM                                           |
-| WhatsApp lead qualificado                                        | `conversion_whatsapp_lead_submitted`                                              | `Lead`                                             | GTM                                           |
-| `appointment_scheduled`                                          | `conversion_appointment_scheduled`                                                | `Schedule`                                         | GTM (tag pronta; call site ainda inexistente) |
-| Clique WhatsApp / telefone                                       | `google_ads_conversion` (`whatsapp`/`phone`)                                      | **Nenhum** Meta (só Google)                        | Sem tag Meta                                  |
-| `free_evaluation_requested` / micro-ações (`button_click`, etc.) | dataLayer only                                                                    | **Nenhum** Meta                                    | Sem tag Meta                                  |
+| Ação no site (contrato atual)                                    | Evento dataLayer (já existe)                                                      | Evento Meta esperado        | Quem dispara Meta                             |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------- | --------------------------------------------- |
+| Load da página                                                   | GTM `gtm.js` + opcional `page_view`                                               | `PageView`                  | GTM                                           |
+| Navegação SPA                                                    | `page_view` ([`trackPageView`](lib/analytics.ts) em [`_app.tsx`](pages/_app.tsx)) | `PageView`                  | GTM                                           |
+| Contato / LP com `trackConversion(contact_form_submit)`          | `conversion_contact_form_submit`                                                  | `Lead`                      | GTM                                           |
+| WhatsApp lead qualificado                                        | `conversion_whatsapp_lead_submitted`                                              | `Lead`                      | GTM                                           |
+| `appointment_scheduled`                                          | `conversion_appointment_scheduled`                                                | `Schedule`                  | GTM (tag pronta; call site ainda inexistente) |
+| Clique WhatsApp / telefone                                       | `google_ads_conversion` (`whatsapp`/`phone`)                                      | **Nenhum** Meta (só Google) | Sem tag Meta                                  |
+| `free_evaluation_requested` / micro-ações (`button_click`, etc.) | dataLayer only                                                                    | **Nenhum** Meta             | Sem tag Meta                                  |
 
 **Não é coerente** mapear Meta Lead em `gtm.formSubmission`, Forminator/`ajaxComplete` ou clique genérico — isso diverge do código e quebra WhatsApp lead / forms React com `preventDefault`.
 
@@ -69,12 +69,13 @@ Cada fase tem **gate**: só avança se o checklist da fase estiver verde.
 
 ## Anexos
 
-| Fase | Fascículo                                                                                                                                                 |
-| ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0    | [fase-0-inventario-baseline.md](fase-0-inventario-baseline.md) — inventário GTM live v24, call sites Meta, divergências, gap home, checklist Pixel Helper |
-| 1    | [fase-1-gtm-paralelo.md](fase-1-gtm-paralelo.md) — triggers CE 40–43, tags 38/39/44, versão publicada **25**                                              |
-| 2    | [fase-2-paridade.md](fase-2-paridade.md) — roteiro 1–7, Gate 2 verde (26 ago 2026); evidência [fase-2-parity-results.json](fase-2-parity-results.json)    |
+| Fase | Fascículo                                                                                                                                                    |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0    | [fase-0-inventario-baseline.md](fase-0-inventario-baseline.md) — inventário GTM live v24, call sites Meta, divergências, gap home, checklist Pixel Helper    |
+| 1    | [fase-1-gtm-paralelo.md](fase-1-gtm-paralelo.md) — triggers CE 40–43, tags 38/39/44, versão publicada **25**                                                 |
+| 2    | [fase-2-paridade.md](fase-2-paridade.md) — roteiro 1–7, Gate 2 verde (26 ago 2026); evidência [fase-2-parity-results.json](fase-2-parity-results.json)       |
 | 3    | [fase-3-cutover.md](fase-3-cutover.md) — cutover sem `fbq`; Gate 3 verde (26 ago 2026); evidência [fase-3-cutover-results.json](fase-3-cutover-results.json) |
+| 4    | [fase-4-hardening.md](fase-4-hardening.md) — home Lead + Ads Lead CE 46; GTM **v26**; Gate 4 verde; evidência [fase-4-hardening-results.json](fase-4-hardening-results.json) |
 
 ---
 
@@ -164,18 +165,20 @@ Nesta fase, Pixel Helper ainda pode mostrar **2×** PageView/Lead (código + GTM
 
 ---
 
-## Fase 4 — Hardening e alinhamento residual
+## Fase 4 — Hardening e alinhamento residual — **completa**
 
 **Objetivo:** fechar inconsistências do funil e Google Ads no **mesmo** critério de coerência.
 
-**Fazer:**
+**Detalhe:** fascículo [fase-4-hardening.md](fase-4-hardening.md). Evidência: [fase-4-hardening-results.json](fase-4-hardening-results.json).
 
-1. **Home:** adicionar `trackConversion(CONTACT_FORM_SUBMIT)` no submit de [`index.tsx`](pages/index.tsx) (hoje só `trackFormSubmit` — buraco vs contato/LP).
-2. **Google Ads Lead (tag 35):** deixar de depender de formSubmission (33); passar a `google_ads_conversion` + `conversion_type = contact` (mesmo momento em que o código já emite Lead Meta / contact).
-3. Revisar tags legadas Forminator/Mida: não precisam sumir agora; apenas garantir que **não** disparam Meta.
-4. Atualizar guia curto (README / nota ops) com a tabela contrato + nomes de eventos dataLayer para o Pagan.
+**Resultado (26 ago 2026, deploy `829dc60`, GTM v26):**
 
-**Gate 4:** home gera Lead via GTM; Ads Lead alinhado ao mesmo `conversion_*` / `google_ads_conversion`; documentação do contrato publicada para o time de tráfego.
+- Home: `trackConversion(CONTACT_FORM_SUBMIT)` em [`index.tsx`](pages/index.tsx).
+- GTM: DLV **45** `conversion_type`; CE **46** `google_ads_conversion` + `contact`; tag **35** Ads Lead em 46 (`oncePerEvent`, sem 33).
+- Docs: README Analytics + guia de integração com tabela contrato para o Pagan.
+- Gate 4: home UI → Meta Lead + Ads Lead; regressão contato/LP/WA; 0 Lead em cliques / formSubmission / type whatsapp.
+
+**Gate 4:** **VERDE** — plano-matriz 0–4 completo.
 
 ---
 

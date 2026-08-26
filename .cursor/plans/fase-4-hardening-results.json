@@ -1,0 +1,118 @@
+{
+  "date": "2026-08-26T18:17:29.798630+00:00",
+  "base": "https://www.auditik.com.br",
+  "pixel": "856128025882243",
+  "adsSendTo": "AW-10939469130/sLpxCK7558ccEMqarOAo",
+  "gtmLive": 26,
+  "method": "Playwright; Meta via fbq trackSingle; Ads via gtag conversion / network",
+  "gate4": true,
+  "results": [
+    {
+      "case": "home-ui",
+      "name": "Home submit UI → Meta Lead + Ads Lead",
+      "ok": true,
+      "detail": {
+        "filled": true,
+        "submitted": true,
+        "hasConversion": true,
+        "hasAdsContact": true,
+        "metaLead": 1,
+        "gtagConversion": 0,
+        "adsNetworkHits": 4,
+        "adsLeadOk": true
+      }
+    },
+    {
+      "case": "contato",
+      "name": "contato: conversion + ads contact → 1 Meta + 1 Ads",
+      "ok": true,
+      "detail": {
+        "metaLead": 1,
+        "origin": "console_push",
+        "gtagConversion": 0,
+        "adsNetworkHits": 4,
+        "adsLeadOk": true
+      }
+    },
+    {
+      "case": "lp",
+      "name": "lp: conversion + ads contact → 1 Meta + 1 Ads",
+      "ok": true,
+      "detail": {
+        "metaLead": 1,
+        "origin": "console_push",
+        "gtagConversion": 0,
+        "adsNetworkHits": 4,
+        "adsLeadOk": true
+      }
+    },
+    {
+      "case": "whatsapp",
+      "name": "whatsapp: conversion + ads contact → 1 Meta + 1 Ads",
+      "ok": true,
+      "detail": {
+        "metaLead": 1,
+        "origin": "console_push",
+        "gtagConversion": 0,
+        "adsNetworkHits": 4,
+        "adsLeadOk": true
+      }
+    },
+    {
+      "case": "wa-gate",
+      "name": "WhatsApp gate sem submit → 0 Meta / 0 Ads Lead",
+      "ok": true,
+      "detail": {
+        "opened": true,
+        "metaLead": 0,
+        "gtagConversion": 0,
+        "adsNetworkHits": 0,
+        "adsLeadOk": false
+      }
+    },
+    {
+      "case": "phone",
+      "name": "Telefone → 0 Meta / 0 Ads Lead",
+      "ok": true,
+      "detail": {
+        "hasPhoneSignal": true,
+        "metaLead": 0,
+        "gtagConversion": 0,
+        "adsNetworkHits": 0,
+        "adsLeadOk": false
+      }
+    },
+    {
+      "case": "neg-formSubmission",
+      "name": "gtm.formSubmission → 0 Meta / 0 Ads Lead",
+      "ok": true,
+      "detail": {
+        "metaLead": 0,
+        "gtagConversion": 0,
+        "adsNetworkHits": 0,
+        "adsLeadOk": false
+      }
+    },
+    {
+      "case": "neg-whatsapp-type",
+      "name": "google_ads_conversion whatsapp → 0 Ads Lead",
+      "ok": true,
+      "detail": {
+        "metaLead": 0,
+        "gtagConversion": 0,
+        "adsNetworkHits": 0,
+        "adsLeadOk": false
+      }
+    }
+  ],
+  "notes": [
+    "home-ui submitted=True conv=True adsEv=True meta=1 ads={'gtagConversion': 0, 'adsNetworkHits': 4, 'adsLeadOk': True}",
+    "contato: meta=1 ads={'gtagConversion': 0, 'adsNetworkHits': 4, 'adsLeadOk': True}",
+    "lp: meta=1 ads={'gtagConversion': 0, 'adsNetworkHits': 4, 'adsLeadOk': True}",
+    "whatsapp: meta=1 ads={'gtagConversion': 0, 'adsNetworkHits': 4, 'adsLeadOk': True}",
+    "wa-gate opened=True meta=0 ads={'gtagConversion': 0, 'adsNetworkHits': 0, 'adsLeadOk': False}",
+    "phone signal=True meta=0 ads={'gtagConversion': 0, 'adsNetworkHits': 0, 'adsLeadOk': False}",
+    "formSubmission meta=0 ads={'gtagConversion': 0, 'adsNetworkHits': 0, 'adsLeadOk': False}",
+    "neg-whatsapp-type meta=0 ads={'gtagConversion': 0, 'adsNetworkHits': 0, 'adsLeadOk': False}"
+  ]
+}
