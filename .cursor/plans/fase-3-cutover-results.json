@@ -1,0 +1,123 @@
+{
+  "date": "2026-08-26T17:16:37.234227+00:00",
+  "base": "https://www.auditik.com.br",
+  "pixel": "856128025882243",
+  "gtmLive": 25,
+  "method": "post-cutover; uniqueness: 0 site fbq track; GTM trackSingle; HTML sem meta-pixel",
+  "gate3": true,
+  "results": [
+    {
+      "case": "html",
+      "name": "HTML sem Pixel do Next (só GTM)",
+      "ok": true,
+      "detail": {
+        "hasMetaPixelScriptId": false,
+        "hasFbeventsInNextHtml": false,
+        "hasConnectFacebookNetInNextHtml": false,
+        "hasGtmBootstrap": true,
+        "source": "navigation_response",
+        "liveMetaPixelScriptId": false
+      }
+    },
+    {
+      "case": 1,
+      "name": "Home load — 1 PageView (GTM only)",
+      "ok": true,
+      "detail": {
+        "hasGtmJs": true,
+        "pageViewsNet": 1,
+        "siteTrackPageView": 0,
+        "gtmTrackSinglePageView": 0,
+        "leads": 0,
+        "htmlOk": true
+      }
+    },
+    {
+      "case": 2,
+      "name": "SPA page_view → 1 PageView GTM",
+      "ok": true,
+      "detail": {
+        "hasPageView": true,
+        "spaPageViewsNet": 4,
+        "spaPageViewsGtmTrackSingle": 3,
+        "siteTrackPageView": 0
+      }
+    },
+    {
+      "case": 3,
+      "name": "conversion_contact_form_submit → 1 Lead GTM (contato)",
+      "ok": true,
+      "detail": {
+        "gtmTrackSingleLead": 1,
+        "siteTrackLead": 0,
+        "origin": "console_push"
+      }
+    },
+    {
+      "case": 4,
+      "name": "conversion_contact_form_submit → 1 Lead GTM (lp)",
+      "ok": true,
+      "detail": {
+        "gtmTrackSingleLead": 1,
+        "siteTrackLead": 0,
+        "origin": "console_push"
+      }
+    },
+    {
+      "case": 5,
+      "name": "conversion_whatsapp_lead_submitted → 1 Lead GTM (whatsapp)",
+      "ok": true,
+      "detail": {
+        "gtmTrackSingleLead": 1,
+        "siteTrackLead": 0,
+        "origin": "console_push"
+      }
+    },
+    {
+      "case": 6,
+      "name": "WhatsApp gate sem submit → 0 Lead",
+      "ok": true,
+      "detail": {
+        "opened": true,
+        "hasConversionWa": false,
+        "gtmTrackSingleLead": 0
+      }
+    },
+    {
+      "case": 7,
+      "name": "Telefone footer → 0 Lead",
+      "ok": true,
+      "detail": {
+        "hasAds": true,
+        "gtmTrackSingleLead": 0
+      }
+    },
+    {
+      "case": "neg-formSubmission",
+      "name": "gtm.formSubmission → 0 Lead",
+      "ok": true,
+      "detail": {
+        "gtmTrackSingleLead": 0
+      }
+    },
+    {
+      "case": "opt-schedule",
+      "name": "conversion_appointment_scheduled → Schedule",
+      "ok": true,
+      "detail": {
+        "gtmTrackSingleSchedule": 1,
+        "optional": true
+      }
+    }
+  ],
+  "notes": [
+    "HTML ok=True; Caso1 gtm=True netPV=1 siteTrackPV=0 gtmTS=0",
+    "Caso2 page_view=True net=4 gtmTS=3 siteTrack=0",
+    "Caso3: trackSingle Lead×1 siteTrack×0",
+    "Caso4: trackSingle Lead×1 siteTrack×0",
+    "Caso5: trackSingle Lead×1 siteTrack×0",
+    "Caso6 opened=True Lead×0",
+    "Caso7 ads=True Lead×0",
+    "formSubmission Lead×0; Schedule×1"
+  ]
+}

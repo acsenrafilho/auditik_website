@@ -171,18 +171,16 @@ def count_site_track(page, since_ms: int, event_name: str) -> int:
     )
 
 
-def html_has_site_pixel(page) -> dict:
-    return page.evaluate(
-        """() => {
-          const html = document.documentElement.innerHTML;
-          return {
-            hasMetaPixelScriptId: !!document.getElementById('meta-pixel'),
-            hasFbeventsInHtml: html.includes('fbevents.js'),
-            hasConnectFacebookNet: html.includes('connect.facebook.net'),
-            hasGtmBootstrap: !!document.getElementById('gtm-bootstrap') || html.includes('GTM-KHQP88V'),
-          };
-        }"""
-    )
+def html_has_site_pixel(page, response_text: str | None) -> dict:
+    """Inspect Next HTML (navigation response), not live DOM after GTM injects fbevents."""
+    src = response_text or ""
+    return {
+        "hasMetaPixelScriptId": 'id="meta-pixel"' in src or "id='meta-pixel'" in src,
+        "hasFbeventsInNextHtml": "fbevents.js" in src,
+        "hasConnectFacebookNetInNextHtml": "connect.facebook.net" in src,
+        "hasGtmBootstrap": "GTM-KHQP88V" in src or 'id="gtm-bootstrap"' in src,
+        "source": "navigation_response",
+    }
 
 
 def now_ms(page) -> int:
@@ -221,32 +219,32 @@ def main():
         # HTML + Case 1
         page, meta = setup_page(context)
         t0 = time.time()
-        t_ms = now_ms(page) if False else 0
-        page.goto(f"{BASE}/", wait_until="networkidle", timeout=60000)
+        resp = page.goto(f"{BASE}/", wait_until="networkidle", timeout=60000)
+        next_html = resp.text() if resp else ""
         wait(4500)
         ensure_fbq_spy(page)
-        t_ms = page.evaluate("() => 0")  # count from page start via meta_hits t0
-        html = html_has_site_pixel(page)
+        html = html_has_site_pixel(page, next_html)
+        live_meta_id = page.evaluate("() => !!document.getElementById('meta-pixel')")
         dl = dl_events(page)
         has_gtm = "gtm.js" in dl or page.evaluate("() => !!window.google_tag_manager")
         pvs_net = count_meta(meta, t0, "PageView")
         leads_net = count_meta(meta, t0, "Lead")
-        # Uniqueness: site track PageView must be 0; GTM trackSingle >= 1 OR network == 1
+        # Site-code fbq('track') must be 0; Network PageView from GTM = 1
         site_pv = count_site_track(page, 0, "PageView")
         gtm_pv = count_track_single(page, 0, "PageView")
         html_ok = (
             not html["hasMetaPixelScriptId"]
-            and not html["hasFbeventsInHtml"]
-            and not html["hasConnectFacebookNet"]
+            and not html["hasFbeventsInNextHtml"]
+            and not html["hasConnectFacebookNetInNextHtml"]
             and html["hasGtmBootstrap"]
+            and not live_meta_id
         )
-        # After cutover: ideally 1 Network PageView; allow 1–2 briefly if noscript/beacon, but site track must be 0
+        html["liveMetaPixelScriptId"] = live_meta_id
         ok = (
             html_ok
             and bool(has_gtm)
             and site_pv == 0
-            and (gtm_pv >= 1 or pvs_net == 1)
-            and pvs_net <= 1
+            and pvs_net == 1
             and leads_net == 0
         )
         results.append(
