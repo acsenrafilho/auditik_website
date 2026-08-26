@@ -1,13 +1,38 @@
 # Meta Pixel and Google Ads Integration Guide
 
-> **Fase 3 cutover (ago 2026):** Meta Pixel is **no longer injected by Next.js**.
-> Do not use `NEXT_PUBLIC_META_PIXEL_ID`, `fbq` snippets in `_app`, or `trackMetaEvent` from this guide.
-> Pixel ID and Meta events (`PageView`, `Lead`, `Schedule`) live in GTM-KHQP88V (tags 38/39/44), listening to dataLayer `page_view` / `conversion_*`.
-> Google Ads sections below may still be partially historical; Ads Lead retarget is planned for Fase 4.
+> **Fase 4 (ago 2026):** Meta + Google Ads Lead follow the same **dataLayer contract**.
+> - Meta Pixel is **not** injected by Next.js (no `NEXT_PUBLIC_META_PIXEL_ID` / site `fbq`).
+> - Meta: GTM tags **38** PageView, **39** Lead, **44** Schedule on `page_view` / `conversion_*`.
+> - Google Ads Lead: tag **35** on `google_ads_conversion` + `conversion_type = contact` (CE **46**).
+> - Do **not** map Lead to `gtm.formSubmission`, Forminator, or generic clicks.
 
-This document explains the complete process to configure, implement, validate, and optimize Meta Ads Pixel and Google Ads tracking in this website.
+This document explains how engineering and traffic (Pagan) keep Meta Ads and Google Ads aligned with the site contract.
 
-It is designed for engineering and digital marketing teams working together.
+## Source of truth
+
+1. Site emits stable dataLayer events via `trackConversion` / `trackPageView` / `trackButtonClick`.
+2. GTM-KHQP88V listens to those events and fires Meta / Google Ads tags.
+3. Legacy Forminator / `formSubmission` triggers may remain in the container but must **not** fire Meta Lead or Ads Lead.
+
+### Contract table
+
+| Ação no site | dataLayer | Meta (GTM) | Google Ads (GTM) |
+| --- | --- | --- | --- |
+| Load / SPA navigation | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
+| Form contato / home / LP | `conversion_contact_form_submit` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
+| WhatsApp lead modal | `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
+| Clique WhatsApp / telefone | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
+| Agendamento real | `conversion_appointment_scheduled` | Schedule (tag 44) | (dataLayer only until Ads tag exists) |
+| Forminator / native form submit | legado | Não é Lead | Não é Lead |
+
+### GTM entities (live v26+)
+
+| ID | Nome | Papel |
+| --- | --- | --- |
+| 45 | `DLV - conversion_type` | Lê `conversion_type` do dataLayer |
+| 46 | `CE - google_ads_conversion contact` | Evento `google_ads_conversion` + type `contact` |
+| 35 | Google Ads - Lead - Web | Dispara no CE 46 (`oncePerEvent`) |
+| 38 / 39 / 44 | Meta PageView / Lead / Schedule | CE `page_view` + `conversion_*` |
 
 ## Goal
 
@@ -19,15 +44,12 @@ Enable reliable conversion tracking for:
 
 ## Architecture Decision
 
-There are two valid approaches:
-
-- Direct code integration (faster initial setup, engineering-owned)
-- Google Tag Manager (more flexible for marketing operations)
-
 Recommended for this website:
 
-- Keep direct integration for baseline technical events controlled by developers
-- Optionally add GTM later for marketing agility (new tags without deploy)
+- **Site (engineering):** push dataLayer only (`lib/analytics.ts`, `lib/ad-platform-tracking.ts`)
+- **GTM (marketing ops):** Meta Pixel + Google Ads conversion tags; change tags without a deploy when the dataLayer contract is stable
+
+Do not re-introduce Pixel / `fbq` in Next.js.
 
 ## Prerequisites
 
@@ -36,16 +58,14 @@ Recommended for this website:
 - Meta Business Manager access with Pixel permissions
 - Google Ads account with admin access
 - Google Analytics 4 property connected to this website
-- Google Tag Manager container (optional but recommended for scale)
+- Google Tag Manager container **GTM-KHQP88V** (required)
 
-### Required IDs
+### Required IDs (configured in GTM, not Next env)
 
-Collect these values before implementation:
-
-- Meta Pixel ID (format: numeric)
-- Google Ads Conversion ID (format: AW-XXXXXXXXX)
-- Google Ads Conversion Labels (one label per conversion action)
-- GA4 Measurement ID if not already configured (format: G-XXXXXXXXXX)
+- Meta Pixel ID (variable `Meta Pixel ID`)
+- Google Ads Conversion ID (`Google Ads - TAG ID` → `10939469130`)
+- Google Ads Lead label (`Google Ads - Lead`)
+- GA4 Measurement ID in GTM (`G-EWK59TMDTR`)
 
 ## Conversion Strategy Before Coding
 
@@ -53,10 +73,10 @@ Define conversion events before implementation.
 
 ### Primary conversions (optimize campaigns for these)
 
-- Contact form submitted
-- Appointment scheduled
-- WhatsApp click (high-intent contact)
-- Phone call initiated
+- Contact form submitted (`contact_form_submit` → Meta Lead + Ads Lead)
+- WhatsApp lead submitted (same Lead path)
+- Appointment scheduled (Meta Schedule when call site exists)
+- WhatsApp / phone click (Google dataLayer only today — not Ads Lead)
 
 ### Secondary conversions (micro-conversions)
 
@@ -69,6 +89,7 @@ Define conversion events before implementation.
 Use stable, lowercase, snake_case names across all tools:
 
 - contact_form_submit
+- whatsapp_lead_submitted
 - appointment_scheduled
 - whatsapp_click
 - phone_call_initiated
@@ -85,20 +106,19 @@ Avoid frequent renaming once campaigns are live.
    - Lead
    - Contact
    - Schedule (or custom conversion mapped to appointment)
-6. Save Pixel ID for engineering.
+6. Save Pixel ID in GTM variable `Meta Pixel ID` (not in Next.js env).
 
 ## Step 2: Google Ads Conversion Setup
 
 1. Open Google Ads.
 2. Navigate to Goals and create conversion actions:
-   - Contact form submit
-   - Appointment scheduled
-   - WhatsApp click
-   - Phone call click
+   - Contact form submit (Lead — wired to tag 35)
+   - Appointment scheduled (optional future tag)
+   - WhatsApp click / phone (optional future tags; site already emits `google_ads_conversion`)
 3. For each conversion action, capture:
    - Conversion ID (AW-XXXXXXXXX)
    - Conversion Label
-4. Set attribution model and conversion window based on business cycle.
+4. Store ID/label in GTM constants; tag 35 fires on `google_ads_conversion` + `conversion_type=contact` only.4. Set attribution model and conversion window based on business cycle.
 5. Ensure each conversion has a clear value rule (fixed or dynamic).
 
 ## Step 3: Environment Variables

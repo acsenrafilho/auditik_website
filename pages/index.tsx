@@ -3,7 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { getSEOMeta } from "@lib/seo";
-import { trackFormSubmit, trackButtonClick } from "@lib/analytics";
+import {
+  trackFormSubmit,
+  trackButtonClick,
+  trackConversion,
+  CONVERSION_GOALS,
+} from "@lib/analytics";
 import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { Header } from "@components/Header";
@@ -219,6 +224,12 @@ export default function Home() {
     try {
       trackFormSubmit("contact_form", {
         nome: formData.nome,
+        cidade: formData.cidade,
+        para_quem: formData.paraQuem,
+      });
+
+      trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
+        page: "home",
         cidade: formData.cidade,
         para_quem: formData.paraQuem,
       });

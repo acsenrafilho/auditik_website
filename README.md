@@ -309,14 +309,22 @@ aws cloudfront create-invalidation \
 
 ## 📊 Analytics
 
-Your site automatically tracks:
+Measurement is owned by **GTM-KHQP88V**. The site only pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). Meta Pixel is **not** loaded by Next.js.
 
-- Page views
-- User interactions
-- Form submissions
-- Conversion events
+Configure `NEXT_PUBLIC_GTM_ID` in `.env.local` (defaults to `GTM-KHQP88V` if unset). Pixel ID, Ads conversion ID/labels, and tags live in the GTM container.
 
-Configure `NEXT_PUBLIC_GTM_ID` in `.env.local` (defaults to `GTM-KHQP88V` in code if unset). GA4, Google Ads, and Meta Pixel measurement IDs, conversion tags, and labels are managed inside the GTM container by your marketing team.
+### Conversion contract (ops)
+
+| Ação no site | dataLayer | Meta (GTM) | Google Ads (GTM) |
+| --- | --- | --- | --- |
+| Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34, All Pages) |
+| Form contato / home / LP | `conversion_contact_form_submit` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
+| WhatsApp lead (modal) | `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
+| Clique WhatsApp / telefone | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
+| `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule (tag 44; call site TBD) | (evento emitido; sem tag Ads dedicada) |
+| Forminator / `gtm.formSubmission` | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
+
+See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for details.
 
 ## 🎨 Customization
 
