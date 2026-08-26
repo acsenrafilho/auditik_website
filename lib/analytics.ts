@@ -83,11 +83,11 @@ export const trackLinkClick = (linkName: string, params?: EventParams) => {
 };
 
 /**
- * Track conversion goal and fan out to Meta / Google Ads via
- * `trackCrossPlatformConversion`.
+ * Track conversion goal: dataLayer `conversion_*` (GTM Meta tags) + Google Ads
+ * fan-out via `trackCrossPlatformConversion`.
  *
- * Meta Lead: `contact_form_submit`, `whatsapp_lead_submitted` only.
- * Meta Schedule: `appointment_scheduled` only (real booking — not LP request).
+ * Meta Lead (GTM): `contact_form_submit`, `whatsapp_lead_submitted` only.
+ * Meta Schedule (GTM): `appointment_scheduled` only (real booking — not LP request).
  * `free_evaluation_requested` stays dataLayer-only for ads (request ≠ Schedule).
  *
  * Usage: trackConversion('contact_form_submit', { location: 'piracicaba' })
@@ -164,9 +164,10 @@ export const trackVideoEvent = (
 /**
  * Common conversion goals for hearing aid clinic.
  *
- * Ads mapping (see `trackCrossPlatformConversion`):
- * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → Meta Lead + Google contact
- * - APPOINTMENT_SCHEDULED → Meta Schedule + Google appointment (real booking)
+ * Ads mapping:
+ * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → dataLayer `conversion_*`
+ *   (GTM Meta Lead) + Google contact via `trackCrossPlatformConversion`
+ * - APPOINTMENT_SCHEDULED → dataLayer (GTM Meta Schedule) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
  * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)
  */

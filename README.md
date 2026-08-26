@@ -248,8 +248,7 @@ See `.env.example` for all required variables:
 - `AWS_REGION` - AWS region (default: us-east-1)
 - `AWS_S3_BUCKET` - S3 bucket name
 - `CLOUDFRONT_DISTRIBUTION_ID` - CloudFront distribution ID
-- `NEXT_PUBLIC_GTM_ID` - Google Tag Manager container ID (GA4 + Google Ads are configured in GTM)
-- `NEXT_PUBLIC_META_PIXEL_ID` - Meta Pixel ID
+- `NEXT_PUBLIC_GTM_ID` - Google Tag Manager container ID (GA4 + Google Ads + Meta Pixel are configured in GTM)
 
 ## 🚀 Deployment
 
@@ -317,9 +316,7 @@ Your site automatically tracks:
 - Form submissions
 - Conversion events
 
-Configure `NEXT_PUBLIC_GTM_ID` in `.env.local` (defaults to `GTM-KHQP88V` in code if unset). GA4 and Google Ads measurement IDs, conversion tags, and labels are managed inside the GTM container by your marketing team.
-
-For Meta Ads, set `NEXT_PUBLIC_META_PIXEL_ID` in `.env.local`.
+Configure `NEXT_PUBLIC_GTM_ID` in `.env.local` (defaults to `GTM-KHQP88V` in code if unset). GA4, Google Ads, and Meta Pixel measurement IDs, conversion tags, and labels are managed inside the GTM container by your marketing team.
 
 ## 🎨 Customization
 

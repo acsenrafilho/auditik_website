@@ -138,8 +138,7 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | AWS_REGION                              | AWS region                    | us-east-1                      |
 | AWS_S3_BUCKET                           | S3 bucket name                | auditik-website-prod           |
 | CLOUDFRONT_DISTRIBUTION_ID              | CloudFront distribution ID    | E1XXXXXXXXXXXXX                |
-| NEXT_PUBLIC_GTM_ID                      | Google Tag Manager container  | GTM-KHQP88V                    |
-| NEXT_PUBLIC_META_PIXEL_ID               | Meta Pixel ID                 | 123456789012345                |
+| NEXT_PUBLIC_GTM_ID                      | Google Tag Manager container (GA4 + Ads + Meta) | GTM-KHQP88V                    |
 | NEXT_PUBLIC_LEAD_PROXY_URL              | Lead proxy endpoint           | https://api.example.com/integrations/leads |
 | NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |
 | NEXT_PUBLIC_BENEFIT_ACTIVATE_URL        | Convênios benefit activation  | https://api.example.com/activate |
@@ -154,7 +153,7 @@ The activate endpoint (`gl_activate_benefit` in backend-core) accepts optional `
 4. For non-sensitive config, open the **Variables** tab and click "New repository variable"
 5. Add each name/value pair exactly as listed above
 
-The deploy workflow (`.github/workflows/deploy.yml`) runs a **validation step before the build**: required values must be present, `NEXT_PUBLIC_GTM_ID` must look like `GTM-…`, `NEXT_PUBLIC_META_PIXEL_ID` must be numeric only, and lead/benefit URLs must use `https://`.
+The deploy workflow (`.github/workflows/deploy.yml`) runs a **validation step before the build**: required values must be present, `NEXT_PUBLIC_GTM_ID` must look like `GTM-…`, and lead/benefit URLs must use `https://`. Meta Pixel is configured inside GTM, not as a Next.js env var.
 
 ## 🚀 Deployment Process
 

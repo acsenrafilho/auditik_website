@@ -1,5 +1,10 @@
 # Meta Pixel and Google Ads Integration Guide
 
+> **Fase 3 cutover (ago 2026):** Meta Pixel is **no longer injected by Next.js**.
+> Do not use `NEXT_PUBLIC_META_PIXEL_ID`, `fbq` snippets in `_app`, or `trackMetaEvent` from this guide.
+> Pixel ID and Meta events (`PageView`, `Lead`, `Schedule`) live in GTM-KHQP88V (tags 38/39/44), listening to dataLayer `page_view` / `conversion_*`.
+> Google Ads sections below may still be partially historical; Ads Lead retarget is planned for Fase 4.
+
 This document explains the complete process to configure, implement, validate, and optimize Meta Ads Pixel and Google Ads tracking in this website.
 
 It is designed for engineering and digital marketing teams working together.

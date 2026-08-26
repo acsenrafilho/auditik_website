@@ -2,7 +2,6 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { GTM_ID } from "@lib/gtm";
-import { META_PIXEL_ID } from "@lib/ad-platform-tracking";
 
 const LP_IDLE_TIMEOUT_MS = 3500;
 
@@ -11,8 +10,9 @@ function isLandingPath(pathname: string): boolean {
 }
 
 /**
- * Loads GTM + Meta Pixel immediately on institutional pages.
+ * Loads GTM immediately on institutional pages.
  * On /lp/*, waits for idle (~3.5s) or first user interaction — whichever comes first.
+ * Meta Pixel is owned by GTM (not injected here).
  */
 export function DeferredMarketingScripts() {
   const router = useRouter();
@@ -79,38 +79,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','${GTM_ID}');`,
           }}
         />
-      ) : null}
-
-      {META_PIXEL_ID && shouldLoad ? (
-        <>
-          <Script
-            id="meta-pixel"
-            strategy={onLp ? "lazyOnload" : "afterInteractive"}
-            dangerouslySetInnerHTML={{
-              __html: `
-                !function(f,b,e,v,n,t,s)
-                {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-                n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-                if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-                n.queue=[];t=b.createElement(e);t.async=!0;
-                t.src=v;s=b.getElementsByTagName(e)[0];
-                s.parentNode.insertBefore(t,s)}(window, document,'script',
-                'https://connect.facebook.net/en_US/fbevents.js');
-                fbq('init', '${META_PIXEL_ID}');
-                fbq('track', 'PageView');
-              `,
-            }}
-          />
-          <noscript>
-            <img
-              height="1"
-              width="1"
-              style={{ display: "none" }}
-              src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-              alt=""
-            />
-          </noscript>
-        </>
       ) : null}
     </>
   );
