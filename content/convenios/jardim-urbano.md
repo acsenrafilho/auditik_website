@@ -39,13 +39,13 @@ clientProfiles:
   - familias
   - empresas
 # benefitSummary: texto em destaque no topo da página de detalhe (se vazio, usa description)
-benefitSummary: "Resumo do benefício em destaque que será exibido no topo da página de detalhe."
+benefitSummary: "Desconto de 10% no valor do evento."
 # gallery: até 4 entradas — URL https (externa) ou caminho a partir de public/, ex.: /images/auditik/convenios/parceiro/foto.jpg
 gallery:
-  - "/images/auditik/convenios/jardim-urbano/1.png"
-  - "/images/auditik/convenios/jardim-urbano/2.png"
-  - "/images/auditik/convenios/jardim-urbano/3.png"
-  - "/images/auditik/convenios/jardim-urbano/4.png"
+  - "/images/auditik/convenios/jardim-urbano/1.jpeg"
+  - "/images/auditik/convenios/jardim-urbano/2.jpeg"
+  - "/images/auditik/convenios/jardim-urbano/3.jpeg"
+  - "/images/auditik/convenios/jardim-urbano/4.jpeg"
 ---
 
 ## Sobre o parceiro
