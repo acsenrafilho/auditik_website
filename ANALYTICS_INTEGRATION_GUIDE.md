@@ -67,6 +67,7 @@ Avoid adding high-cardinality parameters (random IDs, timestamps as strings, fre
 - Ensure click handlers do not fire duplicate events.
 - In React effects, carefully scope dependencies so events do not re-fire on every render.
 - For page-driven events, trigger on route change or first stable render only.
+- **Lead conversions** fire on [`/obrigado/`](pages/obrigado.tsx) only after CRM accepts the lead (`lib/thank-you.ts` session token). Direct visits to `/obrigado/` redirect without conversion events.
 
 ### 6. Define a funnel for key journeys
 

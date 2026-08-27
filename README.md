@@ -318,11 +318,11 @@ Configure `NEXT_PUBLIC_GTM_ID` in `.env.local` (defaults to `GTM-KHQP88V` if uns
 | Ação no site | dataLayer | Meta (GTM) | Google Ads (GTM) |
 | --- | --- | --- | --- |
 | Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34, All Pages) |
-| Form contato / home / LP | `conversion_contact_form_submit` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
-| WhatsApp lead (modal) | `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
-| Clique WhatsApp / telefone | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
+| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | Lead via **Page Path** `/obrigado/` (tag 39 pausada) | Lead (tag 35) |
+| Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
 | `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule (tag 44; call site TBD) | (evento emitido; sem tag Ads dedicada) |
 | Forminator / `gtm.formSubmission` | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
+| Acesso direto a `/obrigado/` | Nenhum (redireciona) | Nenhum | Nenhum |
 
 See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for details.
 

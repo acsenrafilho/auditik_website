@@ -4,6 +4,7 @@ export const APP_ROUTES = {
   blog: "/blog/",
   convenios: "/convenios/",
   contato: "/contato/",
+  obrigado: "/obrigado/",
   nossaClinica: "/nossa-clinica/",
   faq: "/faq/",
   privacyPolicy: "/politica-de-privacidade/",

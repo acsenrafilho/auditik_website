@@ -1,9 +1,10 @@
 # Meta Pixel and Google Ads Integration Guide
 
-> **Fase 4 (ago 2026):** Meta + Google Ads Lead follow the same **dataLayer contract**.
+> **Thank-you page (ago 2026):** Meta Lead and Google Ads Lead use **different** triggers after successful CRM submit.
 > - Meta Pixel is **not** injected by Next.js (no `NEXT_PUBLIC_META_PIXEL_ID` / site `fbq`).
-> - Meta: GTM tags **38** PageView, **39** Lead, **44** Schedule on `page_view` / `conversion_*`.
-> - Google Ads Lead: tag **35** on `google_ads_conversion` + `conversion_type = contact` (CE **46**).
+> - Meta Lead: GTM Page Path **`/obrigado/`** (tag 39 on `conversion_*` must be **paused**).
+> - Google Ads Lead: tag **35** on `google_ads_conversion` + `conversion_type = contact` (CE **46**), fired on `/obrigado/` via `trackConversion`.
+> - Meta PageView: tag **38** on `page_view` / All Pages. Schedule: tag **44** on `conversion_appointment_scheduled`.
 > - Do **not** map Lead to `gtm.formSubmission`, Forminator, or generic clicks.
 
 This document explains how engineering and traffic (Pagan) keep Meta Ads and Google Ads aligned with the site contract.
@@ -19,11 +20,11 @@ This document explains how engineering and traffic (Pagan) keep Meta Ads and Goo
 | Ação no site | dataLayer | Meta (GTM) | Google Ads (GTM) |
 | --- | --- | --- | --- |
 | Load / SPA navigation | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
-| Form contato / home / LP | `conversion_contact_form_submit` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
-| WhatsApp lead modal | `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead (tag 39) | Lead (tag 35) |
-| Clique WhatsApp / telefone | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
+| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; `conversion_contact_form_submit` ou `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead via **Page Path** `/obrigado/` (tag 39 **pausada**) | Lead (tag 35, CE 46) |
+| Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
 | Agendamento real | `conversion_appointment_scheduled` | Schedule (tag 44) | (dataLayer only until Ads tag exists) |
 | Forminator / native form submit | legado | Não é Lead | Não é Lead |
+| Acesso direto a `/obrigado/` | Nenhum (redireciona para `/contato/`) | Nenhum | Nenhum |
 
 ### GTM entities (live v26+)
 
@@ -398,17 +399,28 @@ Quarterly:
 - Prevent multiple click handlers on nested elements.
 - Add guard logic for idempotent conversion submission.
 
-## Go-Live Checklist
+## Go-Live Checklist (thank-you page)
 
-- [ ] Meta Pixel ID configured in environment
-- [ ] Google Ads ID and labels configured in environment
-- [ ] Base scripts loaded only once
-- [ ] Primary conversions firing on production flows
-- [ ] Events validated in Meta Pixel Helper and Tag Assistant
-- [ ] Conversion actions receiving data in both platforms
-- [ ] Consent flow tested
-- [ ] No PII in tracking payload
-- [ ] Documentation updated with final event mapping
+- [ ] Site deployed with `/obrigado/` and form redirects after CRM success
+- [ ] Bruno: Meta Lead tag on Page Path contains `/obrigado/`
+- [ ] Bruno: Meta tag 39 (`conversion_*` Lead) **paused**
+- [ ] Bruno: Google Ads tag 35 **unchanged** (no URL-based Ads conversion)
+- [ ] Test: successful form → 1 Meta Lead (URL) + 1 Google Ads Lead (event)
+- [ ] Test: direct visit `/obrigado/` → redirect to `/contato/`, no conversions
+- [ ] Test: CRM failure → no redirect, no conversions
+
+## GTM handoff (Bruno)
+
+URL: `https://auditik.com.br/obrigado/` (trailing slash required).
+
+1. Create Meta Lead with trigger **Page Path contains** `/obrigado/`.
+2. **Pause** Meta Lead tag 39 on `conversion_contact_form_submit` and `conversion_whatsapp_lead_submitted`.
+3. **Do not** add Google Ads conversion on this URL — tag 35 stays on `google_ads_conversion` + `conversion_type = contact`.
+4. Yellow contact forms and WhatsApp modal (all pages) redirect here only after successful CRM submit.
+
+Validate in GTM Preview + Pixel Helper: one Meta Lead per successful submit, one Google Ads Lead via dataLayer event, no duplicates.
+
+## Go-Live Checklist (legacy)
 
 ## Recommended Next Phase
 

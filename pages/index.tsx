@@ -6,18 +6,12 @@ import { getSEOMeta } from "@lib/seo";
 import {
   trackFormSubmit,
   trackButtonClick,
-  trackConversion,
-  CONVERSION_GOALS,
 } from "@lib/analytics";
 import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
+import { markThankYouSuccess } from "@lib/thank-you";
 import { Header } from "@components/Header";
-import { LeadSubmitSuccessModal } from "@components/Common/LeadSubmitSuccessModal";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
-
-const BRAZIL_WHATSAPP_PHONE = "551933776941";
-const FORM_WHATSAPP_MESSAGE =
-  "Olá Auditik, acabei de preencher o formulário e gostaria de continuar pelo WhatsApp.";
 
 export default function Home() {
   const [testimonialsIndex, setTestimonialsIndex] = useState(0);
@@ -30,7 +24,6 @@ export default function Home() {
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const testimonialsPerPage = 3;
 
   const seo = getSEOMeta({
@@ -222,18 +215,6 @@ export default function Home() {
     setFormError("");
 
     try {
-      trackFormSubmit("contact_form", {
-        nome: formData.nome,
-        cidade: formData.cidade,
-        para_quem: formData.paraQuem,
-      });
-
-      trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
-        page: "home",
-        cidade: formData.cidade,
-        para_quem: formData.paraQuem,
-      });
-
       await submitLeadToCRM({
         fullName: formData.nome,
         phone: formData.whatsapp,
@@ -243,8 +224,16 @@ export default function Home() {
         formName: "Website Home",
       });
 
-      setFormData({ nome: "", whatsapp: "", cidade: "", paraQuem: "" });
-      setIsSuccessModalOpen(true);
+      trackFormSubmit("contact_form", {
+        page: "home",
+        cidade: formData.cidade,
+        para_quem: formData.paraQuem,
+      });
+
+      markThankYouSuccess({
+        form: "contact",
+        source: "Website Home",
+      });
     } catch (error) {
       console.error("Form submission error:", error);
       setFormError(
@@ -255,18 +244,6 @@ export default function Home() {
     } finally {
       setFormSubmitting(false);
     }
-  };
-
-  const handleOpenSuccessWhatsApp = () => {
-    const encodedMessage = encodeURIComponent(FORM_WHATSAPP_MESSAGE);
-    const whatsappUrl = `https://wa.me/${BRAZIL_WHATSAPP_PHONE}?text=${encodedMessage}`;
-
-    trackButtonClick("form_success_whatsapp_home", {
-      source: "Website Home",
-      section: "form_success_modal",
-    });
-
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   const handleTestimonialPrev = () => {
@@ -869,12 +846,6 @@ export default function Home() {
           </div>
         </section>
       </main>
-
-      <LeadSubmitSuccessModal
-        isOpen={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
-        onOpenWhatsApp={handleOpenSuccessWhatsApp}
-      />
 
       {/* Footer */}
       <footer className="bg-auditik-blue text-white pt-20 pb-10">

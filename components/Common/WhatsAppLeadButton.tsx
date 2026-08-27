@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import type { EventParams } from "@lib/analytics";
 import {
-  trackConversion,
   trackEvent,
   trackFormSubmit,
 } from "@lib/analytics";
 import { formatBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
+import { markThankYouSuccess } from "@lib/thank-you";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 
 interface WhatsAppLeadButtonProps {
@@ -120,9 +120,6 @@ export function WhatsAppLeadButton({
       };
 
       trackFormSubmit("whatsapp_lead", metrics);
-      trackConversion("whatsapp_lead_submitted", metrics);
-      // Analytics only — avoid trackButtonClick so whatsapp_click does not
-      // fire a second Google Ads conversion on the same qualified lead.
       trackEvent("button_click", {
         button_name: buttonName,
         source: leadSource,
@@ -138,6 +135,12 @@ export function WhatsAppLeadButton({
 
       setIsModalOpen(false);
       setFormData({ fullName: "", phone: "", city: "" });
+
+      markThankYouSuccess({
+        form: "whatsapp",
+        source: leadSource,
+        whatsappUrl,
+      });
     } catch (error) {
       console.error("WhatsApp lead submit error:", error);
       setSubmitError(

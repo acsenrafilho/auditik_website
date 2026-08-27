@@ -16,15 +16,13 @@ import Image from "next/image";
 import { useState } from "react";
 import { LandingShell, LandingStickyCta, LandingIcon, LandingMapPreview } from "@components/Landing";
 import type { LandingIconName } from "@components/Landing/LandingIcon";
-import { LeadSubmitSuccessModal } from "@components/Common/LeadSubmitSuccessModal";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import {
-  CONVERSION_GOALS,
   trackButtonClick,
-  trackConversion,
   trackFormSubmit,
 } from "@lib/analytics";
 import { formatBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
+import { markThankYouSuccess } from "@lib/thank-you";
 import { LP_ROUTES } from "@lib/routes";
 import { getSEOMeta } from "@lib/seo";
 import { absoluteUrl } from "@lib/site-url";
@@ -33,9 +31,6 @@ import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 const LEAD_SOURCE = "LP Americana Philips";
 const WHATSAPP_MESSAGE =
   "Olá Auditik, vim pela página de Americana e quero agendar avaliação gratuita dos aparelhos Philips HearLink.";
-const BRAZIL_WHATSAPP_PHONE = "551933776941";
-const FORM_SUCCESS_WHATSAPP_MESSAGE =
-  "Olá Auditik, acabei de preencher o formulário da página de Americana e gostaria de continuar pelo WhatsApp.";
 
 const LP_IMG = "/images/auditik/lp/americana";
 const PRODUCT_HAND = `${LP_IMG}/hero-hand.webp`;
@@ -323,7 +318,6 @@ export default function LpAmericanaPhilipsPage() {
   const [formData, setFormData] = useState<FormState>(emptyForm);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const seo = getSEOMeta({
@@ -353,12 +347,6 @@ export default function LpAmericanaPhilipsPage() {
     setFormError("");
 
     try {
-      trackFormSubmit("lp_americana_philips", {
-        cidade: formData.cidade,
-        para_quem: formData.paraQuem,
-        page: "lp/americana-philips",
-      });
-
       await submitLeadToCRM({
         fullName: formData.nome,
         phone: formData.whatsapp,
@@ -368,13 +356,16 @@ export default function LpAmericanaPhilipsPage() {
         formName: LEAD_SOURCE,
       });
 
-      trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, {
+      trackFormSubmit("lp_americana_philips", {
+        cidade: formData.cidade,
+        para_quem: formData.paraQuem,
         page: "lp/americana-philips",
-        source: LEAD_SOURCE,
       });
 
-      setFormData(emptyForm());
-      setIsSuccessModalOpen(true);
+      markThankYouSuccess({
+        form: "contact",
+        source: LEAD_SOURCE,
+      });
     } catch (error) {
       console.error("LP Americana form submission error:", error);
       setFormError(
@@ -394,18 +385,6 @@ export default function LpAmericanaPhilipsPage() {
     });
     const el = document.getElementById("form");
     el?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const handleOpenSuccessWhatsApp = () => {
-    const encodedMessage = encodeURIComponent(FORM_SUCCESS_WHATSAPP_MESSAGE);
-    const whatsappUrl = `https://wa.me/${BRAZIL_WHATSAPP_PHONE}?text=${encodedMessage}`;
-
-    trackButtonClick("lp_americana_form_success_whatsapp", {
-      source: LEAD_SOURCE,
-      section: "form_success_modal",
-    });
-
-    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   };
 
   const whatsappClassOutline =
@@ -920,12 +899,6 @@ export default function LpAmericanaPhilipsPage() {
           }
         />
       </LandingShell>
-
-      <LeadSubmitSuccessModal
-        isOpen={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
-        onOpenWhatsApp={handleOpenSuccessWhatsApp}
-      />
     </>
   );
 }
