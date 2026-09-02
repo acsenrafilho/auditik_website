@@ -1,6 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import { generateOrganizationSchema } from "@lib/schema";
-import { GTM_ID } from "@lib/gtm";
+import { GTM_ID, GTM_ID_META } from "@lib/gtm";
 
 export default function Document() {
   const schemaData = generateOrganizationSchema();
@@ -26,6 +26,17 @@ export default function Document() {
               width="0"
               style={{ display: "none", visibility: "hidden" }}
               title="Google Tag Manager"
+            />
+          </noscript>
+        ) : null}
+        {GTM_ID_META ? (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID_META}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager (Meta)"
             />
           </noscript>
         ) : null}

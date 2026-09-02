@@ -1,7 +1,7 @@
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { GTM_ID } from "@lib/gtm";
+import { buildGtmBootstrapScript, GTM_ID, GTM_ID_META } from "@lib/gtm";
 
 const LP_IDLE_TIMEOUT_MS = 3500;
 
@@ -10,9 +10,9 @@ function isLandingPath(pathname: string): boolean {
 }
 
 /**
- * Loads GTM immediately on institutional pages.
+ * Loads both GTM containers on the same schedule (shared dataLayer).
+ * GTM-KHQP88V: GA4 + Google Ads. GTM-NVWQ3PF2: Meta Pixel only.
  * On /lp/*, waits for idle (~3.5s) or first user interaction — whichever comes first.
- * Meta Pixel is owned by GTM (not injected here).
  */
 export function DeferredMarketingScripts() {
   const router = useRouter();
@@ -64,19 +64,25 @@ export function DeferredMarketingScripts() {
   }, [onLp, router.pathname]);
 
   const shouldLoad = !onLp || lpReady;
+  const scriptStrategy = onLp ? "lazyOnload" : "afterInteractive";
 
   return (
     <>
       {GTM_ID && shouldLoad ? (
         <Script
           id="gtm-bootstrap"
-          strategy={onLp ? "lazyOnload" : "afterInteractive"}
+          strategy={scriptStrategy}
           dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_ID}');`,
+            __html: buildGtmBootstrapScript(GTM_ID),
+          }}
+        />
+      ) : null}
+      {GTM_ID_META && shouldLoad ? (
+        <Script
+          id="gtm-bootstrap-meta"
+          strategy={scriptStrategy}
+          dangerouslySetInnerHTML={{
+            __html: buildGtmBootstrapScript(GTM_ID_META),
           }}
         />
       ) : null}

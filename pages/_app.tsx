@@ -29,7 +29,7 @@ export default function App({ Component, pageProps }: AppProps) {
     const handleRouteChange = (url: string) => {
       captureAttributionFromUrl();
       const pageName = url.split("/")[1] || "home";
-      // dataLayer page_view → GTM Meta PageView (tag 38); no fbq in site code
+      // dataLayer page_view → GTM-NVWQ3PF2 Meta PageView; no fbq in site code
       trackPageView(url, pageName);
     };
 

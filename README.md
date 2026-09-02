@@ -248,7 +248,8 @@ See `.env.example` for all required variables:
 - `AWS_REGION` - AWS region (default: us-east-1)
 - `AWS_S3_BUCKET` - S3 bucket name
 - `CLOUDFRONT_DISTRIBUTION_ID` - CloudFront distribution ID
-- `NEXT_PUBLIC_GTM_ID` - Google Tag Manager container ID (GA4 + Google Ads + Meta Pixel are configured in GTM)
+- `NEXT_PUBLIC_GTM_ID` - GTM container for GA4 + Google Ads (`GTM-KHQP88V`)
+- `NEXT_PUBLIC_GTM_ID_META` - GTM container for Meta Pixel only (`GTM-NVWQ3PF2`)
 
 ## 🚀 Deployment
 
@@ -309,18 +310,23 @@ aws cloudfront create-invalidation \
 
 ## 📊 Analytics
 
-Measurement is owned by **GTM-KHQP88V**. The site only pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). Meta Pixel is **not** loaded by Next.js.
+Dual GTM containers share the same `dataLayer`:
 
-Configure `NEXT_PUBLIC_GTM_ID` in `.env.local` (defaults to `GTM-KHQP88V` if unset). Pixel ID, Ads conversion ID/labels, and tags live in the GTM container.
+- **GTM-KHQP88V** (`NEXT_PUBLIC_GTM_ID`) — GA4 + Google Ads
+- **GTM-NVWQ3PF2** (`NEXT_PUBLIC_GTM_ID_META`) — Meta Pixel (isolated test container)
+
+The site only pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). Meta Pixel is **not** loaded by Next.js. Meta tags in GTM-KHQP88V must stay **paused** while the test runs.
+
+Configure both env vars in `.env.local` (defaults match the IDs above if unset).
 
 ### Conversion contract (ops)
 
-| Ação no site | dataLayer | Meta (GTM) | Google Ads (GTM) |
+| Ação no site | dataLayer | Meta (GTM-NVWQ3PF2) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
-| Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34, All Pages) |
-| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | Lead via **Page Path** `/obrigado/` (tag 39 pausada) | Lead (tag 35) |
+| Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (All Pages + `page_view`) | Page View (tag 34, All Pages) |
+| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | Lead via **Page Path** `/obrigado/` | Lead (tag 35) |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
-| `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule (tag 44; call site TBD) | (evento emitido; sem tag Ads dedicada) |
+| `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule | (evento emitido; sem tag Ads dedicada) |
 | Forminator / `gtm.formSubmission` | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona) | Nenhum | Nenhum |
 

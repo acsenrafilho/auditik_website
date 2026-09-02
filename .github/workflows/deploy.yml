@@ -12,6 +12,7 @@ env:
   CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
   NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
   NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
+  NEXT_PUBLIC_GTM_ID_META: ${{ vars.NEXT_PUBLIC_GTM_ID_META }}
   NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
   NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
   NEXT_PUBLIC_BENEFIT_ACTIVATE_URL: ${{ vars.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL }}
@@ -40,7 +41,7 @@ jobs:
         run: npm ci
 
       # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
-      # Tracking: GA4 + Google Ads + Meta Pixel are loaded via GTM — NEXT_PUBLIC_GTM_ID must be set (e.g. GTM-KHQP88V).
+      # Tracking: dual GTM — NEXT_PUBLIC_GTM_ID (GA4/Ads) + NEXT_PUBLIC_GTM_ID_META (Meta Pixel).
       # Tina: client id + token required for CMS build.
       - name: Validate required environment variables for build
         run: |
@@ -69,9 +70,11 @@ jobs:
           require_nonempty NEXT_PUBLIC_TINA_CLIENT_ID
           require_nonempty TINA_TOKEN
 
-          echo "Checking Google Tag Manager container…"
+          echo "Checking Google Tag Manager containers…"
           require_nonempty NEXT_PUBLIC_GTM_ID
           require_regex NEXT_PUBLIC_GTM_ID '^GTM-[A-Za-z0-9]+$'
+          require_nonempty NEXT_PUBLIC_GTM_ID_META
+          require_regex NEXT_PUBLIC_GTM_ID_META '^GTM-[A-Za-z0-9]+$'
 
           echo "Checking lead proxy and convênios activation…"
           require_nonempty NEXT_PUBLIC_LEAD_PROXY_URL
@@ -93,6 +96,7 @@ jobs:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_TINA_CLIENT_ID }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
           NEXT_PUBLIC_GTM_ID: ${{ vars.NEXT_PUBLIC_GTM_ID }}
+          NEXT_PUBLIC_GTM_ID_META: ${{ vars.NEXT_PUBLIC_GTM_ID_META }}
           NEXT_PUBLIC_LEAD_PROXY_URL: ${{ vars.NEXT_PUBLIC_LEAD_PROXY_URL }}
           NEXT_PUBLIC_LEAD_INTEGRATION_NAME: ${{ vars.NEXT_PUBLIC_LEAD_INTEGRATION_NAME }}
           NEXT_PUBLIC_BENEFIT_ACTIVATE_URL: ${{ vars.NEXT_PUBLIC_BENEFIT_ACTIVATE_URL }}

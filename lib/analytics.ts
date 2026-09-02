@@ -1,6 +1,6 @@
 /**
  * Site measurement signals for Google Tag Manager (dataLayer).
- * GA4 / Google Ads tags are configured in the GTM container, not loaded here.
+ * GA4 / Google Ads: GTM-KHQP88V. Meta Pixel: GTM-NVWQ3PF2 (shared dataLayer).
  */
 
 import { trackCrossPlatformConversion } from "@lib/ad-platform-tracking";
@@ -86,7 +86,7 @@ export const trackLinkClick = (linkName: string, params?: EventParams) => {
  * Track conversion goal: dataLayer `conversion_*` (GTM Meta tags) + Google Ads
  * fan-out via `trackCrossPlatformConversion`.
  *
- * Meta Lead (GTM): Page Path `/obrigado/` after CRM success (tag 39 on `conversion_*` paused).
+ * Meta Lead (GTM-NVWQ3PF2): Page Path `/obrigado/` after CRM success (legacy tag 39 paused).
  * Google Ads Lead (GTM): `contact_form_submit` / `whatsapp_lead_submitted` via
  *   `trackConversion` on `/obrigado/` → `google_ads_conversion` (tag 35).
  *
@@ -167,7 +167,7 @@ export const trackVideoEvent = (
  * Ads mapping:
  * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → fired on `/obrigado/` after CRM OK
  *   (Google Ads via `trackCrossPlatformConversion`; Meta via GTM Page Path)
- * - APPOINTMENT_SCHEDULED → dataLayer (GTM Meta Schedule) + Google appointment
+ * - APPOINTMENT_SCHEDULED → dataLayer (GTM-NVWQ3PF2 Meta Schedule) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
  * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)
  */
