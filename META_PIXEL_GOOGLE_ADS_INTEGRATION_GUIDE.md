@@ -4,16 +4,16 @@
 >
 > **Thank-you page:** Meta Lead and Google Ads Lead use **different** triggers after successful CRM submit.
 > - Meta Pixel is **not** injected by Next.js (no `NEXT_PUBLIC_META_PIXEL_ID` / site `fbq`).
-> - Meta Lead: GTM-NVWQ3PF2 Page Path **`/obrigado/`** (legacy tag 39 on `conversion_*` must stay **paused**).
+> - Meta Lead: GTM-NVWQ3PF2 Custom Event **`meta_lead`** (via `trackMetaLead` on `/obrigado/` after CRM OK). Do **not** use Page Path `/obrigado/` or Contact as the web conversion.
 > - Google Ads Lead: tag **35** on `google_ads_conversion` + `conversion_type = contact` (CE **46**), fired on `/obrigado/` via `trackConversion`.
 > - Meta PageView: All Pages + `page_view` in GTM-NVWQ3PF2. Schedule: `conversion_appointment_scheduled`.
-> - Do **not** map Lead to `gtm.formSubmission`, Forminator, or generic clicks.
+> - Do **not** map Lead to `gtm.formSubmission`, Forminator, LP form submit, or generic clicks.
 
 This document explains how engineering and traffic (Pagan) keep Meta Ads and Google Ads aligned with the site contract.
 
 ## Source of truth
 
-1. Site emits stable dataLayer events via `trackConversion` / `trackPageView` / `trackButtonClick`.
+1. Site emits stable dataLayer events via `trackConversion` / `trackMetaLead` / `trackPageView` / `trackButtonClick`.
 2. **GTM-KHQP88V** fires GA4 + Google Ads tags (Meta tags **paused** during dual-GTM test).
 3. **GTM-NVWQ3PF2** fires Meta Pixel tags only (same dataLayer contract).
 4. Legacy Forminator / `formSubmission` triggers may remain in either container but must **not** fire Meta Lead or Ads Lead.
@@ -23,10 +23,10 @@ This document explains how engineering and traffic (Pagan) keep Meta Ads and Goo
 | Ação no site | dataLayer | Meta (GTM-NVWQ3PF2) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA navigation | `gtm.js` / `page_view` | PageView (All Pages + `page_view`) | Page View (tag 34) |
-| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; `conversion_contact_form_submit` ou `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead via **Page Path** `/obrigado/` | Lead (tag 35, CE 46) |
+| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; **`meta_lead`** + `conversion_contact_form_submit` ou `conversion_whatsapp_lead_submitted` + `google_ads_conversion` (`contact`) | Lead via Custom Event **`meta_lead`** | Lead (tag 35, CE 46) |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
 | Agendamento real | `conversion_appointment_scheduled` | Schedule | (dataLayer only until Ads tag exists) |
-| Forminator / native form submit | legado | Não é Lead | Não é Lead |
+| Forminator / native form submit / LP form event | legado / `lp_*_form_submit` | Não é Lead | Não é Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona para `/contato/`) | Nenhum | Nenhum |
 
 ### GTM entities (live v26+)
@@ -36,7 +36,7 @@ This document explains how engineering and traffic (Pagan) keep Meta Ads and Goo
 | 45 | `DLV - conversion_type` | Lê `conversion_type` do dataLayer |
 | 46 | `CE - google_ads_conversion contact` | Evento `google_ads_conversion` + type `contact` |
 | 35 | Google Ads - Lead - Web | Dispara no CE 46 (`oncePerEvent`) |
-| 38 / 39 / 44 | Meta PageView / Lead / Schedule | CE `page_view` + `conversion_*` |
+| 38 / 39 / 44 | Meta PageView / Lead / Schedule | CE `page_view` + `conversion_*` (legacy; Meta Lead must use **`meta_lead`**, not Page Path) |
 
 ## Goal
 
@@ -408,40 +408,53 @@ Quarterly:
 - [ ] Site deployed with both GTM snippets (`GTM-KHQP88V` + `GTM-NVWQ3PF2`)
 - [ ] GitHub Variable `NEXT_PUBLIC_GTM_ID_META` = `GTM-NVWQ3PF2`
 - [ ] Bruno: **Pause** all Meta tags in GTM-KHQP88V (38 PageView, Lead, 44 Schedule) and **publish**
-- [ ] Bruno: Configure Meta Pixel in GTM-NVWQ3PF2 (PageView, Lead on `/obrigado/`, Schedule) and **publish**
+- [ ] Bruno: Configure Meta Pixel in GTM-NVWQ3PF2 (PageView, Lead on Custom Event **`meta_lead`**, Schedule) and **publish**
 - [ ] Bruno: Google Ads tag 35 in GTM-KHQP88V **unchanged**
 - [ ] Test: Pixel Helper shows **one** Meta Pixel ID
-- [ ] Test: successful form → 1 Meta Lead (URL) + 1 Google Ads Lead (event)
+- [ ] Test: successful form → 1 Meta Lead (`meta_lead`) + 1 Google Ads Lead (event)
 - [ ] Test: direct visit `/obrigado/` → redirect to `/contato/`, no conversions
 - [ ] Test: CRM failure → no redirect, no conversions
 
-## Go-Live Checklist (thank-you page)
+## Go-Live Checklist (thank-you page / `meta_lead`)
 
-- [ ] Site deployed with `/obrigado/` and form redirects after CRM success
-- [ ] Bruno: Meta Lead tag in GTM-NVWQ3PF2 on Page Path contains `/obrigado/`
-- [ ] Bruno: Legacy Meta tag 39 in GTM-KHQP88V (`conversion_*` Lead) **paused**
+- [ ] Site deployed with `/obrigado/` and `trackMetaLead` after CRM success
+- [ ] Bruno: Meta Lead tag in GTM-NVWQ3PF2 on Custom Event **`meta_lead`** (standard Pixel Lead)
+- [ ] Bruno: Pause Contact/Lead on Page Path `/obrigado/`, LP form submit, or `conversion_*`
+- [ ] Bruno: Legacy Meta tag 39 in GTM-KHQP88V **paused**
 - [ ] Bruno: Google Ads tag 35 **unchanged** (no URL-based Ads conversion)
-- [ ] Test: successful form → 1 Meta Lead (URL) + 1 Google Ads Lead (event)
+- [ ] Test: successful form → 1 Meta Lead (navegador) + 1 Google Ads Lead (event)
 - [ ] Test: direct visit `/obrigado/` → redirect to `/contato/`, no conversions
 - [ ] Test: CRM failure → no redirect, no conversions
 
-## GTM handoff (Bruno)
+## GTM handoff (agência — ajuste mínimo)
 
-URL: `https://auditik.com.br/obrigado/` (trailing slash required).
+**Frase única:** No site, Lead do Meta é o dataLayer **`meta_lead`** em `/obrigado/` depois do formulário. No GTM-NVWQ3PF2, mapear esse Custom Event para o Pixel padrão **Lead** e publicar. PageView não mexe. Não usar URL da LP nem Contact como conversão web.
 
-**GTM-NVWQ3PF2 (Meta):**
+### Passos GTM-NVWQ3PF2 (mínimo)
 
-1. Create Meta Lead with trigger **Page Path contains** `/obrigado/`.
-2. PageView on All Pages + Custom Event `page_view`.
-3. Schedule on `conversion_appointment_scheduled`.
+1. Trigger: Evento personalizado = **`meta_lead`**
+2. Tag Pixel: evento padrão **Lead** (`fbq('track','Lead')`) — reaproveitar a tag Contact do teste (trocar Contact → Lead) ou criar `Meta Ads - Lead - Web`
+3. Pausar Contact/Lead duplicados por Page Path `/obrigado/` ou submit da LP
+4. **Publicar** o container
+5. Não alterar PageView; não criar tag Meta em GTM-KHQP88V
 
-**GTM-KHQP88V (legacy — keep Meta paused):**
+### Validação (LP Americana → obrigado)
+
+1. Deploy do site com `meta_lead`
+2. `/lp/americana-philips/` → enviar form → “Recebemos seus dados”
+3. Console: `(window.dataLayer || []).filter(e => e && e.event === "meta_lead")` — **1** objeto
+4. Preview NVWQ3PF2: tag Lead Fired
+5. Testar eventos / Pixel Helper: **Lead**, URL `https://auditik.com.br/obrigado/`, origem Navegador
+
+Controles: visita direta `/obrigado/` → `/contato/`, zero Lead; CRM falhou → sem redirect, zero Lead.
+
+### GTM-KHQP88V (legado — Meta pausado)
 
 1. **Pause** Meta tags 38, 39, 44 (and any Facebook/CAPI tags).
 2. **Do not** add Google Ads conversion on `/obrigado/` URL — tag 35 stays on `google_ads_conversion` + `conversion_type = contact`.
-3. Yellow contact forms and WhatsApp modal (all pages) redirect here only after successful CRM submit.
+3. Forms and WhatsApp modal redirect to `/obrigado/` only after successful CRM submit.
 
-Validate in GTM Preview + Pixel Helper: one Meta Lead per successful submit, one Google Ads Lead via dataLayer event, no duplicates.
+Validate in GTM Preview (NVWQ3PF2) + Pixel Helper + Test Events: one Meta Lead per successful submit, one Google Ads Lead via dataLayer event, no duplicates.
 
 ## Go-Live Checklist (legacy)
 

@@ -19,11 +19,11 @@ const pushGoogleAdsConversion = (conversionType: GoogleAdsConversionKind, params
 /**
  * Cross-platform conversion mapping.
  *
- * Meta Lead / Schedule: fired by GTM-NVWQ3PF2 from dataLayer (site does not call fbq).
- * Google Ads: this helper still pushes `google_ads_conversion` for GTM.
+ * Meta Lead: site emits `meta_lead` via `trackMetaLead` on `/obrigado/` (GTM-NVWQ3PF2
+ *   Custom Event → Pixel standard Lead). This helper does **not** push Meta Lead.
+ * Meta Schedule: GTM-NVWQ3PF2 on `conversion_appointment_scheduled`.
+ * Google Ads: this helper pushes `google_ads_conversion` for GTM-KHQP88V.
  *
- * Meta Lead goals: GTM-NVWQ3PF2 Page Path `/obrigado/` (legacy tag 39 on `conversion_*` paused).
- * Meta Schedule goal: `appointment_scheduled` (real booking — not LP request).
  * Clicks (`whatsapp_click`, `phone_call_initiated`) stay Google Ads / GTM only.
  * `free_evaluation_requested` is intentionally a no-op for ads platforms
  *   (request ≠ scheduled appointment).

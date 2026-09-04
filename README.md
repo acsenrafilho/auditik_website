@@ -324,13 +324,13 @@ Configure both env vars in `.env.local` (defaults match the IDs above if unset).
 | Ação no site | dataLayer | Meta (GTM-NVWQ3PF2) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (All Pages + `page_view`) | Page View (tag 34, All Pages) |
-| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | Lead via **Page Path** `/obrigado/` | Lead (tag 35) |
+| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; **`meta_lead`** + `conversion_*` + `google_ads_conversion` (`contact`) | Lead via Custom Event **`meta_lead`** | Lead (tag 35) |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
 | `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule | (evento emitido; sem tag Ads dedicada) |
-| Forminator / `gtm.formSubmission` | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
+| Forminator / `gtm.formSubmission` / LP form event | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona) | Nenhum | Nenhum |
 
-See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for details.
+See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for details (agency GTM handoff: Custom Event `meta_lead` → Pixel Lead).
 
 ## 🎨 Customization
 

@@ -83,11 +83,10 @@ export const trackLinkClick = (linkName: string, params?: EventParams) => {
 };
 
 /**
- * Track conversion goal: dataLayer `conversion_*` (GTM Meta tags) + Google Ads
- * fan-out via `trackCrossPlatformConversion`.
+ * Track conversion goal: dataLayer `conversion_*` + Google Ads fan-out via
+ * `trackCrossPlatformConversion`. Does **not** emit Meta Lead — use `trackMetaLead`.
  *
- * Meta Lead (GTM-NVWQ3PF2): Page Path `/obrigado/` after CRM success (legacy tag 39 paused).
- * Google Ads Lead (GTM): `contact_form_submit` / `whatsapp_lead_submitted` via
+ * Google Ads Lead (GTM-KHQP88V): `contact_form_submit` / `whatsapp_lead_submitted` via
  *   `trackConversion` on `/obrigado/` → `google_ads_conversion` (tag 35).
  *
  * Usage: trackConversion('contact_form_submit', { location: 'piracicaba' })
@@ -99,6 +98,27 @@ export const trackConversion = (goalName: string, params?: EventParams) => {
   });
 
   trackCrossPlatformConversion(goalName, params);
+};
+
+export type MetaLeadType = "contact" | "whatsapp";
+
+export interface MetaLeadParams extends EventParams {
+  lead_type: MetaLeadType;
+}
+
+/**
+ * Meta Lead signal for GTM-NVWQ3PF2 (Custom Event `meta_lead` → Pixel standard Lead).
+ * Call only on `/obrigado/` after CRM success — not from LP form submit, clicks, or Schedule.
+ *
+ * Usage: trackMetaLead({ lead_type: 'contact', lead_source: 'Website Contato', page: 'obrigado' })
+ */
+export const trackMetaLead = (params: MetaLeadParams) => {
+  const { lead_type, ...rest } = params;
+  pushToDataLayer({
+    ...rest,
+    lead_type,
+    event: "meta_lead",
+  });
 };
 
 /**
@@ -166,7 +186,7 @@ export const trackVideoEvent = (
  *
  * Ads mapping:
  * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → fired on `/obrigado/` after CRM OK
- *   (Google Ads via `trackCrossPlatformConversion`; Meta via GTM Page Path)
+ *   (Google Ads via `trackCrossPlatformConversion`; Meta via `trackMetaLead` → GTM CE `meta_lead`)
  * - APPOINTMENT_SCHEDULED → dataLayer (GTM-NVWQ3PF2 Meta Schedule) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
  * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)
