@@ -215,14 +215,18 @@ export default function Home() {
     setFormError("");
 
     try {
-      await submitLeadToCRM({
-        fullName: formData.nome,
-        phone: formData.whatsapp,
-        city: formData.cidade,
-        paraQuem: formData.paraQuem,
-        fallbackSource: "Website Home",
-        formName: "Website Home",
-      });
+      try {
+        await submitLeadToCRM({
+          fullName: formData.nome,
+          phone: formData.whatsapp,
+          city: formData.cidade,
+          paraQuem: formData.paraQuem,
+          fallbackSource: "Website Home",
+          formName: "Website Home",
+        });
+      } catch (crmError) {
+        console.error("Home CRM submission error:", crmError);
+      }
 
       trackFormSubmit("contact_form", {
         page: "home",

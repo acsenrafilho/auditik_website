@@ -1,6 +1,6 @@
 /**
  * Site measurement signals for Google Tag Manager (dataLayer).
- * GA4 / Google Ads: GTM-KHQP88V. Meta Pixel: GTM-NVWQ3PF2 (shared dataLayer).
+ * GTM-KHQP88V: GA4 + Google Ads + Meta Pixel (PageView / Lead on meta_lead / Schedule).
  */
 
 import { trackCrossPlatformConversion } from "@lib/ad-platform-tracking";
@@ -108,9 +108,9 @@ export interface MetaLeadParams extends EventParams {
 
 /**
  * Meta Lead dataLayer signal (Custom Event `meta_lead`).
- * Fired from `markThankYouSuccess` on the form page after CRM OK — not on `/obrigado/`,
- * clicks, or Schedule. GTM maps this to Pixel standard Lead when browser fbq is off
- * (`NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false`).
+ * Fired from `markThankYouSuccess` on the form page — not on `/obrigado/`, clicks, or Schedule.
+ * GTM-KHQP88V tag 49 maps this to Pixel standard Lead
+ * (`NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production).
  *
  * Usage: trackMetaLead({ lead_type: 'contact', lead_source: 'Website Contato', page: '/lp/...' })
  */
@@ -188,7 +188,7 @@ export const trackVideoEvent = (
  *
  * Ads mapping:
  * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → Meta Lead on form page via
- *   `markThankYouSuccess` (`meta_lead` + optional browser fbq); Google Ads on `/obrigado/`
+ *   `markThankYouSuccess` (`meta_lead` → GTM tag 49); Google Ads on `/obrigado/`
  *   via `trackConversion` → `google_ads_conversion` (tag 35)
  * - APPOINTMENT_SCHEDULED → dataLayer (Meta Schedule in GTM) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)

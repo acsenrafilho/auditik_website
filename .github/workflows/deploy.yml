@@ -43,8 +43,8 @@ jobs:
         run: npm ci
 
       # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
-      # Tracking: dual GTM — NEXT_PUBLIC_GTM_ID (GA4/Ads) + NEXT_PUBLIC_GTM_ID_META (Meta Pixel).
-      # Cutover: set NEXT_PUBLIC_GTM_ID_META to empty and NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false.
+      # Tracking: GTM-KHQP88V (GA4/Ads/Meta). Cutover: NEXT_PUBLIC_GTM_ID_META empty +
+      # NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false (GTM tag 49 on CE meta_lead).
       # Tina: client id + token required for CMS build.
       - name: Validate required environment variables for build
         run: |
@@ -76,7 +76,8 @@ jobs:
           echo "Checking Google Tag Manager containers…"
           require_nonempty NEXT_PUBLIC_GTM_ID
           require_regex NEXT_PUBLIC_GTM_ID '^GTM-[A-Za-z0-9]+$'
-          # Dual-GTM: GTM-NVWQ3PF2. Single-container cutover: leave META empty (do not omit the var if you rely on “unset → default”).
+          # Single-container cutover: leave META empty (do not omit the GitHub var —
+          # code defaults unset → GTM-NVWQ3PF2). Optional legacy dual-GTM: set a GTM-… id.
           if [ -n "${NEXT_PUBLIC_GTM_ID_META:-}" ]; then
             require_regex NEXT_PUBLIC_GTM_ID_META '^GTM-[A-Za-z0-9]+$'
           else

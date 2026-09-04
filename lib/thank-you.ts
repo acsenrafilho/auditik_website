@@ -95,8 +95,10 @@ const fireBrowserMetaLead = async (eventID: string): Promise<void> => {
 };
 
 /**
- * After CRM success: persist thank-you token, fire Meta Lead on this page,
- * optionally open WhatsApp, then redirect to /obrigado/ (Google Ads fires there).
+ * After a validated form submit: persist thank-you token, emit Meta Lead (`meta_lead`
+ * → GTM; optional browser fbq if META_LEAD_BROWSER_FBQ), optionally open WhatsApp,
+ * then redirect to /obrigado/ (Google Ads fires there). Callers may invoke this even
+ * when the CRM POST fails so Meta Lead is not blocked by CRM status.
  */
 export const markThankYouSuccess = async (
   payload: Omit<ThankYouToken, "ts">,

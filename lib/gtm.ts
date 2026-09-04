@@ -1,12 +1,12 @@
 /**
- * GTM-KHQP88V — GA4 + Google Ads (NEXT_PUBLIC_GTM_ID).
- * GTM-NVWQ3PF2 — Meta Pixel only (NEXT_PUBLIC_GTM_ID_META) during dual-GTM test.
- * Both share window.dataLayer; Meta tags in the legacy container must stay paused
- * while NEXT_PUBLIC_GTM_ID_META is set.
+ * GTM-KHQP88V — GA4 + Google Ads + Meta Pixel (NEXT_PUBLIC_GTM_ID).
  *
- * Cutover to single container (KHQP88V): set NEXT_PUBLIC_GTM_ID_META to empty
- * (variable present but blank — do not leave unset, or the default NVWQ3PF2 applies),
- * set NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false, unpause Meta tags 38/39/44 in KHQP88V.
+ * Cutover (default production): set NEXT_PUBLIC_GTM_ID_META to empty string
+ * (variable present but blank — do not leave unset, or the legacy NVWQ3PF2 default applies),
+ * and set NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false so GTM tag 49 owns Pixel Lead on CE meta_lead.
+ *
+ * Dual-GTM (legacy test): set NEXT_PUBLIC_GTM_ID_META=GTM-NVWQ3PF2 and pause Meta tags
+ * in KHQP88V while the second container owns Pixel.
  */
 
 /** True when env is unset; false when explicitly set to "" (cutover). */
@@ -19,9 +19,8 @@ export const GTM_ID_META = (
 ).trim();
 
 /**
- * When true (default), after CRM OK the site calls fbq('track','Lead') on the form page
- * so Meta Test Events sees Lead before redirect to /obrigado/.
- * Set to "false" when Meta Lead is fired only by GTM (tag 39 on Custom Event meta_lead).
+ * When true, after form submit the site calls fbq('track','Lead') on the form page.
+ * Production cutover: set to "false" — GTM tag 49 fires standard Lead on Custom Event meta_lead.
  */
 export const META_LEAD_BROWSER_FBQ = (
   process.env.NEXT_PUBLIC_META_LEAD_BROWSER_FBQ ?? "true"
