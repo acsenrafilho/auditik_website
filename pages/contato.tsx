@@ -95,7 +95,7 @@ export default function ContatoPage() {
         para_quem: formData.paraQuem,
       });
 
-      markThankYouSuccess({
+      await markThankYouSuccess({
         form: "contact",
         source: "Website Contato",
       });

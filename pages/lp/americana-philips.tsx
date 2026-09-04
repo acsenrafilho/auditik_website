@@ -362,7 +362,7 @@ export default function LpAmericanaPhilipsPage() {
         page: "lp/americana-philips",
       });
 
-      markThankYouSuccess({
+      await markThankYouSuccess({
         form: "contact",
         source: LEAD_SOURCE,
       });

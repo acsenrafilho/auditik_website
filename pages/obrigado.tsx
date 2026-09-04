@@ -7,7 +7,6 @@ import {
   CONVERSION_GOALS,
   trackConversion,
   trackEvent,
-  trackMetaLead,
 } from "@lib/analytics";
 import { APP_ROUTES } from "@lib/routes";
 import { getSEOMeta } from "@lib/seo";
@@ -44,17 +43,14 @@ export default function ObrigadoPage() {
 
     conversionFired.current = true;
 
+    // Meta Lead already fired on the form page via markThankYouSuccess.
+    // /obrigado/ only records Google Ads Lead (and UX).
     const baseParams = {
       page: "obrigado",
       page_type: "thank_you",
       lead_source: token.source,
       form_name: token.form,
     };
-
-    trackMetaLead({
-      lead_type: token.form,
-      ...baseParams,
-    });
 
     if (token.form === "contact") {
       trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, baseParams);

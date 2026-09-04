@@ -130,13 +130,13 @@ export function WhatsAppLeadButton({
       const encodedMessage = encodeURIComponent(whatsappMessage);
       const whatsappUrl = `https://wa.me/${BRAZIL_WHATSAPP_PHONE}?text=${encodedMessage}`;
 
-      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       trackEvent("whatsapp_chat_opened_after_lead", metrics);
 
       setIsModalOpen(false);
       setFormData({ fullName: "", phone: "", city: "" });
 
-      markThankYouSuccess({
+      // Opens WhatsApp after Meta Lead (inside markThankYouSuccess), then redirects.
+      await markThankYouSuccess({
         form: "whatsapp",
         source: leadSource,
         whatsappUrl,

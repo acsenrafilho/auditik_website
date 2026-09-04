@@ -19,9 +19,9 @@ const pushGoogleAdsConversion = (conversionType: GoogleAdsConversionKind, params
 /**
  * Cross-platform conversion mapping.
  *
- * Meta Lead: site emits `meta_lead` via `trackMetaLead` on `/obrigado/` (GTM-NVWQ3PF2
- *   Custom Event → Pixel standard Lead). This helper does **not** push Meta Lead.
- * Meta Schedule: GTM-NVWQ3PF2 on `conversion_appointment_scheduled`.
+ * Meta Lead: site emits `meta_lead` (+ optional browser fbq) via `markThankYouSuccess`
+ *   on the form page after CRM OK. This helper does **not** push Meta Lead.
+ * Meta Schedule: GTM on `conversion_appointment_scheduled`.
  * Google Ads: this helper pushes `google_ads_conversion` for GTM-KHQP88V.
  *
  * Clicks (`whatsapp_click`, `phone_call_initiated`) stay Google Ads / GTM only.

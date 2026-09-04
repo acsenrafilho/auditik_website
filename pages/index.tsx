@@ -230,7 +230,7 @@ export default function Home() {
         para_quem: formData.paraQuem,
       });
 
-      markThankYouSuccess({
+      await markThankYouSuccess({
         form: "contact",
         source: "Website Home",
       });

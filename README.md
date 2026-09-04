@@ -249,7 +249,9 @@ See `.env.example` for all required variables:
 - `AWS_S3_BUCKET` - S3 bucket name
 - `CLOUDFRONT_DISTRIBUTION_ID` - CloudFront distribution ID
 - `NEXT_PUBLIC_GTM_ID` - GTM container for GA4 + Google Ads (`GTM-KHQP88V`)
-- `NEXT_PUBLIC_GTM_ID_META` - GTM container for Meta Pixel only (`GTM-NVWQ3PF2`)
+- `NEXT_PUBLIC_GTM_ID_META` - GTM container for Meta Pixel only (`GTM-NVWQ3PF2`); empty = cutover to KHQP88V-only
+- `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` - `true` (default): site calls `fbq('track','Lead')` on form page after CRM OK; `false` when GTM owns Lead
+- `NEXT_PUBLIC_META_PIXEL_ID` - Optional Pixel ID for `trackSingle` (e.g. `856128025882243`)
 
 ## 🚀 Deployment
 
@@ -315,22 +317,22 @@ Dual GTM containers share the same `dataLayer`:
 - **GTM-KHQP88V** (`NEXT_PUBLIC_GTM_ID`) — GA4 + Google Ads
 - **GTM-NVWQ3PF2** (`NEXT_PUBLIC_GTM_ID_META`) — Meta Pixel (isolated test container)
 
-The site only pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). Meta Pixel is **not** loaded by Next.js. Meta tags in GTM-KHQP88V must stay **paused** while the test runs.
+The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). GTM loads the Meta Pixel. After CRM OK, `markThankYouSuccess` emits **`meta_lead`** and (when `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` is true) calls `fbq('track','Lead')` on the **form page** so Meta Test Events sees Lead before `/obrigado/`. Meta tags in GTM-KHQP88V must stay **paused** while dual-GTM + browser Lead run.
 
-Configure both env vars in `.env.local` (defaults match the IDs above if unset).
+Configure env vars in `.env.local` (see `.env.example`). Cutover to KHQP88V-only: empty `NEXT_PUBLIC_GTM_ID_META`, `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false`, unpause Meta tags 38/39/44.
 
 ### Conversion contract (ops)
 
 | Ação no site | dataLayer | Meta (GTM-NVWQ3PF2) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (All Pages + `page_view`) | Page View (tag 34, All Pages) |
-| Form / WhatsApp lead após CRM OK | Redirect → `/obrigado/`; **`meta_lead`** + `conversion_*` + `google_ads_conversion` (`contact`) | Lead via Custom Event **`meta_lead`** | Lead (tag 35) |
+| Form / WhatsApp lead após CRM OK | Form page: **`meta_lead`** (+ browser `fbq` Lead); then `/obrigado/` → `conversion_*` + `google_ads_conversion` (`contact`) | Lead on form page | Lead (tag 35) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
 | `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule | (evento emitido; sem tag Ads dedicada) |
 | Forminator / `gtm.formSubmission` / LP form event | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona) | Nenhum | Nenhum |
 
-See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for details (agency GTM handoff: Custom Event `meta_lead` → Pixel Lead).
+See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for dual-GTM test and cutover checklist.
 
 ## 🎨 Customization
 
