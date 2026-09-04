@@ -10,18 +10,19 @@ function isLandingPath(pathname: string): boolean {
 }
 
 /**
- * Loads both GTM containers on the same schedule (shared dataLayer).
- * GTM-KHQP88V: GA4 + Google Ads. GTM-NVWQ3PF2: Meta Pixel only.
- * On /lp/*, waits for idle (~3.5s) or first user interaction — whichever comes first.
+ * Loads GTM containers (shared dataLayer).
+ * GTM-KHQP88V: GA4 + Google Ads — deferred on /lp/* (idle ~3.5s or first interaction).
+ * GTM-NVWQ3PF2: Meta Pixel — afterInteractive everywhere (including LPs) so fbq is
+ * ready before form submit / Lead.
  */
 export function DeferredMarketingScripts() {
   const router = useRouter();
   const onLp = isLandingPath(router.pathname);
-  const [lpReady, setLpReady] = useState(false);
+  const [lpAdsReady, setLpAdsReady] = useState(false);
 
   useEffect(() => {
     if (!onLp) {
-      setLpReady(false);
+      setLpAdsReady(false);
       return;
     }
 
@@ -29,7 +30,7 @@ export function DeferredMarketingScripts() {
     const load = () => {
       if (loaded) return;
       loaded = true;
-      setLpReady(true);
+      setLpAdsReady(true);
       cleanup();
     };
 
@@ -63,24 +64,24 @@ export function DeferredMarketingScripts() {
     return cleanup;
   }, [onLp, router.pathname]);
 
-  const shouldLoad = !onLp || lpReady;
-  const scriptStrategy = onLp ? "lazyOnload" : "afterInteractive";
+  const shouldLoadAds = !onLp || lpAdsReady;
+  const adsStrategy = onLp ? "lazyOnload" : "afterInteractive";
 
   return (
     <>
-      {GTM_ID && shouldLoad ? (
+      {GTM_ID && shouldLoadAds ? (
         <Script
           id="gtm-bootstrap"
-          strategy={scriptStrategy}
+          strategy={adsStrategy}
           dangerouslySetInnerHTML={{
             __html: buildGtmBootstrapScript(GTM_ID),
           }}
         />
       ) : null}
-      {GTM_ID_META && shouldLoad ? (
+      {GTM_ID_META ? (
         <Script
           id="gtm-bootstrap-meta"
-          strategy={scriptStrategy}
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: buildGtmBootstrapScript(GTM_ID_META),
           }}

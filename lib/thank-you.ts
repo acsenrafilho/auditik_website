@@ -3,9 +3,9 @@ import { META_LEAD_BROWSER_FBQ, META_PIXEL_ID } from "@lib/gtm";
 import { APP_ROUTES } from "@lib/routes";
 
 const STORAGE_KEY = "auditik_thankyou";
-const FBQ_WAIT_MS = 2000;
+const FBQ_WAIT_MS = 8000;
 const FBQ_POLL_MS = 50;
-const PIXEL_FLUSH_MS = 400;
+const PIXEL_FLUSH_MS = 1000;
 
 export type ThankYouFormKind = "contact" | "whatsapp";
 
@@ -29,11 +29,46 @@ const wait = (ms: number): Promise<void> =>
     window.setTimeout(resolve, ms);
   });
 
+const createEventId = (): string => {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `lead_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`;
+};
+
+const buildMetaLeadPixelUrl = (eventID: string): string => {
+  const params = new URLSearchParams({
+    id: META_PIXEL_ID,
+    ev: "Lead",
+    noscript: "1",
+    eid: eventID,
+  });
+  return `https://www.facebook.com/tr?${params.toString()}`;
+};
+
+/** Noscript-style pixel when fbq is unavailable (requires META_PIXEL_ID). */
+const fireImagePixelLead = (eventID: string): void => {
+  if (!META_PIXEL_ID) return;
+
+  const url = buildMetaLeadPixelUrl(eventID);
+
+  try {
+    if (typeof navigator.sendBeacon === "function") {
+      navigator.sendBeacon(url);
+    }
+  } catch {
+    // ignore beacon failures; image fallback below
+  }
+
+  const img = new Image();
+  img.src = url;
+};
+
 /**
  * Wait for GTM-initialized fbq, then fire standard Lead (browser).
- * Used so Meta Test Events sees Lead on the form URL before redirect.
+ * Falls back to image/beacon pixel if fbq never becomes ready.
  */
-const fireBrowserMetaLead = async (): Promise<void> => {
+const fireBrowserMetaLead = async (eventID: string): Promise<void> => {
   if (!META_LEAD_BROWSER_FBQ) return;
 
   const started = Date.now();
@@ -41,15 +76,19 @@ const fireBrowserMetaLead = async (): Promise<void> => {
     await wait(FBQ_POLL_MS);
   }
 
-  if (typeof window.fbq !== "function") {
-    console.warn("Meta Pixel fbq not ready; Lead not sent via browser.");
-    return;
-  }
+  const eventData = {};
+  const eventOptions = { eventID };
 
-  if (META_PIXEL_ID) {
-    window.fbq("trackSingle", META_PIXEL_ID, "Lead");
+  if (typeof window.fbq === "function") {
+    if (META_PIXEL_ID) {
+      window.fbq("trackSingle", META_PIXEL_ID, "Lead", eventData, eventOptions);
+      window.fbq("track", "Lead", eventData, eventOptions);
+    } else {
+      window.fbq("track", "Lead", eventData, eventOptions);
+    }
   } else {
-    window.fbq("track", "Lead");
+    console.warn("Meta Pixel fbq not ready; using image/beacon Lead fallback.");
+    fireImagePixelLead(eventID);
   }
 
   await wait(PIXEL_FLUSH_MS);
@@ -75,13 +114,16 @@ export const markThankYouSuccess = async (
     console.warn("Unable to persist thank-you token.", error);
   }
 
+  const eventID = createEventId();
+
   trackMetaLead({
     lead_type: payload.form,
     lead_source: payload.source,
     page: window.location.pathname,
+    eventID,
   });
 
-  await fireBrowserMetaLead();
+  await fireBrowserMetaLead(eventID);
 
   if (payload.whatsappUrl) {
     window.open(payload.whatsappUrl, "_blank", "noopener,noreferrer");

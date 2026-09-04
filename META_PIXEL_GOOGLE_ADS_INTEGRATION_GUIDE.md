@@ -436,6 +436,8 @@ Quarterly:
 4. Console na LP (ou GTM Preview): `meta_lead` no dataLayer **1** vez; `/obrigado/` sem segundo Lead
 5. Pixel Helper: Pixel **`856128025882243`**
 
+Reforço de entrega (site): GTM Meta (`GTM-NVWQ3PF2`) carrega com `afterInteractive` nas LPs (Pixel pronto antes do submit); após CRM OK o Lead espera `fbq` até 8s, faz flush de 1s antes do redirect, e usa fallback imagem/`sendBeacon` se `fbq` não estiver pronto (`eventID` compartilhado no dataLayer e no Pixel).
+
 Controles: visita direta `/obrigado/` → `/contato/`, zero Lead; CRM falhou → sem redirect, zero Lead.
 
 ## Cutover checklist (dual GTM → KHQP88V only)
