@@ -249,7 +249,7 @@ See `.env.example` for all required variables:
 - `AWS_S3_BUCKET` - S3 bucket name
 - `CLOUDFRONT_DISTRIBUTION_ID` - CloudFront distribution ID
 - `NEXT_PUBLIC_GTM_ID` - GTM container for GA4 + Google Ads + Meta (`GTM-KHQP88V`)
-- `NEXT_PUBLIC_GTM_ID_META` - Leave **empty** in production (single-container cutover). If unset in code defaults, legacy NVWQ3PF2 would load — set the GitHub variable to blank, do not delete it.
+- `NEXT_PUBLIC_GTM_ID_META` - Production cutover: set to **`empty`** (GitHub cannot store blank). Also accepts `none` / `off` / `-`. Unset still defaults to legacy NVWQ3PF2 — do not delete the variable.
 - `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` - Production: `false` (GTM tag 49 owns Lead on `meta_lead`)
 - `NEXT_PUBLIC_META_PIXEL_ID` - Optional Pixel ID for browser `trackSingle` fallback (e.g. `856128025882243`)
 
@@ -316,7 +316,7 @@ Single GTM container:
 
 - **GTM-KHQP88V** (`NEXT_PUBLIC_GTM_ID`) — GA4 + Google Ads + Meta Pixel
 
-The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` emits **`meta_lead`**; GTM tag **49** fires Meta standard Lead. Google Ads Lead fires on `/obrigado/` (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META` empty and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production.
+The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` emits **`meta_lead`**; GTM tag **49** fires Meta standard Lead. Google Ads Lead fires on `/obrigado/` (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production.
 
 ### Conversion contract (ops)
 

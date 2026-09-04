@@ -43,8 +43,8 @@ jobs:
         run: npm ci
 
       # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
-      # Tracking: GTM-KHQP88V (GA4/Ads/Meta). Cutover: NEXT_PUBLIC_GTM_ID_META empty +
-      # NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false (GTM tag 49 on CE meta_lead).
+      # Tracking: GTM-KHQP88V (GA4/Ads/Meta). Cutover: NEXT_PUBLIC_GTM_ID_META=empty
+      # (GitHub cannot store blank vars) + NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false.
       # Tina: client id + token required for CMS build.
       - name: Validate required environment variables for build
         run: |
@@ -69,6 +69,16 @@ jobs:
             [[ "$val" == https://* ]] || fail "$name must start with https:// (got: ${val:0:40})"
           }
 
+          is_meta_gtm_cutover() {
+            local val="${1:-}"
+            local lower
+            lower=$(printf '%s' "$val" | tr '[:upper:]' '[:lower:]')
+            case "$lower" in
+              ""|empty|none|off|-|disabled) return 0 ;;
+              *) return 1 ;;
+            esac
+          }
+
           echo "Checking TinaCMS (build-time)…"
           require_nonempty NEXT_PUBLIC_TINA_CLIENT_ID
           require_nonempty TINA_TOKEN
@@ -76,12 +86,12 @@ jobs:
           echo "Checking Google Tag Manager containers…"
           require_nonempty NEXT_PUBLIC_GTM_ID
           require_regex NEXT_PUBLIC_GTM_ID '^GTM-[A-Za-z0-9]+$'
-          # Single-container cutover: leave META empty (do not omit the GitHub var —
-          # code defaults unset → GTM-NVWQ3PF2). Optional legacy dual-GTM: set a GTM-… id.
-          if [ -n "${NEXT_PUBLIC_GTM_ID_META:-}" ]; then
-            require_regex NEXT_PUBLIC_GTM_ID_META '^GTM-[A-Za-z0-9]+$'
+          # Cutover: empty / empty|none|off|-|disabled (GitHub Variables cannot be blank).
+          # Dual-GTM: a real GTM-… id. Unset var still defaults to NVWQ3PF2 in lib/gtm.ts.
+          if is_meta_gtm_cutover "${NEXT_PUBLIC_GTM_ID_META:-}"; then
+            echo "NEXT_PUBLIC_GTM_ID_META='${NEXT_PUBLIC_GTM_ID_META:-}' → KHQP88V-only cutover (no second GTM)."
           else
-            echo "NEXT_PUBLIC_GTM_ID_META is empty — Meta snippet will not load (KHQP88V-only cutover)."
+            require_regex NEXT_PUBLIC_GTM_ID_META '^GTM-[A-Za-z0-9]+$'
           fi
 
           echo "Checking lead proxy and convênios activation…"

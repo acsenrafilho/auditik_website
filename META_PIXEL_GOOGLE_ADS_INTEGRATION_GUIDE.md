@@ -1,6 +1,6 @@
 # Meta Pixel and Google Ads Integration Guide
 
-> **Single GTM (cutover):** Meta Pixel + GA4 + Google Ads run in **GTM-KHQP88V**. Agency container `GTM-NVWQ3PF2` is abandoned (`NEXT_PUBLIC_GTM_ID_META` empty).
+> **Single GTM (cutover):** Meta Pixel + GA4 + Google Ads run in **GTM-KHQP88V**. Agency container `GTM-NVWQ3PF2` is abandoned (`NEXT_PUBLIC_GTM_ID_META=empty`).
 >
 > **Lead:** Meta Lead fires on the **form page** via Custom Event **`meta_lead`** → tag **49** (before redirect). Google Ads Lead fires on `/obrigado/` via tag **35**.
 > - Meta Pixel is loaded by GTM (no Next.js Pixel bootstrap). Production: `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` (GTM owns Lead).
@@ -406,7 +406,7 @@ Quarterly:
 ## Go-Live Checklist (KHQP88V single-container cutover)
 
 - [ ] GitHub Variable `NEXT_PUBLIC_GTM_ID` = `GTM-KHQP88V`
-- [ ] GitHub Variable `NEXT_PUBLIC_GTM_ID_META` = **empty string** (variable present, blank)
+- [ ] GitHub Variable `NEXT_PUBLIC_GTM_ID_META` = **`empty`** (GitHub cannot store blank; also `none` / `off` / `-`)
 - [ ] GitHub Variable `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` = `false`
 - [ ] Site redeployed; HTML has only `GTM-KHQP88V` (no `GTM-NVWQ3PF2`)
 - [ ] GTM live: tag **49** on CE **50** (`meta_lead`), `oncePerEvent`; tag **35** unchanged
