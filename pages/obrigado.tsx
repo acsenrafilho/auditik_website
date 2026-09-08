@@ -43,7 +43,8 @@ export default function ObrigadoPage() {
 
     conversionFired.current = true;
 
-    // Meta Lead fires via GTM HTML tag on this page load (DOM Ready).
+    // Meta: GTM fires custom LeadFormSubmit on this page load (DOM Ready).
+    // Standard Lead is suppressed (health data-source restriction).
     // This page only emits Google Ads Lead via trackConversion.
     const baseParams = {
       page: "obrigado",

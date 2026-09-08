@@ -84,7 +84,7 @@ export const trackLinkClick = (linkName: string, params?: EventParams) => {
 
 /**
  * Track conversion goal: dataLayer `conversion_*` + Google Ads fan-out via
- * Does **not** emit Meta Lead — Meta Lead fires via GTM on `/obrigado/`.
+ * Does **not** emit Meta conversion — GTM fires `LeadFormSubmit` on `/obrigado/`.
  *
  * Google Ads Lead (GTM-KHQP88V): `contact_form_submit` / `whatsapp_lead_submitted` via
  *   `trackConversion` on `/obrigado/` → `google_ads_conversion` (tag 35).
@@ -107,8 +107,8 @@ export interface MetaLeadParams extends EventParams {
 }
 
 /**
- * Legacy Custom Event `meta_lead` helper. Not used for Pixel Lead anymore —
- * Meta Lead fires via GTM on `/obrigado/` (DOM Ready). Kept for optional analytics.
+ * Legacy Custom Event `meta_lead` helper. Not used for Pixel conversion anymore —
+ * Meta fires `LeadFormSubmit` via GTM on `/obrigado/`. Kept for optional analytics.
  *
  * Usage: trackMetaLead({ lead_type: 'contact', lead_source: 'Website Contato', page: '/lp/...' })
  */
@@ -186,7 +186,7 @@ export const trackVideoEvent = (
  *
  * Ads mapping:
  * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → redirect `/obrigado/`:
- *   Meta Lead (GTM DOM Ready HTML) + Google Ads via `trackConversion` (tag 35)
+ *   Meta `LeadFormSubmit` (GTM) + Google Ads via `trackConversion` (tag 35)
  * - APPOINTMENT_SCHEDULED → dataLayer (Meta Schedule in GTM) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
  * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)

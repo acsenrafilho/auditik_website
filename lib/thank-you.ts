@@ -15,7 +15,7 @@ export const THANK_YOU_PATH = APP_ROUTES.obrigado;
 
 /**
  * After a validated form submit: persist thank-you token, optionally open WhatsApp,
- * then redirect to /obrigado/ (Meta Lead + Google Ads fire there via GTM). Callers may
+ * then redirect to /obrigado/ (Meta LeadFormSubmit + Google Ads fire there via GTM). Callers may
  * invoke this even when the CRM POST fails so the thank-you path is not blocked by CRM.
  */
 export const markThankYouSuccess = async (

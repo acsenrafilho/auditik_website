@@ -139,7 +139,7 @@ export function WhatsAppLeadButton({
       setIsModalOpen(false);
       setFormData({ fullName: "", phone: "", city: "" });
 
-      // Opens WhatsApp after Meta Lead (inside markThankYouSuccess), then redirects.
+      // Opens WhatsApp after thank-you token (inside markThankYouSuccess), then redirects.
       await markThankYouSuccess({
         form: "whatsapp",
         source: leadSource,

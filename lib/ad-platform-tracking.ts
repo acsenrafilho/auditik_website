@@ -19,8 +19,8 @@ const pushGoogleAdsConversion = (conversionType: GoogleAdsConversionKind, params
 /**
  * Cross-platform conversion mapping.
  *
- * Meta Lead: GTM fires on `/obrigado/` load (DOM Ready HTML). This helper does
- *   **not** push Meta Lead.
+ * Meta: GTM fires `LeadFormSubmit` (custom) on `/obrigado/` load. This helper does
+ *   **not** push Meta conversion events.
  * Meta Schedule: GTM on `conversion_appointment_scheduled`.
  * Google Ads: this helper pushes `google_ads_conversion` for GTM-KHQP88V.
  *

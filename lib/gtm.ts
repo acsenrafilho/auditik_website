@@ -4,7 +4,7 @@
  * Cutover (production): set NEXT_PUBLIC_GTM_ID_META to a cutover sentinel
  * (`empty`, `none`, `off`, or `-`) — GitHub Variables cannot be blank.
  * Do not leave the variable unset (unset still defaults to legacy NVWQ3PF2).
- * Set NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false — Meta Lead is GTM-only on /obrigado/.
+ * Set NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false — Meta conversion is GTM LeadFormSubmit on /obrigado/.
  *
  * Dual-GTM (legacy test): set NEXT_PUBLIC_GTM_ID_META=GTM-NVWQ3PF2 and pause Meta tags
  * in KHQP88V while the second container owns Pixel.
@@ -26,8 +26,8 @@ export const GTM_ID = (process.env.NEXT_PUBLIC_GTM_ID || "GTM-KHQP88V").trim();
 export const GTM_ID_META = resolveMetaGtmId(process.env.NEXT_PUBLIC_GTM_ID_META);
 
 /**
- * Legacy: when true, the site could call fbq('track','Lead') on the form page.
- * Production: keep "false" — Meta Lead fires only via GTM on /obrigado/ (DOM Ready HTML).
+ * Legacy: when true, the site could call fbq Lead on the form page.
+ * Production: keep "false" — Meta uses GTM trackCustom LeadFormSubmit on /obrigado/.
  */
 export const META_LEAD_BROWSER_FBQ = (
   process.env.NEXT_PUBLIC_META_LEAD_BROWSER_FBQ ?? "true"

@@ -2,11 +2,11 @@
 
 > **Single GTM (cutover):** Meta Pixel + GA4 + Google Ads run in **GTM-KHQP88V**. Agency container `GTM-NVWQ3PF2` is abandoned (`NEXT_PUBLIC_GTM_ID_META=empty`).
 >
-> **Lead:** Meta Lead fires on **`/obrigado/`** load via Custom HTML `fbq('track','Lead')` on **DOM Ready** (tag **52**, trigger **51**). Google Ads Lead fires on the same page via tag **35**.
+> **Lead (Meta):** Custom event **`LeadFormSubmit`** on **`/obrigado/`** via HTML `fbq('trackCustom','LeadFormSubmit')` on **DOM Ready** (tag **52**, trigger **51**). Standard `Lead` is **suppressed** by Meta health data-source restrictions — do not use it.
+> - Google Ads Lead fires on the same page via tag **35**.
 > - Meta Pixel is loaded by GTM (no Next.js Pixel bootstrap). Production: `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false`.
-> - Tag **49** (CE `meta_lead`) is **paused** — `meta_lead` is not a Pixel Lead source.
-> - Google Ads Lead: tag **35** on `google_ads_conversion` + `conversion_type = contact` (CE **46**).
-> - Meta PageView: tag **38** (All Pages + `page_view`). Schedule: tag **44** on `conversion_appointment_scheduled`.
+> - Tag **49** (CE `meta_lead`) is **paused**.
+> - Meta PageView: tag **38**. Schedule: tag **44** on `conversion_appointment_scheduled`.
 
 This document explains how engineering and traffic keep Meta Ads and Google Ads aligned with the site contract.
 
@@ -14,20 +14,20 @@ This document explains how engineering and traffic keep Meta Ads and Google Ads 
 
 1. Site emits stable dataLayer events via `trackConversion` / `trackPageView` / `trackButtonClick`; `markThankYouSuccess` only tokens + redirects to `/obrigado/`.
 2. **GTM-KHQP88V** fires GA4, Google Ads, and Meta Pixel tags.
-3. Legacy Forminator / `formSubmission` triggers may remain but must **not** fire Meta Lead or Ads Lead.
+3. Legacy Forminator / `formSubmission` triggers may remain but must **not** fire Meta or Ads lead conversions.
 
 ### Contract table
 
 | Ação no site | dataLayer | Meta (GTM-KHQP88V) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA navigation | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
-| Form / WhatsApp lead (form válido) | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | Lead (tag **52**, DOM Ready path `obrigado`) | Lead (tag 35, CE 46) on `/obrigado/` |
+| Form / WhatsApp lead (form válido) | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag **52**, DOM Ready path `obrigado`) | Lead (tag 35, CE 46) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
 | Agendamento real | `conversion_appointment_scheduled` | Schedule (tag 44) | (dataLayer only until Ads tag exists) |
-| Forminator / native form submit / LP form event | legado / `lp_*_form_submit` | Não é Lead | Não é Lead |
+| Forminator / native form submit / LP form event | legado / `lp_*_form_submit` | Não é conversão | Não é Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona para `/contato/`) | Nenhum | Nenhum |
 
-### GTM entities (live v31+)
+### GTM entities (live v32+)
 
 | ID | Nome | Papel |
 | --- | --- | --- |
@@ -36,9 +36,9 @@ This document explains how engineering and traffic keep Meta Ads and Google Ads 
 | 35 | Google Ads - Lead - Web | Dispara no CE 46 (`oncePerEvent`) |
 | 38 | Meta Ads - Page View - Web | All Pages + CE `page_view` |
 | 51 | `DOM Ready - path obrigado` | DOM Ready + Page Path contains `obrigado` |
-| 52 | Meta Ads - Lead - Web - obrigado | HTML `fbq('track','Lead')` on trigger 51 (`oncePerLoad`) |
-| 50 | `CE - meta_lead` | Legacy CE (tag 49 paused — not Pixel Lead) |
-| 49 | Meta Ads - Lead - Web - novo | **Paused** — was CE 50 |
+| 52 | Meta Ads - LeadFormSubmit - Web - obrigado | HTML `fbq('trackCustom','LeadFormSubmit')` on trigger 51 (`oncePerLoad`) |
+| 50 | `CE - meta_lead` | Legacy CE (tag 49 paused) |
+| 49 | Meta Ads - Lead - Web - novo | **Paused** — standard Lead unused |
 | 44 | Meta Ads - Schedule - Web | CE `conversion_appointment_scheduled` |
 
 ## Goal
@@ -54,9 +54,10 @@ Enable reliable conversion tracking for:
 Recommended for this website:
 
 - **Site (engineering):** push dataLayer (`lib/analytics.ts`, `lib/ad-platform-tracking.ts`); `markThankYouSuccess` persists token + redirects to `/obrigado/` (even if CRM POST fails after a valid form)
-- **GTM (ops):** Meta Pixel PageView (tag 38) + Lead on `/obrigado/` DOM Ready (tag 52) + Schedule (tag 44); Google Ads conversion tags; change tags without a deploy when the dataLayer contract is stable
+- **GTM (ops):** Meta Pixel PageView (tag 38) + **`LeadFormSubmit`** on `/obrigado/` DOM Ready (tag 52) + Schedule (tag 44); Google Ads conversion tags
+- **Meta Ads (tráfego):** optimize campaigns for **`LeadFormSubmit`**, not standard `Lead` (health restriction suppresses `Lead`)
 
-Do not re-introduce a full Meta Pixel bootstrap snippet in Next.js. Rely on GTM for `fbq` init and Lead on `/obrigado/`. Keep `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production.
+Do not re-introduce a full Meta Pixel bootstrap snippet in Next.js. Rely on GTM for `fbq` init and `LeadFormSubmit` on `/obrigado/`. Keep `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production.
 
 ## Prerequisites
 
@@ -80,8 +81,8 @@ Define conversion events before implementation.
 
 ### Primary conversions (optimize campaigns for these)
 
-- Contact form submitted (`contact_form_submit` → Meta Lead + Ads Lead)
-- WhatsApp lead submitted (same Lead path)
+- Contact form submitted (`contact_form_submit` → Meta `LeadFormSubmit` + Ads Lead)
+- WhatsApp lead submitted (same Meta `LeadFormSubmit` path)
 - Appointment scheduled (Meta Schedule when call site exists)
 - WhatsApp / phone click (Google dataLayer only today — not Ads Lead)
 
@@ -411,34 +412,36 @@ Quarterly:
 - [ ] GitHub Variable `NEXT_PUBLIC_GTM_ID_META` = **`empty`** (GitHub cannot store blank; also `none` / `off` / `-`)
 - [ ] GitHub Variable `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` = `false`
 - [ ] Site redeployed; HTML has only `GTM-KHQP88V` (no `GTM-NVWQ3PF2`)
-- [ ] GTM live: tag **52** on DOM Ready path `obrigado`; tag **49** paused; tag **35** unchanged
-- [ ] Test: LP americana submit → `/obrigado/` → Network `ev=PageView` then `ev=Lead`; Test Events: **Lead**
-- [ ] Test: contato / home / WhatsApp modal → same Meta Lead on `/obrigado/`
+- [ ] GTM live: tag **52** = `trackCustom('LeadFormSubmit')` on DOM Ready path `obrigado`; tag **49** paused; tag **35** unchanged
+- [ ] Test: LP americana submit → `/obrigado/` → console **sem** suppressed; Test Events: **LeadFormSubmit**
+- [ ] Test: contato / home / WhatsApp modal → same `LeadFormSubmit` on `/obrigado/`
 - [ ] Test: direct visit `/obrigado/` → redirect to `/contato/`, no conversions
-- [ ] Test: CRM network failure after valid form → still `/obrigado/` + Meta Lead
+- [ ] Test: CRM network failure after valid form → still `/obrigado/` + `LeadFormSubmit`
+- [ ] Meta Ads: campaigns optimize for **`LeadFormSubmit`**, not standard Lead
 
 ## Go-Live Checklist (thank-you page / Google Ads)
 
-- [ ] Site deployed with `/obrigado/` token gate; Meta Lead via GTM on this page load
+- [ ] Site deployed with `/obrigado/` token gate; Meta `LeadFormSubmit` via GTM on this page load
 - [ ] Google Ads tag 35 **unchanged** (no URL-based Ads conversion)
-- [ ] Test: form → Meta Lead + Google Ads Lead once on `/obrigado/`
+- [ ] Test: form → `LeadFormSubmit` + Google Ads Lead once on `/obrigado/`
 - [ ] Test: direct visit `/obrigado/` → redirect to `/contato/`, no conversions
 
 ## GTM handoff (ops)
 
-**Frase única:** Após formulário válido, Meta Lead e Google Ads Lead saem no load de **`/obrigado/`** (PageView → DOM Ready Lead HTML + Ads tag 35). Não depender de `meta_lead`, path da LP nem Form Submission.
+**Frase única:** Após formulário válido, Meta dispara **`LeadFormSubmit`** (custom) e Google Ads Lead no load de **`/obrigado/`**. Standard `Lead` é blocked pela restrição de saúde — não usar. Não depender de `meta_lead`, path da LP nem Form Submission.
 
 ### Validação (LP Americana → obrigado)
 
 1. Confirmar GitHub: `NEXT_PUBLIC_GTM_ID_META=empty`, `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false`
-2. Deploy do site + GTM publicado (Lead on `/obrigado/` DOM Ready)
+2. GTM publicado (v32+: `LeadFormSubmit` on `/obrigado/` DOM Ready)
 3. `/lp/americana-philips/` → enviar form → “Recebemos seus dados”
-4. Network na URL `/obrigado/`: um `ev=PageView` depois um `ev=Lead`
-5. Test Events (Pixel BM1): **Lead**
+4. Console: **sem** *restricted event… suppressed* para o custom
+5. Test Events (Pixel BM1): **LeadFormSubmit**
 6. GTM Preview **KHQP88V**: tag **52** Fired 1× no DOM Ready; tag **49** não dispara
-7. Pixel Helper: Pixel **`856128025882243`**
+7. Meta Ads Manager: otimização da campanha = **`LeadFormSubmit`**
+8. Pixel Helper: Pixel **`856128025882243`**
 
-Controles: visita direta `/obrigado/` → `/contato/`, zero Lead; form page sem `ev=Lead`; Form Submission / Forminator **não** disparam Meta Lead.
+Controles: visita direta `/obrigado/` → `/contato/`, zero conversão; `fbq('track','Lead')` manual continua suppressed (esperado); Form Submission / Forminator **não** disparam conversão Meta.
 
 ## Legacy notes (dual-GTM abandoned)
 

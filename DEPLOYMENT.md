@@ -140,7 +140,7 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | CLOUDFRONT_DISTRIBUTION_ID              | CloudFront distribution ID    | E1XXXXXXXXXXXXX                |
 | NEXT_PUBLIC_GTM_ID                      | GTM container (GA4 + Google Ads) | GTM-KHQP88V                    |
 | NEXT_PUBLIC_GTM_ID_META                 | Cutover sentinel (`empty` / `none` / `off` / `-`) | `empty` |
-| NEXT_PUBLIC_META_LEAD_BROWSER_FBQ       | `false` = Meta Lead GTM-only on `/obrigado/` | false |
+| NEXT_PUBLIC_META_LEAD_BROWSER_FBQ       | `false` = Meta `LeadFormSubmit` via GTM on `/obrigado/` | false |
 | NEXT_PUBLIC_META_PIXEL_ID               | Optional Pixel ID for trackSingle | 856128025882243 (optional) |
 | NEXT_PUBLIC_LEAD_PROXY_URL              | Lead proxy endpoint           | https://api.example.com/integrations/leads |
 | NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |

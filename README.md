@@ -250,7 +250,7 @@ See `.env.example` for all required variables:
 - `CLOUDFRONT_DISTRIBUTION_ID` - CloudFront distribution ID
 - `NEXT_PUBLIC_GTM_ID` - GTM container for GA4 + Google Ads + Meta (`GTM-KHQP88V`)
 - `NEXT_PUBLIC_GTM_ID_META` - Production cutover: set to **`empty`** (GitHub cannot store blank). Also accepts `none` / `off` / `-`. Unset still defaults to legacy NVWQ3PF2 — do not delete the variable.
-- `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` - Production: `false` (Meta Lead is GTM-only on `/obrigado/`)
+- `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` - Production: `false` (Meta = GTM `LeadFormSubmit` on `/obrigado/`)
 - `NEXT_PUBLIC_META_PIXEL_ID` - Optional / unused in cutover (browser Lead off)
 
 ## 🚀 Deployment
@@ -316,17 +316,17 @@ Single GTM container:
 
 - **GTM-KHQP88V** (`NEXT_PUBLIC_GTM_ID`) — GA4 + Google Ads + Meta Pixel
 
-The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` redirects to `/obrigado/`. There, GTM fires Meta standard Lead (DOM Ready HTML tag) and Google Ads Lead (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production. CE `meta_lead` is not a Pixel Lead source (tag 49 paused).
+The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` redirects to `/obrigado/`. There, GTM fires Meta custom **`LeadFormSubmit`** (tag 52; standard `Lead` is suppressed by health restrictions) and Google Ads Lead (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production. Optimize Meta campaigns for **`LeadFormSubmit`**, not standard Lead.
 
 ### Conversion contract (ops)
 
 | Ação no site | dataLayer | Meta (GTM-KHQP88V) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
-| Form / WhatsApp lead (form válido) | Redirect → `/obrigado/` → `conversion_*` + `google_ads_conversion` (`contact`) | Lead (HTML tag on DOM Ready path `obrigado`) | Lead (tag 35) on `/obrigado/` |
+| Form / WhatsApp lead (form válido) | Redirect → `/obrigado/` → `conversion_*` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag 52, DOM Ready) | Lead (tag 35) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
 | `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule (tag 44) | (evento emitido; sem tag Ads dedicada) |
-| Forminator / `gtm.formSubmission` / LP form event | legado | **Não** é fonte de Lead | **Não** é fonte de Lead |
+| Forminator / `gtm.formSubmission` / LP form event | legado | **Não** é fonte de conversão | **Não** é fonte de Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona) | Nenhum | Nenhum |
 
 See [META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md](META_PIXEL_GOOGLE_ADS_INTEGRATION_GUIDE.md) for the full contract and validation checklist.
