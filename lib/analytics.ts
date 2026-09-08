@@ -1,6 +1,6 @@
 /**
  * Site measurement signals for Google Tag Manager (dataLayer).
- * GTM-KHQP88V: GA4 + Google Ads + Meta Pixel (PageView / Lead on meta_lead / Schedule).
+ * GTM-KHQP88V: GA4 + Google Ads + Meta Pixel (PageView / Lead on /obrigado/ / Schedule).
  */
 
 import { trackCrossPlatformConversion } from "@lib/ad-platform-tracking";
@@ -84,7 +84,7 @@ export const trackLinkClick = (linkName: string, params?: EventParams) => {
 
 /**
  * Track conversion goal: dataLayer `conversion_*` + Google Ads fan-out via
- * `trackCrossPlatformConversion`. Does **not** emit Meta Lead — use `trackMetaLead`.
+ * Does **not** emit Meta Lead — Meta Lead fires via GTM on `/obrigado/`.
  *
  * Google Ads Lead (GTM-KHQP88V): `contact_form_submit` / `whatsapp_lead_submitted` via
  *   `trackConversion` on `/obrigado/` → `google_ads_conversion` (tag 35).
@@ -107,10 +107,8 @@ export interface MetaLeadParams extends EventParams {
 }
 
 /**
- * Meta Lead dataLayer signal (Custom Event `meta_lead`).
- * Fired from `markThankYouSuccess` on the form page — not on `/obrigado/`, clicks, or Schedule.
- * GTM-KHQP88V tag 49 maps this to Pixel standard Lead
- * (`NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production).
+ * Legacy Custom Event `meta_lead` helper. Not used for Pixel Lead anymore —
+ * Meta Lead fires via GTM on `/obrigado/` (DOM Ready). Kept for optional analytics.
  *
  * Usage: trackMetaLead({ lead_type: 'contact', lead_source: 'Website Contato', page: '/lp/...' })
  */
@@ -187,9 +185,8 @@ export const trackVideoEvent = (
  * Common conversion goals for hearing aid clinic.
  *
  * Ads mapping:
- * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → Meta Lead on form page via
- *   `markThankYouSuccess` (`meta_lead` → GTM tag 49); Google Ads on `/obrigado/`
- *   via `trackConversion` → `google_ads_conversion` (tag 35)
+ * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → redirect `/obrigado/`:
+ *   Meta Lead (GTM DOM Ready HTML) + Google Ads via `trackConversion` (tag 35)
  * - APPOINTMENT_SCHEDULED → dataLayer (Meta Schedule in GTM) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
  * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)

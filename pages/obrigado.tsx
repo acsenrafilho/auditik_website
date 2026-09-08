@@ -43,8 +43,8 @@ export default function ObrigadoPage() {
 
     conversionFired.current = true;
 
-    // Meta Lead already fired on the form page via markThankYouSuccess.
-    // /obrigado/ only records Google Ads Lead (and UX).
+    // Meta Lead fires via GTM HTML tag on this page load (DOM Ready).
+    // This page only emits Google Ads Lead via trackConversion.
     const baseParams = {
       page: "obrigado",
       page_type: "thank_you",

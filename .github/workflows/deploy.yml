@@ -44,7 +44,8 @@ jobs:
 
       # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
       # Tracking: GTM-KHQP88V (GA4/Ads/Meta). Cutover: NEXT_PUBLIC_GTM_ID_META=empty
-      # (GitHub cannot store blank vars) + NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false.
+      # (GitHub cannot store blank vars) + NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false
+      # (Meta Lead = GTM on /obrigado/ DOM Ready, not browser fbq).
       # Tina: client id + token required for CMS build.
       - name: Validate required environment variables for build
         run: |

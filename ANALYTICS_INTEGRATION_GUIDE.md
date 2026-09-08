@@ -67,7 +67,7 @@ Avoid adding high-cardinality parameters (random IDs, timestamps as strings, fre
 - Ensure click handlers do not fire duplicate events.
 - In React effects, carefully scope dependencies so events do not re-fire on every render.
 - For page-driven events, trigger on route change or first stable render only.
-- **Lead conversions:** Meta Lead fires on the form page after CRM OK (`markThankYouSuccess` → `meta_lead` + optional browser `fbq`). Google Ads Lead fires on [`/obrigado/`](pages/obrigado.tsx) via `trackConversion`. Direct visits to `/obrigado/` redirect without conversion events.
+- **Lead conversions:** After a valid form, `markThankYouSuccess` redirects to [`/obrigado/`](pages/obrigado.tsx). Meta Lead fires there via GTM (DOM Ready HTML). Google Ads Lead fires via `trackConversion`. Direct visits to `/obrigado/` redirect without conversion events.
 
 ### 6. Define a funnel for key journeys
 
