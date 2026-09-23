@@ -14,6 +14,7 @@ export const APP_ROUTES = {
 export const LP_ROUTES = {
   piloto: "/lp/piloto/",
   americanaPhilips: "/lp/americana-philips/",
+  piracicabaAgendamento: "/lp/piracicaba-agendamento/",
 } as const;
 
 /** Satellite landing pages in the aparelhos SEO silo (see pages/subs-aparelhos/). */

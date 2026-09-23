@@ -68,6 +68,7 @@ Avoid adding high-cardinality parameters (random IDs, timestamps as strings, fre
 - In React effects, carefully scope dependencies so events do not re-fire on every render.
 - For page-driven events, trigger on route change or first stable render only.
 - **Lead conversions:** After a valid form, `markThankYouSuccess` redirects to [`/obrigado/`](pages/obrigado.tsx). Meta fires custom **`LeadFormSubmit`** there via GTM (standard `Lead` is suppressed by health restrictions). Google Ads Lead fires via `trackConversion`. Direct visits to `/obrigado/` redirect without conversion events.
+- **LP Piracicaba Schedule campaigns:** [`/lp/piracicaba-agendamento/`](pages/lp/piracicaba-agendamento.tsx) uses Google Appointment embed + attribution beacon only. Meta **`Schedule`** is sent by Apps Script CAPI when the Calendar event is created — do **not** route this LP through `/obrigado/` / `LeadFormSubmit`. Details: [`integrations/piracicaba-appointment/README.md`](integrations/piracicaba-appointment/README.md).
 
 ### 6. Define a funnel for key journeys
 

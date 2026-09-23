@@ -252,6 +252,10 @@ See `.env.example` for all required variables:
 - `NEXT_PUBLIC_GTM_ID_META` - Production cutover: set to **`empty`** (GitHub cannot store blank). Also accepts `none` / `off` / `-`. Unset still defaults to legacy NVWQ3PF2 — do not delete the variable.
 - `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` - Production: `false` (Meta = GTM `LeadFormSubmit` on `/obrigado/`)
 - `NEXT_PUBLIC_META_PIXEL_ID` - Optional / unused in cutover (browser Lead off)
+- `NEXT_PUBLIC_GOOGLE_APPOINTMENT_EMBED_SRC` - Optional; defaults baked into LP Piracicaba
+- `NEXT_PUBLIC_GOOGLE_APPOINTMENT_FALLBACK_URL` - Optional public booking link
+- `NEXT_PUBLIC_ATTRIBUTION_BEACON_URL` - Apps Script Web App URL for LP attribution beacon
+- `NEXT_PUBLIC_ATTRIBUTION_BEACON_TOKEN` - Shared secret with Apps Script `ATTRIBUTION_BEACON_SECRET`
 
 ## 🚀 Deployment
 
@@ -316,7 +320,9 @@ Single GTM container:
 
 - **GTM-KHQP88V** (`NEXT_PUBLIC_GTM_ID`) — GA4 + Google Ads + Meta Pixel
 
-The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` redirects to `/obrigado/`. There, GTM fires Meta custom **`LeadFormSubmit`** (tag 52; standard `Lead` is suppressed by health restrictions) and Google Ads Lead (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production. Optimize Meta campaigns for **`LeadFormSubmit`**, not standard Lead.
+The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` redirects to `/obrigado/`. There, GTM fires Meta custom **`LeadFormSubmit`** (tag 52; standard `Lead` is suppressed by health restrictions) and Google Ads Lead (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production. Optimize Meta **lead** campaigns for **`LeadFormSubmit`**, not standard Lead.
+
+**Exception — LP Piracicaba self-schedule:** optimize Meta for **Schedule via Conversions API** (Google Apps Script after Calendar booking). See [`integrations/piracicaba-appointment/README.md`](integrations/piracicaba-appointment/README.md). Do not send that traffic through `/obrigado/` LeadFormSubmit.
 
 ### Conversion contract (ops)
 
@@ -326,6 +332,7 @@ The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform
 | Form / WhatsApp lead (form válido) | Redirect → `/obrigado/` → `conversion_*` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag 52, DOM Ready) | Lead (tag 35) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
 | `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule (tag 44) | (evento emitido; sem tag Ads dedicada) |
+| **LP Piracicaba** `/lp/piracicaba-agendamento/` | Beacon + Google Appointment (sem `/obrigado/`) | **CAPI `Schedule`** (Apps Script) — not `LeadFormSubmit` | — |
 | Forminator / `gtm.formSubmission` / LP form event | legado | **Não** é fonte de conversão | **Não** é fonte de Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona) | Nenhum | Nenhum |
 

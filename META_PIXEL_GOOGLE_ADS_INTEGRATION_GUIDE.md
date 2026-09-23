@@ -7,6 +7,7 @@
 > - Meta Pixel is loaded by GTM (no Next.js Pixel bootstrap). Production: `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false`.
 > - Tag **49** (CE `meta_lead`) is **paused**.
 > - Meta PageView: tag **38**. Schedule: tag **44** on `conversion_appointment_scheduled`.
+> - **LP Piracicaba self-schedule:** Meta conversion is **CAPI `Schedule`** from Google Apps Script after a Calendar booking — not browser GTM on this LP. See [`integrations/piracicaba-appointment/README.md`](integrations/piracicaba-appointment/README.md).
 
 This document explains how engineering and traffic keep Meta Ads and Google Ads aligned with the site contract.
 
@@ -23,7 +24,8 @@ This document explains how engineering and traffic keep Meta Ads and Google Ads 
 | Load / SPA navigation | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
 | Form / WhatsApp lead (form válido) | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag **52**, DOM Ready path `obrigado`) | Lead (tag 35, CE 46) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
-| Agendamento real | `conversion_appointment_scheduled` | Schedule (tag 44) | (dataLayer only until Ads tag exists) |
+| Agendamento real (browser dataLayer) | `conversion_appointment_scheduled` | Schedule (tag 44) | (dataLayer only until Ads tag exists) |
+| **LP Piracicaba agendamento** (`/lp/piracicaba-agendamento/`) | Beacon UTMs + Google Appointment iframe; **sem** `/obrigado/` | **Schedule via Meta CAPI** (Apps Script — ver [`integrations/piracicaba-appointment/`](integrations/piracicaba-appointment/README.md)); **não** otimizar esta campanha para `LeadFormSubmit` | Opcional futuro |
 | Forminator / native form submit / LP form event | legado / `lp_*_form_submit` | Não é conversão | Não é Lead |
 | Acesso direto a `/obrigado/` | Nenhum (redireciona para `/contato/`) | Nenhum | Nenhum |
 

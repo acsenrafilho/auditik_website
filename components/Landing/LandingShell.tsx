@@ -5,13 +5,21 @@ import { APP_ROUTES } from "@lib/routes";
 
 type LandingShellProps = {
   children: ReactNode;
+  /** Optional second line under the copyright (e.g. clinic address). */
+  footerNote?: string;
+  /** When true, appends “Todos os direitos reservados.” to the copyright line. */
+  showReservedRights?: boolean;
 };
 
 /**
  * Minimal chrome for paid-traffic landing pages.
  * No institutional navigation — keeps focus on conversion.
  */
-export function LandingShell({ children }: LandingShellProps) {
+export function LandingShell({
+  children,
+  footerNote,
+  showReservedRights = false,
+}: LandingShellProps) {
   const year = new Date().getFullYear();
 
   return (
@@ -32,8 +40,18 @@ export function LandingShell({ children }: LandingShellProps) {
       <div className="flex-1">{children}</div>
 
       <footer className="border-t border-slate-100 bg-slate-50 py-6 pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-6">
-        <div className="container-wide flex flex-col items-center justify-between gap-3 text-center text-sm text-slate-500 sm:flex-row sm:text-left">
-          <p>© {year} Auditik Soluções Auditivas</p>
+        <div className="container-wide flex flex-col items-center justify-between gap-3 text-center text-sm text-slate-500 sm:flex-row sm:items-start sm:text-left">
+          <div className="space-y-1">
+            <p>
+              © {year} Auditik Soluções Auditivas
+              {showReservedRights ? ". Todos os direitos reservados." : ""}
+            </p>
+            {footerNote ? (
+              <p className="text-xs leading-relaxed text-slate-400 sm:text-sm">
+                {footerNote}
+              </p>
+            ) : null}
+          </div>
           <Link
             href={APP_ROUTES.privacyPolicy}
             className="underline-offset-2 hover:text-auditik-blue hover:underline"
