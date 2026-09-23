@@ -8,6 +8,7 @@ var CONFIG_DEFAULTS = {
   LEAD_COMPANY_ID: "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62",
   LEAD_INTEGRATION_NAME: "agendamento-meta-piracicaba",
   LEAD_SOURCE_LABEL: "Google Appointment — LP Meta Piracicaba",
+  LEAD_AUDIOLOGIST: "Fga. Karolyne Dell Ducas Senra",
   CITY_DEFAULT: "Piracicaba",
   BOOKING_SUMMARY_PREFIX: "Agendar Experiência Philips Piracicaba",
   BOOKING_MAX_AGE_MINUTES: "120",
@@ -57,6 +58,7 @@ function getConfigNumber_(key) {
 function validateRequiredSecrets_() {
   var required = [
     "LEAD_PROXY_URL",
+    "LEAD_AUDIOLOGIST",
     "META_PIXEL_ID",
     "META_CAPI_TOKEN",
     "NOTIFY_EMAILS",

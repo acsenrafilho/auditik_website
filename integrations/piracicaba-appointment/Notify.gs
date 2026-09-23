@@ -33,6 +33,7 @@ function sendInternalEmail_(contact, attribution) {
     "Nome: " + (contact.fullName || "—"),
     "Telefone: " + (contact.phone || "—"),
     "E-mail: " + (contact.email || "—"),
+    "Cidade: " + (contact.city || getConfig_("CITY_DEFAULT") || "—"),
     "Horário: " + (contact.startIso || "—"),
     "Audiometria (<1 ano): " + (contact.audiometryAnswer || "—"),
     "Link: " + (contact.htmlLink || "—"),

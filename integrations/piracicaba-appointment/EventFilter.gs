@@ -5,6 +5,7 @@
  * - summary: "Agendar Experiência Philips Piracicaba (Full Name)"
  * - description "Reservado por": name, email, phone (10–11 digits)
  * - custom Q: "Tem exame de audiometria (com menos de 1 ano)?" → Sim/Não
+ * - custom Q: "Qual a sua cidade?" → free text (e.g. Piracicaba)
  * - footer clinic phone (19) 3377-6941 must NOT be used as lead phone
  */
 
@@ -42,7 +43,7 @@ function isBookingCandidate_(event) {
 
 /**
  * @param {Object} event
- * @return {{fullName: string, email: string, phone: string, audiometryAnswer: string, startIso: string, htmlLink: string}}
+ * @return {{fullName: string, email: string, phone: string, city: string, audiometryAnswer: string, startIso: string, htmlLink: string}}
  */
 function extractContactFromEvent_(event) {
   var description = String(event.description || "");
@@ -112,6 +113,16 @@ function extractContactFromEvent_(event) {
     audiometryAnswer = audioMatch[1];
   }
 
+  var city = "";
+  var cityMatch = description.match(
+    /Qual a sua cidade\??\s*\n?\s*([^\n<]+)/i,
+  );
+  if (cityMatch) {
+    city = String(cityMatch[1] || "")
+      .replace(/<[^>]+>/g, "")
+      .trim();
+  }
+
   var startIso = "";
   if (event.start) {
     startIso = event.start.dateTime || event.start.date || "";
@@ -121,6 +132,7 @@ function extractContactFromEvent_(event) {
     fullName: fullName || "Lead Piracicaba",
     email: email,
     phone: phone,
+    city: city,
     audiometryAnswer: audiometryAnswer,
     startIso: startIso,
     htmlLink: event.htmlLink || "",

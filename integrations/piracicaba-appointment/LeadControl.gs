@@ -15,15 +15,28 @@ function sendToLeadControl_(contact, attribution) {
     return { ok: false, status: 0, body: "LEAD_PROXY_URL missing" };
   }
 
+  var audiologist = getConfig_("LEAD_AUDIOLOGIST");
+  if (!audiologist) {
+    return {
+      ok: false,
+      status: 0,
+      body: "LEAD_AUDIOLOGIST missing — required for Agendamento realizado",
+    };
+  }
+
   var source = getConfig_("LEAD_SOURCE_LABEL");
   var integrationName = getConfig_("LEAD_INTEGRATION_NAME");
   var companyID = getConfig_("LEAD_COMPANY_ID");
-  var city = getConfig_("CITY_DEFAULT");
+  var city =
+    (contact.city && String(contact.city).trim()) || getConfig_("CITY_DEFAULT");
 
   var observationParts = [
     "Lead criado via " + source + " (integração: " + integrationName + ").",
     contact.startIso ? "Agendamento: " + contact.startIso + "." : "",
     contact.htmlLink ? "Calendar: " + contact.htmlLink + "." : "",
+    contact.city
+      ? "Cidade (formulário): " + String(contact.city).trim() + "."
+      : "",
     contact.audiometryAnswer
       ? "Tem exame de audiometria (<1 ano): " + contact.audiometryAnswer + "."
       : "",
@@ -57,14 +70,9 @@ function sendToLeadControl_(contact, attribution) {
     city: city,
     source: source,
     statusLead: "Agendamento realizado",
+    audiologist: audiologist,
     observation: observationParts.filter(Boolean).join(" "),
   };
-
-  // Catalog match is required when statusLead is Agendamento realizado.
-  var audiologist = getConfig_("LEAD_AUDIOLOGIST");
-  if (audiologist) {
-    payload.audiologist = audiologist;
-  }
 
   var headers = {
     "Content-Type": "application/json",

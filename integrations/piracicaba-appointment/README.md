@@ -26,6 +26,7 @@ Código já foi enviado via `clasp push` (2026-09-23). Segue a configuração **
 | `summary` | `Agendar Experiência Philips Piracicaba (Full Name)` |
 | Description | Block **Reservado por** with name, email, phone |
 | Custom Q | `Tem exame de audiometria (com menos de 1 ano)?` → Sim/Não |
+| Custom Q | `Qual a sua cidade?` → free text → CRM `city` |
 | Clinic phone in footer | `(19) 3377-6941` — ignored by parser (`CLINIC_PHONE_DIGITS`) |
 
 Booking URLs:
@@ -53,6 +54,7 @@ Na primeira execução o Google pedirá autorização (Calendar, Sheets, UrlFetc
 | `LEAD_COMPANY_ID` | recomendado | UUID da empresa no Lead Control (default no código = mesmo do site) |
 | `LEAD_INTEGRATION_NAME` | recomendado | `agendamento-meta-piracicaba` |
 | `LEAD_SOURCE_LABEL` | recomendado | `Google Appointment — LP Meta Piracicaba` |
+| `LEAD_AUDIOLOGIST` | **sim** (status) | Nome **exato** do catálogo Lead Control. Default no código: `Fga. Karolyne Dell Ducas Senra`. Obrigatório para `statusLead: Agendamento realizado` |
 | `NOTIFY_EMAILS` | **sim** | e-mails da secretária/balcão, separados por vírgula |
 | `META_PIXEL_ID` | **sim** | ID do Pixel |
 | `META_CAPI_TOKEN` | **sim** | Token da Conversions API |
@@ -100,7 +102,8 @@ No Apps Script → **Triggers** (ícone de relógio):
 | Symptom | Check |
 |---------|--------|
 | No row in Processed | Trigger auth/calendar; Logs; summary prefix; syncToken |
-| CRM failed | `LEAD_PROXY_URL` / key; Logs `last_error` |
+| CRM failed | `LEAD_PROXY_URL` / key / `LEAD_AUDIOLOGIST`; Logs `last_error` |
+| Lead com status “Aguardando contato” | Falta `audiologist` no catálogo — confira `LEAD_AUDIOLOGIST` = `Fga. Karolyne Dell Ducas Senra` |
 | CAPI failed | Token/pixel; Test Events; retry job |
 | Unattributed Schedule | Beacon URL/token on LP; TTL; session within window |
 | Wrong phone | Clinic footer vs booker block — see `CLINIC_PHONE_DIGITS` |
