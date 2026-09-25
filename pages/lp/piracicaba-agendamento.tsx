@@ -390,6 +390,33 @@ export default function LpPiracicabaAgendamentoPage() {
                 />
               </div>
 
+              <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-blue-100 bg-white p-4 shadow-soft sm:mt-5 sm:flex-row sm:items-center sm:justify-between sm:rounded-3xl sm:p-5">
+                <div className="min-w-0 text-center sm:text-left">
+                  <p className="text-base font-bold text-slate-900">
+                    Não encontrou um horário bom?
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-slate-600">
+                    Se as datas e horários da agenda não servirem, fale no
+                    WhatsApp. A equipe ajuda a encontrar outro dia para a
+                    consulta na clínica de Piracicaba.
+                  </p>
+                </div>
+                <div className="w-full shrink-0 sm:w-auto">
+                  <WhatsAppLeadButton
+                    buttonName="lp_piracicaba_agenda_whatsapp"
+                    leadSource={LEAD_SOURCE}
+                    trackingParams={{
+                      section: "agenda",
+                      page: "lp/piracicaba-agendamento",
+                    }}
+                    whatsappMessage={WHATSAPP_MESSAGE}
+                    className={whatsappClassSolid}
+                  >
+                    Falar no WhatsApp
+                  </WhatsAppLeadButton>
+                </div>
+              </div>
+
               <p className="mt-4 px-1 text-center text-xs leading-relaxed text-slate-600 sm:px-0">
                 Ao agendar, você autoriza o contato da Auditik sobre sua
                 avaliação.{" "}
