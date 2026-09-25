@@ -176,14 +176,16 @@ function buildBlogPost(fileName: string, fileContents: string): BlogPost {
   const description = typeof data.description === "string" ? data.description : "";
   const excerpt = description || createExcerpt(plainText);
   const normalizedContent = content.trim();
+  const title =
+    typeof data.title === "string" && data.title.trim() ? data.title : "Untitled";
+  const author =
+    typeof data.author === "string" && data.author.trim() ? data.author : "Auditik";
 
   return {
     slug: fileSlug,
-    title:
-      typeof data.title === "string" && data.title.trim() ? data.title : "Untitled",
+    title,
     description,
-    author:
-      typeof data.author === "string" && data.author.trim() ? data.author : "Auditik",
+    author,
     date:
       typeof data.date === "string" && data.date.trim()
         ? data.date
@@ -197,7 +199,7 @@ function buildBlogPost(fileName: string, fileContents: string): BlogPost {
     excerpt,
     readTime: calculateReadTime(plainText),
     featured: Boolean(data.featured),
-    searchText: [title, excerpt, data.author, primaryTopic, ...topicLabels]
+    searchText: [title, excerpt, author, primaryTopic, ...topicLabels]
       .filter(Boolean)
       .join(" ")
       .toLowerCase(),

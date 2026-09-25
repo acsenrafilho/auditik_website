@@ -599,7 +599,7 @@ export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
         topics: postTopics,
         topicLabels,
         featured,
-        featuredImage: featuredImage ?? null,
+        ...(featuredImage ? { featuredImage } : {}),
         readTime,
         searchText,
         // Listing payload: no markdown body (keeps HTML lean for crawlers).
