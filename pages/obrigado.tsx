@@ -46,12 +46,15 @@ export default function ObrigadoPage() {
     // Meta: GTM fires custom LeadFormSubmit on this page load (DOM Ready).
     // Standard Lead is suppressed (health data-source restriction).
     // This page only emits Google Ads Lead via trackConversion.
-    const baseParams = {
+    const baseParams: Record<string, string> = {
       page: "obrigado",
       page_type: "thank_you",
       lead_source: token.source,
       form_name: token.form,
     };
+    if (token.eventId) {
+      baseParams.event_id = token.eventId;
+    }
 
     if (token.form === "contact") {
       trackConversion(CONVERSION_GOALS.CONTACT_FORM_SUBMIT, baseParams);
@@ -80,6 +83,11 @@ export default function ObrigadoPage() {
         <NextSeo {...seo} noindex nofollow />
         <Head>
           <meta name="robots" content="noindex,nofollow" />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){try{var raw=sessionStorage.getItem("auditik_thankyou");if(!raw)return;var p=JSON.parse(raw);if(!p||!p.eventId)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event_id:p.eventId,lead_id:p.eventId});}catch(e){}})();`,
+            }}
+          />
         </Head>
         <div className="flex min-h-screen items-center justify-center bg-white">
           <p className="text-sm text-slate-500">Carregando...</p>
@@ -93,6 +101,11 @@ export default function ObrigadoPage() {
       <NextSeo {...seo} noindex nofollow />
       <Head>
         <meta name="robots" content="noindex,nofollow" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var raw=sessionStorage.getItem("auditik_thankyou");if(!raw)return;var p=JSON.parse(raw);if(!p||!p.eventId)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event_id:p.eventId,lead_id:p.eventId});}catch(e){}})();`,
+          }}
+        />
       </Head>
 
       <Header />

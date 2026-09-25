@@ -9,14 +9,16 @@ export interface ThankYouToken {
   source: string;
   ts: number;
   whatsappUrl?: string;
+  /** Same id as sheet lead_id / Meta event_id for dedupe. */
+  eventId?: string;
 }
 
 export const THANK_YOU_PATH = APP_ROUTES.obrigado;
 
 /**
- * After a validated form submit: persist thank-you token, optionally open WhatsApp,
- * then redirect to /obrigado/ (Meta LeadFormSubmit + Google Ads fire there via GTM). Callers may
- * invoke this even when the CRM POST fails so the thank-you path is not blocked by CRM.
+ * After the conversion sheet confirms the row: persist thank-you token,
+ * optionally open WhatsApp, then redirect to /obrigado/ (browser Meta
+ * LeadFormSubmit + Google Ads fire there via GTM, with event_id for CAPI dedupe).
  */
 export const markThankYouSuccess = async (
   payload: Omit<ThankYouToken, "ts">,
@@ -65,6 +67,7 @@ export const consumeThankYouToken = (): ThankYouToken | null => {
       ts: parsed.ts,
       whatsappUrl:
         typeof parsed.whatsappUrl === "string" ? parsed.whatsappUrl : undefined,
+      eventId: typeof parsed.eventId === "string" ? parsed.eventId : undefined,
     };
   } catch {
     sessionStorage.removeItem(STORAGE_KEY);

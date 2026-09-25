@@ -104,23 +104,21 @@ export function WhatsAppLeadButton({
     setIsSubmitting(true);
 
     try {
-      try {
-        await submitLeadToCRM({
-          fullName: formData.fullName,
-          phone: formData.phone,
-          city: formData.city,
-          fallbackSource: leadSource,
-          formName: `WhatsApp — ${leadSource}`,
-          companyID,
-        });
-      } catch (crmError) {
-        console.error("WhatsApp lead CRM submission error:", crmError);
-      }
+      const formName = `WhatsApp — ${leadSource}`;
+      const lead = await submitLeadToCRM({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        city: formData.city,
+        fallbackSource: leadSource,
+        formName,
+        companyID,
+      });
 
       const metrics = {
         source: leadSource,
         city: formData.city,
         button_name: buttonName,
+        lead_id: lead.lead_id,
       };
 
       trackFormSubmit("whatsapp_lead", metrics);
@@ -144,6 +142,7 @@ export function WhatsAppLeadButton({
         form: "whatsapp",
         source: leadSource,
         whatsappUrl,
+        eventId: lead.lead_id,
       });
     } catch (error) {
       console.error("WhatsApp lead submit error:", error);

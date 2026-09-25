@@ -2,19 +2,20 @@
 
 > **Single GTM (cutover):** Meta Pixel + GA4 + Google Ads run in **GTM-KHQP88V**. Agency container `GTM-NVWQ3PF2` is abandoned (`NEXT_PUBLIC_GTM_ID_META=empty`).
 >
-> **Lead (Meta):** Custom event **`LeadFormSubmit`** on **`/obrigado/`** via HTML `fbq('trackCustom','LeadFormSubmit')` on **DOM Ready** (tag **52**, trigger **51**). Standard `Lead` is **suppressed** by Meta health data-source restrictions — do not use it.
+> **Lead (Meta):** Custom event **`LeadFormSubmit`** on **`/obrigado/`** via HTML `fbq('trackCustom','LeadFormSubmit', {}, {eventID: …})` on **DOM Ready** (tag **52**, trigger **51**). Pass **`eventID`** from dataLayer variable **`event_id`** (same as sheet `lead_id`) so browser + CAPI dedupe. Standard `Lead` is **suppressed** by Meta health data-source restrictions — do not use it.
 > - Google Ads Lead fires on the same page via tag **35**.
 > - Meta Pixel is loaded by GTM (no Next.js Pixel bootstrap). Production: `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false`.
 > - Tag **49** (CE `meta_lead`) is **paused**.
 > - Meta PageView: tag **38**. Schedule: tag **44** on `conversion_appointment_scheduled`.
+> - **Sheet outbox:** form posts to the conversion ingest Lambda first; `/obrigado/` opens only after `sheet=ok`. CRM + optional Meta CAPI are certified from the spreadsheet row.
 > - **LP Piracicaba self-schedule:** Meta conversion is **CAPI `Schedule`** from Google Apps Script after a Calendar booking — not browser GTM on this LP. See [`integrations/piracicaba-appointment/README.md`](integrations/piracicaba-appointment/README.md).
 
 This document explains how engineering and traffic keep Meta Ads and Google Ads aligned with the site contract.
 
 ## Source of truth
 
-1. Site emits stable dataLayer events via `trackConversion` / `trackPageView` / `trackButtonClick`; `markThankYouSuccess` only tokens + redirects to `/obrigado/`.
-2. **GTM-KHQP88V** fires GA4, Google Ads, and Meta Pixel tags.
+1. Site awaits conversion **sheet outbox** (`submitLeadToCRM` → ingest); only then `markThankYouSuccess` tokens + redirects to `/obrigado/` with `eventId` (= `lead_id`).
+2. **GTM-KHQP88V** fires GA4, Google Ads, and Meta Pixel tags. Tag **52** must send `eventID` from DLV `event_id`.
 3. Legacy Forminator / `formSubmission` triggers may remain but must **not** fire Meta or Ads lead conversions.
 
 ### Contract table
@@ -22,7 +23,7 @@ This document explains how engineering and traffic keep Meta Ads and Google Ads 
 | Ação no site | dataLayer | Meta (GTM-KHQP88V) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA navigation | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
-| Form / WhatsApp lead (form válido) | Redirect → `/obrigado/`; `conversion_*` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag **52**, DOM Ready path `obrigado`) | Lead (tag 35, CE 46) on `/obrigado/` |
+| Form / WhatsApp lead (form válido + **sheet ok**) | Redirect → `/obrigado/`; `conversion_*` + `event_id` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag **52**, DOM Ready path `obrigado`, **`eventID`**) | Lead (tag 35, CE 46) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | Nenhum | Nenhum Lead |
 | Agendamento real (browser dataLayer) | `conversion_appointment_scheduled` | Schedule (tag 44) | (dataLayer only until Ads tag exists) |
 | **LP Piracicaba agendamento** (`/lp/piracicaba-agendamento/`) | Beacon UTMs + Google Appointment iframe; **sem** `/obrigado/` | **Schedule via Meta CAPI** (Apps Script — ver [`integrations/piracicaba-appointment/`](integrations/piracicaba-appointment/README.md)); **não** otimizar esta campanha para `LeadFormSubmit` | Opcional futuro |
@@ -38,7 +39,7 @@ This document explains how engineering and traffic keep Meta Ads and Google Ads 
 | 35 | Google Ads - Lead - Web | Dispara no CE 46 (`oncePerEvent`) |
 | 38 | Meta Ads - Page View - Web | All Pages + CE `page_view` |
 | 51 | `DOM Ready - path obrigado` | DOM Ready + Page Path contains `obrigado` |
-| 52 | Meta Ads - LeadFormSubmit - Web - obrigado | HTML `fbq('trackCustom','LeadFormSubmit')` on trigger 51 (`oncePerLoad`) |
+| 52 | Meta Ads - LeadFormSubmit - Web - obrigado | HTML `fbq('trackCustom','LeadFormSubmit', {}, {eventID: {{DLV - event_id}}})` on trigger 51 (`oncePerLoad`) |
 | 50 | `CE - meta_lead` | Legacy CE (tag 49 paused) |
 | 49 | Meta Ads - Lead - Web - novo | **Paused** — standard Lead unused |
 | 44 | Meta Ads - Schedule - Web | CE `conversion_appointment_scheduled` |
@@ -55,9 +56,10 @@ Enable reliable conversion tracking for:
 
 Recommended for this website:
 
-- **Site (engineering):** push dataLayer (`lib/analytics.ts`, `lib/ad-platform-tracking.ts`); `markThankYouSuccess` persists token + redirects to `/obrigado/` (even if CRM POST fails after a valid form)
-- **GTM (ops):** Meta Pixel PageView (tag 38) + **`LeadFormSubmit`** on `/obrigado/` DOM Ready (tag 52) + Schedule (tag 44); Google Ads conversion tags
+- **Site (engineering):** await sheet outbox; `markThankYouSuccess` persists token + `eventId` and redirects to `/obrigado/` **only after** the planilha confirms the row (`sheet=ok`). CRM failure on the first try is visible as `crm_status=failed` and retried by the ingest schedule — it does **not** block `/obrigado/` once the row exists. Sheet ingest failure **does** keep the user on the form.
+- **GTM (ops):** Meta Pixel PageView (tag 38) + **`LeadFormSubmit`** on `/obrigado/` DOM Ready (tag 52 with **`eventID`**) + Schedule (tag 44); Google Ads conversion tags
 - **Meta Ads (tráfego):** optimize campaigns for **`LeadFormSubmit`**, not standard `Lead` (health restriction suppresses `Lead`)
+- **Ingest Lambda:** `META_CAPI_ENABLED=true` only after tag 52 sends `eventID` (avoids double-counting browser + CAPI)
 
 Do not re-introduce a full Meta Pixel bootstrap snippet in Next.js. Rely on GTM for `fbq` init and `LeadFormSubmit` on `/obrigado/`. Keep `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production.
 
@@ -414,11 +416,13 @@ Quarterly:
 - [ ] GitHub Variable `NEXT_PUBLIC_GTM_ID_META` = **`empty`** (GitHub cannot store blank; also `none` / `off` / `-`)
 - [ ] GitHub Variable `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ` = `false`
 - [ ] Site redeployed; HTML has only `GTM-KHQP88V` (no `GTM-NVWQ3PF2`)
-- [ ] GTM live: tag **52** = `trackCustom('LeadFormSubmit')` on DOM Ready path `obrigado`; tag **49** paused; tag **35** unchanged
-- [ ] Test: LP americana submit → `/obrigado/` → console **sem** suppressed; Test Events: **LeadFormSubmit**
+- [ ] GTM live: tag **52** = `trackCustom('LeadFormSubmit', {}, {eventID: {{DLV - event_id}}})` on DOM Ready path `obrigado`; create DLV `event_id`; tag **49** paused; tag **35** unchanged
+- [ ] Test: LP americana submit → `/obrigado/` → console **sem** suppressed; Test Events: **LeadFormSubmit** with matching `event_id`
 - [ ] Test: contato / home / WhatsApp modal → same `LeadFormSubmit` on `/obrigado/`
 - [ ] Test: direct visit `/obrigado/` → redirect to `/contato/`, no conversions
-- [ ] Test: CRM network failure after valid form → still `/obrigado/` + `LeadFormSubmit`
+- [ ] Test: sheet ingest failure → user stays on form (no `/obrigado/`)
+- [ ] Test: CRM failure after sheet ok → `/obrigado/` + `LeadFormSubmit`; planilha `crm_status=failed` then retry job → `ok`
+- [ ] Only then: ingest `META_CAPI_ENABLED=true` (same `event_id`)
 - [ ] Meta Ads: campaigns optimize for **`LeadFormSubmit`**, not standard Lead
 
 ## Go-Live Checklist (thank-you page / Google Ads)
@@ -430,7 +434,7 @@ Quarterly:
 
 ## GTM handoff (ops)
 
-**Frase única:** Após formulário válido, Meta dispara **`LeadFormSubmit`** (custom) e Google Ads Lead no load de **`/obrigado/`**. Standard `Lead` é blocked pela restrição de saúde — não usar. Não depender de `meta_lead`, path da LP nem Form Submission.
+**Frase única:** Após a planilha confirmar o lead (`sheet=ok`), Meta dispara **`LeadFormSubmit`** (custom, com `eventID`) e Google Ads Lead no load de **`/obrigado/`**. Standard `Lead` é blocked pela restrição de saúde — não usar. Não depender de `meta_lead`, path da LP nem Form Submission. CRM pendente fica na planilha (`crm_status`) e o job de retry completa.
 
 ### Validação (LP Americana → obrigado)
 

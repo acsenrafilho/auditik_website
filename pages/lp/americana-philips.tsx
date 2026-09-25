@@ -347,28 +347,26 @@ export default function LpAmericanaPhilipsPage() {
     setFormError("");
 
     try {
-      try {
-        await submitLeadToCRM({
-          fullName: formData.nome,
-          phone: formData.whatsapp,
-          city: formData.cidade,
-          paraQuem: formData.paraQuem,
-          fallbackSource: LEAD_SOURCE,
-          formName: LEAD_SOURCE,
-        });
-      } catch (crmError) {
-        console.error("LP Americana CRM submission error:", crmError);
-      }
+      const lead = await submitLeadToCRM({
+        fullName: formData.nome,
+        phone: formData.whatsapp,
+        city: formData.cidade,
+        paraQuem: formData.paraQuem,
+        fallbackSource: LEAD_SOURCE,
+        formName: LEAD_SOURCE,
+      });
 
       trackFormSubmit("lp_americana_philips", {
         cidade: formData.cidade,
         para_quem: formData.paraQuem,
         page: "lp/americana-philips",
+        lead_id: lead.lead_id,
       });
 
       await markThankYouSuccess({
         form: "contact",
         source: LEAD_SOURCE,
+        eventId: lead.lead_id,
       });
     } catch (error) {
       console.error("LP Americana form submission error:", error);

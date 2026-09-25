@@ -4,10 +4,9 @@ import {
   resolveSourceLabel,
 } from "@lib/campaign-attribution";
 import {
-  fireConversionSheetSubmit,
-  type ConversionSheetPayload,
+  submitConversionToSheet,
+  type ConversionIngestResult,
 } from "@lib/conversion-sheet-submission";
-import { fetchWithRetry } from "@lib/fetch-with-retry";
 
 export interface LeadSubmissionInput {
   fullName: string;
@@ -17,40 +16,69 @@ export interface LeadSubmissionInput {
   fallbackSource: string;
   formName: string;
   companyID?: string;
+  /** Reuse after a failed attempt so the sheet outbox stays idempotent. */
+  leadId?: string;
 }
 
-export interface LeadProxyPayload {
-  companyID: string;
-  integrationName: string;
-  fullName: string;
-  phone: string;
-  city: string;
+export interface LeadSubmissionResult extends ConversionIngestResult {
   source: string;
-  observation: string;
 }
 
 const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
-const LEAD_PROXY_URL = process.env.NEXT_PUBLIC_LEAD_PROXY_URL || "";
-const LEAD_PROXY_INTEGRATION_NAME = process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
-const LEAD_SUBMISSION_NETWORK_ERROR_MESSAGE =
-  "Não foi possível conectar com nossa integração agora. Verifique sua conexão e tente novamente.";
+const LEAD_PROXY_INTEGRATION_NAME =
+  process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
+const LEAD_ID_STORAGE_PREFIX = "auditik_lead_id:";
 
 const normalizeBrazilPhone = (value: string): string =>
   value.replace(/\D/g, "").slice(0, 11);
 
-const buildObservation = (
-  source: string,
-  paraQuem: string,
-  attributionSummary: string,
-): string => {
-  const integrationName = LEAD_PROXY_INTEGRATION_NAME || "não informado";
-  const parts = [
-    `Lead criado via ${source} (integração: ${integrationName}).`,
-    paraQuem ? `Para quem é o AASI: ${paraQuem}.` : "",
-    attributionSummary ? `Campanha: ${attributionSummary}.` : "",
-  ].filter(Boolean);
+const readCookie = (name: string): string => {
+  if (typeof document === "undefined") return "";
+  const match = document.cookie.match(
+    new RegExp(`(?:^|; )${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}=([^;]*)`),
+  );
+  return match ? decodeURIComponent(match[1]) : "";
+};
 
-  return parts.join(" ");
+export const createLeadId = (): string => {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return `lead_${crypto.randomUUID()}`;
+  }
+  return `lead_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+};
+
+const leadIdStorageKey = (formName: string, phone: string): string =>
+  `${LEAD_ID_STORAGE_PREFIX}${formName}:${phone}`;
+
+export const resolveLeadId = (formName: string, phone: string, explicit?: string): string => {
+  if (explicit?.trim()) return explicit.trim();
+
+  if (typeof window === "undefined") return createLeadId();
+
+  const key = leadIdStorageKey(formName, phone);
+  try {
+    const existing = sessionStorage.getItem(key);
+    if (existing) return existing;
+  } catch {
+    // ignore
+  }
+
+  const generated = createLeadId();
+  try {
+    sessionStorage.setItem(key, generated);
+  } catch {
+    // ignore
+  }
+  return generated;
+};
+
+export const clearLeadId = (formName: string, phone: string): void => {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.removeItem(leadIdStorageKey(formName, phone));
+  } catch {
+    // ignore
+  }
 };
 
 export const formatBrazilPhone = (value: string): string => {
@@ -65,83 +93,50 @@ export const formatBrazilPhone = (value: string): string => {
   return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
 };
 
-export const buildLeadProxyPayload = (input: LeadSubmissionInput): LeadProxyPayload => {
-  const attribution = getAttributionForSubmit();
-  const source = resolveSourceLabel(input.fallbackSource, attribution);
-  const paraQuem = (input.paraQuem || "").trim();
-
-  return {
-    companyID: input.companyID || DEFAULT_COMPANY_ID,
-    integrationName: LEAD_PROXY_INTEGRATION_NAME,
-    fullName: input.fullName.trim(),
-    phone: normalizeBrazilPhone(input.phone),
-    city: input.city.trim(),
-    source,
-    observation: buildObservation(
-      source,
-      paraQuem,
-      formatAttributionSummary(attribution),
-    ),
-  };
-};
-
-const buildConversionPayload = (
-  input: LeadSubmissionInput,
-  crmPayload: LeadProxyPayload,
-): ConversionSheetPayload => ({
-  fullName: crmPayload.fullName,
-  phone: crmPayload.phone,
-  city: crmPayload.city,
-  paraQuem: (input.paraQuem || "").trim() || undefined,
-  formName: input.formName,
-  source: crmPayload.source,
-  attribution: getAttributionForSubmit(),
-});
-
+/**
+ * Registers the lead in the conversion sheet outbox (source of truth).
+ * The ingest Lambda certifies CRM + Meta from that row.
+ * Only redirects to /obrigado/ after the sheet confirms the row.
+ */
 export const submitLeadToCRM = async (
   input: LeadSubmissionInput,
-): Promise<Response> => {
-  if (!LEAD_PROXY_URL) {
-    console.error("Lead proxy URL missing. Check NEXT_PUBLIC_LEAD_PROXY_URL at build time.");
-    throw new Error(
-      "Integração indisponível no momento. Tente novamente em instantes.",
-    );
-  }
-
-  const payload = buildLeadProxyPayload(input);
-
-  if (payload.phone.length < 10) {
+): Promise<LeadSubmissionResult> => {
+  const phone = normalizeBrazilPhone(input.phone);
+  if (phone.length < 10) {
     throw new Error("Informe um telefone válido com DDD.");
   }
 
-  let response: Response;
-  try {
-    response = await fetchWithRetry(LEAD_PROXY_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-  } catch (error) {
-    console.error("Lead proxy request failed before receiving a response.", {
-      hasUrl: Boolean(LEAD_PROXY_URL),
-      integrationNameConfigured: Boolean(LEAD_PROXY_INTEGRATION_NAME),
-      source: payload.source,
-      error,
-    });
-    throw new Error(LEAD_SUBMISSION_NETWORK_ERROR_MESSAGE);
-  }
+  const attribution = getAttributionForSubmit();
+  const source = resolveSourceLabel(input.fallbackSource, attribution);
+  const leadId = resolveLeadId(input.formName, phone, input.leadId);
+  const paraQuem = (input.paraQuem || "").trim();
+  const eventSourceUrl =
+    attribution.submit_page ||
+    (typeof window !== "undefined" ? window.location.href : "");
 
-  if (!response.ok) {
-    console.warn("Lead proxy returned non-OK status", {
-      status: response.status,
-      statusText: response.statusText,
-      source: payload.source,
-    });
-  }
+  const result = await submitConversionToSheet({
+    fullName: input.fullName.trim(),
+    phone,
+    city: input.city.trim(),
+    paraQuem: paraQuem || undefined,
+    formName: input.formName,
+    source,
+    attribution,
+    lead_id: leadId,
+    companyID: input.companyID || DEFAULT_COMPANY_ID,
+    integrationName: LEAD_PROXY_INTEGRATION_NAME || undefined,
+    fbp: readCookie("_fbp") || undefined,
+    fbc: readCookie("_fbc") || undefined,
+    event_source_url: eventSourceUrl || undefined,
+  });
 
-  fireConversionSheetSubmit(buildConversionPayload(input, payload));
+  // Attribution summary kept for debugging if needed by callers.
+  void formatAttributionSummary(attribution);
 
-  return response;
+  clearLeadId(input.formName, phone);
+
+  return {
+    ...result,
+    source,
+  };
 };

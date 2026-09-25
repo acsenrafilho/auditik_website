@@ -185,8 +185,8 @@ export const trackVideoEvent = (
  * Common conversion goals for hearing aid clinic.
  *
  * Ads mapping:
- * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → redirect `/obrigado/`:
- *   Meta `LeadFormSubmit` (GTM) + Google Ads via `trackConversion` (tag 35)
+ * - CONTACT_FORM_SUBMIT / WHATSAPP_LEAD_SUBMITTED → redirect `/obrigado/` after sheet outbox ok:
+ *   Meta `LeadFormSubmit` (GTM, eventID=lead_id) + Google Ads via `trackConversion` (tag 35)
  * - APPOINTMENT_SCHEDULED → dataLayer (Meta Schedule in GTM) + Google appointment
  * - WHATSAPP_CLICK / PHONE_CALL_INITIATED → Google only (not Meta Lead)
  * - FREE_EVALUATION_REQUESTED → no Meta/Google ads event (pedido ≠ agendamento)

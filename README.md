@@ -320,7 +320,9 @@ Single GTM container:
 
 - **GTM-KHQP88V** (`NEXT_PUBLIC_GTM_ID`) — GA4 + Google Ads + Meta Pixel
 
-The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a valid form submit, `markThankYouSuccess` redirects to `/obrigado/`. There, GTM fires Meta custom **`LeadFormSubmit`** (tag 52; standard `Lead` is suppressed by health restrictions) and Google Ads Lead (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production. Optimize Meta **lead** campaigns for **`LeadFormSubmit`**, not standard Lead.
+The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform-tracking.ts`). After a **confirmed sheet outbox row** (`submitLeadToCRM` → ingest Lambda), `markThankYouSuccess` redirects to `/obrigado/` with `eventId` (= sheet `lead_id`). There, GTM fires Meta custom **`LeadFormSubmit`** (tag 52; pass `eventID` from dataLayer `event_id`) and Google Ads Lead (tag 35). Keep `NEXT_PUBLIC_GTM_ID_META=empty` and `NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false` in production. Optimize Meta **lead** campaigns for **`LeadFormSubmit`**, not standard Lead.
+
+**Sheet outbox:** the conversion spreadsheet is the queue. CRM and Meta CAPI are certified from each row (`crm_status` / `meta_status`); a 15‑minute Lambda retries failures. Do **not** open `/obrigado/` if the sheet ingest fails — the user stays on the form and can resubmit (same `lead_id`).
 
 **Exception — LP Piracicaba self-schedule:** optimize Meta for **Schedule via Conversions API** (Google Apps Script after Calendar booking). See [`integrations/piracicaba-appointment/README.md`](integrations/piracicaba-appointment/README.md). Do not send that traffic through `/obrigado/` LeadFormSubmit.
 
@@ -329,7 +331,7 @@ The site pushes stable `dataLayer` events (`lib/analytics.ts` + `lib/ad-platform
 | Ação no site | dataLayer | Meta (GTM-KHQP88V) | Google Ads (GTM-KHQP88V) |
 | --- | --- | --- | --- |
 | Load / SPA `page_view` | `gtm.js` / `page_view` | PageView (tag 38) | Page View (tag 34) |
-| Form / WhatsApp lead (form válido) | Redirect → `/obrigado/` → `conversion_*` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag 52, DOM Ready) | Lead (tag 35) on `/obrigado/` |
+| Form / WhatsApp lead (form válido + **sheet ok**) | Redirect → `/obrigado/` → `conversion_*` + `event_id` + `google_ads_conversion` (`contact`) | **`LeadFormSubmit`** (tag 52, DOM Ready; **`eventID` = `event_id`**) | Lead (tag 35) on `/obrigado/` |
 | Clique WhatsApp / telefone (sem form) | `google_ads_conversion` (`whatsapp` / `phone`) | **Nenhum** | **Nenhum** Lead |
 | `appointment_scheduled` | `conversion_appointment_scheduled` | Schedule (tag 44) | (evento emitido; sem tag Ads dedicada) |
 | **LP Piracicaba** `/lp/piracicaba-agendamento/` | Beacon + Google Appointment (sem `/obrigado/`) | **CAPI `Schedule`** (Apps Script) — not `LeadFormSubmit` | — |

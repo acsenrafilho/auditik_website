@@ -142,8 +142,10 @@ Configure these in **Settings → Secrets and variables → Actions**, based on 
 | NEXT_PUBLIC_GTM_ID_META                 | Cutover sentinel (`empty` / `none` / `off` / `-`) | `empty` |
 | NEXT_PUBLIC_META_LEAD_BROWSER_FBQ       | `false` = Meta `LeadFormSubmit` via GTM on `/obrigado/` | false |
 | NEXT_PUBLIC_META_PIXEL_ID               | Optional Pixel ID for trackSingle | 856128025882243 (optional) |
-| NEXT_PUBLIC_LEAD_PROXY_URL              | Lead proxy endpoint           | https://api.example.com/integrations/leads |
-| NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier   | planilha-funil                 |
+| NEXT_PUBLIC_LEAD_PROXY_URL              | Ops reference / legacy; CRM is called by sheet ingest Lambda | https://api.example.com/integrations/leads |
+| NEXT_PUBLIC_LEAD_INTEGRATION_NAME       | Lead integration identifier (sent to ingest) | planilha-funil                 |
+| NEXT_PUBLIC_AUDITIK_CONVERSION_INGEST_URL | Sheet outbox ingest (required) | https://….amazonaws.com/prod/auditik/conversions/ingest |
+| NEXT_PUBLIC_AUDITIK_INGEST_TOKEN        | Ingest auth header (secret)   | (random)                       |
 | NEXT_PUBLIC_BENEFIT_ACTIVATE_URL        | Convênios benefit activation  | https://api.example.com/activate |
 | NEXT_PUBLIC_GOOGLE_APPOINTMENT_EMBED_SRC | Optional LP Piracicaba iframe src | (see `.env.example`) |
 | NEXT_PUBLIC_GOOGLE_APPOINTMENT_FALLBACK_URL | Optional booking link     | https://calendar.app.google/... |

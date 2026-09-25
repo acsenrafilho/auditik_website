@@ -80,28 +80,26 @@ export default function ContatoPage() {
     setFormError("");
 
     try {
-      try {
-        await submitLeadToCRM({
-          fullName: formData.nome,
-          phone: formData.whatsapp,
-          city: formData.cidade,
-          paraQuem: formData.paraQuem,
-          fallbackSource: "Website Contato",
-          formName: "Website Contato",
-        });
-      } catch (crmError) {
-        console.error("Contato CRM submission error:", crmError);
-      }
+      const lead = await submitLeadToCRM({
+        fullName: formData.nome,
+        phone: formData.whatsapp,
+        city: formData.cidade,
+        paraQuem: formData.paraQuem,
+        fallbackSource: "Website Contato",
+        formName: "Website Contato",
+      });
 
       trackFormSubmit("contact", {
         page: "contato",
         cidade: formData.cidade,
         para_quem: formData.paraQuem,
+        lead_id: lead.lead_id,
       });
 
       await markThankYouSuccess({
         form: "contact",
         source: "Website Contato",
+        eventId: lead.lead_id,
       });
     } catch (error) {
       console.error("Form submission error:", error);
