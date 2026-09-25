@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -197,12 +197,12 @@ const techFeatures = [
 
 export default function PrecoAparelhoAuditivoPage() {
   const seo = getSEOMeta({
-    title: "Preço de aparelho auditivo | Transparência Philips HearLink na Auditik",
+    title: "Preço de aparelho auditivo | Transparência Philips HearLink",
     description:
       "Entenda o que influencia o preço de aparelho auditivo no Brasil, os riscos de comprar online e como a Auditik em Piracicaba define um investimento justo na avaliação gratuita.",
-    canonical: "https://www.auditik.com.br/preco-aparelho-auditivo/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.preco),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
+      "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -215,19 +215,19 @@ export default function PrecoAparelhoAuditivoPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Preço de aparelho auditivo",
-        item: "https://www.auditik.com.br/preco-aparelho-auditivo/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.preco),
       },
     ],
   };

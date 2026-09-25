@@ -1,9 +1,10 @@
 import { NextSeo } from "next-seo";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import Head from "next/head";
 import { useState } from "react";
 import { Header } from "@components/Header";
+import { APP_ROUTES } from "@lib/routes";
 
 const faqData = [
   {
@@ -14,7 +15,7 @@ const faqData = [
   {
     question: "Qual é a diferença entre os modelos HearLink?",
     answer:
-      "O HearLink 100H é de entrada, o 500 oferece conectividade avançada, e o 700 é o topo de linha com máxima performance. Todos compartilham a tecnologia IA de processamento de som.",
+      "São níveis tecnológicos da mesma linha: HearLink 30 Pro oferece entrada premium com adaptação progressiva; HearLink 50 equilibra desempenho e conectividade; HearLink Pro concentra o topo de linha (SpeechSensor, AutoSense e máximo desempenho em ruído). A indicação depende do exame auditivo e da sua rotina.",
   },
   {
     question: "Quanto tempo dura a bateria?",
@@ -42,9 +43,10 @@ export default function FAQPage() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const seo = getSEOMeta({
-    title: "Perguntas Frequentes - Auditik",
+    title: "Perguntas Frequentes",
     description:
       "Dúvidas sobre aparelhos auditivos, adaptação e convênios? Encontre respostas às perguntas mais frequentes sobre saúde auditiva.",
+    canonical: absoluteUrl(APP_ROUTES.faq),
   });
 
   const faqSchema = generateFAQSchema(faqData);

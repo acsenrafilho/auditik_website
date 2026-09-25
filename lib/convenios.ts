@@ -221,7 +221,6 @@ function buildConvenioPartner(fileName: string, fileContents: string): ConvenioP
       ...areaLabels,
       ...benefitTypeLabels,
       ...clientProfileLabels,
-      normalizedContent,
     ]
       .filter(Boolean)
       .join(" "),

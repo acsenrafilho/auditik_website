@@ -3,8 +3,6 @@ import { ensureTrailingSlash } from "@lib/routes";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://auditik.com.br";
 
-export const SATELLITE_SITE_URL = "https://www.auditik.com.br";
-
 export const DEFAULT_OG_IMAGE_PATH = "/images/logo-auditik.png";
 
 export const DEFAULT_LOGO_PATH = "/images/logo-auditik.png";

@@ -2,11 +2,8 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   SITE_URL,
-  SATELLITE_SITE_URL,
-  STATIC_ROUTES,
   SATELLITE_ROUTES,
   getBlogEntries,
-  getConvenioEntries,
   truncateDescription,
   toAbsoluteUrl,
 } from "./lib/content-index.mjs";
@@ -105,7 +102,6 @@ function validateOutput(content) {
 
 function run() {
   const blogEntries = getBlogEntries();
-  const convenioEntries = getConvenioEntries();
 
   const lines = [
     "# Auditik",
@@ -138,20 +134,18 @@ function run() {
     "",
     "## Convênios",
     "",
-    ...convenioEntries.map((entry) =>
-      formatLink({
-        title: entry.title,
-        url: entry.url,
-        description: entry.description,
-      }),
-    ),
+    formatLink({
+      title: "Clube de Benefícios",
+      url: toAbsoluteUrl(SITE_URL, "/convenios/"),
+      description: "Parceiros com benefícios exclusivos para clientes Auditik",
+    }),
     "",
     "## Páginas satélite",
     "",
     ...SATELLITE_ROUTES.map((route) =>
       formatLink({
         title: SATELLITE_PAGE_LABELS[route.path] || route.path,
-        url: toAbsoluteUrl(SATELLITE_SITE_URL, route.path),
+        url: toAbsoluteUrl(SITE_URL, route.path),
         description: "Landing page sobre aparelhos auditivos Philips HearLink",
       }),
     ),
@@ -173,7 +167,7 @@ function run() {
   writeFileSync(join(ROOT, "public", "llms.txt"), content, "utf8");
   // eslint-disable-next-line no-console
   console.log(
-    `Generated llms.txt with ${blogEntries.length} blog article(s) and ${convenioEntries.length} convênio(s).`,
+    `Generated llms.txt with ${blogEntries.length} blog article(s); convênio partner detail URLs omitted.`,
   );
 }
 

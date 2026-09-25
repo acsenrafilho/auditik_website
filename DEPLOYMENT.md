@@ -78,6 +78,8 @@ If CloudFront uses the **S3 REST API** origin (`your-bucket.s3.region.amazonaws.
 5. **Edit** → **Function associations** → **Viewer request** → choose **CloudFront function** → select the function you published → **Save changes**.
 6. Wait for the distribution to deploy, then hard-refresh a subpage (for example `https://auditik.com.br/contato/`).
 
+**SEO P0 (host + legacy URLs):** after updating [`infra/cloudfront-viewer-request-index-html.js`](infra/cloudfront-viewer-request-index-html.js), **republish** the CloudFront Function (Save → Publish) and confirm the distribution’s **Viewer protocol policy** is **Redirect HTTP to HTTPS**. The function 301s `www` → apex and known legacy paths while preserving the querystring (UTM / `fbclid`); without republishing, production keeps the old behavior.
+
 **Alternative (infrastructure change):** point CloudFront at the bucket’s **S3 website endpoint** (`your-bucket.s3-website-region.amazonaws.com`) with static website hosting enabled and index document `index.html`. That endpoint resolves `folder/` to `folder/index.html` automatically, but the bucket policy and origin setup differ from the REST + OAI pattern above — prefer the function if you already use OAI/OAC.
 
 ### Step 3: Configure Route53 DNS

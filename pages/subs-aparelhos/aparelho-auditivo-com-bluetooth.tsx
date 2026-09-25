@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -293,12 +293,12 @@ const clinicSteps = [
 
 export default function AparelhoAuditivoComBluetoothPage() {
   const seo = getSEOMeta({
-    title: "Aparelho auditivo com Bluetooth | Philips HearLink na Auditik",
+    title: "Aparelho auditivo com Bluetooth | Philips HearLink",
     description:
       "Aparelho auditivo com Bluetooth em Piracicaba: chamadas, música e TV com mais clareza. App HearLink 2 e acessórios Philips. Avaliação auditiva gratuita na Auditik.",
-    canonical: "https://www.auditik.com.br/aparelho-auditivo-com-bluetooth/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.bluetooth),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
+      "/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -311,19 +311,19 @@ export default function AparelhoAuditivoComBluetoothPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Aparelho auditivo com Bluetooth",
-        item: "https://www.auditik.com.br/aparelho-auditivo-com-bluetooth/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.bluetooth),
       },
     ],
   };

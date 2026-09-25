@@ -1,11 +1,13 @@
 import { NextSeo } from "next-seo";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateLocalBusinessSchema } from "@lib/schema";
 import Head from "next/head";
 import { Header } from "@components/Header";
 import Image from "next/image";
 import Link from "next/link";
 import { trackButtonClick } from "@lib/analytics";
+import { APP_ROUTES } from "@lib/routes";
+import { absoluteAssetUrl } from "@lib/site-url";
 
 export default function NossaClinicaPage() {
   const locations = [
@@ -35,10 +37,11 @@ export default function NossaClinicaPage() {
     },
   ];
   const seo = getSEOMeta({
-    title: "Nossa Clínica - Auditik | Aparelhos Auditivos Philips HearLink",
+    title: "Nossa Clínica | Aparelhos Auditivos Philips HearLink",
     description:
       "Conheça a Auditik - especialistas em aparelhos auditivos Philips HearLink com IA integrada. 70 anos de experiência através da Group Demant. Única clínica da região com selo DNA USP. Atendimento humanizado em Piracicaba, Americana, São Pedro e Charqueada. Acompanhamento vitalício gratuito e adaptação precisa.",
-    ogImage: "https://auditik.com.br/images/nossa-clinica-og.jpg",
+    canonical: absoluteUrl(APP_ROUTES.nossaClinica),
+    ogImage: "/images/nossa-clinica-og.jpg",
   });
 
   const piracicabaSchema = generateLocalBusinessSchema("piracicaba");
@@ -50,8 +53,8 @@ export default function NossaClinicaPage() {
     name: "Auditik Soluções Auditivas",
     description:
       "Especialistas em saúde auditiva e aparelhos auditivos Philips HearLink",
-    url: "https://www.auditik.com.br",
-    logo: "https://www.auditik.com.br/logo-auditik.png",
+    url: absoluteUrl(APP_ROUTES.home),
+    logo: absoluteAssetUrl("/images/logo-auditik.png"),
     foundingYear: 2014,
     contactPoint: {
       "@type": "ContactPoint",

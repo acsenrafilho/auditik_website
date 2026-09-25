@@ -11,7 +11,6 @@ export const DEFAULT_SEO = {
   title: "Auditik - Aparelhos Auditivos Philips HearLink",
   description:
     "Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba, Americana, Limeira, Rio Claro e região. Agende sua avaliação gratuita!",
-  canonical: SITE_URL,
   ogImage: absoluteAssetUrl(DEFAULT_OG_IMAGE_PATH),
   ogType: "website",
   twitterCard: "summary_large_image",
@@ -29,6 +28,8 @@ export interface SEOProps {
   ogImage?: string;
   ogType?: string;
   noindex?: boolean;
+  /** When set, overrides the default robots meta (including the noindex branch). */
+  robots?: string;
   article?: {
     publishedTime?: string;
     modifiedTime?: string;
@@ -38,22 +39,24 @@ export interface SEOProps {
 
 export const getSEOMeta = (props: SEOProps = {}) => {
   const seo = { ...DEFAULT_SEO, ...props };
-  const canonical = seo.canonical || SITE_URL;
+  const canonical = props.canonical;
   const ogImage = seo.ogImage
     ? absoluteAssetUrl(seo.ogImage, SITE_URL)
     : DEFAULT_SEO.ogImage;
 
-  const additionalMetaTags = seo.noindex
-    ? [{ name: "robots", content: "noindex,nofollow" }]
-    : [{ name: "robots", content: INDEX_ROBOTS_META }];
+  const robotsContent =
+    props.robots ??
+    (seo.noindex ? "noindex,nofollow" : INDEX_ROBOTS_META);
+
+  const additionalMetaTags = [{ name: "robots", content: robotsContent }];
 
   return {
     title: seo.title,
     description: seo.description,
-    canonical,
+    ...(canonical ? { canonical } : {}),
     openGraph: {
       type: seo.ogType as "website" | "article",
-      url: canonical,
+      ...(canonical ? { url: canonical } : {}),
       title: seo.title,
       description: seo.description,
       locale: "pt_BR",

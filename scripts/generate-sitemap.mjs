@@ -2,11 +2,9 @@ import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import {
   SITE_URL,
-  SATELLITE_SITE_URL,
   STATIC_ROUTES,
   SATELLITE_ROUTES,
   getBlogEntries,
-  getConvenioEntries,
   toAbsoluteUrl,
 } from "./lib/content-index.mjs";
 
@@ -33,7 +31,6 @@ function toUrlNode(loc, lastmod, priority, changefreq) {
 async function run() {
   const buildIso = new Date().toISOString();
   const blogEntries = getBlogEntries();
-  const convenioEntries = getConvenioEntries();
 
   const nodes = [
     ...STATIC_ROUTES.map((route) =>
@@ -46,7 +43,7 @@ async function run() {
     ),
     ...SATELLITE_ROUTES.map((route) =>
       toUrlNode(
-        toAbsoluteUrl(SATELLITE_SITE_URL, route.path),
+        toAbsoluteUrl(SITE_URL, route.path),
         buildIso,
         route.priority,
         route.changefreq,
@@ -54,9 +51,6 @@ async function run() {
     ),
     ...blogEntries.map((entry) =>
       toUrlNode(entry.url, toLastModIso(entry.date, buildIso), "0.7", "weekly"),
-    ),
-    ...convenioEntries.map((entry) =>
-      toUrlNode(entry.url, buildIso, "0.7", "weekly"),
     ),
   ];
 
@@ -69,7 +63,7 @@ async function run() {
   await writeFile(outputPath, xml, "utf8");
   // eslint-disable-next-line no-console
   console.log(
-    `Sitemap generated at ${outputPath} (${blogEntries.length} blog, ${convenioEntries.length} convênios)`,
+    `Sitemap generated at ${outputPath} (${blogEntries.length} blog; convênio detail URLs omitted)`,
   );
 }
 

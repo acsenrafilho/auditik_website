@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -332,12 +332,12 @@ const siloLinks = [
 
 export default function AparelhoAuditivoParaIdososPage() {
   const seo = getSEOMeta({
-    title: "Aparelho auditivo para idosos | Philips HearLink na Auditik Piracicaba",
+    title: "Aparelho auditivo para idosos | Philips HearLink em Piracicaba",
     description:
       "Aparelho auditivo para idosos em Piracicaba: presbiacusia, manuseio fácil e modelos recarregáveis Philips. Guia para familiares e cuidadores. Avaliação auditiva gratuita na Auditik. Agende.",
-    canonical: "https://www.auditik.com.br/aparelho-auditivo-para-idosos/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.idosos),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
+      "/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -350,19 +350,19 @@ export default function AparelhoAuditivoParaIdososPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Aparelho auditivo para idosos",
-        item: "https://www.auditik.com.br/aparelho-auditivo-para-idosos/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.idosos),
       },
     ],
   };

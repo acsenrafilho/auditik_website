@@ -1,13 +1,16 @@
 import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { Header } from "@components/Header";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
+import { APP_ROUTES } from "@lib/routes";
 
 export default function PoliticaDePrivacidadePage() {
   return (
     <>
       <NextSeo
-        title="Política de Privacidade - Auditik"
+        title="Política de Privacidade"
         description="Política de Privacidade completa da Auditik Soluções Auditivas LTDA."
+        canonical={absoluteUrl(APP_ROUTES.privacyPolicy)}
         noindex
         nofollow
       />

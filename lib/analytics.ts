@@ -218,7 +218,7 @@ export const BUTTON_NAMES = {
  * Common product names for tracking
  */
 export const PRODUCT_NAMES = {
-  HEARLINK_100H: "HearLink 100H",
-  HEARLINK_500: "HearLink 500",
-  HEARLINK_700: "HearLink 700",
+  HEARLINK_30: "HearLink 30",
+  HEARLINK_50: "HearLink 50",
+  HEARLINK_PRO: "HearLink Pro",
 };

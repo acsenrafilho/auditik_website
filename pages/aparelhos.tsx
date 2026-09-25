@@ -6,9 +6,9 @@ import { useMemo, useState } from "react";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema, generateProductSchema } from "@lib/schema";
-import { SUBS_APARELHOS_ROUTES } from "@lib/routes";
+import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
 type ProductItem = {
   name: string;
@@ -298,12 +298,12 @@ export default function AparelhosPage() {
     useState<AccessoryItem["category"]>("Carregamento");
 
   const seo = getSEOMeta({
-    title: "Aparelhos Auditivos Philips HearLink em Piracicaba | Auditik",
+    title: "Aparelhos Auditivos Philips HearLink em Piracicaba",
     description:
       "Conheça a linha completa Philips HearLink na Auditik: modelos intra e retroauriculares, app HearLink 2, acessórios oficiais, tecnologia com IA e acompanhamento especializado.",
-    canonical: "https://auditik.com.br/aparelhos",
+    canonical: absoluteUrl(APP_ROUTES.aparelhos),
     ogImage:
-      "https://auditik.com.br/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",
+      "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",
   });
 
   const productSchema = generateProductSchema({

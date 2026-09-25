@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema, generateLocalBusinessSchema } from "@lib/schema";
-import { APP_ROUTES } from "@lib/routes";
+import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
 const HERO_IMAGE =
   "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg";
@@ -110,12 +110,12 @@ const audienceBullets = [
 
 export default function AparelhosAuditivosEmPiracicabaPage() {
   const seo = getSEOMeta({
-    title: "Aparelhos Auditivos em Piracicaba | Philips HearLink na Auditik",
+    title: "Aparelhos Auditivos em Piracicaba | Philips HearLink",
     description:
       "Distribuidor autorizado Philips HearLink em Piracicaba. Avaliação auditiva gratuita, adaptação, ajuste e manutenção com fonoaudiólogos. Agende na Rua Samuel Neves, 1800.",
-    canonical: "https://www.auditik.com.br/aparelhos-auditivos-em-piracicaba/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.piracicaba),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
+      "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
   });
 
   const localBusinessSchema = generateLocalBusinessSchema("piracicaba");
@@ -129,19 +129,19 @@ export default function AparelhosAuditivosEmPiracicabaPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Aparelhos auditivos em Piracicaba",
-        item: "https://www.auditik.com.br/aparelhos-auditivos-em-piracicaba/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.piracicaba),
       },
     ],
   };

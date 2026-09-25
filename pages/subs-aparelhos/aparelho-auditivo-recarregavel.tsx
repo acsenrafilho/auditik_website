@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -300,12 +300,12 @@ const chargingBullets = [
 
 export default function AparelhoAuditivoRecarregavelPage() {
   const seo = getSEOMeta({
-    title: "Aparelho auditivo recarregável | Philips HearLink na Auditik",
+    title: "Aparelho auditivo recarregável | Philips HearLink",
     description:
       "Aparelho auditivo recarregável Philips HearLink em Piracicaba: fim das pilhas, carga rápida e dia inteiro de uso. Avaliação auditiva gratuita na Auditik. Agende.",
-    canonical: "https://www.auditik.com.br/aparelho-auditivo-recarregavel/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.recarregavel),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/PHS_HL50_miniRITE_Portable_Charger_Lifestyle_blue_shadows_GettyImages-1530702944_MS_0255.jpg",
+      "/images/philips/optimized/background/PHS_HL50_miniRITE_Portable_Charger_Lifestyle_blue_shadows_GettyImages-1530702944_MS_0255.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -318,19 +318,19 @@ export default function AparelhoAuditivoRecarregavelPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Aparelho auditivo recarregável",
-        item: "https://www.auditik.com.br/aparelho-auditivo-recarregavel/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.recarregavel),
       },
     ],
   };

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -209,12 +209,12 @@ const techFeatures = [
 
 export default function FinanciamentoAparelhoAuditivoPage() {
   const seo = getSEOMeta({
-    title: "Financiamento de aparelho auditivo | Parcelamento e crédito na Auditik",
+    title: "Financiamento de aparelho auditivo | Parcelamento e crédito",
     description:
       "Parcelamento em até 21x sem juros no cartão, simulação na clínica em Piracicaba e Crédito Acessibilidade BB em até 60x. Philips HearLink com avaliação gratuita.",
-    canonical: "https://www.auditik.com.br/financiamento-aparelho-auditivo/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.financiamento),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
+      "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -227,19 +227,19 @@ export default function FinanciamentoAparelhoAuditivoPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Financiamento de aparelho auditivo",
-        item: "https://www.auditik.com.br/financiamento-aparelho-auditivo/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.financiamento),
       },
     ],
   };

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -281,14 +281,12 @@ const clinicSteps = [
 
 export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
   const seo = getSEOMeta({
-    title:
-      "Aparelhos auditivos Philips Hearing Solutions | Distribuidor Auditik Piracicaba",
+    title: "Aparelhos auditivos Philips em Piracicaba",
     description:
       "Distribuidor autorizado Philips HearLink em Piracicaba. SpeechSensor, AutoSense, app HearLink 2 e avaliação auditiva gratuita. Agende na Auditik.",
-    canonical:
-      "https://www.auditik.com.br/aparelhos-auditivos-philips-hearing-solutions/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.philipsHearingSolutions),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",
+      "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -301,19 +299,19 @@ export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Aparelhos auditivos Philips Hearing Solutions",
-        item: "https://www.auditik.com.br/aparelhos-auditivos-philips-hearing-solutions/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.philipsHearingSolutions),
       },
     ],
   };

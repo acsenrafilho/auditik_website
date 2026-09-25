@@ -197,14 +197,7 @@ function buildBlogPost(fileName: string, fileContents: string): BlogPost {
     excerpt,
     readTime: calculateReadTime(plainText),
     featured: Boolean(data.featured),
-    searchText: [
-      data.title,
-      data.description,
-      data.author,
-      primaryTopic,
-      ...topicLabels,
-      plainText,
-    ]
+    searchText: [title, excerpt, data.author, primaryTopic, ...topicLabels]
       .filter(Boolean)
       .join(" ")
       .toLowerCase(),

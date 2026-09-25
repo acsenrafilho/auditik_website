@@ -329,10 +329,12 @@ export default function ConvenioPartnerPage({
   const partnerUrl = absoluteUrl(`/convenios/${partner.slug}/`);
 
   const seo = getSEOMeta({
-    title: `${partner.name} - Clube de Benefícios Auditik`,
+    title: `${partner.name} - Clube de Benefícios`,
     description: partner.description,
     canonical: partnerUrl,
     ogImage: partner.logo,
+    noindex: true,
+    robots: "noindex,follow",
   });
 
   const convenioSchema = buildConvenioSchema(partner);

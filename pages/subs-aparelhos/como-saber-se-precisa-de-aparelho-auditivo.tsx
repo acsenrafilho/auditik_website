@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -276,12 +276,12 @@ const siloLinks = [
 
 export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
   const seo = getSEOMeta({
-    title: "Como saber se precisa de aparelho auditivo | Guia Auditik Piracicaba",
+    title: "Como saber se precisa de aparelho auditivo | Guia Piracicaba",
     description:
       "Sinais de perda auditiva, riscos de adiar o tratamento e quando fazer avaliação gratuita. Clínica Auditik em Piracicaba — distribuidor Philips HearLink. Agende sem compromisso.",
-    canonical: "https://www.auditik.com.br/como-saber-se-precisa-de-aparelho-auditivo/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.comoSaberPrecisa),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
+      "/images/philips/optimized/background/PHS_HL50_miniRITE_Lifestyle_iPhone14_MS_0059_AS_485092853.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -294,19 +294,19 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Como saber se precisa de aparelho auditivo",
-        item: "https://www.auditik.com.br/como-saber-se-precisa-de-aparelho-auditivo/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.comoSaberPrecisa),
       },
     ],
   };

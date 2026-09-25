@@ -228,7 +228,7 @@ export default function LpPiracicabaAgendamentoPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const seo = getSEOMeta({
-    title: "Marque sua avaliação gratuita em Piracicaba | Auditik",
+    title: "Marque sua avaliação gratuita em Piracicaba",
     description:
       "Escolha o horário pela internet. A consulta é presencial na clínica Auditik de Piracicaba — avaliação gratuita dos aparelhos Philips, sem compromisso.",
     canonical: absoluteUrl(LP_ROUTES.piracicabaAgendamento),

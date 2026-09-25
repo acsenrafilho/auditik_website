@@ -321,7 +321,7 @@ export default function LpAmericanaPhilipsPage() {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const seo = getSEOMeta({
-    title: "Aparelhos auditivos Philips em Americana — avaliação gratuita | Auditik",
+    title: "Aparelhos auditivos Philips em Americana — avaliação gratuita",
     description:
       "Avaliação auditiva gratuita em Americana-SP. Distribuidor autorizado Philips HearLink. Agende na Auditik ou fale no WhatsApp.",
     canonical: absoluteUrl(LP_ROUTES.americanaPhilips),

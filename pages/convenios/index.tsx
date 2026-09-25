@@ -177,7 +177,7 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
   ]);
 
   const seo = getSEOMeta({
-    title: "Clube de Benefícios - Auditik",
+    title: "Clube de Benefícios",
     description:
       "Conheça parceiros que oferecem benefícios exclusivos para clientes Auditik, com filtros por cidade, área e perfil.",
     canonical: absoluteUrl("/convenios/"),
@@ -567,7 +567,12 @@ export default function ConveniosPage({ partners }: ConveniosPageProps) {
 
 export const getStaticProps: GetStaticProps<ConveniosPageProps> = async () => {
   try {
-    const partners = await getAllConvenioPartners();
+    const allPartners = await getAllConvenioPartners();
+
+    const partners = allPartners.map(({ content: _content, ...listing }) => ({
+      ...listing,
+      content: "",
+    }));
 
     return {
       props: { partners },

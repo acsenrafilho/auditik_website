@@ -151,7 +151,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
   };
 
   const seo = getSEOMeta({
-    title: "Blog - Auditik",
+    title: "Blog",
     description:
       "Leia artigos sobre perda auditiva, aparelhos Philips HearLink, tecnologia, adaptação e cuidados com a audição.",
     canonical: absoluteUrl("/blog/"),
@@ -574,8 +574,40 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
 
 export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
   try {
-    const posts = await getAllBlogPosts();
+    const allPosts = await getAllBlogPosts();
     const topics = await getAllBlogTopics();
+
+    const posts = allPosts.map(
+      ({
+        slug,
+        title,
+        excerpt,
+        author,
+        date,
+        topics: postTopics,
+        topicLabels,
+        featured,
+        featuredImage,
+        readTime,
+        searchText,
+      }) => ({
+        slug,
+        title,
+        excerpt,
+        author,
+        date,
+        topics: postTopics,
+        topicLabels,
+        featured,
+        featuredImage: featuredImage ?? null,
+        readTime,
+        searchText,
+        // Listing payload: no markdown body (keeps HTML lean for crawlers).
+        description: "",
+        category: "",
+        content: "",
+      }),
+    );
 
     return {
       props: {

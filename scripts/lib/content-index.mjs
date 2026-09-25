@@ -14,7 +14,6 @@ const CONVENIOS_DIR = path.join(ROOT, "content/convenios");
 
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://auditik.com.br";
-export const SATELLITE_SITE_URL = "https://www.auditik.com.br";
 
 export function ensureTrailingSlash(route) {
   if (!route || route === "/" || route.endsWith("/") || route.includes(".")) {
@@ -182,10 +181,9 @@ export const STATIC_ROUTES = [
   { path: "/blog/", priority: "0.8", changefreq: "weekly" },
   { path: "/contato/", priority: "0.7", changefreq: "monthly" },
   { path: "/faq/", priority: "0.7", changefreq: "monthly" },
-  { path: "/politica-de-privacidade/", priority: "0.3", changefreq: "yearly" },
 ];
 
-/** Satellite landing pages on www.auditik.com.br. */
+/** Satellite landing pages (same apex host). */
 export const SATELLITE_ROUTES = [
   { path: "/aparelhos-auditivos-em-piracicaba/", priority: "0.8", changefreq: "monthly" },
   { path: "/preco-aparelho-auditivo/", priority: "0.8", changefreq: "monthly" },

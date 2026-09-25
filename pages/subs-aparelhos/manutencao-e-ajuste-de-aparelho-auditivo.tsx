@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
@@ -336,12 +336,12 @@ const siloLinks = [
 
 export default function ManutencaoEAjusteDeAparelhoAuditivoPage() {
   const seo = getSEOMeta({
-    title: "Manutenção e ajuste de aparelho auditivo | Assistência Auditik Piracicaba",
+    title: "Manutenção e ajuste de aparelho auditivo | Assistência em Piracicaba",
     description:
       "Limpeza, revisão técnica, reprogramação e laboratório Philips na Auditik. Atendemos qualquer marca em Piracicaba-SP. Agende manutenção ou avaliação gratuita.",
-    canonical: "https://www.auditik.com.br/manutencao-e-ajuste-de-aparelho-auditivo/",
+    canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.manutencaoAjuste),
     ogImage:
-      "https://www.auditik.com.br/images/philips/optimized/background/PHS_HL50_miniRITE_Portable_Charger_Lifestyle_blue_shadows_GettyImages-1530702944_MS_0255.jpg",
+      "/images/philips/optimized/background/PHS_HL50_miniRITE_Portable_Charger_Lifestyle_blue_shadows_GettyImages-1530702944_MS_0255.jpg",
   });
 
   const faqSchema = generateFAQSchema(faqItems);
@@ -354,19 +354,19 @@ export default function ManutencaoEAjusteDeAparelhoAuditivoPage() {
         "@type": "ListItem",
         position: 1,
         name: "Início",
-        item: "https://www.auditik.com.br/",
+        item: absoluteUrl(APP_ROUTES.home),
       },
       {
         "@type": "ListItem",
         position: 2,
         name: "Aparelhos Auditivos",
-        item: "https://www.auditik.com.br/aparelhos/",
+        item: absoluteUrl(APP_ROUTES.aparelhos),
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Manutenção e ajuste de aparelho auditivo",
-        item: "https://www.auditik.com.br/manutencao-e-ajuste-de-aparelho-auditivo/",
+        item: absoluteUrl(SUBS_APARELHOS_ROUTES.manutencaoAjuste),
       },
     ],
   };

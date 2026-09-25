@@ -7,12 +7,13 @@ import {
   trackFormSubmit,
   trackButtonClick,
 } from "@lib/analytics";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateLocalBusinessSchema } from "@lib/schema";
 import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
+import { APP_ROUTES } from "@lib/routes";
 
 export default function ContatoPage() {
   const [formData, setFormData] = useState({
@@ -25,9 +26,10 @@ export default function ContatoPage() {
   const [formError, setFormError] = useState("");
 
   const seo = getSEOMeta({
-    title: "Contato - Auditik",
+    title: "Contato",
     description:
       "Entre em contato com a Auditik e agende sua avaliação auditiva. Atendimento humanizado em Piracicaba, Americana, São Pedro e Charqueada.",
+    canonical: absoluteUrl(APP_ROUTES.contato),
   });
 
   const piracicabaSchema = generateLocalBusinessSchema("piracicaba");

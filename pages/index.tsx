@@ -2,7 +2,7 @@ import { NextSeo } from "next-seo";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { getSEOMeta } from "@lib/seo";
+import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import {
   trackFormSubmit,
   trackButtonClick,
@@ -12,6 +12,7 @@ import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
+import { APP_ROUTES } from "@lib/routes";
 
 export default function Home() {
   const [testimonialsIndex, setTestimonialsIndex] = useState(0);
@@ -27,9 +28,10 @@ export default function Home() {
   const testimonialsPerPage = 3;
 
   const seo = getSEOMeta({
-    title: "Auditik - Aparelhos Auditivos Philips HearLink",
+    title: "Aparelhos auditivos Philips HearLink em Piracicaba",
     description:
       "Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba e Americana. Agende sua avaliação gratuita!",
+    canonical: absoluteUrl(APP_ROUTES.home),
     ogImage:
       "https://lh3.googleusercontent.com/aida/ADBb0ujm3IiiC80F2IAjGlY7KOs-vQWTbFnboie5svMlvTl2zKxwJAun49hElACrkIhMTyg8RQqSckVJaw84J0_M8IcVszIdffURkZbfsIBnwUJdwVJ_G9SVe858Nmi4UnYTi-9yXgEKGumKkDYmoe8JTXJqhYO13QI8d_SqZMITkA6Bfymqq6vZVnKl1pH0KxAQYO1JjXJ8Uo6ISIm4NmhrKN8m36XuY3hLbB0HyhV8WAYG4SJ5v6s-6DpjSjg",
   });
