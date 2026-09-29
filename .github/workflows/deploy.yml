@@ -46,6 +46,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Test CloudFront viewer-request function
+        run: npm run test:cf-function
+
       # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
       # Tracking: GTM-KHQP88V (GA4/Ads/Meta). Cutover: NEXT_PUBLIC_GTM_ID_META=empty
       # (GitHub cannot store blank vars) + NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false
@@ -206,6 +209,36 @@ jobs:
             --exclude '*.txt' \
             --exclude '*.ico' \
             --exclude '.git*'
+
+      # Redirects (www → apex, legacy URLs) and the index.html rewrite live in this function;
+      # S3 sync alone does not change them.
+      - name: Sync CloudFront Function (update + publish)
+        env:
+          CF_FUNCTION_NAME: ${{ vars.CLOUDFRONT_FUNCTION_NAME || 'auditik-append-index-html' }}
+          CF_FUNCTION_FILE: infra/cloudfront-viewer-request-index-html.js
+        run: |
+          set -euo pipefail
+          ETAG=$(aws cloudfront describe-function --name "$CF_FUNCTION_NAME" --stage DEVELOPMENT --query ETag --output text)
+          ETAG=$(aws cloudfront update-function \
+            --name "$CF_FUNCTION_NAME" \
+            --if-match "$ETAG" \
+            --function-config '{"Comment":"auditik viewer-request: legacy/www 301 + index.html rewrite","Runtime":"cloudfront-js-2.0"}' \
+            --function-code "fileb://$CF_FUNCTION_FILE" \
+            --query ETag --output text)
+
+          printf '%s' '{"version":"1.0","context":{"eventType":"viewer-request"},"viewer":{"ip":"1.2.3.4"},"request":{"method":"GET","uri":"/contato","querystring":{},"headers":{"host":{"value":"www.auditik.com.br"}},"cookies":{}}}' > /tmp/cf-event.json
+          RESULT=$(aws cloudfront test-function \
+            --name "$CF_FUNCTION_NAME" \
+            --if-match "$ETAG" \
+            --stage DEVELOPMENT \
+            --event-object fileb:///tmp/cf-event.json \
+            --query 'TestResult.[FunctionErrorMessage,FunctionOutput]' --output text)
+          echo "$RESULT"
+          echo "$RESULT" | grep -q '"location":{"value":"https://auditik.com.br/contato/"}' \
+            || { echo "::error::CloudFront Function test failed; not publishing."; exit 1; }
+
+          aws cloudfront publish-function --name "$CF_FUNCTION_NAME" --if-match "$ETAG" \
+            --query 'FunctionSummary.FunctionMetadata.[Stage,LastModifiedTime]' --output text
 
       - name: Invalidate CloudFront cache
         run: |

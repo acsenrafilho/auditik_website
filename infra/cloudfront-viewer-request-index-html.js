@@ -5,15 +5,19 @@
  * static export with trailingSlash: true (each route is `some/path/index.html`).
  *
  * Order of operations:
- * 1. 301 www.auditik.com.br → https://auditik.com.br (path + querystring)
- * 2. 301 known legacy paths → live apex URLs (querystring preserved)
- * 3. Rewrite directory URLs to .../index.html for S3
+ * 1. 301 known legacy paths → live apex URLs (querystring preserved, any host)
+ * 2. 301 old WordPress archives (/tag/, /category/, /author/) → /blog/ (any host)
+ * 3. 301 www.auditik.com.br → https://auditik.com.br (path + querystring)
+ * 4. Rewrite directory URLs to .../index.html for S3
+ *
+ * Steps 1–2 run before the host check so www + legacy is a single 301, not a chain.
  *
  * Without the rewrite, a refresh on `/contato/` asks S3 for the object key `contato/`,
- * which does not exist — S3 returns an XML AccessDenied error.
+ * which does not exist — S3 returns an XML AccessDenied error. Missing objects still
+ * return 403 from S3; the distribution maps 403 → /404.html with status 404.
  *
- * Attach in CloudFront: Behaviors → Edit default (and others as needed) → Function
- * associations → Viewer request → CloudFront function → Publish this code.
+ * Deployed by .github/workflows/deploy.yml (update + publish on every push to main).
+ * Attached in CloudFront: Behaviors → Default (*) → Function associations → Viewer request.
  */
 
 var APEX_HOST = "auditik.com.br";
@@ -32,21 +36,25 @@ var LEGACY_REDIRECTS = {
   "/philips-hearlink/": "/aparelhos-auditivos-philips-hearing-solutions/",
 };
 
+/** Old WordPress archive prefixes; everything under them → BLOG_PATH. */
+var ARCHIVE_PREFIXES = ["/tag/", "/category/", "/author/"];
+var BLOG_PATH = "/blog/";
+
 function handler(event) {
   var request = event.request;
   var uri = request.uri;
   var host = getHost(request);
 
-  if (host === WWW_HOST) {
+  var redirectTarget = getRedirectTarget(normalizePagePath(uri));
+  if (redirectTarget) {
     return redirectResponse(
-      "https://" + APEX_HOST + ensurePageTrailingSlash(uri) + buildQueryString(request),
+      "https://" + APEX_HOST + redirectTarget + buildQueryString(request),
     );
   }
 
-  var legacyTarget = LEGACY_REDIRECTS[normalizePagePath(uri)];
-  if (legacyTarget) {
+  if (host === WWW_HOST) {
     return redirectResponse(
-      "https://" + APEX_HOST + legacyTarget + buildQueryString(request),
+      "https://" + APEX_HOST + ensurePageTrailingSlash(uri) + buildQueryString(request),
     );
   }
 
@@ -65,6 +73,19 @@ function handler(event) {
   }
 
   return request;
+}
+
+function getRedirectTarget(pagePath) {
+  var legacyTarget = LEGACY_REDIRECTS[pagePath];
+  if (legacyTarget) {
+    return legacyTarget;
+  }
+  for (var i = 0; i < ARCHIVE_PREFIXES.length; i++) {
+    if (pagePath.indexOf(ARCHIVE_PREFIXES[i]) === 0) {
+      return BLOG_PATH;
+    }
+  }
+  return "";
 }
 
 function getHost(request) {

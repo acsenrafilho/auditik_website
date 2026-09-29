@@ -73,12 +73,38 @@ If CloudFront uses the **S3 REST API** origin (`your-bucket.s3.region.amazonaws.
 
 1. In AWS Console → **CloudFront** → **Functions** → **Create function**.
 2. Name it (for example `auditik-append-index-html`), paste the code from `infra/cloudfront-viewer-request-index-html.js`.
-3. Click **Save changes**, then **Publish** (must be published to use in a distribution).
+3. Click **Save changes**, then **Publish** (must be published to use in a distribution). This is only needed for the first setup — afterwards CI updates and publishes the function on every deploy (see below).
 4. Open your **distribution** → **Behaviors** → select the behavior that serves your site (usually `Default (*)`).
 5. **Edit** → **Function associations** → **Viewer request** → choose **CloudFront function** → select the function you published → **Save changes**.
 6. Wait for the distribution to deploy, then hard-refresh a subpage (for example `https://auditik.com.br/contato/`).
 
-**SEO P0 (host + legacy URLs):** after updating [`infra/cloudfront-viewer-request-index-html.js`](infra/cloudfront-viewer-request-index-html.js), **republish** the CloudFront Function (Save → Publish) and confirm the distribution’s **Viewer protocol policy** is **Redirect HTTP to HTTPS**. The function 301s `www` → apex and known legacy paths while preserving the querystring (UTM / `fbclid`); without republishing, production keeps the old behavior.
+**SEO P0 (host + legacy URLs):** the function 301s known legacy paths (`LEGACY_REDIRECTS`), old WordPress archives (`/tag/`, `/category/`, `/author/` → `/blog/`) and `www` → apex, always preserving the querystring (UTM / `fbclid`). Legacy rules run before the host check, so `www` + legacy path is a single 301. The distribution’s **Viewer protocol policy** must be **Redirect HTTP to HTTPS**.
+
+**The function is deployed by CI.** The `deploy` job in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs **Sync CloudFront Function**: `update-function` (DEVELOPMENT) → `test-function` (www event must return a 301) → `publish-function` (LIVE). The `build` job runs `npm run test:cf-function` first ([`scripts/test-cloudfront-function.mjs`](scripts/test-cloudfront-function.mjs)). Do not edit the function in the console — the next deploy overwrites it. The function name defaults to `auditik-append-index-html` (override with the `CLOUDFRONT_FUNCTION_NAME` variable); the CI IAM user needs `cloudfront:DescribeFunction`, `UpdateFunction`, `TestFunction` and `PublishFunction`.
+
+Saving in the console is not enough: a function change only takes effect after **Publish** (stage `LIVE`). Check with:
+
+```bash
+aws cloudfront describe-function --name auditik-append-index-html --stage LIVE \
+  --query 'FunctionSummary.FunctionMetadata.LastModifiedTime'
+```
+
+**404 for missing pages:** the OAC cannot `s3:ListBucket`, so S3 answers **403** for any missing key. The distribution has **Custom error responses** 403 → `/404.html` with response code **404** (and 404 → `/404.html`, 404), error caching TTL 60 s. Without them, unknown URLs show the S3 XML `AccessDenied` page.
+
+**Verify after deploy:**
+
+```bash
+# Expect a single 301 to https://auditik.com.br/...
+curl -sI https://www.auditik.com.br/contato/ | grep -iE '^(HTTP|location)'
+curl -sI http://www.auditik.com.br/ | grep -iE '^(HTTP|location)'
+curl -sI https://www.auditik.com.br/philips | grep -iE '^(HTTP|location)'
+curl -sI https://auditik.com.br/aparelhos-auditivos/ | grep -iE '^(HTTP|location)'
+curl -sI https://auditik.com.br/tag/qualquer/ | grep -iE '^(HTTP|location)'
+# Expect 404
+curl -sI https://auditik.com.br/pagina-que-nao-existe/ | grep -i '^HTTP'
+# Expect 200
+curl -sI https://auditik.com.br/ https://auditik.com.br/sitemap.xml | grep -i '^HTTP'
+```
 
 **Alternative (infrastructure change):** point CloudFront at the bucket’s **S3 website endpoint** (`your-bucket.s3-website-region.amazonaws.com`) with static website hosting enabled and index document `index.html`. That endpoint resolves `folder/` to `folder/index.html` automatically, but the bucket policy and origin setup differ from the REST + OAI pattern above — prefer the function if you already use OAI/OAC.
 
