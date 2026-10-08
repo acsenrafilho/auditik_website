@@ -36,6 +36,7 @@ const ACTIVATION_STORAGE_KEY_PREFIX = "convenio_benefit_activated_";
 
 type VoucherSnapshot = {
   firstName: string;
+  customerPhone: string;
   store: string;
   partnerName: string;
   benefitSummary: string;
@@ -219,6 +220,7 @@ export default function ConvenioPartnerPage({
 
       const snapshot: VoucherSnapshot = {
         firstName,
+        customerPhone: formatBrazilPhone(phone),
         store: modalForm.loja,
         partnerName: partner.name,
         benefitSummary,
@@ -653,6 +655,7 @@ export default function ConvenioPartnerPage({
                     <div className="origin-top-left scale-[0.42]">
                       <BenefitActivationVoucher
                         firstName={voucherSnapshot.firstName}
+                        customerPhone={voucherSnapshot.customerPhone}
                         store={voucherSnapshot.store}
                         partnerName={voucherSnapshot.partnerName}
                         benefitSummary={voucherSnapshot.benefitSummary}
@@ -804,6 +807,7 @@ export default function ConvenioPartnerPage({
           <BenefitActivationVoucher
             ref={voucherRef}
             firstName={voucherSnapshot.firstName}
+            customerPhone={voucherSnapshot.customerPhone}
             store={voucherSnapshot.store}
             partnerName={voucherSnapshot.partnerName}
             benefitSummary={voucherSnapshot.benefitSummary}

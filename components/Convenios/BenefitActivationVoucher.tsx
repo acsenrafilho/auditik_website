@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 
 export interface BenefitActivationVoucherProps {
   firstName: string;
+  customerPhone: string;
   store: string;
   partnerName: string;
   benefitSummary: string;
@@ -20,6 +21,7 @@ export const BenefitActivationVoucher = forwardRef<
 >(function BenefitActivationVoucher(
   {
     firstName,
+    customerPhone,
     store,
     partnerName,
     benefitSummary,
@@ -77,6 +79,14 @@ export const BenefitActivationVoucher = forwardRef<
             Cliente
           </p>
           <p className="text-xl font-extrabold text-slate-900">{firstName}</p>
+          {customerPhone ? (
+            <>
+              <p className="mt-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                Telefone do cliente
+              </p>
+              <p className="text-base font-semibold text-slate-800">{customerPhone}</p>
+            </>
+          ) : null}
           <p className="mt-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
             Loja Philips
           </p>
