@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@components/Header";
+import { ClinicCityLinks } from "@components/Clinic/ClinicCityLinks";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta, absoluteUrl } from "@lib/seo";
@@ -281,9 +282,9 @@ const clinicSteps = [
 
 export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
   const seo = getSEOMeta({
-    title: "Aparelhos auditivos Philips em Piracicaba",
+    title: "Tratamento auditivo Philips HearLink em Piracicaba",
     description:
-      "Distribuidor autorizado Philips HearLink em Piracicaba. SpeechSensor, AutoSense, app HearLink 2 e avaliação auditiva gratuita. Agende na Auditik.",
+      "Clínica autorizada Philips Hearing Solutions. Avaliação gratuita, adaptação e acompanhamento em Piracicaba e região.",
     canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.philipsHearingSolutions),
     ogImage:
       "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",
@@ -341,14 +342,12 @@ export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
           <div className="container-wide relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="inline-block px-4 py-1.5 bg-auditik-blue/10 text-auditik-blue rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-                Philips Hearing Solutions · Distribuidor autorizado · Piracicaba-SP
+                Clínica autorizada Philips Hearing Solutions · Piracicaba-SP
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.05] mb-6">
-                Aparelhos auditivos{" "}
-                <span className="text-auditik-blue">
-                  Philips Hearing Solutions
-                </span>
-                : tradição global, tecnologia HearLink na Auditik
+                Tratamento auditivo{" "}
+                <span className="text-auditik-blue">Philips HearLink</span> na clínica
+                Auditik em Piracicaba
               </h1>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-4">
                 Quando você pesquisa{" "}
@@ -1106,6 +1105,8 @@ export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
             </div>
           </div>
         </section>
+
+        <ClinicCityLinks currentPath={SUBS_APARELHOS_ROUTES.philipsHearingSolutions} />
 
         {/* FAQ */}
         <section className="py-24 bg-white">

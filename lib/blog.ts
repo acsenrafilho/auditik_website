@@ -42,10 +42,17 @@ const BLOG_TOPIC_ALIASES: Record<string, BlogTopicValue> = {
   "saude-e-bem-estar": "depoimentos-qualidade-de-vida",
 };
 
+export interface BlogFaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
+  seoTitle: string;
   description: string;
+  faq: BlogFaqItem[];
   author: string;
   date: string;
   category: string;
@@ -178,13 +185,36 @@ function buildBlogPost(fileName: string, fileContents: string): BlogPost {
   const normalizedContent = content.trim();
   const title =
     typeof data.title === "string" && data.title.trim() ? data.title : "Untitled";
+  const seoTitle =
+    typeof data.seoTitle === "string" && data.seoTitle.trim()
+      ? data.seoTitle.trim()
+      : "";
   const author =
     typeof data.author === "string" && data.author.trim() ? data.author : "Auditik";
+  const faq = Array.isArray(data.faq)
+    ? data.faq.flatMap((item) => {
+        if (!item || typeof item !== "object") {
+          return [];
+        }
+        const question =
+          "question" in item && typeof item.question === "string"
+            ? item.question.trim()
+            : "";
+        const answer =
+          "answer" in item && typeof item.answer === "string" ? item.answer.trim() : "";
+        if (!question || !answer) {
+          return [];
+        }
+        return [{ question, answer }];
+      })
+    : [];
 
   return {
     slug: fileSlug,
     title,
+    seoTitle,
     description,
+    faq,
     author,
     date:
       typeof data.date === "string" && data.date.trim()

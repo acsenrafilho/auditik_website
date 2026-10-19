@@ -1,5 +1,4 @@
 import { NextSeo } from "next-seo";
-import Head from "next/head";
 import Image from "next/image";
 import { LandingShell } from "@components/Landing";
 import { getSEOMeta } from "@lib/seo";
@@ -21,9 +20,6 @@ export default function LpPilotoPage() {
   return (
     <>
       <NextSeo {...seo} noindex nofollow />
-      <Head>
-        <meta name="robots" content="noindex,nofollow" />
-      </Head>
 
       <LandingShell>
         <main className="container-wide py-12 md:py-16">

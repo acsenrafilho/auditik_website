@@ -11,7 +11,6 @@
  * Until then, reuses Philips bank + sala_atendimento.webp.
  */
 import { NextSeo } from "next-seo";
-import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import { LandingShell, LandingStickyCta, LandingIcon, LandingMapPreview } from "@components/Landing";
@@ -407,9 +406,6 @@ export default function LpAmericanaPhilipsPage() {
   return (
     <>
       <NextSeo {...seo} noindex nofollow />
-      <Head>
-        <meta name="robots" content="noindex,nofollow" />
-      </Head>
 
       <LandingShell>
         <main className="pb-32 md:pb-0">

@@ -59,7 +59,12 @@ const OPTIONAL_PAGES = [
 ];
 
 const SATELLITE_PAGE_LABELS = {
-  "/aparelhos-auditivos-em-piracicaba/": "Aparelhos auditivos em Piracicaba",
+  "/aparelhos-auditivos-em-piracicaba/": "Clínica de aparelho auditivo em Piracicaba",
+  "/aparelhos-auditivos-em-americana/": "Clínica de aparelho auditivo em Americana",
+  "/aparelhos-auditivos-em-sao-pedro/": "Clínica de aparelho auditivo em São Pedro",
+  "/aparelhos-auditivos-em-charqueada/": "Clínica de aparelho auditivo em Charqueada",
+  "/aparelho-auditivo-em-limeira/": "Aparelho auditivo para quem mora em Limeira",
+  "/aparelho-auditivo-em-rio-claro/": "Aparelho auditivo para quem mora em Rio Claro",
   "/preco-aparelho-auditivo/": "Preço de aparelho auditivo",
   "/financiamento-aparelho-auditivo/": "Financiamento de aparelho auditivo",
   "/aparelho-auditivo-invisivel/": "Aparelho auditivo invisível",

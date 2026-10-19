@@ -1,5 +1,4 @@
 import { NextSeo } from "next-seo";
-import Head from "next/head";
 import { Header } from "@components/Header";
 import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { APP_ROUTES } from "@lib/routes";
@@ -14,9 +13,6 @@ export default function PoliticaDePrivacidadePage() {
         noindex
         nofollow
       />
-      <Head>
-        <meta name="robots" content="noindex, nofollow" />
-      </Head>
       <Header />
 
       <main className="bg-white min-h-screen py-12">

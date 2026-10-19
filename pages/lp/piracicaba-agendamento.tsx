@@ -10,7 +10,6 @@
  * No site form CRM and no /obrigado/ LeadFormSubmit on this LP.
  */
 import { NextSeo } from "next-seo";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
@@ -267,9 +266,6 @@ export default function LpPiracicabaAgendamentoPage() {
   return (
     <>
       <NextSeo {...seo} noindex nofollow />
-      <Head>
-        <meta name="robots" content="noindex,nofollow" />
-      </Head>
 
       <LandingShell showReservedRights footerNote={FOOTER_NOTE}>
         <main className="overflow-x-hidden pb-32 md:pb-0">

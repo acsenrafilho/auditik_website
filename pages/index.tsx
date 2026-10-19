@@ -11,8 +11,9 @@ import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { Header } from "@components/Header";
+import { ClinicCityLinks } from "@components/Clinic/ClinicCityLinks";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
-import { APP_ROUTES } from "@lib/routes";
+import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
 export default function Home() {
   const [testimonialsIndex, setTestimonialsIndex] = useState(0);
@@ -28,9 +29,9 @@ export default function Home() {
   const testimonialsPerPage = 3;
 
   const seo = getSEOMeta({
-    title: "Aparelhos auditivos Philips HearLink em Piracicaba",
+    title: "Clínica Philips HearLink em Piracicaba",
     description:
-      "Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba e Americana. Agende sua avaliação gratuita!",
+      "Avaliação e tratamento auditivo com fonoaudiólogos. Clínica autorizada Philips HearLink em Piracicaba, Americana, São Pedro e Charqueada.",
     canonical: absoluteUrl(APP_ROUTES.home),
     ogImage:
       "https://lh3.googleusercontent.com/aida/ADBb0ujm3IiiC80F2IAjGlY7KOs-vQWTbFnboie5svMlvTl2zKxwJAun49hElACrkIhMTyg8RQqSckVJaw84J0_M8IcVszIdffURkZbfsIBnwUJdwVJ_G9SVe858Nmi4UnYTi-9yXgEKGumKkDYmoe8JTXJqhYO13QI8d_SqZMITkA6Bfymqq6vZVnKl1pH0KxAQYO1JjXJ8Uo6ISIm4NmhrKN8m36XuY3hLbB0HyhV8WAYG4SJ5v6s-6DpjSjg",
@@ -141,24 +142,28 @@ export default function Home() {
       address: "Rua Samuel Neves, 1800",
       city: "Jardim Europa, Piracicaba - SP",
       maps: "https://maps.app.goo.gl/c6EiqgiPaQg3HUrK8",
+      href: SUBS_APARELHOS_ROUTES.piracicaba,
     },
     {
       name: "Unidade Americana",
       address: "Rua Luísa Meneghel Mancine, 72 - Sala 12",
       city: "Jardim Paulista, Americana - SP",
       maps: "https://maps.app.goo.gl/j4sTcPKXbBirS1JUA",
+      href: SUBS_APARELHOS_ROUTES.americana,
     },
     {
       name: "Unidade São Pedro",
       address: "Rua Malaquias Guerra, 290",
       city: "Centro, São Pedro - SP",
       maps: "https://maps.app.goo.gl/HAKJ6zmwJ3JjvhseA",
+      href: SUBS_APARELHOS_ROUTES.saoPedro,
     },
     {
       name: "Unidade Charqueada",
       address: "Avenida Brasil, 151",
       city: "Centro, Charqueada - SP",
       maps: "https://maps.app.goo.gl/PcWnKA3BTexc2FFm9",
+      href: SUBS_APARELHOS_ROUTES.charqueada,
     },
   ];
 
@@ -290,13 +295,15 @@ export default function Home() {
                 Inovação em Saúde Auditiva
               </span>
               <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-8">
-                Volte a viver sem o peso do{" "}
-                <span className="text-auditik-blue">zumbido e da perda auditiva</span>.
+                Clínica de tratamento auditivo{" "}
+                <span className="text-auditik-blue">
+                  Philips HearLink em Piracicaba
+                </span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed">
-                Com a tecnologia Philips HearLink e acompanhamento especializado da
-                Auditik, você recupera qualidade de vida, clareza nas conversas e
-                segurança para aproveitar cada momento.
+                Avaliação com fonoaudiólogos, adaptação e acompanhamento na clínica
+                Auditik. A tecnologia Philips HearLink entra no tratamento para devolver
+                clareza nas conversas e segurança no dia a dia.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
@@ -829,26 +836,38 @@ export default function Home() {
                       <br />
                       {location.city}
                     </p>
-                    <a
-                      href={location.maps}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() =>
-                        trackButtonClick(`location_${index}`, { section: "locations" })
-                      }
-                      className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
-                    >
-                      Ver no Google Maps
-                      <span className="material-symbols-outlined text-sm">
-                        arrow_forward
-                      </span>
-                    </a>
+                    <div className="flex flex-col items-start gap-1">
+                      <Link
+                        href={location.href}
+                        className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2"
+                      >
+                        {location.name.replace("Unidade", "Clínica em")}
+                        <span className="material-symbols-outlined text-sm">
+                          arrow_forward
+                        </span>
+                      </Link>
+                      <a
+                        href={location.maps}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
+                          trackButtonClick(`location_${index}`, { section: "locations" })
+                        }
+                        className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
+                      >
+                        Ver no Google Maps
+                        <span className="material-symbols-outlined text-sm">
+                          arrow_forward
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
+        <ClinicCityLinks />
       </main>
 
       {/* Footer */}

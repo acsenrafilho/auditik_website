@@ -7,7 +7,11 @@ import type { GetStaticPaths, GetStaticProps } from "next";
 import { Header } from "@components/Header";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
-import { generateArticleSchema, generateBreadcrumbSchema } from "@lib/schema";
+import {
+  generateArticleSchema,
+  generateBreadcrumbSchema,
+  generateFAQSchema,
+} from "@lib/schema";
 import { getSEOMeta } from "@lib/seo";
 import { absoluteUrl } from "@lib/site-url";
 import type { BlogPost } from "@lib/blog";
@@ -70,8 +74,10 @@ export default function BlogPostPage({
 
   const postUrl = absoluteUrl(`/blog/${post.slug}/`);
 
+  const faqSchema = post.faq.length > 0 ? generateFAQSchema(post.faq) : null;
+
   const seo = getSEOMeta({
-    title: post.title,
+    title: post.seoTitle || post.title,
     description: post.description || post.excerpt,
     canonical: postUrl,
     ogImage: post.featuredImage,
@@ -112,6 +118,12 @@ export default function BlogPostPage({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
         />
+        {faqSchema && (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+          />
+        )}
       </Head>
       <Header />
       <main>
@@ -169,9 +181,39 @@ export default function BlogPostPage({
 
         <section className="py-16 md:py-20 bg-white">
           <div className="container-wide grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
-            <article className="prose prose-lg markdown-content">
-              <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
-            </article>
+            <div>
+              <article className="prose prose-lg markdown-content">
+                <div dangerouslySetInnerHTML={{ __html: contentHtml }} />
+              </article>
+              {post.faq.length > 0 && (
+                <section className="mt-12" aria-labelledby="faq-artigo">
+                  <h2
+                    id="faq-artigo"
+                    className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-6"
+                  >
+                    Perguntas frequentes
+                  </h2>
+                  <div className="space-y-4">
+                    {post.faq.map((item) => (
+                      <article
+                        key={item.question}
+                        className="rounded-3xl border border-blue-50 bg-bg-light-blue p-6"
+                      >
+                        <h3 className="text-lg font-bold text-slate-900 mb-2">
+                          {item.question}
+                        </h3>
+                        <p className="text-slate-600 leading-relaxed">{item.answer}</p>
+                      </article>
+                    ))}
+                  </div>
+                  <p className="mt-6 text-slate-700 leading-relaxed">
+                    Se o sintoma continuar, a avaliação na clínica Auditik ajuda a
+                    entender a audição com um fonoaudiólogo. O atendimento é em
+                    Piracicaba, Americana, São Pedro e Charqueada.
+                  </p>
+                </section>
+              )}
+            </div>
 
             <aside>
               <div className="bg-bg-light-blue p-6 rounded-[2rem] sticky top-4 border border-blue-50">

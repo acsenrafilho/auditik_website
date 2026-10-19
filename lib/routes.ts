@@ -20,6 +20,11 @@ export const LP_ROUTES = {
 /** Satellite landing pages in the aparelhos SEO silo (see pages/subs-aparelhos/). */
 export const SUBS_APARELHOS_ROUTES = {
   piracicaba: "/aparelhos-auditivos-em-piracicaba/",
+  americana: "/aparelhos-auditivos-em-americana/",
+  saoPedro: "/aparelhos-auditivos-em-sao-pedro/",
+  charqueada: "/aparelhos-auditivos-em-charqueada/",
+  limeira: "/aparelho-auditivo-em-limeira/",
+  rioClaro: "/aparelho-auditivo-em-rio-claro/",
   preco: "/preco-aparelho-auditivo/",
   financiamento: "/financiamento-aparelho-auditivo/",
   invisivel: "/aparelho-auditivo-invisivel/",

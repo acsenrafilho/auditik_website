@@ -1,4 +1,4 @@
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { ensureTrailingSlash } from "@lib/routes";
@@ -20,10 +20,7 @@ export default function Custom404() {
 
   return (
     <>
-      <Head>
-        <title>Página não encontrada | Auditik</title>
-        <meta name="robots" content="noindex,nofollow" />
-      </Head>
+      <NextSeo title="Página não encontrada" noindex nofollow />
       <main className="min-h-screen flex items-center justify-center px-6 bg-white">
         <div className="max-w-xl text-center space-y-4">
           <p className="text-sm font-bold uppercase tracking-[0.3em] text-auditik-blue">

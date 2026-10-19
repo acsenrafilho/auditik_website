@@ -17,6 +17,11 @@ O `exportPathMap` em `next.config.js` **não exporta** rotas `/subs-aparelhos/*`
 | Slug | URL pública |
 |------|-------------|
 | `aparelhos-auditivos-em-piracicaba` | `/aparelhos-auditivos-em-piracicaba/` |
+| `aparelhos-auditivos-em-americana` | `/aparelhos-auditivos-em-americana/` |
+| `aparelhos-auditivos-em-sao-pedro` | `/aparelhos-auditivos-em-sao-pedro/` |
+| `aparelhos-auditivos-em-charqueada` | `/aparelhos-auditivos-em-charqueada/` |
+| `aparelho-auditivo-em-limeira` | `/aparelho-auditivo-em-limeira/` |
+| `aparelho-auditivo-em-rio-claro` | `/aparelho-auditivo-em-rio-claro/` |
 | `preco-aparelho-auditivo` | `/preco-aparelho-auditivo/` |
 | `financiamento-aparelho-auditivo` | `/financiamento-aparelho-auditivo/` |
 | `aparelho-auditivo-invisivel` | `/aparelho-auditivo-invisivel/` |

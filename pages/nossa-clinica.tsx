@@ -3,10 +3,11 @@ import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateLocalBusinessSchema } from "@lib/schema";
 import Head from "next/head";
 import { Header } from "@components/Header";
+import { ClinicCityLinks } from "@components/Clinic/ClinicCityLinks";
 import Image from "next/image";
 import Link from "next/link";
 import { trackButtonClick } from "@lib/analytics";
-import { APP_ROUTES } from "@lib/routes";
+import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 import { absoluteAssetUrl } from "@lib/site-url";
 
 export default function NossaClinicaPage() {
@@ -16,24 +17,28 @@ export default function NossaClinicaPage() {
       address: "Rua Samuel Neves, 1800",
       city: "Jardim Europa, Piracicaba - SP",
       maps: "https://maps.app.goo.gl/c6EiqgiPaQg3HUrK8",
+      href: SUBS_APARELHOS_ROUTES.piracicaba,
     },
     {
       name: "Unidade Americana",
       address: "Rua Luísa Meneghel Mancine, 72 - Sala 12",
       city: "Jardim Paulista, Americana - SP",
       maps: "https://maps.app.goo.gl/j4sTcPKXbBirS1JUA",
+      href: SUBS_APARELHOS_ROUTES.americana,
     },
     {
       name: "Unidade São Pedro",
       address: "Rua Malaquias Guerra, 290",
       city: "Centro, São Pedro - SP",
       maps: "https://maps.app.goo.gl/HAKJ6zmwJ3JjvhseA",
+      href: SUBS_APARELHOS_ROUTES.saoPedro,
     },
     {
       name: "Unidade Charqueada",
       address: "Avenida Brasil, 151",
       city: "Centro, Charqueada - SP",
       maps: "https://maps.app.goo.gl/PcWnKA3BTexc2FFm9",
+      href: SUBS_APARELHOS_ROUTES.charqueada,
     },
   ];
   const seo = getSEOMeta({
@@ -44,8 +49,12 @@ export default function NossaClinicaPage() {
     ogImage: "/images/nossa-clinica-og.jpg",
   });
 
-  const piracicabaSchema = generateLocalBusinessSchema("piracicaba");
-  const americanaSchema = generateLocalBusinessSchema("americana");
+  const clinicSchemas = [
+    generateLocalBusinessSchema("piracicaba"),
+    generateLocalBusinessSchema("americana"),
+    generateLocalBusinessSchema("sao-pedro"),
+    generateLocalBusinessSchema("charqueada"),
+  ];
 
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -83,6 +92,8 @@ export default function NossaClinicaPage() {
         name: "Charqueada",
         "@id": "https://www.wikidata.org/wiki/Q2322099",
       },
+      { "@type": "City", name: "Limeira" },
+      { "@type": "City", name: "Rio Claro" },
     ],
   };
 
@@ -97,14 +108,13 @@ export default function NossaClinicaPage() {
     <>
       <NextSeo {...seo} />
       <Head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(piracicabaSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(americanaSchema) }}
-        />
+        {clinicSchemas.map((schema) => (
+          <script
+            key={schema["@id"]}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -403,28 +413,41 @@ export default function NossaClinicaPage() {
                       <br />
                       {location.city}
                     </p>
-                    <a
-                      href={location.maps}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() =>
-                        trackButtonClick(`location_nossa_clinica_${index}`, {
-                          section: "locations",
-                        })
-                      }
-                      className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
-                    >
-                      Ver no Google Maps
-                      <span className="material-symbols-outlined text-sm">
-                        arrow_forward
-                      </span>
-                    </a>
+                    <div className="flex flex-col items-start gap-1">
+                      <Link
+                        href={location.href}
+                        className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2"
+                      >
+                        {location.name.replace("Unidade", "Clínica em")}
+                        <span className="material-symbols-outlined text-sm">
+                          arrow_forward
+                        </span>
+                      </Link>
+                      <a
+                        href={location.maps}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() =>
+                          trackButtonClick(`location_nossa_clinica_${index}`, {
+                            section: "locations",
+                          })
+                        }
+                        className="inline-flex min-h-11 items-center px-2 text-auditik-blue font-bold gap-2 group-hover:gap-4 transition-all"
+                      >
+                        Ver no Google Maps
+                        <span className="material-symbols-outlined text-sm">
+                          arrow_forward
+                        </span>
+                      </a>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
+
+        <ClinicCityLinks />
 
         {/* CTA Final */}
         <section className="py-20 bg-gradient-to-r from-auditik-blue via-blue-500 to-auditik-dark-blue">

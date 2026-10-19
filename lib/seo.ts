@@ -47,12 +47,27 @@ export const getSEOMeta = (props: SEOProps = {}) => {
   const robotsContent =
     props.robots ??
     (seo.noindex ? "noindex,nofollow" : INDEX_ROBOTS_META);
-
-  const additionalMetaTags = [{ name: "robots", content: robotsContent }];
+  const robotsTokens = robotsContent
+    .toLowerCase()
+    .split(",")
+    .map((token) => token.trim());
+  const noindex = robotsTokens.includes("noindex");
+  const nofollow = robotsTokens.includes("nofollow");
 
   return {
     title: seo.title,
     description: seo.description,
+    noindex,
+    nofollow,
+    ...(noindex
+      ? {}
+      : {
+          robotsProps: {
+            maxSnippet: -1,
+            maxImagePreview: "large" as const,
+            maxVideoPreview: -1,
+          },
+        }),
     ...(canonical ? { canonical } : {}),
     openGraph: {
       type: seo.ogType as "website" | "article",
@@ -77,7 +92,6 @@ export const getSEOMeta = (props: SEOProps = {}) => {
     },
     article: seo.article,
     keywords: seo.keywords,
-    additionalMetaTags,
   };
 };
 

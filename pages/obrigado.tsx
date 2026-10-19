@@ -82,7 +82,6 @@ export default function ObrigadoPage() {
       <>
         <NextSeo {...seo} noindex nofollow />
         <Head>
-          <meta name="robots" content="noindex,nofollow" />
           <script
             dangerouslySetInnerHTML={{
               __html: `(function(){try{var raw=sessionStorage.getItem("auditik_thankyou");if(!raw)return;var p=JSON.parse(raw);if(!p||!p.eventId)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event_id:p.eventId,lead_id:p.eventId});}catch(e){}})();`,
@@ -100,7 +99,6 @@ export default function ObrigadoPage() {
     <>
       <NextSeo {...seo} noindex nofollow />
       <Head>
-        <meta name="robots" content="noindex,nofollow" />
         <script
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var raw=sessionStorage.getItem("auditik_thankyou");if(!raw)return;var p=JSON.parse(raw);if(!p||!p.eventId)return;window.dataLayer=window.dataLayer||[];window.dataLayer.push({event_id:p.eventId,lead_id:p.eventId});}catch(e){}})();`,

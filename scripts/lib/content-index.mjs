@@ -186,6 +186,11 @@ export const STATIC_ROUTES = [
 /** Satellite landing pages (same apex host). */
 export const SATELLITE_ROUTES = [
   { path: "/aparelhos-auditivos-em-piracicaba/", priority: "0.8", changefreq: "monthly" },
+  { path: "/aparelhos-auditivos-em-americana/", priority: "0.8", changefreq: "monthly" },
+  { path: "/aparelhos-auditivos-em-sao-pedro/", priority: "0.8", changefreq: "monthly" },
+  { path: "/aparelhos-auditivos-em-charqueada/", priority: "0.8", changefreq: "monthly" },
+  { path: "/aparelho-auditivo-em-limeira/", priority: "0.8", changefreq: "monthly" },
+  { path: "/aparelho-auditivo-em-rio-claro/", priority: "0.8", changefreq: "monthly" },
   { path: "/preco-aparelho-auditivo/", priority: "0.8", changefreq: "monthly" },
   { path: "/financiamento-aparelho-auditivo/", priority: "0.8", changefreq: "monthly" },
   { path: "/aparelho-auditivo-invisivel/", priority: "0.8", changefreq: "monthly" },

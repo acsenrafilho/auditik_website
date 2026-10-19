@@ -34,33 +34,81 @@ function generateOrganizationPublisher() {
   };
 }
 
-export const generateLocalBusinessSchema = (
-  location: "piracicaba" | "americana" = "piracicaba",
-) => {
-  const locations = {
-    piracicaba: {
-      name: "Auditik - Piracicaba",
-      street: "Rua Samuel Neves, 1800",
-      city: "Piracicaba",
-      state: "SP",
-      postalCode: "13420-000",
-      phone: "(19) 3377-6941",
-      latitude: "-22.7339",
-      longitude: "-47.6492",
-    },
-    americana: {
-      name: "Auditik - Americana",
-      street: "Rua Luíza Meneghel Mancine, 72 - Sala 12",
-      city: "Americana",
-      state: "SP",
-      postalCode: "13460-000",
-      phone: "(19) 3377-6941",
-      latitude: "-22.7433",
-      longitude: "-47.3299",
-    },
-  };
+export type ClinicLocationId =
+  | "piracicaba"
+  | "americana"
+  | "sao-pedro"
+  | "charqueada";
 
-  const loc = locations[location];
+const CLINIC_LOCATIONS: Record<
+  ClinicLocationId,
+  {
+    name: string;
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    phone: string;
+    latitude: string;
+    longitude: string;
+    path: string;
+    areaServed: string[];
+  }
+> = {
+  piracicaba: {
+    name: "Auditik - Clínica em Piracicaba",
+    street: "Rua Samuel Neves, 1800",
+    city: "Piracicaba",
+    state: "SP",
+    postalCode: "13420-000",
+    phone: "(19) 3377-6941",
+    latitude: "-22.7339",
+    longitude: "-47.6492",
+    path: "/aparelhos-auditivos-em-piracicaba/",
+    areaServed: ["Piracicaba", "Rio Claro"],
+  },
+  americana: {
+    name: "Auditik - Clínica em Americana",
+    street: "Rua Luíza Meneghel Mancine, 72 - Sala 12",
+    city: "Americana",
+    state: "SP",
+    postalCode: "13460-000",
+    phone: "(19) 3377-6941",
+    latitude: "-22.7433",
+    longitude: "-47.3299",
+    path: "/aparelhos-auditivos-em-americana/",
+    areaServed: ["Americana", "Limeira"],
+  },
+  "sao-pedro": {
+    name: "Auditik - Clínica em São Pedro",
+    street: "Rua Malaquias Guerra, 290",
+    city: "São Pedro",
+    state: "SP",
+    postalCode: "13520-000",
+    phone: "(19) 3377-6941",
+    latitude: "-22.5483",
+    longitude: "-47.9139",
+    path: "/aparelhos-auditivos-em-sao-pedro/",
+    areaServed: ["São Pedro"],
+  },
+  charqueada: {
+    name: "Auditik - Clínica em Charqueada",
+    street: "Avenida Brasil, 151",
+    city: "Charqueada",
+    state: "SP",
+    postalCode: "13515-000",
+    phone: "(19) 3377-6941",
+    latitude: "-22.5094",
+    longitude: "-47.7754",
+    path: "/aparelhos-auditivos-em-charqueada/",
+    areaServed: ["Charqueada"],
+  },
+};
+
+export const generateLocalBusinessSchema = (
+  location: ClinicLocationId = "piracicaba",
+) => {
+  const loc = CLINIC_LOCATIONS[location];
 
   return {
     "@context": "https://schema.org",
@@ -68,9 +116,8 @@ export const generateLocalBusinessSchema = (
     "@id": `${SITE_URL}#${location}`,
     name: loc.name,
     image: absoluteAssetUrl(DEFAULT_LOGO_PATH),
-    description:
-      "Clínica de aparelhos auditivos Philips HearLink em Piracicaba e Americana",
-    url: SITE_URL,
+    description: `Clínica de avaliação e tratamento auditivo com fonoaudiólogos e aparelhos Philips HearLink em ${loc.city}.`,
+    url: absoluteUrl(loc.path),
     telephone: loc.phone,
     email: "atendimento@auditik.com.br",
     address: {
@@ -86,6 +133,10 @@ export const generateLocalBusinessSchema = (
       latitude: loc.latitude,
       longitude: loc.longitude,
     },
+    areaServed: loc.areaServed.map((name) => ({
+      "@type": "City",
+      name,
+    })),
     priceRange: "$$",
     sameAs: [
       "https://www.facebook.com/auditik.piracicaba",

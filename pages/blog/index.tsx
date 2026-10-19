@@ -12,7 +12,21 @@ import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta } from "@lib/seo";
 import { generateBlogIndexSchema } from "@lib/schema";
 import { absoluteUrl } from "@lib/site-url";
-import type { BlogPost, BlogTopicOption } from "@lib/blog";
+import type { BlogTopicOption } from "@lib/blog";
+
+interface BlogIndexCard {
+  slug: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  topics: string[];
+  topicLabels: string[];
+  featured: boolean;
+  featuredImage?: string;
+  readTime: number;
+  searchText: string;
+}
 
 const POSTS_PER_PAGE = 12;
 const FEATURED_CAROUSEL_ID = "featured-posts-carousel";
@@ -37,19 +51,51 @@ const formatDate = (dateString: string): string => {
 };
 
 interface BlogIndexProps {
-  posts: BlogPost[];
-  topics: BlogTopicOption[];
+  initialPosts: BlogIndexCard[];
+  topics: Array<BlogTopicOption & { count: number }>;
+  totalCount: number;
 }
 
 function normalizeSearchValue(value: string): string {
   return value.trim().toLowerCase();
 }
 
-export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
+export default function BlogIndexPage({
+  initialPosts,
+  topics,
+  totalCount,
+}: BlogIndexProps) {
   const router = useRouter();
+  const [posts, setPosts] = useState(initialPosts);
+  const [catalogLoaded, setCatalogLoaded] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTopic, setSelectedTopic] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    fetch("/blog-search.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("blog search index unavailable");
+        }
+        return response.json() as Promise<{ posts?: BlogIndexCard[] }>;
+      })
+      .then((data) => {
+        if (!cancelled && Array.isArray(data.posts) && data.posts.length > 0) {
+          setPosts(data.posts);
+          setCatalogLoaded(true);
+        }
+      })
+      .catch(() => {
+        setCatalogLoaded(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -111,17 +157,20 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
     });
   }, [posts, searchTerm, selectedTopic]);
 
-  const topicStats = useMemo(
-    () => {
-      return topics
-        .map((topic) => ({
-          ...topic,
-          count: posts.filter((post) => post.topics.includes(topic.value)).length,
-        }))
-        .filter((topic) => topic.count > 0);
-    },
-    [posts, topics],
-  );
+  const topicStats = useMemo(() => {
+    if (!catalogLoaded) {
+      return topics.filter((topic) => topic.count > 0);
+    }
+
+    return topics
+      .map((topic) => ({
+        ...topic,
+        count: posts.filter((post) => post.topics.includes(topic.value)).length,
+      }))
+      .filter((topic) => topic.count > 0);
+  }, [catalogLoaded, posts, topics]);
+
+  const publishedCount = catalogLoaded ? posts.length : totalCount;
 
   const featuredPosts = useMemo(
     () => posts.filter((post) => post.featured),
@@ -244,7 +293,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="rounded-3xl bg-bg-light-blue p-5">
                   <p className="text-3xl font-extrabold text-auditik-blue">
-                    {posts.length}
+                    {publishedCount}
                   </p>
                   <p className="text-sm text-slate-600 mt-1">artigos publicados</p>
                 </div>
@@ -276,7 +325,10 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                 Temas do blog
               </h2>
               <p className="text-sm text-slate-500">
-                {filteredPosts.length} de {posts.length} artigo(s) visível(is)
+                {catalogLoaded || hasActiveFilters
+                  ? filteredPosts.length
+                  : publishedCount}{" "}
+                de {publishedCount} artigo(s) visível(is)
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -293,7 +345,7 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
-                Todos ({posts.length})
+                Todos ({publishedCount})
               </button>
               {topicStats.map((topic) => (
                 <button
@@ -488,6 +540,12 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
               </div>
             )}
 
+            {!catalogLoaded && totalCount > initialPosts.length && (
+              <p className="mt-8 text-center text-sm text-slate-500">
+                Carregando os demais artigos para busca e paginação.
+              </p>
+            )}
+
             {filteredPosts.length > 0 && totalPages > 1 && (
               <nav
                 className="mt-10 flex flex-wrap items-center justify-center gap-2"
@@ -572,59 +630,72 @@ export default function BlogIndexPage({ posts, topics }: BlogIndexProps) {
   );
 }
 
+function toBlogIndexCard(post: {
+  slug: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  topics: string[];
+  topicLabels: string[];
+  featured: boolean;
+  featuredImage?: string;
+  readTime: number;
+  searchText: string;
+}): BlogIndexCard {
+  return {
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    author: post.author,
+    date: post.date,
+    topics: post.topics,
+    topicLabels: post.topicLabels,
+    featured: post.featured,
+    ...(post.featuredImage ? { featuredImage: post.featuredImage } : {}),
+    readTime: post.readTime,
+    searchText: post.searchText,
+  };
+}
+
 export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
   try {
     const allPosts = await getAllBlogPosts();
-    const topics = await getAllBlogTopics();
+    const topicOptions = await getAllBlogTopics();
+    const cards = allPosts.map(toBlogIndexCard);
+    const fs = await import("fs");
+    const path = await import("path");
+    const indexPath = path.join(process.cwd(), "public", "blog-search.json");
 
-    const posts = allPosts.map(
-      ({
-        slug,
-        title,
-        excerpt,
-        author,
-        date,
-        topics: postTopics,
-        topicLabels,
-        featured,
-        featuredImage,
-        readTime,
-        searchText,
-      }) => ({
-        slug,
-        title,
-        excerpt,
-        author,
-        date,
-        topics: postTopics,
-        topicLabels,
-        featured,
-        ...(featuredImage ? { featuredImage } : {}),
-        readTime,
-        searchText,
-        // Listing payload: no markdown body (keeps HTML lean for crawlers).
-        description: "",
-        category: "",
-        content: "",
-      }),
-    );
+    fs.writeFileSync(indexPath, JSON.stringify({ posts: cards }));
+
+    const firstPage = cards.slice(0, POSTS_PER_PAGE);
+    const listedSlugs = new Set(firstPage.map((post) => post.slug));
+    const initialPosts = [
+      ...firstPage,
+      ...cards.filter((post) => post.featured && !listedSlugs.has(post.slug)),
+    ];
+    const topics = topicOptions.map((topic) => ({
+      ...topic,
+      count: cards.filter((post) => post.topics.includes(topic.value)).length,
+    }));
 
     return {
       props: {
-        posts,
+        initialPosts,
         topics,
+        totalCount: cards.length,
       },
-      // revalidate removed for static export compatibility
     };
   } catch (error) {
     console.error("Error loading blog posts:", error);
 
     return {
       props: {
-        posts: [],
+        initialPosts: [],
         topics: [],
+        totalCount: 0,
       },
-      // revalidate removed for static export compatibility
     };
   }
 };

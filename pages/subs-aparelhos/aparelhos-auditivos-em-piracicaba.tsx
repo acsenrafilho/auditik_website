@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@components/Header";
+import { ClinicCityLinks } from "@components/Clinic/ClinicCityLinks";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
 import { trackButtonClick } from "@lib/analytics";
 import { getSEOMeta, absoluteUrl } from "@lib/seo";
@@ -110,9 +111,9 @@ const audienceBullets = [
 
 export default function AparelhosAuditivosEmPiracicabaPage() {
   const seo = getSEOMeta({
-    title: "Aparelhos Auditivos em Piracicaba | Philips HearLink",
+    title: "Clínica de aparelho auditivo em Piracicaba",
     description:
-      "Distribuidor autorizado Philips HearLink em Piracicaba. Avaliação auditiva gratuita, adaptação, ajuste e manutenção com fonoaudiólogos. Agende na Rua Samuel Neves, 1800.",
+      "Avaliação e tratamento auditivo em Piracicaba, com fonoaudiólogos e Philips HearLink. Unidade na Rua Samuel Neves, 1800.",
     canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.piracicaba),
     ogImage:
       "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg",
@@ -175,11 +176,11 @@ export default function AparelhosAuditivosEmPiracicabaPage() {
           <div className="container-wide relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <span className="inline-block px-4 py-1.5 bg-auditik-blue/10 text-auditik-blue rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-                Distribuidor autorizado Philips · Piracicaba-SP
+                Clínica de tratamento auditivo · Piracicaba-SP
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.05] mb-6">
-                Aparelhos auditivos em Piracicaba com tecnologia{" "}
-                <span className="text-auditik-blue">Philips HearLink</span>
+                Clínica de aparelho auditivo em{" "}
+                <span className="text-auditik-blue">Piracicaba</span>
               </h1>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-4">
                 Se você está buscando <strong>aparelhos auditivos em Piracicaba</strong>
@@ -554,6 +555,8 @@ export default function AparelhosAuditivosEmPiracicabaPage() {
             </div>
           </div>
         </section>
+
+        <ClinicCityLinks currentPath={SUBS_APARELHOS_ROUTES.piracicaba} />
 
         {/* CTA final */}
         <section className="py-24 bg-auditik-blue text-white relative overflow-hidden">
