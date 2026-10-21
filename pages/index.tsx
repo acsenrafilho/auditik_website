@@ -7,7 +7,7 @@ import {
   trackFormSubmit,
   trackButtonClick,
 } from "@lib/analytics";
-import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
+import { submitLeadToCRM, formatBrazilPhone, isValidBrazilPhone } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { Header } from "@components/Header";
@@ -26,6 +26,7 @@ export default function Home() {
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [phoneInvalid, setPhoneInvalid] = useState(false);
   const testimonialsPerPage = 3;
 
   const seo = getSEOMeta({
@@ -209,6 +210,9 @@ export default function Home() {
     if (name === "whatsapp") {
       const maskedPhone = formatBrazilPhone(value);
       setFormData((prev) => ({ ...prev, [name]: maskedPhone }));
+      if (isValidBrazilPhone(maskedPhone)) {
+        setPhoneInvalid(false);
+      }
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
@@ -218,8 +222,15 @@ export default function Home() {
     e.preventDefault();
     if (formSubmitting) return;
 
+    if (!isValidBrazilPhone(formData.whatsapp)) {
+      setPhoneInvalid(true);
+      setFormError("Informe um telefone válido com DDD.");
+      return;
+    }
+
     setFormSubmitting(true);
     setFormError("");
+    setPhoneInvalid(false);
 
     try {
       const lead = await submitLeadToCRM({
@@ -676,9 +687,13 @@ export default function Home() {
                         value={formData.whatsapp}
                         onChange={handleFormChange}
                         placeholder="(00) 00000-0000"
-                        maxLength={15}
                         required
-                        className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none"
+                        aria-invalid={phoneInvalid}
+                        className={`w-full px-8 py-5 rounded-3xl bg-slate-50 focus:ring-2 focus:bg-white transition-all outline-none ${
+                          phoneInvalid
+                            ? "border border-red-400 focus:border-red-400 focus:ring-red-200"
+                            : "border-gray-100 focus:ring-auditik-blue/20 focus:border-auditik-blue"
+                        }`}
                       />
                     </div>
                     <div className="group">

@@ -9,7 +9,7 @@ import {
 } from "@lib/analytics";
 import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateLocalBusinessSchema } from "@lib/schema";
-import { submitLeadToCRM, formatBrazilPhone } from "@lib/lead-submission";
+import { submitLeadToCRM, formatBrazilPhone, isValidBrazilPhone } from "@lib/lead-submission";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { WhatsAppLeadButton } from "@components/Common/WhatsAppLeadButton";
@@ -24,6 +24,7 @@ export default function ContatoPage() {
   });
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [phoneInvalid, setPhoneInvalid] = useState(false);
 
   const seo = getSEOMeta({
     title: "Contato",
@@ -67,7 +68,11 @@ export default function ContatoPage() {
     const { name, value } = e.target;
 
     if (name === "whatsapp") {
-      setFormData((prev) => ({ ...prev, whatsapp: formatBrazilPhone(value) }));
+      const maskedPhone = formatBrazilPhone(value);
+      setFormData((prev) => ({ ...prev, whatsapp: maskedPhone }));
+      if (isValidBrazilPhone(maskedPhone)) {
+        setPhoneInvalid(false);
+      }
       return;
     }
 
@@ -78,8 +83,15 @@ export default function ContatoPage() {
     e.preventDefault();
     if (formSubmitting) return;
 
+    if (!isValidBrazilPhone(formData.whatsapp)) {
+      setPhoneInvalid(true);
+      setFormError("Informe um telefone válido com DDD.");
+      return;
+    }
+
     setFormSubmitting(true);
     setFormError("");
+    setPhoneInvalid(false);
 
     try {
       const lead = await submitLeadToCRM({
@@ -186,11 +198,15 @@ export default function ContatoPage() {
                         type="tel"
                         name="whatsapp"
                         value={formData.whatsapp}
+                        aria-invalid={phoneInvalid}
                         onChange={handleFormChange}
                         placeholder="(00) 00000-0000"
-                        maxLength={15}
                         required
-                        className="w-full px-8 py-5 rounded-3xl border-gray-100 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none"
+                        className={`w-full px-8 py-5 rounded-3xl bg-slate-50 focus:ring-2 focus:bg-white transition-all outline-none ${
+                          phoneInvalid
+                            ? "border border-red-400 focus:border-red-400 focus:ring-red-200"
+                            : "border-gray-100 focus:ring-auditik-blue/20 focus:border-auditik-blue"
+                        }`}
                       />
                     </div>
 

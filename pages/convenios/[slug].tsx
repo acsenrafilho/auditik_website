@@ -25,7 +25,11 @@ import {
   generateConvenioPartnerSchema,
 } from "@lib/schema";
 import { absoluteUrl } from "@lib/site-url";
-import { formatBrazilPhone } from "@lib/lead-submission";
+import {
+  formatBrazilPhone,
+  isValidBrazilPhone,
+  normalizeBrazilPhone,
+} from "@lib/lead-submission";
 import { fetchWithRetry } from "@lib/fetch-with-retry";
 
 const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
@@ -120,6 +124,7 @@ export default function ConvenioPartnerPage({
   const [modalForm, setModalForm] = useState({ nome: "", telefone: "", loja: "" });
   const [modalSubmitting, setModalSubmitting] = useState(false);
   const [modalError, setModalError] = useState("");
+  const [phoneInvalid, setPhoneInvalid] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [hasActivatedBenefit, setHasActivatedBenefit] = useState(false);
   const [voucherSnapshot, setVoucherSnapshot] = useState<VoucherSnapshot | null>(
@@ -141,7 +146,11 @@ export default function ConvenioPartnerPage({
   ) => {
     const { name, value } = e.target;
     if (name === "telefone") {
-      setModalForm((prev) => ({ ...prev, telefone: formatBrazilPhone(value) }));
+      const maskedPhone = formatBrazilPhone(value);
+      setModalForm((prev) => ({ ...prev, telefone: maskedPhone }));
+      if (isValidBrazilPhone(maskedPhone)) {
+        setPhoneInvalid(false);
+      }
       return;
     }
     setModalForm((prev) => ({ ...prev, [name]: value }));
@@ -151,6 +160,7 @@ export default function ConvenioPartnerPage({
     setIsModalOpen(true);
     setModalSuccess(false);
     setModalError("");
+    setPhoneInvalid(false);
     setModalForm({ nome: "", telefone: "", loja: "" });
     setVoucherSnapshot(null);
     setVoucherPngDataUrl(null);
@@ -195,11 +205,11 @@ export default function ConvenioPartnerPage({
     setModalError("");
 
     try {
-      const phone = modalForm.telefone.replace(/\D/g, "");
-
-      if (phone.length < 10) {
+      if (!isValidBrazilPhone(modalForm.telefone)) {
+        setPhoneInvalid(true);
         throw new Error("Informe um telefone válido com DDD.");
       }
+      const phone = normalizeBrazilPhone(modalForm.telefone);
 
       if (!BENEFIT_ACTIVATE_URL) {
         throw new Error(
@@ -726,9 +736,13 @@ export default function ConvenioPartnerPage({
                       value={modalForm.telefone}
                       onChange={handleModalFormChange}
                       placeholder="(00) 00000-0000"
-                      maxLength={15}
                       required
-                      className="w-full px-6 py-4 rounded-3xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-auditik-blue/20 focus:border-auditik-blue focus:bg-white transition-all outline-none text-sm"
+                      aria-invalid={phoneInvalid}
+                      className={`w-full px-6 py-4 rounded-3xl bg-slate-50 focus:ring-2 focus:bg-white transition-all outline-none text-sm ${
+                        phoneInvalid
+                          ? "border border-red-400 focus:border-red-400 focus:ring-red-200"
+                          : "border border-slate-200 focus:ring-auditik-blue/20 focus:border-auditik-blue"
+                      }`}
                     />
                   </div>
 

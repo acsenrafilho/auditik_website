@@ -24,6 +24,25 @@ const nextConfig = {
   },
   poweredByHeader: false,
   compress: true,
+  // Local `next dev` only: same-origin proxy so localhost is not blocked by
+  // the ingest Lambda CORS allowlist (`https://auditik.com.br`). Static export
+  // does not ship this rewrite.
+  async rewrites() {
+    const ingestUrl = process.env.NEXT_PUBLIC_AUDITIK_CONVERSION_INGEST_URL;
+    if (!ingestUrl) {
+      return [];
+    }
+    return [
+      {
+        source: "/api/auditik-conversions-ingest",
+        destination: ingestUrl,
+      },
+      {
+        source: "/api/auditik-conversions-ingest/",
+        destination: ingestUrl,
+      },
+    ];
+  },
   productionBrowserSourceMaps: false,
   // For static export, set security headers in S3/CloudFront instead of Next headers().
   // Satellite pages live under pages/subs-aparelhos/ for code organization; public URLs use

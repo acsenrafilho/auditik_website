@@ -20,7 +20,7 @@ import {
   trackButtonClick,
   trackFormSubmit,
 } from "@lib/analytics";
-import { formatBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
+import { formatBrazilPhone, isValidBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { LP_ROUTES } from "@lib/routes";
 import { getSEOMeta } from "@lib/seo";
@@ -166,12 +166,14 @@ function LeadFormFields({
   onChange,
   formError,
   formSubmitting,
+  phoneInvalid,
   idPrefix,
 }: {
   formData: FormState;
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   formError: string;
   formSubmitting: boolean;
+  phoneInvalid: boolean;
   idPrefix: string;
 }) {
   const fieldClass =
@@ -208,9 +210,13 @@ function LeadFormFields({
           value={formData.whatsapp}
           onChange={onChange}
           placeholder="(00) 00000-0000"
-          maxLength={15}
           required
-          className={fieldClass}
+          aria-invalid={phoneInvalid}
+          className={
+            phoneInvalid
+              ? `${fieldClass} border-red-400 focus:border-red-400 focus:ring-red-200`
+              : fieldClass
+          }
         />
       </div>
 
@@ -317,6 +323,7 @@ export default function LpAmericanaPhilipsPage() {
   const [formData, setFormData] = useState<FormState>(emptyForm);
   const [formSubmitting, setFormSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
+  const [phoneInvalid, setPhoneInvalid] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const seo = getSEOMeta({
@@ -332,7 +339,11 @@ export default function LpAmericanaPhilipsPage() {
   ) => {
     const { name, value } = e.target;
     if (name === "whatsapp") {
-      setFormData((prev) => ({ ...prev, whatsapp: formatBrazilPhone(value) }));
+      const maskedPhone = formatBrazilPhone(value);
+      setFormData((prev) => ({ ...prev, whatsapp: maskedPhone }));
+      if (isValidBrazilPhone(maskedPhone)) {
+        setPhoneInvalid(false);
+      }
       return;
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -342,8 +353,15 @@ export default function LpAmericanaPhilipsPage() {
     e.preventDefault();
     if (formSubmitting) return;
 
+    if (!isValidBrazilPhone(formData.whatsapp)) {
+      setPhoneInvalid(true);
+      setFormError("Informe um telefone válido com DDD.");
+      return;
+    }
+
     setFormSubmitting(true);
     setFormError("");
+    setPhoneInvalid(false);
 
     try {
       const lead = await submitLeadToCRM({
@@ -481,6 +499,7 @@ export default function LpAmericanaPhilipsPage() {
                     onChange={handleFormChange}
                     formError={formError}
                     formSubmitting={formSubmitting}
+                    phoneInvalid={phoneInvalid}
                     idPrefix="hero"
                   />
                 </form>
@@ -870,6 +889,7 @@ export default function LpAmericanaPhilipsPage() {
                     onChange={handleFormChange}
                     formError={formError}
                     formSubmitting={formSubmitting}
+                    phoneInvalid={phoneInvalid}
                     idPrefix="final"
                   />
                 </form>

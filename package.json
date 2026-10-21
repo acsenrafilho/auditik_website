@@ -11,6 +11,7 @@
     "export": "next build",
     "indexnow": "node scripts/submit-indexnow.mjs",
     "test:cf-function": "node scripts/test-cloudfront-function.mjs",
+    "test:phone": "tsx --test lib/phone-br.test.ts",
     "optimize:lp-images": "node scripts/optimize-lp-images.mjs",
     "tina:dev": "TINA_PUBLIC_IS_LOCAL=true npx -y @tinacms/cli@1.6.7 dev -c \"next dev\"",
     "tina:build": "bash -c 'if [ -f .env.local ]; then npx dotenv-cli -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; else npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; fi' && node scripts/fix-tina-generated-client.mjs"
@@ -19,6 +20,7 @@
     "axios": "^1.6.0",
     "gray-matter": "^4.0.3",
     "html-to-image": "^1.11.13",
+    "libphonenumber-js": "^1.12.38",
     "markdown-it": "^14.1.1",
     "next": "14.2.35",
     "next-seo": "^6.1.0",
@@ -42,6 +44,7 @@
     "postcss": "^8.4.0",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.3.0",
+    "tsx": "^4.20.5",
     "typescript": "^5.3.0"
   }
 }

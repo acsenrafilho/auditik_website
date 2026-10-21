@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import type { EventParams } from "@lib/analytics";
 import {
   trackEvent,
   trackFormSubmit,
 } from "@lib/analytics";
-import { formatBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
+import { formatBrazilPhone, isValidBrazilPhone, submitLeadToCRM } from "@lib/lead-submission";
 import { markThankYouSuccess } from "@lib/thank-you";
 import { WHATSAPP_LEAD_CITIES } from "@lib/whatsapp-cities";
 
@@ -39,16 +39,12 @@ export function WhatsAppLeadButton({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [phoneInvalid, setPhoneInvalid] = useState(false);
   const [formData, setFormData] = useState<LeadFormData>({
     fullName: "",
     phone: "",
     city: "",
   });
-
-  const normalizedPhone = useMemo(
-    () => formData.phone.replace(/\D/g, ""),
-    [formData.phone],
-  );
 
   useEffect(() => {
     if (!isModalOpen) return;
@@ -67,6 +63,7 @@ export function WhatsAppLeadButton({
 
   const handleOpen = () => {
     setSubmitError("");
+    setPhoneInvalid(false);
     setIsModalOpen(true);
     trackEvent("whatsapp_lead_gate_opened", {
       source: leadSource,
@@ -85,7 +82,11 @@ export function WhatsAppLeadButton({
     const { name, value } = event.target;
 
     if (name === "phone") {
-      setFormData((prev) => ({ ...prev, phone: formatBrazilPhone(value) }));
+      const maskedPhone = formatBrazilPhone(value);
+      setFormData((prev) => ({ ...prev, phone: maskedPhone }));
+      if (isValidBrazilPhone(maskedPhone)) {
+        setPhoneInvalid(false);
+      }
       return;
     }
 
@@ -95,10 +96,13 @@ export function WhatsAppLeadButton({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (normalizedPhone.length < 10) {
+    if (!isValidBrazilPhone(formData.phone)) {
+      setPhoneInvalid(true);
       setSubmitError("Informe um telefone válido com DDD.");
       return;
     }
+
+    setPhoneInvalid(false);
 
     setSubmitError("");
     setIsSubmitting(true);
@@ -211,9 +215,13 @@ export function WhatsAppLeadButton({
                   type="tel"
                   value={formData.phone}
                   onChange={handleChange}
-                  maxLength={15}
                   required
-                  className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition-all focus:border-auditik-blue focus:bg-white focus:ring-2 focus:ring-auditik-blue/20"
+                  aria-invalid={phoneInvalid}
+                  className={`w-full rounded-2xl bg-slate-50 px-4 py-3 text-slate-800 outline-none transition-all focus:bg-white focus:ring-2 ${
+                    phoneInvalid
+                      ? "border border-red-400 focus:border-red-400 focus:ring-red-200"
+                      : "border border-slate-200 focus:border-auditik-blue focus:ring-auditik-blue/20"
+                  }`}
                   placeholder="(00) 00000-0000"
                 />
               </div>

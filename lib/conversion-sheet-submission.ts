@@ -29,6 +29,17 @@ export interface ConversionIngestResult {
 const CONVERSION_INGEST_URL =
   process.env.NEXT_PUBLIC_AUDITIK_CONVERSION_INGEST_URL || "";
 const INGEST_TOKEN = process.env.NEXT_PUBLIC_AUDITIK_INGEST_TOKEN || "";
+const LOCAL_INGEST_PROXY = "/api/auditik-conversions-ingest";
+
+const resolveIngestUrl = (): string => {
+  if (typeof window !== "undefined") {
+    const host = window.location.hostname;
+    if (host === "localhost" || host === "127.0.0.1") {
+      return LOCAL_INGEST_PROXY;
+    }
+  }
+  return CONVERSION_INGEST_URL;
+};
 
 const INGEST_UNAVAILABLE_MESSAGE =
   "Não foi possível registrar seus dados agora. Tente novamente em instantes.";
@@ -45,7 +56,7 @@ export const submitConversionToSheet = async (
 
   let response: Response;
   try {
-    response = await fetchWithRetry(CONVERSION_INGEST_URL, {
+    response = await fetchWithRetry(resolveIngestUrl(), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

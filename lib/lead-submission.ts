@@ -7,6 +7,13 @@ import {
   submitConversionToSheet,
   type ConversionIngestResult,
 } from "@lib/conversion-sheet-submission";
+import {
+  formatBrazilPhone,
+  isValidBrazilPhone,
+  normalizeBrazilPhone,
+} from "@lib/phone-br";
+
+export { formatBrazilPhone, isValidBrazilPhone, normalizeBrazilPhone };
 
 export interface LeadSubmissionInput {
   fullName: string;
@@ -28,9 +35,6 @@ const DEFAULT_COMPANY_ID = "company-d1ef844d-d65e-4e3b-9b05-bb6fe8f8cd62";
 const LEAD_PROXY_INTEGRATION_NAME =
   process.env.NEXT_PUBLIC_LEAD_INTEGRATION_NAME || "";
 const LEAD_ID_STORAGE_PREFIX = "auditik_lead_id:";
-
-const normalizeBrazilPhone = (value: string): string =>
-  value.replace(/\D/g, "").slice(0, 11);
 
 const readCookie = (name: string): string => {
   if (typeof document === "undefined") return "";
@@ -81,18 +85,6 @@ export const clearLeadId = (formName: string, phone: string): void => {
   }
 };
 
-export const formatBrazilPhone = (value: string): string => {
-  const digits = normalizeBrazilPhone(value);
-
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 6) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
-  if (digits.length <= 10) {
-    return `(${digits.slice(0, 2)}) ${digits.slice(2, 6)}-${digits.slice(6)}`;
-  }
-
-  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
-};
-
 /**
  * Registers the lead in the conversion sheet outbox (source of truth).
  * The ingest Lambda certifies CRM + Meta from that row.
@@ -101,10 +93,10 @@ export const formatBrazilPhone = (value: string): string => {
 export const submitLeadToCRM = async (
   input: LeadSubmissionInput,
 ): Promise<LeadSubmissionResult> => {
-  const phone = normalizeBrazilPhone(input.phone);
-  if (phone.length < 10) {
+  if (!isValidBrazilPhone(input.phone)) {
     throw new Error("Informe um telefone válido com DDD.");
   }
+  const phone = normalizeBrazilPhone(input.phone);
 
   const attribution = getAttributionForSubmit();
   const source = resolveSourceLabel(input.fallbackSource, attribution);
