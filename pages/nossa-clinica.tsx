@@ -8,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { trackButtonClick } from "@lib/analytics";
 import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
-import { absoluteAssetUrl } from "@lib/site-url";
 
 export default function NossaClinicaPage() {
   const locations = [
@@ -21,7 +20,7 @@ export default function NossaClinicaPage() {
     },
     {
       name: "Unidade Americana",
-      address: "Rua Luísa Meneghel Mancine, 72 - Sala 12",
+      address: "Rua Luíza Meneghel Mancine, 72 - Sala 12",
       city: "Jardim Paulista, Americana - SP",
       maps: "https://maps.app.goo.gl/j4sTcPKXbBirS1JUA",
       href: SUBS_APARELHOS_ROUTES.americana,
@@ -56,47 +55,6 @@ export default function NossaClinicaPage() {
     generateLocalBusinessSchema("charqueada"),
   ];
 
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Auditik Soluções Auditivas",
-    description:
-      "Especialistas em saúde auditiva e aparelhos auditivos Philips HearLink",
-    url: absoluteUrl(APP_ROUTES.home),
-    logo: absoluteAssetUrl("/images/logo-auditik.png"),
-    foundingYear: 2014,
-    contactPoint: {
-      "@type": "ContactPoint",
-      telephone: "(19) 3377-6941",
-      contactType: "Customer Service",
-      email: "atendimento@auditik.com.br",
-    },
-    areaServed: [
-      {
-        "@type": "City",
-        name: "Piracicaba",
-        "@id": "https://www.wikidata.org/wiki/Q485811",
-      },
-      {
-        "@type": "City",
-        name: "Americana",
-        "@id": "https://www.wikidata.org/wiki/Q485811",
-      },
-      {
-        "@type": "City",
-        name: "São Pedro",
-        "@id": "https://www.wikidata.org/wiki/Q2348896",
-      },
-      {
-        "@type": "City",
-        name: "Charqueada",
-        "@id": "https://www.wikidata.org/wiki/Q2322099",
-      },
-      { "@type": "City", name: "Limeira" },
-      { "@type": "City", name: "Rio Claro" },
-    ],
-  };
-
   const handleCTA = () => {
     trackButtonClick("agende-visita-clinica", {
       page: "nossa-clinica",
@@ -115,10 +73,6 @@ export default function NossaClinicaPage() {
             dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
           />
         ))}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
       </Head>
       <Header />
       <main>

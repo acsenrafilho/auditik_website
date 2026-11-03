@@ -82,6 +82,8 @@ const LEGACY = {
     "/como-saber-se-precisa-de-aparelho-auditivo/",
   "/philips": "/aparelhos-auditivos-philips-hearing-solutions/",
   "/philips-hearlink": "/aparelhos-auditivos-philips-hearing-solutions/",
+  "/guia-especial-qual-o-preco-de-aparelhos-auditivos": "/preco-aparelho-auditivo/",
+  "/como-conseguir-aparelho-auditivo-pelo-sus": "/financiamento-aparelho-auditivo/",
 };
 for (const [from, to] of Object.entries(LEGACY)) {
   for (const host of [APEX, WWW]) {
@@ -101,9 +103,22 @@ for (const host of [APEX, WWW]) {
   expectRedirect(host, "/tag/", `https://${APEX}/blog/`);
 }
 
-// Apex pages: rewrite to index.html for S3
+// /beneficio/* → /convenios/
+for (const host of [APEX, WWW]) {
+  expectRedirect(host, "/beneficio/", `https://${APEX}/convenios/`);
+  expectRedirect(host, "/beneficio/algum-parceiro", `https://${APEX}/convenios/`);
+  expectRedirect(host, "/beneficio/algum-parceiro/", `https://${APEX}/convenios/`);
+}
+
+// Apex pages without trailing slash → 301 with slash
+expectRedirect(APEX, "/contato", `https://${APEX}/contato/`);
+expectRedirect(APEX, "/politica-de-privacidade", `https://${APEX}/politica-de-privacidade/`);
+expectRedirect(APEX, "/contato", `https://${APEX}/contato/?utm_source=x`, {
+  utm_source: { value: "x" },
+});
+
+// Apex pages with trailing slash: rewrite to index.html for S3
 expectRewrite(APEX, "/", "/index.html");
-expectRewrite(APEX, "/contato", "/contato/index.html");
 expectRewrite(APEX, "/contato/", "/contato/index.html");
 expectRewrite(APEX, "/blog/algum-post/", "/blog/algum-post/index.html");
 expectRewrite(APEX, "/contato/index.html", "/contato/index.html");

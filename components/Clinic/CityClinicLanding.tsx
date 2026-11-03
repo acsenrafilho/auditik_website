@@ -15,10 +15,15 @@ import {
 import { APP_ROUTES } from "@lib/routes";
 
 const HERO_IMAGE =
-  "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg";
+  "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.webp";
 
 const CTA_BACKGROUND =
   "/images/philips/optimized/background/PHS_HL50_miniRITE_Portable_Charger_Lifestyle_blue_shadows_GettyImages-1530702944_MS_0255.jpg";
+
+export interface CityClinicFaq {
+  question: string;
+  answer: string;
+}
 
 export interface CityClinicLandingProps {
   path: string;
@@ -33,7 +38,15 @@ export interface CityClinicLandingProps {
   mapsUrl?: string;
   mapsEmbed?: string;
   mapTitle?: string;
+  /** Optional H1 override when the SEO title should differ from the heading. */
+  headline?: string;
+  /** Driving time / how-to-arrive note for satellite cities (no clinic there). */
+  travelNote?: string;
+  /** Extra FAQ items appended after the defaults. */
+  extraFaqs?: CityClinicFaq[];
 }
+
+const OPENING_HOURS_LABEL = "Segunda a sexta: 08h às 17h30";
 
 const services = [
   {
@@ -53,6 +66,14 @@ const services = [
   },
 ];
 
+function buildHeadline(title: string, city: string, headline?: string): string {
+  if (headline) return headline;
+  if (title.includes(`para quem mora em ${city}`)) {
+    return `Aparelho auditivo para quem mora em ${city}`;
+  }
+  return `${title.replace(` em ${city}`, "")} em ${city}`;
+}
+
 export function CityClinicLanding({
   path,
   city,
@@ -66,10 +87,14 @@ export function CityClinicLanding({
   mapsUrl,
   mapsEmbed,
   mapTitle,
+  headline,
+  travelNote,
+  extraFaqs = [],
 }: CityClinicLandingProps) {
   const placeLabel = isUnit ? city : nearestClinicName || city;
+  const displayHeadline = buildHeadline(title, city, headline);
 
-  const faqItems = isUnit
+  const baseFaqs: CityClinicFaq[] = isUnit
     ? [
         {
           question: `A avaliação na clínica de ${city} é gratuita?`,
@@ -90,7 +115,11 @@ export function CityClinicLanding({
     : [
         {
           question: `A Auditik tem unidade em ${city}?`,
-          answer: `Quem mora em ${city} é atendido na clínica de ${placeLabel}. A avaliação é presencial, com fonoaudiólogo, e gratuita.`,
+          answer: `Não. Quem mora em ${city} é atendido na clínica de ${placeLabel}. A avaliação é presencial, com fonoaudiólogo, e gratuita.`,
+        },
+        {
+          question: `Qual clínica fica mais perto de ${city}?`,
+          answer: `A unidade de ${placeLabel} é a referência para quem mora em ${city}. O endereço e o mapa estão nesta página.`,
         },
         {
           question: `O que acontece na clínica de ${placeLabel}?`,
@@ -103,6 +132,8 @@ export function CityClinicLanding({
             "Não. A consulta serve para esclarecer a audição e o tratamento. O aparelho só entra se fizer sentido para o caso.",
         },
       ];
+
+  const faqItems = [...baseFaqs, ...extraFaqs];
 
   const seo = getSEOMeta({
     title,
@@ -145,6 +176,9 @@ export function CityClinicLanding({
     ? `Olá Auditik, quero agendar uma avaliação auditiva na clínica de ${city}.`
     : `Olá Auditik, moro em ${city} e quero agendar uma avaliação na clínica de ${placeLabel}.`;
 
+  const headlineParts = displayHeadline.split(` ${city}`);
+  const headlinePrefix = headlineParts[0] ?? displayHeadline;
+
   return (
     <>
       <NextSeo {...seo} />
@@ -177,7 +211,7 @@ export function CityClinicLanding({
                   : `Atendimento clínico para ${city}`}
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.05] mb-6">
-                {title.replace(` em ${city}`, "")} em{" "}
+                {headlinePrefix}{" "}
                 <span className="text-auditik-blue">{city}</span>
               </h1>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-8">
@@ -254,7 +288,7 @@ export function CityClinicLanding({
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 text-center">
               {isUnit
                 ? `Como chegar na clínica de ${city}`
-                : `Clínica que atende ${city}`}
+                : `Como chegar à clínica que atende ${city}`}
             </h2>
             <p className="text-slate-600 text-lg text-center max-w-2xl mx-auto mb-12">
               {isUnit
@@ -267,7 +301,7 @@ export function CityClinicLanding({
                   Auditik — {placeLabel}
                 </h3>
                 {addressLines && (
-                  <p className="text-slate-600 leading-relaxed mb-6">
+                  <p className="text-slate-600 leading-relaxed mb-4">
                     {addressLines.map((line) => (
                       <span key={line}>
                         {line}
@@ -276,6 +310,16 @@ export function CityClinicLanding({
                     ))}
                   </p>
                 )}
+                <p className="text-slate-800 font-bold mb-2">
+                  <span className="material-symbols-outlined text-base align-middle mr-1">
+                    schedule
+                  </span>
+                  {OPENING_HOURS_LABEL}
+                </p>
+                {travelNote && (
+                  <p className="text-slate-600 leading-relaxed mb-6">{travelNote}</p>
+                )}
+                {!travelNote && <div className="mb-6" />}
                 <p className="text-lg font-bold text-auditik-blue mb-6">
                   <a href="tel:+551933776941">(19) 3377-6941</a>
                 </p>
@@ -322,7 +366,7 @@ export function CityClinicLanding({
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-10 text-center">
               Dúvidas sobre o atendimento
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {faqItems.map((faq) => (
                 <article
                   key={faq.question}
@@ -356,7 +400,7 @@ export function CityClinicLanding({
             </h2>
             <p className="text-blue-100 text-lg mb-8">
               A consulta esclarece a audição e o tratamento. O aparelho só é indicado
-              se ajudar no seu caso.
+              se ajudar no seu caso. Horário: {OPENING_HOURS_LABEL}.
             </p>
             <Link
               href={APP_ROUTES.contato}

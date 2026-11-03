@@ -22,23 +22,30 @@ export interface IndexListItem {
   url: string;
 }
 
-function generateOrganizationPublisher() {
-  return {
-    "@type": "Organization",
-    name: "Auditik",
-    url: SITE_URL,
-    logo: {
-      "@type": "ImageObject",
-      url: absoluteAssetUrl(DEFAULT_LOGO_PATH),
-    },
-  };
-}
+/** Social profiles used in footer and LocalBusiness sameAs. */
+export const AUDITIK_SAME_AS = [
+  "https://www.facebook.com/auditik.piracicaba",
+  "https://www.instagram.com/auditik.piracicaba",
+] as const;
+
+/** Clinic opening hours published on the home and Piracicaba page. */
+export const CLINIC_OPENING_HOURS = {
+  days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const,
+  opens: "08:00",
+  closes: "17:30",
+};
 
 export type ClinicLocationId =
   | "piracicaba"
   | "americana"
   | "sao-pedro"
   | "charqueada";
+
+type AreaServedCity = {
+  name: string;
+  /** Wikidata Q-id for the municipality in São Paulo. */
+  wikidataId: string;
+};
 
 const CLINIC_LOCATIONS: Record<
   ClinicLocationId,
@@ -52,7 +59,7 @@ const CLINIC_LOCATIONS: Record<
     latitude: string;
     longitude: string;
     path: string;
-    areaServed: string[];
+    areaServed: AreaServedCity[];
   }
 > = {
   piracicaba: {
@@ -65,7 +72,10 @@ const CLINIC_LOCATIONS: Record<
     latitude: "-22.7339",
     longitude: "-47.6492",
     path: "/aparelhos-auditivos-em-piracicaba/",
-    areaServed: ["Piracicaba", "Rio Claro"],
+    areaServed: [
+      { name: "Piracicaba", wikidataId: "Q330175" },
+      { name: "Rio Claro", wikidataId: "Q291277" },
+    ],
   },
   americana: {
     name: "Auditik - Clínica em Americana",
@@ -77,7 +87,10 @@ const CLINIC_LOCATIONS: Record<
     latitude: "-22.7433",
     longitude: "-47.3299",
     path: "/aparelhos-auditivos-em-americana/",
-    areaServed: ["Americana", "Limeira"],
+    areaServed: [
+      { name: "Americana", wikidataId: "Q467421" },
+      { name: "Limeira", wikidataId: "Q841241" },
+    ],
   },
   "sao-pedro": {
     name: "Auditik - Clínica em São Pedro",
@@ -89,7 +102,7 @@ const CLINIC_LOCATIONS: Record<
     latitude: "-22.5483",
     longitude: "-47.9139",
     path: "/aparelhos-auditivos-em-sao-pedro/",
-    areaServed: ["São Pedro"],
+    areaServed: [{ name: "São Pedro", wikidataId: "Q924342" }],
   },
   charqueada: {
     name: "Auditik - Clínica em Charqueada",
@@ -101,9 +114,28 @@ const CLINIC_LOCATIONS: Record<
     latitude: "-22.5094",
     longitude: "-47.7754",
     path: "/aparelhos-auditivos-em-charqueada/",
-    areaServed: ["Charqueada"],
+    areaServed: [{ name: "Charqueada", wikidataId: "Q983515" }],
   },
 };
+
+const CLINIC_LOCATION_IDS: ClinicLocationId[] = [
+  "piracicaba",
+  "americana",
+  "sao-pedro",
+  "charqueada",
+];
+
+function generateOrganizationPublisher() {
+  return {
+    "@type": "Organization",
+    name: "Auditik",
+    url: SITE_URL,
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteAssetUrl(DEFAULT_LOGO_PATH),
+    },
+  };
+}
 
 export const generateLocalBusinessSchema = (
   location: ClinicLocationId = "piracicaba",
@@ -112,7 +144,7 @@ export const generateLocalBusinessSchema = (
 
   return {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "MedicalClinic",
     "@id": `${SITE_URL}#${location}`,
     name: loc.name,
     image: absoluteAssetUrl(DEFAULT_LOGO_PATH),
@@ -133,15 +165,19 @@ export const generateLocalBusinessSchema = (
       latitude: loc.latitude,
       longitude: loc.longitude,
     },
-    areaServed: loc.areaServed.map((name) => ({
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: [...CLINIC_OPENING_HOURS.days],
+      opens: CLINIC_OPENING_HOURS.opens,
+      closes: CLINIC_OPENING_HOURS.closes,
+    },
+    areaServed: loc.areaServed.map((city) => ({
       "@type": "City",
-      name,
+      name: city.name,
+      "@id": `https://www.wikidata.org/wiki/${city.wikidataId}`,
     })),
     priceRange: "$$",
-    sameAs: [
-      "https://www.facebook.com/auditik.piracicaba",
-      "https://www.instagram.com/auditik.piracicaba",
-    ],
+    sameAs: [...AUDITIK_SAME_AS],
   };
 };
 
@@ -324,26 +360,17 @@ export const generateOrganizationSchema = () => {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${SITE_URL}#organization`,
     name: "Auditik",
     url: SITE_URL,
     logo: absoluteAssetUrl(DEFAULT_LOGO_PATH),
-    description: "Distribuidor licenciado Philips HearLink de aparelhos auditivos",
+    description:
+      "Distribuidor autorizado Philips HearLink de aparelhos auditivos na região de Piracicaba e Americana",
     telephone: "(19) 3377-6941",
     email: "atendimento@auditik.com.br",
-    sameAs: ["https://www.facebook.com/auditik", "https://www.instagram.com/auditik"],
-    address: [
-      {
-        "@type": "PostalAddress",
-        addressLocality: "Piracicaba",
-        addressRegion: "SP",
-        addressCountry: "BR",
-      },
-      {
-        "@type": "PostalAddress",
-        addressLocality: "Americana",
-        addressRegion: "SP",
-        addressCountry: "BR",
-      },
-    ],
+    sameAs: [...AUDITIK_SAME_AS],
+    location: CLINIC_LOCATION_IDS.map((id) => ({
+      "@id": `${SITE_URL}#${id}`,
+    })),
   };
 };

@@ -71,7 +71,7 @@ const SATELLITE_PAGE_LABELS = {
   "/aparelho-auditivo-recarregavel/": "Aparelho auditivo recarregável",
   "/aparelho-auditivo-com-bluetooth/": "Aparelho auditivo com Bluetooth",
   "/aparelhos-auditivos-philips-hearing-solutions/":
-    "Aparelhos auditivos Philips Hearing Solutions",
+    "Distribuidor autorizado Philips HearLink na região",
   "/aparelho-auditivo-para-idosos/": "Aparelho auditivo para idosos",
   "/como-saber-se-precisa-de-aparelho-auditivo/":
     "Como saber se precisa de aparelho auditivo",

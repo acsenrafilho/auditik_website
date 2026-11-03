@@ -69,6 +69,16 @@ This project uses `output: "export"` and `trailingSlash: true` in `next.config.j
 
 If CloudFront uses the **S3 REST API** origin (`your-bucket.s3.region.amazonaws.com`) with OAI/OAC, a request to `/contato/` asks S3 for an object whose key is literally `contato/`. That object does not exist (the real key is `contato/index.html`), so S3 responds with **403** and an XML body whose `<Code>` is `AccessDenied`. The home page works because the distribution’s **Default root object** maps `/` to `index.html` only at the site root — not for subfolders.
 
+### Step 2c: HSTS response headers (no preload)
+
+Static export cannot set HTTP headers from Next.js. CI runs [`scripts/ensure-cloudfront-hsts.sh`](scripts/ensure-cloudfront-hsts.sh) on every deploy. That script creates or updates the custom response headers policy in [`infra/cloudfront-response-headers-hsts.json`](infra/cloudfront-response-headers-hsts.json) (`Strict-Transport-Security: max-age=31536000; includeSubDomains`, without `preload`) and attaches it to the default cache behavior when the distribution lacks matching HSTS. If a policy with the same HSTS settings is already attached, the script leaves it alone.
+
+Manual run:
+
+```bash
+CLOUDFRONT_DISTRIBUTION_ID=<id> ./scripts/ensure-cloudfront-hsts.sh
+```
+
 **Fix (recommended):** attach a **CloudFront Function** on **Viewer request** that rewrites directory URLs to `.../index.html`. Source of truth for the snippet: [`infra/cloudfront-viewer-request-index-html.js`](infra/cloudfront-viewer-request-index-html.js).
 
 1. In AWS Console → **CloudFront** → **Functions** → **Create function**.

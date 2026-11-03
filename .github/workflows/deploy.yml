@@ -240,6 +240,15 @@ jobs:
           aws cloudfront publish-function --name "$CF_FUNCTION_NAME" --if-match "$ETAG" \
             --query 'FunctionSummary.FunctionMetadata.[Stage,LastModifiedTime]' --output text
 
+      # HSTS (no preload). Skips when the distribution already has matching STS headers.
+      - name: Ensure CloudFront HSTS response headers
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ensure-cloudfront-hsts.sh
+          ./scripts/ensure-cloudfront-hsts.sh
+
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \

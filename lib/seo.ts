@@ -8,9 +8,9 @@ import {
 } from "@lib/site-url";
 
 export const DEFAULT_SEO = {
-  title: "Auditik - Aparelhos Auditivos Philips HearLink",
+  title: "Auditik - Distribuidor autorizado Philips HearLink",
   description:
-    "Aparelhos auditivos Philips HearLink com IA avançada. Atendimento humanizado em Piracicaba, Americana, Limeira, Rio Claro e região. Agende sua avaliação gratuita!",
+    "Distribuidor autorizado Philips HearLink. Avaliação auditiva com fonoaudiólogos nas clínicas de Piracicaba, Americana, São Pedro e Charqueada. Quem mora em Limeira e Rio Claro é atendido nas unidades mais próximas.",
   ogImage: absoluteAssetUrl(DEFAULT_OG_IMAGE_PATH),
   ogType: "website",
   twitterCard: "summary_large_image",

@@ -7,10 +7,12 @@
  * Order of operations:
  * 1. 301 known legacy paths → live apex URLs (querystring preserved, any host)
  * 2. 301 old WordPress archives (/tag/, /category/, /author/) → /blog/ (any host)
- * 3. 301 www.auditik.com.br → https://auditik.com.br (path + querystring)
- * 4. Rewrite directory URLs to .../index.html for S3
+ * 3. 301 /beneficio/* → /convenios/ (any host)
+ * 4. 301 www.auditik.com.br → https://auditik.com.br (path + querystring)
+ * 5. 301 apex page paths without trailing slash → same path with slash
+ * 6. Rewrite directory URLs to .../index.html for S3
  *
- * Steps 1–2 run before the host check so www + legacy is a single 301, not a chain.
+ * Steps 1–3 run before the host check so www + legacy is a single 301, not a chain.
  *
  * Without the rewrite, a refresh on `/contato/` asks S3 for the object key `contato/`,
  * which does not exist — S3 returns an XML AccessDenied error. Missing objects still
@@ -34,11 +36,15 @@ var LEGACY_REDIRECTS = {
     "/como-saber-se-precisa-de-aparelho-auditivo/",
   "/philips/": "/aparelhos-auditivos-philips-hearing-solutions/",
   "/philips-hearlink/": "/aparelhos-auditivos-philips-hearing-solutions/",
+  "/guia-especial-qual-o-preco-de-aparelhos-auditivos/": "/preco-aparelho-auditivo/",
+  "/como-conseguir-aparelho-auditivo-pelo-sus/": "/financiamento-aparelho-auditivo/",
 };
 
 /** Old WordPress archive prefixes; everything under them → BLOG_PATH. */
 var ARCHIVE_PREFIXES = ["/tag/", "/category/", "/author/"];
 var BLOG_PATH = "/blog/";
+var BENEFICIO_PREFIX = "/beneficio/";
+var CONVENIOS_PATH = "/convenios/";
 
 function handler(event) {
   var request = event.request;
@@ -66,10 +72,15 @@ function handler(event) {
     return request;
   }
 
+  // Apex: force trailing slash with a 301 (canonical URLs use trailingSlash: true).
+  if (!uri.endsWith("/") && uri !== "/") {
+    return redirectResponse(
+      "https://" + APEX_HOST + uri + "/" + buildQueryString(request),
+    );
+  }
+
   if (uri.endsWith("/")) {
     request.uri = uri + "index.html";
-  } else {
-    request.uri = uri + "/index.html";
   }
 
   return request;
@@ -84,6 +95,9 @@ function getRedirectTarget(pagePath) {
     if (pagePath.indexOf(ARCHIVE_PREFIXES[i]) === 0) {
       return BLOG_PATH;
     }
+  }
+  if (pagePath.indexOf(BENEFICIO_PREFIX) === 0) {
+    return CONVENIOS_PATH;
   }
   return "";
 }

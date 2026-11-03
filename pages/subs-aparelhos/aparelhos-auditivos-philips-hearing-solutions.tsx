@@ -282,9 +282,9 @@ const clinicSteps = [
 
 export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
   const seo = getSEOMeta({
-    title: "Tratamento auditivo Philips HearLink em Piracicaba",
+    title: "Distribuidor autorizado Philips HearLink na região | Auditik",
     description:
-      "Clínica autorizada Philips Hearing Solutions. Avaliação gratuita, adaptação e acompanhamento em Piracicaba e região.",
+      "Auditik é distribuidor autorizado Philips HearLink. Avaliação gratuita, adaptação e acompanhamento nas clínicas de Piracicaba, Americana, São Pedro e Charqueada.",
     canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.philipsHearingSolutions),
     ogImage:
       "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",

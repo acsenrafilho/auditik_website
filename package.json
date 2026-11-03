@@ -12,7 +12,9 @@
     "indexnow": "node scripts/submit-indexnow.mjs",
     "test:cf-function": "node scripts/test-cloudfront-function.mjs",
     "test:phone": "tsx --test lib/phone-br.test.ts",
+    "test:schema": "tsx --test lib/schema.test.ts",
     "optimize:lp-images": "node scripts/optimize-lp-images.mjs",
+    "optimize:hero-images": "node scripts/optimize-hero-images.mjs",
     "tina:dev": "TINA_PUBLIC_IS_LOCAL=true npx -y @tinacms/cli@1.6.7 dev -c \"next dev\"",
     "tina:build": "bash -c 'if [ -f .env.local ]; then npx dotenv-cli -e .env.local -- npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; else npx -y @tinacms/cli@1.6.7 build --skip-cloud-checks --datalayer-port 9001; fi' && node scripts/fix-tina-generated-client.mjs"
   },

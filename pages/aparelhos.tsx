@@ -298,9 +298,9 @@ export default function AparelhosPage() {
     useState<AccessoryItem["category"]>("Carregamento");
 
   const seo = getSEOMeta({
-    title: "Aparelhos Auditivos Philips HearLink em Piracicaba",
+    title: "Aparelhos Philips HearLink | Distribuidor autorizado Auditik",
     description:
-      "Conheça a linha completa Philips HearLink na Auditik: modelos intra e retroauriculares, app HearLink 2, acessórios oficiais, tecnologia com IA e acompanhamento especializado.",
+      "Linha Philips HearLink na Auditik, distribuidor autorizado na região: modelos intra e retroauriculares, app HearLink 2, acessórios e acompanhamento com fonoaudiólogos.",
     canonical: absoluteUrl(APP_ROUTES.aparelhos),
     ogImage:
       "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",

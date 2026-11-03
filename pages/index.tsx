@@ -30,9 +30,9 @@ export default function Home() {
   const testimonialsPerPage = 3;
 
   const seo = getSEOMeta({
-    title: "Clínica Philips HearLink em Piracicaba",
+    title: "Distribuidor autorizado Philips HearLink | Auditik",
     description:
-      "Avaliação e tratamento auditivo com fonoaudiólogos. Clínica autorizada Philips HearLink em Piracicaba, Americana, São Pedro e Charqueada.",
+      "Auditik é distribuidor autorizado Philips HearLink na região. Avaliação auditiva com fonoaudiólogos em Piracicaba, Americana, São Pedro e Charqueada.",
     canonical: absoluteUrl(APP_ROUTES.home),
     ogImage:
       "https://lh3.googleusercontent.com/aida/ADBb0ujm3IiiC80F2IAjGlY7KOs-vQWTbFnboie5svMlvTl2zKxwJAun49hElACrkIhMTyg8RQqSckVJaw84J0_M8IcVszIdffURkZbfsIBnwUJdwVJ_G9SVe858Nmi4UnYTi-9yXgEKGumKkDYmoe8JTXJqhYO13QI8d_SqZMITkA6Bfymqq6vZVnKl1pH0KxAQYO1JjXJ8Uo6ISIm4NmhrKN8m36XuY3hLbB0HyhV8WAYG4SJ5v6s-6DpjSjg",
@@ -306,15 +306,27 @@ export default function Home() {
                 Inovação em Saúde Auditiva
               </span>
               <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 leading-[1.1] mb-8">
-                Clínica de tratamento auditivo{" "}
+                Distribuidor autorizado{" "}
                 <span className="text-auditik-blue">
-                  Philips HearLink em Piracicaba
+                  Philips HearLink na região
                 </span>
               </h1>
               <p className="text-lg md:text-xl text-slate-600 mb-10 max-w-xl leading-relaxed">
-                Avaliação com fonoaudiólogos, adaptação e acompanhamento na clínica
-                Auditik. A tecnologia Philips HearLink entra no tratamento para devolver
-                clareza nas conversas e segurança no dia a dia.
+                Avaliação com fonoaudiólogos, adaptação e acompanhamento nas clínicas
+                Auditik. Conheça a{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.philipsHearingSolutions}
+                  className="text-auditik-blue font-bold hover:underline"
+                  onClick={() =>
+                    trackButtonClick("home_link_philips_hearing_solutions", {
+                      section: "hero",
+                    })
+                  }
+                >
+                  linha Philips HearLink
+                </Link>{" "}
+                e como a tecnologia entra no tratamento para devolver clareza nas
+                conversas.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
@@ -336,14 +348,22 @@ export default function Home() {
               <div className="relative group w-full max-w-[520px]">
                 <div className="absolute inset-0 bg-white/40 rounded-[2rem] blur-2xl scale-110 group-hover:scale-115 transition-transform duration-700"></div>
                 <div className="relative z-10 overflow-hidden rounded-[2rem] border-8 border-white/80 shadow-2xl bg-white">
-                  <Image
-                    alt="Mulher usando aparelho auditivo Philips HearLink em um ambiente moderno"
-                    src="/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.jpg"
-                    width={1200}
-                    height={800}
-                    className="w-full h-[320px] md:h-[420px] object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000"
-                    priority
-                  />
+                  <picture>
+                    <source
+                      media="(max-width: 768px)"
+                      srcSet="/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_640x427px.webp"
+                      type="image/webp"
+                    />
+                    <Image
+                      alt="Mulher usando aparelho auditivo Philips HearLink em um ambiente moderno"
+                      src="/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_Angle90_Close-up_In-On-Ear_MS-6152_Woman_1200x800px.webp"
+                      width={840}
+                      height={560}
+                      className="w-full h-[320px] md:h-[420px] object-cover object-center scale-105 group-hover:scale-100 transition-transform duration-1000"
+                      priority
+                      sizes="(max-width: 768px) 100vw, 520px"
+                    />
+                  </picture>
                 </div>
               </div>
             </div>
@@ -898,7 +918,6 @@ export default function Home() {
                     width={32}
                     height={32}
                     className="w-8 h-8 object-contain"
-                    priority
                   />
                 </span>
                 Auditik
