@@ -1,8 +1,10 @@
 import { NextSeo } from "next-seo";
+import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { getSEOMeta, absoluteUrl } from "@lib/seo";
+import { generateLocalBusinessSchema } from "@lib/schema";
 import {
   trackFormSubmit,
   trackButtonClick,
@@ -28,6 +30,9 @@ export default function Home() {
   const [formError, setFormError] = useState("");
   const [phoneInvalid, setPhoneInvalid] = useState(false);
   const testimonialsPerPage = 3;
+
+  const piracicabaClinicSchema = generateLocalBusinessSchema("piracicaba");
+  const copyrightYear = new Date().getFullYear();
 
   const seo = getSEOMeta({
     title: "Distribuidor autorizado Philips HearLink | Auditik",
@@ -293,6 +298,14 @@ export default function Home() {
   return (
     <>
       <NextSeo {...seo} />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(piracicabaClinicSchema),
+          }}
+        />
+      </Head>
       <Header />
       <main>
         {/* Hero Section */}
@@ -1071,7 +1084,7 @@ export default function Home() {
 
           <div className="flex flex-col md:flex-row justify-between items-center pt-10 gap-4">
             <p className="text-xs text-blue-200/40 uppercase tracking-widest font-bold">
-              © Copyright Auditik 2024
+              © Copyright Auditik {copyrightYear}
             </p>
             <div className="flex gap-6">
               <span className="text-[10px] text-blue-200/30 font-bold uppercase tracking-widest">

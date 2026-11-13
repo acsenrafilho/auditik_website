@@ -61,6 +61,14 @@ test("MedicalClinic schemas use Wikidata IDs, hours and shared sameAs", () => {
   }
 });
 
+test("Organization and Piracicaba MedicalClinic list the YouTube channel", () => {
+  const youtube = "https://www.youtube.com/@auditik";
+  assert.ok(AUDITIK_SAME_AS.includes(youtube));
+  assert.ok(generateOrganizationSchema().sameAs.includes(youtube));
+  assert.ok(generateLocalBusinessSchema("piracicaba").sameAs.includes(youtube));
+  assert.equal(generateLocalBusinessSchema("piracicaba")["@type"], "MedicalClinic");
+});
+
 test("Americana street uses Luíza spelling", () => {
   const schema = generateLocalBusinessSchema("americana");
   assert.match(schema.address.streetAddress, /Luíza/);

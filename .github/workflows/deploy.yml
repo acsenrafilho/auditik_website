@@ -49,6 +49,9 @@ jobs:
       - name: Test CloudFront viewer-request function
         run: npm run test:cf-function
 
+      - name: Test JSON-LD schema
+        run: npm run test:schema
+
       # Fails fast before tina:build / next build if GitHub Variables or Secrets are missing or invalid.
       # Tracking: GTM-KHQP88V (GA4/Ads/Meta). Cutover: NEXT_PUBLIC_GTM_ID_META=empty
       # (GitHub cannot store blank vars) + NEXT_PUBLIC_META_LEAD_BROWSER_FBQ=false
@@ -237,8 +240,28 @@ jobs:
           echo "$RESULT" | grep -q '"location":{"value":"https://auditik.com.br/contato/"}' \
             || { echo "::error::CloudFront Function test failed; not publishing."; exit 1; }
 
+          printf '%s' '{"version":"1.0","context":{"eventType":"viewer-request"},"viewer":{"ip":"1.2.3.4"},"request":{"method":"GET","uri":"/","querystring":{},"headers":{"host":{"value":"www.auditik.com.br"},"cloudfront-forwarded-proto":{"value":"http"}},"cookies":{}}}' > /tmp/cf-event-http.json
+          RESULT_HTTP=$(aws cloudfront test-function \
+            --name "$CF_FUNCTION_NAME" \
+            --if-match "$ETAG" \
+            --stage DEVELOPMENT \
+            --event-object fileb:///tmp/cf-event-http.json \
+            --query 'TestResult.[FunctionErrorMessage,FunctionOutput]' --output text)
+          echo "$RESULT_HTTP"
+          echo "$RESULT_HTTP" | grep -q '"location":{"value":"https://auditik.com.br/"}' \
+            || { echo "::error::HTTP www must 301 once to the apex; not publishing."; exit 1; }
+
           aws cloudfront publish-function --name "$CF_FUNCTION_NAME" --if-match "$ETAG" \
             --query 'FunctionSummary.FunctionMetadata.[Stage,LastModifiedTime]' --output text
+
+      # HTTP must reach the function. redirect-to-https would 301 to https://www first.
+      - name: Let viewer-request function see HTTP
+        env:
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ env.CLOUDFRONT_DISTRIBUTION_ID }}
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ensure-cloudfront-viewer-protocol.sh
+          ./scripts/ensure-cloudfront-viewer-protocol.sh
 
       # HSTS (no preload). Skips when the distribution already has matching STS headers.
       - name: Ensure CloudFront HSTS response headers

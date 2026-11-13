@@ -8,11 +8,14 @@
  * 1. 301 known legacy paths → live apex URLs (querystring preserved, any host)
  * 2. 301 old WordPress archives (/tag/, /category/, /author/) → /blog/ (any host)
  * 3. 301 /beneficio/* → /convenios/ (any host)
- * 4. 301 www.auditik.com.br → https://auditik.com.br (path + querystring)
+ * 4. 301 www or plain HTTP → https://auditik.com.br (path + querystring) in one hop
  * 5. 301 apex page paths without trailing slash → same path with slash
  * 6. Rewrite directory URLs to .../index.html for S3
  *
- * Steps 1–3 run before the host check so www + legacy is a single 301, not a chain.
+ * Steps 1–3 run before the host/protocol check so www or HTTP + legacy is a single 301.
+ * HTTP is visible only when the behavior ViewerProtocolPolicy is allow-all.
+ * redirect-to-https answers first (http://www → https://www) and the function never
+ * sees the request, which leaves a second hop to the apex.
  *
  * Without the rewrite, a refresh on `/contato/` asks S3 for the object key `contato/`,
  * which does not exist — S3 returns an XML AccessDenied error. Missing objects still
@@ -58,7 +61,9 @@ function handler(event) {
     );
   }
 
-  if (host === WWW_HOST) {
+  // www or plain HTTP → one 301 to https apex. Missing proto is treated as HTTPS
+  // so unit tests and CloudFront test-function events keep the previous behavior.
+  if (host === WWW_HOST || isInsecureHttp(request)) {
     return redirectResponse(
       "https://" + APEX_HOST + ensurePageTrailingSlash(uri) + buildQueryString(request),
     );
@@ -100,6 +105,14 @@ function getRedirectTarget(pagePath) {
     return CONVENIOS_PATH;
   }
   return "";
+}
+
+function isInsecureHttp(request) {
+  var header = request.headers && request.headers["cloudfront-forwarded-proto"];
+  if (!header || !header.value) {
+    return false;
+  }
+  return String(header.value).toLowerCase() === "http";
 }
 
 function getHost(request) {
