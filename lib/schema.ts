@@ -26,6 +26,7 @@ export interface IndexListItem {
 export const AUDITIK_SAME_AS = [
   "https://www.facebook.com/auditik.piracicaba",
   "https://www.instagram.com/auditik.piracicaba",
+  "https://www.youtube.com/@auditik",
 ] as const;
 
 /** Clinic opening hours published on the home and Piracicaba page. */

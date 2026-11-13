@@ -88,7 +88,7 @@ CLOUDFRONT_DISTRIBUTION_ID=<id> ./scripts/ensure-cloudfront-hsts.sh
 5. **Edit** → **Function associations** → **Viewer request** → choose **CloudFront function** → select the function you published → **Save changes**.
 6. Wait for the distribution to deploy, then hard-refresh a subpage (for example `https://auditik.com.br/contato/`).
 
-**SEO P0 (host + legacy URLs):** the function 301s known legacy paths (`LEGACY_REDIRECTS`), old WordPress archives (`/tag/`, `/category/`, `/author/` → `/blog/`) and `www` → apex, always preserving the querystring (UTM / `fbclid`). Legacy rules run before the host check, so `www` + legacy path is a single 301. The distribution’s **Viewer protocol policy** must be **Redirect HTTP to HTTPS**.
+**SEO (host, HTTP and legacy URLs):** the function 301s known legacy paths (`LEGACY_REDIRECTS`), old WordPress archives (`/tag/`, `/category/`, `/author/` → `/blog/`) and `www` or plain HTTP → `https://auditik.com.br`, always preserving the querystring (UTM / `fbclid`). Legacy rules run before the host check, so `www` or HTTP plus a legacy path is a single 301. Behaviors that associate this viewer-request function use **Viewer protocol policy** **HTTP and HTTPS** (`allow-all`). CI applies that with [`scripts/ensure-cloudfront-viewer-protocol.sh`](scripts/ensure-cloudfront-viewer-protocol.sh) after publishing the function. **Redirect HTTP to HTTPS** answers `http://www.auditik.com.br/` with `https://www.auditik.com.br/` before the function runs, which leaves a second hop to the apex.
 
 **The function is deployed by CI.** The `deploy` job in [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) runs **Sync CloudFront Function**: `update-function` (DEVELOPMENT) → `test-function` (www event must return a 301) → `publish-function` (LIVE). The `build` job runs `npm run test:cf-function` first ([`scripts/test-cloudfront-function.mjs`](scripts/test-cloudfront-function.mjs)). Do not edit the function in the console — the next deploy overwrites it. The function name defaults to `auditik-append-index-html` (override with the `CLOUDFRONT_FUNCTION_NAME` variable); the CI IAM user needs `cloudfront:DescribeFunction`, `UpdateFunction`, `TestFunction` and `PublishFunction`.
 
@@ -104,7 +104,7 @@ aws cloudfront describe-function --name auditik-append-index-html --stage LIVE \
 **Verify after deploy:**
 
 ```bash
-# Expect a single 301 to https://auditik.com.br/...
+# Expect a single 301 whose Location is the https apex (not https://www...).
 curl -sI https://www.auditik.com.br/contato/ | grep -iE '^(HTTP|location)'
 curl -sI http://www.auditik.com.br/ | grep -iE '^(HTTP|location)'
 curl -sI https://www.auditik.com.br/philips | grep -iE '^(HTTP|location)'

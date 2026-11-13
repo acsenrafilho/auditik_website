@@ -22,13 +22,17 @@ const handler = new Function(
 const APEX = "auditik.com.br";
 const WWW = "www.auditik.com.br";
 
-function makeEvent(host, uri, querystring = {}) {
+function makeEvent(host, uri, querystring = {}, proto) {
+  const headers = { host: { value: host } };
+  if (proto) {
+    headers["cloudfront-forwarded-proto"] = { value: proto };
+  }
   return {
     request: {
       method: "GET",
       uri,
       querystring,
-      headers: { host: { value: host } },
+      headers,
     },
   };
 }
@@ -45,15 +49,15 @@ function check(name, actual, expected) {
   console.error(`FAIL ${name}\n  expected: ${expected}\n  actual:   ${actual}`);
 }
 
-function expectRedirect(host, uri, location, querystring) {
-  const result = handler(makeEvent(host, uri, querystring));
-  const name = `${host}${uri} → 301 ${location}`;
+function expectRedirect(host, uri, location, querystring, proto) {
+  const result = handler(makeEvent(host, uri, querystring, proto));
+  const name = `${proto || "https"} ${host}${uri} → 301 ${location}`;
   check(`${name} (status)`, result.statusCode, 301);
   check(`${name} (location)`, result.headers?.location?.value, location);
 }
 
-function expectRewrite(host, uri, rewrittenUri) {
-  const result = handler(makeEvent(host, uri));
+function expectRewrite(host, uri, rewrittenUri, proto) {
+  const result = handler(makeEvent(host, uri, {}, proto));
   check(`${host}${uri} (no redirect)`, result.statusCode, undefined);
   check(`${host}${uri} → ${rewrittenUri}`, result.uri, rewrittenUri);
 }
@@ -70,6 +74,16 @@ expectRedirect(WWW, "/", `https://${APEX}/?utm_source=google&fbclid=abc%201`, {
 expectRedirect(WWW, "/", `https://${APEX}/?a=1&a=2`, {
   a: { value: "1", multiValue: [{ value: "1" }, { value: "2" }] },
 });
+
+// Plain HTTP must land on https apex in one function response (no www hop).
+expectRedirect(WWW, "/", `https://${APEX}/`, undefined, "http");
+expectRedirect(WWW, "/", `https://${APEX}/`, undefined, "HTTP");
+expectRedirect(APEX, "/", `https://${APEX}/`, undefined, "http");
+expectRedirect(APEX, "/contato", `https://${APEX}/contato/`, undefined, "http");
+expectRedirect(WWW, "/sitemap.xml", `https://${APEX}/sitemap.xml`, undefined, "http");
+expectRedirect(WWW, "/", `https://${APEX}/?utm_source=google`, {
+  utm_source: { value: "google" },
+}, "http");
 
 // Legacy paths: single 301 from apex and www, with and without trailing slash
 const LEGACY = {
