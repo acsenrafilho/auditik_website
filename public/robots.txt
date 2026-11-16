@@ -24,6 +24,9 @@ Disallow: /.tina
 Disallow: /api/
 Disallow: /lp/
 Disallow: /obrigado/
+# Template do Next.js. Não é URL pública; posts reais ficam em /blog/<slug>/.
+Disallow: /blog/[slug]
+Disallow: /blog/[slug]/
 
 # LLM content index: https://auditik.com.br/llms.txt
 

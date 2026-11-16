@@ -12,7 +12,7 @@
     "indexnow": "node scripts/submit-indexnow.mjs",
     "test:cf-function": "node scripts/test-cloudfront-function.mjs",
     "test:phone": "tsx --test lib/phone-br.test.ts",
-    "test:schema": "tsx --test lib/schema.test.ts",
+    "test:schema": "tsx --test lib/schema.test.ts lib/seo-snippets.test.ts",
     "optimize:lp-images": "node scripts/optimize-lp-images.mjs",
     "optimize:hero-images": "node scripts/optimize-hero-images.mjs",
     "tina:dev": "TINA_PUBLIC_IS_LOCAL=true npx -y @tinacms/cli@1.6.7 dev -c \"next dev\"",

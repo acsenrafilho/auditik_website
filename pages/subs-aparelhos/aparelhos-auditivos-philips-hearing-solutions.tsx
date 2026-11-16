@@ -51,6 +51,11 @@ const faqItems = [
       "São dispositivos da linha Philips HearLink, desenvolvidos com processamento inteligente, recursos como SpeechSensor e AutoSense, conectividade e aplicativo HearLink 2. Na Auditik, em Piracicaba, você conhece o portfólio completo com avaliação fonoaudiológica gratuita.",
   },
   {
+    question: "Quanto custa o Philips HearLink?",
+    answer:
+      "Não existe um preço único. O valor depende do modelo, do grau da perda e dos recursos, como recarga e conectividade. Na Auditik, em Piracicaba e região, a avaliação auditiva é gratuita e a proposta é apresentada depois do exame. O site não publica tabela de preço.",
+  },
+  {
     question: "A Auditik é distribuidor autorizado oficial da Philips?",
     answer:
       "Sim. A Auditik Soluções Auditivas é distribuidor autorizado Philips Hearing Solutions na região, com procedência nacional, garantia, programação individual, demonstração na clínica e suporte técnico contínuo.",
@@ -282,9 +287,9 @@ const clinicSteps = [
 
 export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
   const seo = getSEOMeta({
-    title: "Distribuidor autorizado Philips HearLink na região | Auditik",
+    title: "Aparelhos auditivos Philips HearLink em Piracicaba e região",
     description:
-      "Auditik é distribuidor autorizado Philips HearLink. Avaliação gratuita, adaptação e acompanhamento nas clínicas de Piracicaba, Americana, São Pedro e Charqueada.",
+      "Aparelhos auditivos Philips HearLink em Piracicaba e região, com avaliação gratuita na Auditik. Distribuidor autorizado em Piracicaba, Americana, São Pedro e Charqueada.",
     canonical: absoluteUrl(SUBS_APARELHOS_ROUTES.philipsHearingSolutions),
     ogImage:
       "/images/philips/optimized/background/Philips_HearLink50_miniRITE_H1-2024_C116DarkBeige_AngleB45_Close-up_In-On-Ear_MS-6160_Woman_1200x800px.jpg",
@@ -345,9 +350,9 @@ export default function AparelhosAuditivosPhilipsHearingSolutionsPage() {
                 Clínica autorizada Philips Hearing Solutions · Piracicaba-SP
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-[1.05] mb-6">
-                Tratamento auditivo{" "}
-                <span className="text-auditik-blue">Philips HearLink</span> na clínica
-                Auditik em Piracicaba
+                Aparelhos auditivos{" "}
+                <span className="text-auditik-blue">Philips HearLink</span> em
+                Piracicaba e região
               </h1>
               <p className="text-slate-600 text-lg md:text-xl leading-relaxed max-w-2xl mb-4">
                 Quando você pesquisa{" "}
