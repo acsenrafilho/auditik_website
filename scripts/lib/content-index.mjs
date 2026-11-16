@@ -15,6 +15,19 @@ const CONVENIOS_DIR = path.join(ROOT, "content/convenios");
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://auditik.com.br";
 
+/** Dynamic route files such as /blog/[slug] are not public URLs. */
+export function isIndexablePath(routePath) {
+  const value = String(routePath);
+  return (
+    !value.includes("[") &&
+    !value.includes("]") &&
+    !value.includes("%5B") &&
+    !value.includes("%5D") &&
+    !value.includes("%5b") &&
+    !value.includes("%5d")
+  );
+}
+
 export function ensureTrailingSlash(route) {
   if (!route || route === "/" || route.endsWith("/") || route.includes(".")) {
     return route;
@@ -128,6 +141,7 @@ export function getBlogEntries() {
       path: `/blog/${post.slug}/`,
       url: toAbsoluteUrl(SITE_URL, `/blog/${post.slug}/`),
     }))
+    .filter((post) => isIndexablePath(post.path))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 

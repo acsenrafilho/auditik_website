@@ -182,34 +182,6 @@ export const generateLocalBusinessSchema = (
   };
 };
 
-export const generateProductSchema = (product: {
-  name?: string;
-  description?: string;
-  image?: string;
-  price?: string;
-}) => {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name || "Philips HearLink",
-    description: product.description,
-    image: product.image,
-    brand: {
-      "@type": "Brand",
-      name: "Philips",
-    },
-    manufacturer: {
-      "@type": "Organization",
-      name: "Philips",
-    },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "BRL",
-      price: product.price || "Entre em contato",
-    },
-  };
-};
-
 export const generateFAQSchema = (
   faqs: Array<{ question: string; answer: string }>,
 ) => {

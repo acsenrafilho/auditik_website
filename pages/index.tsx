@@ -35,7 +35,7 @@ export default function Home() {
   const copyrightYear = new Date().getFullYear();
 
   const seo = getSEOMeta({
-    title: "Distribuidor autorizado Philips HearLink | Auditik",
+    title: "Aparelhos auditivos em Piracicaba | Philips HearLink",
     description:
       "Auditik é distribuidor autorizado Philips HearLink na região. Avaliação auditiva com fonoaudiólogos em Piracicaba, Americana, São Pedro e Charqueada.",
     canonical: absoluteUrl(APP_ROUTES.home),

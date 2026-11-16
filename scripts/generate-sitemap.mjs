@@ -5,6 +5,7 @@ import {
   STATIC_ROUTES,
   SATELLITE_ROUTES,
   getBlogEntries,
+  isIndexablePath,
   toAbsoluteUrl,
 } from "./lib/content-index.mjs";
 
@@ -33,7 +34,7 @@ async function run() {
   const blogEntries = getBlogEntries();
 
   const nodes = [
-    ...STATIC_ROUTES.map((route) =>
+    ...STATIC_ROUTES.filter((route) => isIndexablePath(route.path)).map((route) =>
       toUrlNode(
         toAbsoluteUrl(SITE_URL, route.path),
         buildIso,
@@ -41,7 +42,7 @@ async function run() {
         route.changefreq,
       ),
     ),
-    ...SATELLITE_ROUTES.map((route) =>
+    ...SATELLITE_ROUTES.filter((route) => isIndexablePath(route.path)).map((route) =>
       toUrlNode(
         toAbsoluteUrl(SITE_URL, route.path),
         buildIso,
@@ -49,9 +50,11 @@ async function run() {
         route.changefreq,
       ),
     ),
-    ...blogEntries.map((entry) =>
-      toUrlNode(entry.url, toLastModIso(entry.date, buildIso), "0.7", "weekly"),
-    ),
+    ...blogEntries
+      .filter((entry) => isIndexablePath(entry.path))
+      .map((entry) =>
+        toUrlNode(entry.url, toLastModIso(entry.date, buildIso), "0.7", "weekly"),
+      ),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
