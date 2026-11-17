@@ -226,6 +226,11 @@ export const SATELLITE_ROUTES = [
     priority: "0.8",
     changefreq: "monthly",
   },
+  {
+    path: "/triagem-auditiva/",
+    priority: "0.8",
+    changefreq: "monthly",
+  },
 ];
 
 export function truncateDescription(text, maxLength = 160) {

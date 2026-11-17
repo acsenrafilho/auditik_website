@@ -467,6 +467,22 @@ export default function AparelhosPage() {
                 e por que a Auditik é distribuidor autorizado na região.
               </p>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
+                Quer uma primeira checagem pelo celular? Veja a{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.triagemAuditiva}
+                  onClick={() =>
+                    trackButtonClick("aparelhos_link_triagem_auditiva", {
+                      section: "hero",
+                    })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  triagem auditiva
+                </Link>{" "}
+                com o aplicativo hearWHO e, se fizer sentido, agende a avaliação
+                presencial.
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
                 Ainda não tem certeza? Leia{" "}
                 <Link
                   href={SUBS_APARELHOS_ROUTES.comoSaberPrecisa}

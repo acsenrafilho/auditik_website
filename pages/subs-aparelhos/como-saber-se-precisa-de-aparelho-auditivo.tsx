@@ -219,6 +219,12 @@ const clinicSteps = [
 
 const siloLinks = [
   {
+    href: SUBS_APARELHOS_ROUTES.triagemAuditiva,
+    icon: "smartphone",
+    label: "Triagem auditiva pelo celular",
+    tracking: "sinais_link_triagem_silo",
+  },
+  {
     href: SUBS_APARELHOS_ROUTES.idosos,
     icon: "elderly",
     label: "Aparelho para idosos",
@@ -358,6 +364,23 @@ export default function ComoSaberSePrecisaDeAparelhoAuditivoPage() {
                 e indicação personalizada quando o exame mostra necessidade — incluindo
                 tecnologia <strong>Philips Hearing Solutions</strong> (SpeechSensor,
                 AutoSense e app HearLink 2).
+              </p>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
+                Ainda em dúvida se o caso pede aparelho? Comece pela{" "}
+                <Link
+                  href={SUBS_APARELHOS_ROUTES.triagemAuditiva}
+                  onClick={() =>
+                    trackButtonClick("sinais_link_triagem", {
+                      section: "hero",
+                      page: PAGE_TRACKING,
+                    })
+                  }
+                  className="text-auditik-blue font-bold hover:underline"
+                >
+                  triagem auditiva pelo celular
+                </Link>{" "}
+                com o aplicativo hearWHO e, depois, confirme com a avaliação
+                presencial.
               </p>
               <p className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
                 Conheça nossa seleção completa de{" "}

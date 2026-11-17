@@ -383,6 +383,34 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="py-8 bg-white border-y border-blue-50">
+          <div className="container-wide">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-3xl bg-bg-light-blue px-6 py-5 border border-blue-50">
+              <div>
+                <p className="text-slate-900 font-bold text-lg">
+                  Quer uma primeira checagem pelo celular?
+                </p>
+                <p className="text-slate-600 text-sm md:text-base leading-relaxed">
+                  Faça a triagem auditiva gratuita com o aplicativo hearWHO e, se
+                  quiser, agende a avaliação presencial na Auditik.
+                </p>
+              </div>
+              <Link
+                href={SUBS_APARELHOS_ROUTES.triagemAuditiva}
+                onClick={() =>
+                  trackButtonClick("home_banner_triagem", {
+                    section: "triagem_banner",
+                  })
+                }
+                className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 px-6 py-3 rounded-full bg-auditik-blue text-white font-bold hover:bg-auditik-dark-blue transition-colors"
+              >
+                Ver triagem auditiva
+                <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Testimonials Section */}
         <section className="py-24 bg-bg-light-blue overflow-hidden">
           <div className="container-wide">
@@ -1052,6 +1080,14 @@ export default function Home() {
                     className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
                   >
                     Aparelhos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href={SUBS_APARELHOS_ROUTES.triagemAuditiva}
+                    className="inline-flex min-h-11 items-center py-1 text-sm text-blue-100/80 hover:text-white transition-colors"
+                  >
+                    Triagem auditiva
                   </Link>
                 </li>
                 <li>

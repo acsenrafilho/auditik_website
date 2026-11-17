@@ -2,9 +2,10 @@ import { NextSeo } from "next-seo";
 import { getSEOMeta, absoluteUrl } from "@lib/seo";
 import { generateFAQSchema } from "@lib/schema";
 import Head from "next/head";
+import Link from "next/link";
 import { useState } from "react";
 import { Header } from "@components/Header";
-import { APP_ROUTES } from "@lib/routes";
+import { APP_ROUTES, SUBS_APARELHOS_ROUTES } from "@lib/routes";
 
 const faqData = [
   {
@@ -35,7 +36,9 @@ const faqData = [
   {
     question: "Vocês fazem teste de audição?",
     answer:
-      "Sim! Oferecemos avaliação completa de audição gratuita. Agende sua consulta sem compromisso.",
+      "Há duas opções. No celular, a triagem gratuita com o aplicativo hearWHO, da OMS, indica se vale procurar um profissional — veja a página de triagem auditiva em /triagem-auditiva/. Na clínica, a Auditik oferece avaliação auditiva completa e gratuita, com fonoaudiólogo, sem compromisso.",
+    href: SUBS_APARELHOS_ROUTES.triagemAuditiva,
+    linkLabel: "Ver a página de triagem auditiva",
   },
 ];
 
@@ -90,9 +93,19 @@ export default function FAQPage() {
                       ▼
                     </span>
                   </button>
+                  {"href" in faq && faq.href ? (
+                    <div className="px-6 pb-3 bg-bg-light-blue">
+                      <Link
+                        href={faq.href}
+                        className="inline-flex min-h-11 items-center font-bold text-auditik-blue hover:underline"
+                      >
+                        {faq.linkLabel}
+                      </Link>
+                    </div>
+                  ) : null}
                   {expandedIndex === idx && (
                     <div className="px-6 pb-6 pt-0 bg-bg-light-blue text-gray-700">
-                      {faq.answer}
+                      <p>{faq.answer}</p>
                     </div>
                   )}
                 </div>

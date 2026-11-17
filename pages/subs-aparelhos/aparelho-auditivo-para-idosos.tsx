@@ -577,6 +577,26 @@ export default function AparelhoAuditivoParaIdososPage() {
                   </li>
                   <li>
                     <strong className="text-slate-900">
+                      Ofereça uma primeira checagem pelo celular
+                    </strong>{" "}
+                    — a{" "}
+                    <Link
+                      href={SUBS_APARELHOS_ROUTES.triagemAuditiva}
+                      onClick={() =>
+                        trackButtonClick("idosos_link_triagem", {
+                          section: "sinais",
+                          page: PAGE_TRACKING,
+                        })
+                      }
+                      className="text-auditik-blue font-bold hover:underline"
+                    >
+                      triagem auditiva
+                    </Link>{" "}
+                    com o aplicativo hearWHO pode ajudar a decidir o próximo passo,
+                    sem confronto.
+                  </li>
+                  <li>
+                    <strong className="text-slate-900">
                       Ofereça companhia na avaliação
                     </strong>{" "}
                     — na Auditik familiares são bem-vindos na consulta.

@@ -413,7 +413,15 @@ export default function NossaClinicaPage() {
               Agende uma <strong>avaliação auditiva gratuita</strong> e descubra como
               nossos aparelhos <strong>Philips HearLink</strong> com inteligência
               artificial, Sound Map e conectividade Bluetooth podem transformar sua
-              audição e seu dia a dia.
+              audição e seu dia a dia. Se preferir uma primeira checagem pelo
+              celular, veja também a{" "}
+              <Link
+                href={SUBS_APARELHOS_ROUTES.triagemAuditiva}
+                className="font-bold text-white underline hover:text-auditik-yellow"
+              >
+                triagem auditiva
+              </Link>
+              .
             </p>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Contamos com especialistas formados nas melhores universidades e

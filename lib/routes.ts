@@ -34,6 +34,7 @@ export const SUBS_APARELHOS_ROUTES = {
   idosos: "/aparelho-auditivo-para-idosos/",
   comoSaberPrecisa: "/como-saber-se-precisa-de-aparelho-auditivo/",
   manutencaoAjuste: "/manutencao-e-ajuste-de-aparelho-auditivo/",
+  triagemAuditiva: "/triagem-auditiva/",
 } as const;
 
 export const ensureTrailingSlash = (path: string) => {

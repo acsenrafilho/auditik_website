@@ -77,6 +77,12 @@ const SATELLITE_PAGE_LABELS = {
     "Como saber se precisa de aparelho auditivo",
   "/manutencao-e-ajuste-de-aparelho-auditivo/":
     "Manutenção e ajuste de aparelho auditivo",
+  "/triagem-auditiva/": "Triagem auditiva pelo celular",
+};
+
+const SATELLITE_PAGE_DESCRIPTIONS = {
+  "/triagem-auditiva/":
+    "Triagem auditiva pelo celular com o aplicativo hearWHO e agendamento da avaliação presencial",
 };
 
 function formatLink({ title, url, description }) {
@@ -151,7 +157,9 @@ function run() {
       formatLink({
         title: SATELLITE_PAGE_LABELS[route.path] || route.path,
         url: toAbsoluteUrl(SITE_URL, route.path),
-        description: "Landing page sobre aparelhos auditivos Philips HearLink",
+        description:
+          SATELLITE_PAGE_DESCRIPTIONS[route.path] ||
+          "Landing page sobre aparelhos auditivos Philips HearLink",
       }),
     ),
     "",
